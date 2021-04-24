@@ -10,9 +10,11 @@ namespace Manga.IncTrak.Manga
     {
         private const Int32 MangaSettingsVersion1 = 1;
 
-        /// Start Serialized Items 
-        private Int32 _showGESelected = 0;
-        private Int32 _showLESelected = 100;
+        /// Start Serialized Items
+        private bool _showLowEqual = true;
+        private int _showLowBound = 0;
+        private bool _showHighEqual = true;
+        private int _showHighBound = 100;
         private ShowPercentage _showPercentage = ShowPercentage.pct_tot_sel;
         private SelectOperation _selectOperation = SelectOperation.overwrite_selection;
         private bool _colAscending;
@@ -25,8 +27,10 @@ namespace Manga.IncTrak.Manga
 
         protected override void Save(IMangaSerializationWriter writer)
         {
-            writer.WriteInt32(_showGESelected);
-            writer.WriteInt32(_showLESelected);
+            writer.WriteBool(_showLowEqual);
+            writer.WriteInt32(_showLowBound);
+            writer.WriteBool(_showHighEqual);
+            writer.WriteInt32(_showHighBound);
             writer.WriteEnum<ShowPercentage>(_showPercentage);
             writer.WriteEnum<SelectOperation>(_selectOperation);
             writer.WriteBool(_colAscending);
@@ -46,8 +50,10 @@ namespace Manga.IncTrak.Manga
 
         protected override void Load(int version, IMangaSerializationReader reader, MangaLoadOptions loadOptions)
         {
-            _showGESelected = reader.ReadInt32();
-            _showLESelected = reader.ReadInt32();
+            _showLowEqual = reader.ReadBool();
+            _showLowBound = reader.ReadInt32();
+            _showHighEqual = reader.ReadBool();
+            _showHighBound = reader.ReadInt32();
             _showPercentage = reader.ReadEnum<ShowPercentage>();
             _selectOperation = reader.ReadEnum<SelectOperation>();
             _colAscending = reader.ReadBool();
@@ -58,18 +64,22 @@ namespace Manga.IncTrak.Manga
             }
         }
 
-        internal void SetOptions(int showGESelected, int showLESelected, string selectOperation, string showPercentage, bool colAscending, bool[] hideColumns)
+        internal void SetOptions(bool showLowEqual, int showLowBound, bool showHighEqual, int showHighBound, string selectOperation, string showPercentage, bool colAscending, bool[] hideColumns)
         {
-            _showGESelected = showGESelected;
-            _showLESelected = showLESelected;
+            _showLowEqual = showLowEqual;
+            _showLowBound = showLowBound;
+            _showHighEqual = showHighEqual;
+            _showHighBound = showHighBound;
             Enum.TryParse<ShowPercentage>(showPercentage, out _showPercentage);
             Enum.TryParse<SelectOperation>(selectOperation, out _selectOperation);
             _colAscending = colAscending;
             _hideColumns = hideColumns;
         }
 
-        public int ShowGESelected { get => _showGESelected; }
-        public int ShowLESelected { get => _showLESelected; }
+        public bool ShowLowEqual { get => _showLowEqual; }
+        public int ShowLowBound { get => _showLowBound; }
+        public bool ShowHighEqual { get => _showHighEqual; }
+        public int ShowHighBound { get => _showHighBound; }
         public ShowPercentage ShowPercentage { get => _showPercentage; }
         public SelectOperation SelectOperation { get => _selectOperation; }
         public bool ColAscending { get => _colAscending; }

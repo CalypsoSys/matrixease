@@ -30,7 +30,7 @@
         <modal_status :show="showModalStatus" @close="showModalStatus = false" @cancel="cancelJob" :statusfunc="mangaProcessStatus" :curstatuskey="curstatuskey" :curstatusdata="curstatusdata"></modal_status>
         <modal_alert :show="showModalAlert" @close="showModalAlert = false" @yes="takeAction" :title="modal_title" :message="modal_message" :secondary="modal_secondary" :confirm="modal_yes_no_action"></modal_alert>
         <div ref="meta" class="form-horizontal fixed-top bg-white" style="z-index:3">
-            <slideout-panel :cur_show_ge_selected="show_ge_selected" :cur_show_le_selected="show_le_selected" :cur_show_percentage="show_percentage" :cur_select_operation="select_operation" :cur_col_ascending="col_ascending" :cur_hide_columns="hide_columns" :cur_columns="my_columns"></slideout-panel>
+            <slideout-panel :cur_show_low_equal="show_low_equal" :cur_show_low_bound="show_low_bound" :cur_show_high_equal="show_high_equal" :cur_show_high_bound="show_high_bound" :cur_show_percentage="show_percentage" :cur_select_operation="select_operation" :cur_col_ascending="col_ascending" :cur_hide_columns="hide_columns" :cur_columns="my_columns"></slideout-panel>
             <h3>Manga Visualizer -- {{ mangaName }}</h3>
             <div class="row">
                 <div class="col-sm-10">

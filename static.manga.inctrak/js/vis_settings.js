@@ -2,8 +2,10 @@
     name: "left_slide_panel",
     template: null,
     props: {
-        cur_show_ge_selected: Number,
-        cur_show_le_selected: Number,
+        cur_show_low_equal: Boolean,
+        cur_show_low_bound: Number,
+        cur_show_high_equal: Boolean,
+        cur_show_high_bound: Number,
         cur_show_percentage: String,
         cur_select_operation: String,
         cur_col_ascending: Boolean,
@@ -12,8 +14,10 @@
     },
     data() {
         return {
-            show_ge_selected: this.cur_show_ge_selected,
-            show_le_selected: this.cur_show_le_selected,
+            show_low_equal: this.cur_show_low_equal,
+            show_low_bound: this.cur_show_low_bound,
+            show_high_equal: this.cur_show_high_equal,
+            show_high_bound: this.cur_show_high_bound,
             show_percentage: this.cur_show_percentage,
             select_operation: this.cur_select_operation,
             col_ascending: this.cur_col_ascending,
@@ -22,10 +26,12 @@
     },
     methods: {
         closePanel() {
-            if (this.show_ge_selected <= this.show_le_selected) {
+            if (this.show_low_bound <= this.show_high_bound) {
                 this.$emit("closePanel", {
-                    show_ge_selected: this.show_ge_selected,
-                    show_le_selected: this.show_le_selected,
+                    show_low_equal: this.show_low_equal,
+                    show_low_bound: this.show_low_bound,
+                    show_high_equal: this.show_high_equal,
+                    show_high_bound: this.show_high_bound,
                     show_percentage: this.show_percentage,
                     select_operation: this.select_operation,
                     col_ascending: this.col_ascending,

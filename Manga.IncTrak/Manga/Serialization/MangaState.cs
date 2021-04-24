@@ -132,7 +132,7 @@ namespace Manga.IncTrak.Manga
             manga.Save(mangaPath);
         }
 
-        public static bool SaveMangaSettings(Tuple<string, Guid> visId, int showGESelected, int showLESelected, string selectOperation, string showPercentage, bool colAscending, bool[] hideColumns)
+        public static bool SaveMangaSettings(Tuple<string, Guid> visId, bool showLowEqual, int showLowBound, bool showHighEqual, int showHighBound, string selectOperation, string showPercentage, bool colAscending, bool[] hideColumns)
         {
             var userFolder = visId.Item1;
             Guid mangaGuid = visId.Item2;
@@ -141,7 +141,7 @@ namespace Manga.IncTrak.Manga
             if (mangas.GetManga(mangaGuid))
             {
                 MangaSettings mangaSettings = LoadMangaSettings(visId);
-                mangaSettings.SetOptions(showGESelected, showLESelected, selectOperation, showPercentage, colAscending, hideColumns);
+                mangaSettings.SetOptions(showLowEqual, showLowBound, showHighEqual, showHighBound, selectOperation, showPercentage, colAscending, hideColumns);
 
                 var mangaPath = ManagaPath(userFolder, mangaGuid);
 

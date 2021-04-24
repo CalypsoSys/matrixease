@@ -53,14 +53,14 @@ namespace Desktop.Manga.IncTrak.Controllers
         }
 
         [HttpGet("update_settings")]
-        public object UpdateSettings(string inctrak_id, string vis_id, int show_ge_selected, int show_le_selected, string select_operation, string show_percentage, bool col_ascending, string hide_columns)
+        public object UpdateSettings(string inctrak_id, string vis_id, bool show_low_equal, int show_low_bound, bool show_high_equal, int show_high_bound, string select_operation, string show_percentage, bool col_ascending, string hide_columns)
         {
             bool[] hideColumns = null;
             if (string.IsNullOrWhiteSpace(hide_columns) == false)
             {
                 hideColumns = hide_columns.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(h => bool.Parse(h)).ToArray();
             }
-            bool status = MangaState.SaveMangaSettings(MangaDesktop.VisId(vis_id), show_ge_selected, show_le_selected, select_operation, show_percentage, col_ascending, hideColumns);
+            bool status = MangaState.SaveMangaSettings(MangaDesktop.VisId(vis_id), show_low_equal, show_low_bound, show_high_equal, show_high_bound, select_operation, show_percentage, col_ascending, hideColumns);
 
             return new { Success = status };
         }

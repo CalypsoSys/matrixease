@@ -225,8 +225,10 @@ namespace Manga.IncTrak.Manga
             }
 
             return new { TotalRows = _totalRows, SelectedRows = _selected ?? _totalRows, Columns = vis,
-                ShowGESelected = _settings.ShowGESelected,
-                ShowLESelected = _settings.ShowLESelected,
+                ShowLowEqual = _settings.ShowLowEqual,
+                ShowLowBound = _settings.ShowLowBound,
+                ShowHighEqual = _settings.ShowHighEqual,
+                ShowHighBound = _settings.ShowHighBound,
                 ShowPercentage = _settings.ShowPercentage.ToString(),
                 SelectOperation = _settings.SelectOperation.ToString(), SelectionExpression = _filter.SelectionExpression,
                 ColAscending = _settings.ColAscending,

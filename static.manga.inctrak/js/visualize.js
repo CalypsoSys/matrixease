@@ -42,8 +42,10 @@ var visualizer = new Vue({
         totalRows: 0,
         selectedRows: 0,
 
-        show_ge_selected: 0,
-        show_le_selected: 100,
+        show_low_equal: true,
+        show_low_bound: 0,
+        show_high_equal: true,
+        show_high_bound: 100,
         show_percentage: "pct_tot_sel",
         select_operation: "overwrite_selection",
         col_ascending: false,
@@ -183,11 +185,17 @@ var visualizer = new Vue({
             });
         },
         setOptionsFromData: function () {
-            if (this.data.ShowGESelected  !== undefined) {
-                this.show_ge_selected = this.data.ShowGESelected;
+            if (this.data.ShowLowEqual !== undefined) {
+                this.show_low_equal = this.data.ShowLowEqual;
             }
-            if (this.data.ShowLESelected !== undefined) {
-                this.show_le_selected = this.data.ShowLESelected;
+            if (this.data.ShowLowBound !== undefined) {
+                this.show_low_bound = this.data.ShowLowBound;
+            }
+            if (this.data.ShowHighEqual !== undefined) {
+                this.show_high_equal = this.data.ShowHighEqual;
+            }
+            if (this.data.ShowHighBound !== undefined) {
+                this.show_high_bound = this.data.ShowHighBound;
             }
             if (this.data.ShowPercentage) {
                 this.show_percentage = this.data.ShowPercentage;
@@ -365,6 +373,17 @@ var visualizer = new Vue({
 
             return { maxWdithCols, boxHeight, maxRows, xRectStart, xTextStart, yStart, maxWidth, textSize, boxTextMod, fudge };
         },
+        showRelativePct(selectRelPct) {
+            if (selectRelPct > this.show_low_bound && selectRelPct <= this.show_high_bound) {
+                return true;
+            } else if (this.show_low_equal && selectRelPct == this.show_low_bound) {
+                return true;
+            } else if (this.show_high_equal && selectRelPct == this.show_high_bound) {
+                return true;
+            }
+
+            return false
+        },
         drawNodes: function (ignoreDataOptions) {
             this.setVisSize();
             this.totalRows = this.data.TotalRows;
@@ -417,7 +436,7 @@ var visualizer = new Vue({
                 for (var i = 0; i < col.Values.length; i++) {
                     var colData = col.Values[i];
 
-                    if (colData.SelectRelPct >= this.show_ge_selected && colData.SelectRelPct <= this.show_le_selected) {
+                    if (this.showRelativePct(colData.SelectRelPct) == true) {
 
                         var data = [this.dataPositions.length, nodes.length];
 
@@ -503,8 +522,10 @@ var visualizer = new Vue({
                 params: {
                     inctrak_id: document.getElementById('inctrak_id').value,
                     vis_id: this.vis_id,
-                    show_ge_selected: this.show_ge_selected,
-                    show_le_selected: this.show_le_selected,
+                    show_low_equal: this.show_low_equal,
+                    show_low_bound: this.show_low_bound,
+                    show_high_equal: this.show_high_equal,
+                    show_high_bound: this.show_high_bound,
                     select_operation: this.select_operation,
                     show_percentage: this.show_percentage,
                     col_ascending: this.col_ascending,
@@ -538,8 +559,10 @@ var visualizer = new Vue({
                 cssClass: "left_slide_panel",
                 openOn: "left",
                 props: {
-                    cur_show_ge_selected: this.show_ge_selected,
-                    cur_show_le_selected: this.show_le_selected,
+                    cur_show_low_equal: this.show_low_equal,
+                    cur_show_low_bound: this.show_low_bound,
+                    cur_show_high_equal: this.show_high_equal,
+                    cur_show_high_bound: this.show_high_bound,
                     cur_show_percentage: this.show_percentage,
                     cur_select_operation: this.select_operation,
                     cur_col_ascending: this.col_ascending,
@@ -557,12 +580,16 @@ var visualizer = new Vue({
                         hideColChange = true;
                 }
 
-                if (this.select_operation != result.select_operation || this.show_ge_selected != result.show_ge_selected ||
-                    this.show_le_selected != result.show_le_selected || this.show_percentage != result.show_percentage ||
+                if (this.select_operation != result.select_operation ||
+                    this.show_low_equal != result.show_low_equal || this.show_low_bound != result.show_low_bound ||
+                    this.show_high_equal != result.show_high_equal || this.show_high_bound != result.show_high_bound ||
+                    this.show_percentage != result.show_percentage ||
                     order_changed || hideColChange) {
                     this.select_operation = result.select_operation;
-                    this.show_ge_selected = result.show_ge_selected;
-                    this.show_le_selected = result.show_le_selected;
+                    this.show_low_equal = result.show_low_equal;
+                    this.show_low_bound = result.show_low_bound;
+                    this.show_high_equal = result.show_high_equal;
+                    this.show_high_bound = result.show_high_bound;
                     this.show_percentage = result.show_percentage;
                     this.col_ascending = result.col_ascending;
                     this.hide_columns = [...result.hide_columns];
