@@ -1,0 +1,57 @@
+﻿<transition name="modal_login">
+    <div class="modal-mask" v-show="show"  >
+        <section class="login-block">
+            <div class="container align-items-center modal-container " @click.stop>
+                <div class="text-center">
+                    <img class="d-block mx-auto mb-4" src="/img/inctrak.svg" width="200">
+                    <h2>Welcome to IncTrak Data Manga</h2>
+                    <p class="lead">Please choose the approriate method to authenticate.</p>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="md-float-material form-material" action="#" method="POST">
+                                <div class="auth-box card">
+                                    <div class="card-block">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h3 class="text-center lead">Create your Data Manga account. It’s free and only takes a minute.</h3>
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-primary"> <input type="text" class="form-control" name="email" value="" placeholder="Email" id="email" v-model="emailAddress"> </div>
+                                        <div class="row">
+                                            <div class="col-md-4 form-group form-primary"> <input type="text" class="form-control" name="captcha_code" placeholder="Enter result of" value="" id="captcha_code" v-model="captchaValue"> </div>
+                                            <div class="col-md-2"><input type="hidden" class="jCaptcha" v-bind:value="captchaValue"/></div>
+                                            <div class="col-md-6">
+                                                <button class="btn btn-info btn-md btn-block waves-effect text-center m-b-20" @click="validateCaptcha()" :disabled="inValidateCaptchaCode()">To send code</button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 form-group form-primary">
+                                                <input type="text" class="form-control" name="emailed_code" placeholder="Enter Emailed Code" value="" id="emailed_code" v-model="emailCode">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20" @click="validateEmailCode()" :disabled="inValidateEmailCode()">Validate Code</button>
+                                            </div>
+                                        </div>
+                                        <div class="or-container">
+                                            <div class="line-separator"></div>
+                                            <div class="or-label">or</div>
+                                            <div class="line-separator"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12"> <a class="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="#" v-on:click="submitGoogle"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Signin Using Google</a> </div>
+                                            <form ref="form" method="GET" action="/google/login">
+                                                <input type="hidden" name="inctrak_id" v-model="incTrakKey" />
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</transition>

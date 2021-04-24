@@ -1,0 +1,75 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{7EE35D03-3F45-435B-9980-7C22AA7D22E0}"
+	ProjectSection(SolutionItems) = preProject
+		config\default = config\default
+		config\inctrakmanga_cert.conf = config\inctrakmanga_cert.conf
+		config\inctrakmanga_cert.sh = config\inctrakmanga_cert.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{BD267196-C93C-453B-9180-E5DE14D811AE}"
+	ProjectSection(SolutionItems) = preProject
+		docs\manga.txt = docs\manga.txt
+		docs\vis_miner.txt = docs\vis_miner.txt
+	EndProjectSection
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "static.manga.inctrak", "static.manga.inctrak\", "{94E50B7F-4F08-499D-A223-886FAF9B8273}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_62973"
+		Debug.AspNetCompiler.PhysicalPath = "static.manga.inctrak\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62973\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_62973"
+		Release.AspNetCompiler.PhysicalPath = "static.manga.inctrak\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62973\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "62973"
+		SlnRelativePath = "static.manga.inctrak\"
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manga.IncTrak", "Manga.IncTrak\Manga.IncTrak.csproj", "{A4320C0D-3E9E-48E9-8BAA-60BDB3A20CD9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "manga.inctrak.com", "manga.inctrak.com\manga.inctrak.com.csproj", "{45F92FB2-080C-4D80-92A5-8460211991EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktop.Manga.IncTrak", "Desktop.Manga.IncTrak\Desktop.Manga.IncTrak.csproj", "{3A5DDEFD-E5B8-4938-93FA-8EBE17DDCD32}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94E50B7F-4F08-499D-A223-886FAF9B8273}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94E50B7F-4F08-499D-A223-886FAF9B8273}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94E50B7F-4F08-499D-A223-886FAF9B8273}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{94E50B7F-4F08-499D-A223-886FAF9B8273}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{A4320C0D-3E9E-48E9-8BAA-60BDB3A20CD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4320C0D-3E9E-48E9-8BAA-60BDB3A20CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4320C0D-3E9E-48E9-8BAA-60BDB3A20CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4320C0D-3E9E-48E9-8BAA-60BDB3A20CD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45F92FB2-080C-4D80-92A5-8460211991EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45F92FB2-080C-4D80-92A5-8460211991EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45F92FB2-080C-4D80-92A5-8460211991EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45F92FB2-080C-4D80-92A5-8460211991EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A5DDEFD-E5B8-4938-93FA-8EBE17DDCD32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A5DDEFD-E5B8-4938-93FA-8EBE17DDCD32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A5DDEFD-E5B8-4938-93FA-8EBE17DDCD32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A5DDEFD-E5B8-4938-93FA-8EBE17DDCD32}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DCA09A05-6598-491D-BACC-4658CA516573}
+	EndGlobalSection
+EndGlobal

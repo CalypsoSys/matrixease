@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Description>IncTrak Data Manga and Visualization</Description>
+    <Company>Calypso Systems, LLC</Company>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.50.0.2231" />
+  </ItemGroup>
+
+</Project>

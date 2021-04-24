@@ -1,0 +1,497 @@
+﻿<transition name="modal_stats">
+    <div class="modal-mask" style="max-height: 900px;overflow: auto; overflow-y:scroll;" v-show="show" @click="$emit('close')">
+        <div class="container modal-container modal-container-large" @click.stop>
+            <h4 class="mb-3">Column Statistics for {{ (data || {}).Name }}</h4>
+            <hr class="mb-4">
+            <div class="row">
+                <div class="col-sm-4">Index: {{ (data || {}).Index }}</div>
+                <div class="col-sm-4">Type: {{ (data || {}).ColType }}</div>
+                <div class="col-sm-4">Data Type: {{ (data || {}).DataType }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">Empty: {{ (data || {}).NullEmpty }}</div>
+                <div class="col-sm-4">Selectivity: {{ (data || {}).Selectivity }}</div>
+                <div class="col-sm-4">Distinct: {{ (data || {}).DistinctValues }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">Bucketed: {{ (data || {}).Bucketized }}</div>
+                <div class="col-sm-4">Only Buckets: {{ (data || {}).OnlyBuckets }}</div>
+                <div class="col-sm-4">Smallest Size: {{ (data || {}).MinBucketSize }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">Bucket Size: {{ (data || {}).CurBucketSize }}</div>
+                <div class="col-sm-4">Group Count: {{ (data || {}).GroupCount }}</div>
+                <div class="col-sm-4">Group Filter Count: {{ (data || {}).FilterCount }}</div>
+            </div>
+            <hr class="mb-4">
+
+            <div class="row" v-if="(data || {}).DataType == 'Numeric'">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Numeric Stats</h6>
+                    <div>
+                        <table class="table  table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Measure</th>
+                                    <th scope="col" class="col-6">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.NumericStats">
+                                    <td scope="row" class="col-6">{{ propertyName }}</td>
+                                    <td class="col-6">{{ value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Numeric Stats with null/empty values</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Measure</th>
+                                    <th scope="col" class="col-6">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.NumericStatsIncludeNoValue">
+                                    <td scope="row" class="col-6">{{ propertyName }}</td>
+                                    <td class="col-6">{{ value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4" v-if="(data || {}).DataType == 'Numeric'">
+
+            <div class="row" v-if="(data || {}).DataType == 'Date'">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Date Stats</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Measure</th>
+                                    <th scope="col" class="col-6">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.DateStats">
+                                    <td scope="row" class="col-6">{{ propertyName }}</td>
+                                    <td class="col-6">{{ value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4" v-if="(data || {}).DataType == 'Date'">
+
+            <div class="row" v-if="(data || {}).DataType == 'Text'">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Text Length Stats</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Measure</th>
+                                    <th scope="col" class="col-6">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.TextLength">
+                                    <td scope="row" class="col-6">{{ propertyName }}</td>
+                                    <td class="col-6">{{ value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4" v-if="(data || {}).DataType == 'Text'">
+
+            <div class="row" v-if="(data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == true">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Url Schema - Unique: {{ (data || {}).Stats.UrlStats.SchemeCounts.Count }} Sample Size: {{ (data || {}).Stats.UrlStats.Limit }}</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Schema</th>
+                                    <th scope="col" class="col-6">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.UrlStats.SchemeCounts.Sample">
+                                    <td scope="row" class="col-6">{{ value.Name }}</td>
+                                    <td class="col-6">{{ value.Value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Url Domain - Unique: {{ (data || {}).Stats.UrlStats.DomainCounts.Count }} Top: {{ (data || {}).Stats.UrlStats.Limit }}</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Domain</th>
+                                    <th scope="col" class="col-6">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.UrlStats.DomainCounts.Sample">
+                                    <td scope="row" class="col-6">{{ value.Name }}</td>
+                                    <td class="col-6">{{ value.Value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4" v-if="(data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == true">
+
+            <div class="row" v-if="(data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == true">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Url First Path - Unique: {{ (data || {}).Stats.UrlStats.FirstPathCounts.Count }} Sample Size: {{ (data || {}).Stats.UrlStats.Limit }}</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">First Path</th>
+                                    <th scope="col" class="col-6">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.UrlStats.FirstPathCounts.Sample">
+                                    <td scope="row" class="col-6">{{ value.Name }}</td>
+                                    <td class="col-6">{{ value.Value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Url Second Path - Unique: {{ (data || {}).Stats.UrlStats.SecondPathCounts.Count }} Top: {{ (data || {}).Stats.UrlStats.Limit }}</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Second Path</th>
+                                    <th scope="col" class="col-6">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.UrlStats.SecondPathCounts.Sample">
+                                    <td scope="row" class="col-6">{{ value.Name }}</td>
+                                    <td class="col-6">{{ value.Value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4" v-if="(data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == true">
+
+            <div class="row" v-if="(data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == true">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Url Third Path - Unique: {{ (data || {}).Stats.UrlStats.ThirdPathCounts.Count }} Sample Size: {{ (data || {}).Stats.UrlStats.Limit }}</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Third Path</th>
+                                    <th scope="col" class="col-6">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.UrlStats.ThirdPathCounts.Sample">
+                                    <td scope="row" class="col-6">{{ value.Name }}</td>
+                                    <td class="col-6">{{ value.Value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Url Path Term - Unique: {{ (data || {}).Stats.UrlStats.PathTermCount.Count }} Top: {{ (data || {}).Stats.UrlStats.Limit }}</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Path Terms</th>
+                                    <th scope="col" class="col-6">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.UrlStats.PathTermCount.Sample">
+                                    <td scope="row" class="col-6">{{ value.Name }}</td>
+                                    <td class="col-6">{{ value.Value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4" v-if="(data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == true">
+
+            <div class="row" v-if="(data || {}).DataType == 'Text' && (data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == false">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">One Characater Prefixes - Unique: {{ (data || {}).Stats.PrefixStats.Prefix1.Count }} Sample Size: {{ (data || {}).Stats.PrefixStats.Limit }}</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Prefix</th>
+                                    <th scope="col" class="col-6">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.PrefixStats.Prefix1.Sample">
+                                    <td scope="row" class="col-6">{{ value.Name }}</td>
+                                    <td class="col-6">{{ value.Value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Two Characater Prefixes - Unique: {{ (data || {}).Stats.PrefixStats.Prefix2.Count }} Sample Size: {{ (data || {}).Stats.PrefixStats.Limit }}</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Prefix</th>
+                                    <th scope="col" class="col-6">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.PrefixStats.Prefix2.Sample">
+                                    <td scope="row" class="col-6">{{ value.Name }}</td>
+                                    <td class="col-6">{{ value.Value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4" v-if="(data || {}).DataType == 'Text' && (data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == false">
+
+            <div class="row" v-if="(data || {}).DataType == 'Text' && (data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == false">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Three Characater Prefixes - Unique: {{ (data || {}).Stats.PrefixStats.Prefix3.Count }} Sample Size: {{ (data || {}).Stats.PrefixStats.Limit }}</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Prefix</th>
+                                    <th scope="col" class="col-6">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.PrefixStats.Prefix3.Sample">
+                                    <td scope="row" class="col-6">{{ value.Name }}</td>
+                                    <td class="col-6">{{ value.Value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Four Characater Prefixes - Unique: {{ (data || {}).Stats.PrefixStats.Prefix4.Count }} Sample Size: {{ (data || {}).Stats.PrefixStats.Limit }}</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Prefix</th>
+                                    <th scope="col" class="col-6">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.PrefixStats.Prefix4.Sample">
+                                    <td scope="row" class="col-6">{{ value.Name }}</td>
+                                    <td class="col-6">{{ value.Value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4" v-if="(data || {}).DataType == 'Text' && (data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == false">
+
+
+            <div class="row" v-if="(data || {}).DataType == 'Text' && (data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == false">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">All Terms Stats</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Measure</th>
+                                    <th scope="col" class="col-6">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.TermStats.AllTermStats">
+                                    <td scope="row" class="col-6">{{ propertyName }}</td>
+                                    <td class="col-6">{{ value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Distinct Terms Stats</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Measure</th>
+                                    <th scope="col" class="col-6">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.TermStats.DistinctTermStats">
+                                    <td scope="row" class="col-6">{{ propertyName }}</td>
+                                    <td class="col-6">{{ value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4" v-if="(data || {}).DataType == 'Text' && (data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == false">
+
+
+            <div class="row" v-if="(data || {}).DataType == 'Text' && (data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == false">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">All Considered Terms Stats</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Measure</th>
+                                    <th scope="col" class="col-6">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.TermStats.AllConsideredTermStats">
+                                    <td scope="row" class="col-6">{{ propertyName }}</td>
+                                    <td class="col-6">{{ value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Distinct Considered Terms Stats</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Measure</th>
+                                    <th scope="col" class="col-6">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.TermStats.DistinctConsideredTermStats">
+                                    <td scope="row" class="col-6">{{ propertyName }}</td>
+                                    <td class="col-6">{{ value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4" v-if="(data || {}).DataType == 'Text' && (data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == false">
+
+            <div class="row" v-if="(data || {}).DataType == 'Text' && (data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == false">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Term Counts - Unique: {{ (data || {}).Stats.TermStats.TermCounts.Count }} Sample Size: {{ (data || {}).Stats.TermStats.Limit }}</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Term</th>
+                                    <th scope="col" class="col-6">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.TermStats.TermCounts.Sample">
+                                    <td scope="row" class="col-6">{{ value.Name }}</td>
+                                    <td class="col-6">{{ value.Value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Term Weights - Unique: {{ (data || {}).Stats.TermStats.TermWeights.Count }} Sample Size: {{ (data || {}).Stats.TermStats.Limit }}</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-6">Term</th>
+                                    <th scope="col" class="col-6">TF-IDF</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in (data || {}).Stats.TermStats.TermWeights.Sample">
+                                    <td scope="row" class="col-6">{{ value.Name }}</td>
+                                    <td class="col-6">{{ value.Value }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4" v-if="(data || {}).DataType == 'Text' && (data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == false">
+
+
+            <div class="row" v-if="(data || {}).DataType == 'Text' && (data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == false">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">Calculated Term Patterns - {{ (data || {}).Stats.TermStats.CalculatedTermPatterns.length}}</h6>
+                    <div>
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-12">Pattern</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="termPattern in (data || {}).Stats.TermStats.CalculatedTermPatterns">
+                                    <td scope="row" class="col-12">{{ termPattern }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4" v-if="(data || {}).DataType == 'Text' && (data || {'Stats':{'IsUrl': false}}).Stats.IsUrl == false">
+
+            <!--
+    <div class="row">
+        <div class="col-sm">
+            <div style="max-height: 300px;overflow: auto;">
+                {{ data }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <button class="btn btn-info btn-sm" @click="$emit('close')">Close</button>
+        </div>
+    </div>
+    -->
+        </div>
+    </div>
+</transition>

@@ -1,0 +1,72 @@
+electronize in dev CentOS
+
+	1. curl -sL https://rpm.nodesource.com/setup_15.x | sudo bash -
+	sudo yum install nodejs
+
+	sudo yum install dotnet-sdk-5.0
+	sudo yum install dotnet-runtime-5.0
+	sudo yum install aspnetcore-runtime-5.0
+
+	dotnet tool install ElectronNET.CLI -g
+
+	electronize build /target linux
+
+	-no-sandbox
+
+	/home/calypso/dotnet/web/Desktop.Manga.IncTrak/bin/Desktop/Desktop.Manga.IncTrak-1.0.0.AppImage
+
+	cd \CalypsoSystems\web\Desktop.Manga.IncTrak
+
+	electronize start
+
+
+	electronize build /target win 
+	electronize build /target osx
+	electronize build /target linux
+
+Ubuntu Server Install
+	wget https://packages.microsoft.com/config/ubuntu/20.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+	sudo dpkg -i packages-microsoft-prod.deb
+	sudo apt-get update;
+	sudo apt-get install -y apt-transport-https
+	sudo apt-get update
+	sudo apt-get install -y aspnetcore-runtime-5.0
+
+	in dev windows!!!!
+		dotnet publish --configuration Release
+		copy files over
+
+	edit nginx file
+	create /etc/systemd/system/manga-inctrak-com.service
+	sudo systemctl enable manga-inctrak-com.service
+	sudo systemctl start manga-inctrak-com.service
+	sudo systemctl status manga-inctrak-com.service
+
+Ubuntu Dev Install
+	wget https://packages.microsoft.com/config/ubuntu/20.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+	sudo dpkg -i packages-microsoft-prod.deb
+	sudo apt-get update
+	sudo apt-get install -y apt-transport-https
+	sudo apt-get update
+	sudo apt-get install -y aspnetcore-runtime-5.0
+	sudo apt-get install -y dotnet-sdk-5.0
+	sudo apt install gnome-session gnome-terminal
+	reboot
+	subo apt install git
+
+
+	curl -sL https://deb.nodesource.com/setup_15.x | sudo bash -
+	apt install -y nodejs
+
+
+	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+	sudo apt install ./google-chrome-stable_current_amd64.deb
+
+	wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add 
+	sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+	 sudo apt install code
+
+
+ sudo rmmod floppy
+ echo "blacklist floppy" | sudo tee /etc/modprobe.d/blacklist-floppy.conf
+ sudo dpkg-reconfigure initramfs-tools

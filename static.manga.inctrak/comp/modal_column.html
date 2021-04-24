@@ -1,0 +1,85 @@
+﻿<transition name="modal_column">
+    <div class="modal-mask" v-show="show" @click="$emit('close')">
+        <div class="container modal-container" @click.stop>
+            <h4 class="mb-3">Column: {{ (data || {}).name }}</h4>
+            <div class="row">
+                <div class="col-sm">
+                    Type: {{ (data || {}).colType || null }}
+                </div>
+                <div class="col-sm">
+                    Data Type: {{ (data || {}).dataType || null }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    Distinct Values: {{ (data || {}).distinctValues }}
+                </div>
+                <div class="col-sm">
+                    Selectivity: {{ (data || {}).selectivity }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    Empty Values: {{ (data || {}).nullEmpty }}
+                </div>
+            </div>
+            <hr class="mb-4">
+            <div class="row">
+                <div class="col-sm" v-text="colAttributes1">
+                </div>
+                <div class="col-sm" v-text="colAttributes2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm" v-text="colAttributes3">
+                </div>
+                <div class="col-sm" v-text="colAttributes4">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm" v-text="colAttributes5">
+                </div>
+                <div class="col-sm" v-text="colAttributes6">
+                </div>
+            </div>
+            <hr class="mb-4">
+            <form class="needs-validation was-validated" novalidate="" @submit.prevent="onSubmitDoNothing">
+                <div class="row">
+                    <div class="col-sm-10 offset-sm-2">
+                        <input type="checkbox" v-model="bucketized" id="id_bucketable" :disabled=isOnlyBucketable>
+                        <label for="id_bucketable">Bucketed</label>
+                    </div>
+                </div>
+                <div class="form-group row" v-show="bucketized">
+                    <label class="col-sm-2 col-form-label" for="id_buckets">Bucket Size: </label>
+                    <div class="col-xs-2" v-if="numericType()">
+                        <input class="form-control input-sm" id="id_buckets" type="number" step="any" v-model="bucketsize" required="" :min="minBucketSize()">
+                    </div>
+                    <div class="invalid-feedback" v-if="numericType()">
+                        Please enter the size of each bucket (at least {{minBucketSize()}})
+                    </div>
+                    <div class="col-xs-2" v-if="dateType()">
+                        <select class="form-control input-sm" id="id_buckets" v-model="bucketsize" required="">
+                            <option v-for="option in date_options" v-bind:value="option.value">
+                                {{ option.text }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-xs-2" v-if="textType()">
+                        <select class="form-control input-sm" id="id_buckets" v-model="bucketsize" required="">
+                            <option v-for="option in text_options" v-bind:value="option.value">
+                                {{ option.text }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="invalid-feedback" v-if="dateType()">
+                        Please enter the date range bucket
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn btn-primary mr-1" @click="savePost()" :disabled="invalidBucketSize()">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</transition>

@@ -1,0 +1,22 @@
+﻿<transition name="modal_expression">
+    <div id="expression_dialog" class="dialog expr_modal" style="min-width:350px; min-height:280px;z-index: 300;height: 500px;width:200px" v-show="show">
+        <div class="titlebar" style="width:350px">Filter Expression</div>
+        <button class="dialog_button" name="close"  @click="$emit('close')">&times;</button>
+        <div class="content">
+            <textarea class="form-control" cols="40" rows="11" id="selection_expression" value="selection_expression" v-model="selection_expression" @change="emitUpdate"></textarea>
+        </div>
+        <div class="buttonpane">
+            <div class="row">
+                <button type="button" class="btn btn-secondary ml-2 mb-1" v-on:click.prevent="clearExpr()">Clear</button>
+                <button type="button" class="btn btn-secondary ml-2 mb-1" v-on:click.prevent="restoreExpr()">Restore</button>
+                <button type="button" class="btn btn-secondary ml-2 mb-1" v-on:click.prevent="groupExpr()">Group Current</button>
+                <button type="button" class="btn btn-secondary ml-2 mb-1" v-on:click.prevent="notExpr()">NOT Current</button>
+            </div>
+            <hr class="mb-4">
+            <div class="buttonset">
+                <button class="btn btn-primary" v-on:click.stop.prevent="filterByNode()" name="ok">Apply Filter</button>
+                <button class="btn btn-info btn-sm" name="cancel" @click="$emit('close')">Close</button>
+            </div>
+        </div>
+    </div>
+</transition>

@@ -1,0 +1,34 @@
+﻿<transition name="modal_status">
+    <div class="modal-mask" v-show="show" @click="$emit('close')">
+        <div class="container modal-container modal-container-status" @click.stop>
+            <h4 class="mb-3"> Manga Processing Status <img src="../img/spiral.gif" /></h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Key</th>
+                        <th scope="col">Started</th>
+                        <th scope="col">Elapsed</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(value, propertyName) in statusdata">
+                        <th scope="row">{{ propertyName }}</th>
+                        <td>{{ new Date(value.Started).toLocaleString() }}</td>
+                        <td>{{ value.Elapsed }}</td>
+                        <td>{{ value.Desc }}</td>
+                        <td>{{ value.Status }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr class="mb-4">
+            <div class="row">
+                <div class="col-sm">
+                    <button class="btn btn-primary" @click="$emit('close')">Close</button>
+                    <button class="btn btn-secondary" @click="cancel()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</transition>

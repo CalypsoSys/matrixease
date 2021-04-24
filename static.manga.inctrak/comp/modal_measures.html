@@ -1,0 +1,75 @@
+﻿<transition name="modal_measures">
+    <div class="modal-mask" style="max-height: 900px;overflow: auto; overflow-y:scroll;" v-show="show" @click="closeUp()">
+        <div class="container modal-container modal-container-large" @click.stop>
+            <h2>{{ (selected_column || {}).name }} - {{ (selected_node || {}).value }}</h2>
+            <hr class="mb-4">
+            <div class="row">
+                <div class="col-sm">
+                    <input type="checkbox" v-model="filtered">
+                    <label for="id_bucketable">Use filtered results</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <table class="table table-sm table-fixed">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="col-12">Inlcude these Columns</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="property in measure_columns">
+                                <td scope="row" class="col-12">
+                                    <input type="checkbox" value="" id="check_measure" v-model="included_measure[property.Index]">
+                                    <label for="check_measure">{{ property.Name }}</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-9">
+                    <div style="max-width: 1000px;overflow: auto; overflow-x:scroll;">
+                        <table class="table table-sm table-bordered">
+                            <thead> 
+                                <tr>
+                                    <th scope="col" class="col-1 text-nowrap">Measure</th>
+                                    <th scope="col" class="col-1 text-nowrap">Count</th>
+                                    <th scope="col" class="col-1 text-nowrap">Total</th>
+                                    <th scope="col" class="col-1 text-nowrap">Average</th>
+                                    <th scope="col" class="col-1 text-nowrap">Min</th>
+                                    <th scope="col" class="col-1 text-nowrap">Max</th>
+                                    <th scope="col" class="col-1 text-nowrap">Range</th>
+                                    <th scope="col" class="col-1 text-nowrap">Std. Dev.</th>
+                                    <th scope="col" class="col-1 text-nowrap">Coef. of Var.</th>
+                                    <th scope="col" class="col-1 text-nowrap">Total Sqr</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(value, propertyName) in measures">
+                                    <td scope="row" class="col-1" >{{ propertyName }}</td>
+                                    <td scope="row" class="col-1" >{{ value.Count }}</td>
+                                    <td scope="row" class="col-1" >{{ value.Total }}</td>
+                                    <td scope="row" class="col-1" >{{ value.Average }}</td>
+                                    <td scope="row" class="col-1" >{{ value.Min }}</td>
+                                    <td scope="row" class="col-1" >{{ value.Max }}</td>
+                                    <td scope="row" class="col-1" >{{ value.Range }}</td>
+                                    <td scope="row" class="col-1" >{{ value.StandardDeviation }}</td>
+                                    <td scope="row" class="col-1" >{{ value.CoefficientOfVariation }}</td>
+                                    <td scope="row" class="col-1" >{{ value.TotalSqr }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm">
+                    <button class="btn btn-primary" @click="getMeasures()">Get Measures</button>
+                    <button class="btn btn-info btn-sm" @click="closeUp()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</transition>

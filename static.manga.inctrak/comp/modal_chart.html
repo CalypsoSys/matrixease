@@ -1,0 +1,108 @@
+﻿<transition name="modal_chart">
+    <div class="modal-mask" style="max-height: 900px;overflow: auto; overflow-y:scroll;" v-show="show" @click="closeUp()">
+        <div class="container modal-container modal-container-large" @click.stop>
+            <h2>Quick Chart/Report <button class="btn btn-info btn-sm" @click="openReportWindow">Open in new tab</button></h2>
+            <hr class="mb-4">
+            <div class="row" v-show="showChart">
+                <div class="col-sm-12">
+                    <canvas id="vis-quick-chart"></canvas>
+                </div>
+            </div>
+            <div class="row" v-show="showReport">
+                <div class="col-sm-12">
+                    <div id="vis-quick-report"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <table class="table table-sm table-fixed">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="col-12">Dimensions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="property in dimension_columns">
+                                <td scope="row" class="col-12">
+                                    <!-- <input type="radio" id="check_dimension" name="check_dimension" v-model="included_dimension[property.Index]" :value="property.Index">-->
+                                    <input type="radio" id="check_dimension" name="check_dimension" v-model="included_dim" :value="property.Index">
+                                    <label for="check_dimension">{{ property.Name }}</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-4">
+                    <table class="table table-sm header-fixed">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="col-12">Measures</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="property in measure_columns">
+                                <td scope="row" class="col-6 tdth_chart_metrics_name">
+                                    {{ property.Name }}
+                                </td>
+                                <td scope="row" class="col-3 tdth_chart_metrics_type">
+                                    <input type="checkbox" id="check_tot" value="" v-model="included_measure_total[property.Index]">
+                                    <label for="check_tot">Total</label>
+                                </td>
+                                <td scope="row" class="col-3 tdth_chart_metrics_type">
+                                    <input type="checkbox" id="check_avg" value="" v-model="included_measure_average[property.Index]">
+                                    <label for="check_avg">Avg</label>
+                                </td>
+                            </tr>
+                            <tr v-for="property in dimension_columns">
+                                <td scope="row" class="col-6 tdth_chart_metrics_name">
+                                    {{ property.Name }}
+                                </td>
+                                <td scope="row" class="col-3 tdth_chart_metrics_type">
+                                </td>
+                                <td scope="row" class="col-3 tdth_chart_metrics_type">
+                                    <input type="checkbox" id="check_cnt" value="" v-model="included_measure_count[property.Index]">
+                                    <label for="check_cnt">Count</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-4">
+                    <fieldset class="form-group  groupbox-border">
+                        <legend class="groupbox-border">Type</legend>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="report" value="report" v-model="chart_type">
+                            <label class="form-check-label" for="report">Report</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="line_chart" value="line" v-model="chart_type">
+                            <label class="form-check-label" for="line_chart">Line</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="bar_chart" value="bar" v-model="chart_type">
+                            <label class="form-check-label" for="bar_chart">Bar</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="radar_chart" value="radar" v-model="chart_type">
+                            <label class="form-check-label" for="radar_chart">Radar, polarArea</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="polar_chart" value="polarArea" v-model="chart_type">
+                            <label class="form-check-label" for="polar_chart">PolarArea</label>
+                        </div>
+                    </fieldset>
+
+                    <input type="checkbox" v-model="filtered">
+                    <label for="id_bucketable">Use filtered results</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm">
+                    <button class="btn btn-primary" @click="createChart()">Create Chart</button>
+                    <button class="btn btn-info btn-sm" @click="closeUp()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</transition>

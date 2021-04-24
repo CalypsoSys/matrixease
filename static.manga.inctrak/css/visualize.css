@@ -1,0 +1,300 @@
+﻿.left_slide_panel {
+    max-width: 25%;
+    padding: 20px;
+}
+
+.modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    transition: opacity .3s ease;
+}
+
+.modal-container {
+    width: 600px;
+    margin: 40px auto 0;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+}
+
+.modal-container-status {
+    width: 700px;
+}
+
+.modal-container-large {
+    width: 1000px;
+}
+
+
+/*
+* The following styles are auto-applied to elements with
+* transition="modal" when their visibility is toggled
+* by Vue.js.
+*
+* You can easily play with the modal transition by editing
+* these styles.
+*/
+.modal-enter {
+    opacity: 0;
+}
+
+.modal-leave-active {
+    opacity: 0;
+}
+
+/* Login CSS*/
+.login-block {
+    margin: 30px auto;
+    min-height: 93.6vh
+}
+
+    .login-block .auth-box {
+        margin: 20px auto 0;
+        max-width: 450px !important
+    }
+
+.card {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 0 5px 0 rgba(43, 43, 43, .1), 0 11px 6px -7px rgba(43, 43, 43, .1);
+    box-shadow: 0 0 5px 0 rgba(43, 43, 43, .1), 0 11px 6px -7px rgba(43, 43, 43, .1);
+    border: none;
+    margin-bottom: 30px;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+    background-color: #fff
+}
+
+.card .card-block {
+    padding: 1.25rem
+}
+
+.f-80 {
+    font-size: 80px
+}
+
+.form-group {
+    margin-bottom: 1.25em
+}
+
+.form-material .form-control {
+    display: inline-block;
+    height: 43px;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 9px;
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-bottom: 1px solid #ccc
+}
+
+.btn-md {
+    padding: 10px 16px;
+    font-size: 15px;
+    line-height: 23px
+}
+
+.m-b-20 {
+    margin-bottom: 20px
+}
+
+.btn-md {
+    padding: 10px 16px;
+    font-size: 15px;
+    line-height: 23px
+}
+
+.heading {
+    font-size: 21px
+}
+
+#infoMessage p {
+    color: red !important
+}
+
+.btn-google {
+    color: #545454;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 1px #ddd
+}
+
+.or-container {
+    align-items: center;
+    color: #ccc;
+    display: flex;
+    margin: 25px 0
+}
+
+.line-separator {
+    background-color: #ccc;
+    flex-grow: 5;
+    height: 1px
+}
+
+.or-label {
+    flex-grow: 1;
+    margin: 0 15px;
+    text-align: center
+}
+
+
+/* jCaptcap */
+.jCaptchaCanvas {
+    position: absolute;
+    top: 16px;
+    left: 0px;
+    color: #ddd;
+}
+
+.button_botom {
+    position: absolute;
+    bottom: 0px;
+}
+
+/* column popup menut*/
+.custom-menu {
+  display: none;
+  z-index: 1000;
+  position: absolute;
+  overflow: hidden;
+  border: 1px solid #CCC;
+  white-space: nowrap;
+  font-family: sans-serif;
+  background: #FFF;
+  color: #333;
+  list-style: none;
+  padding:0;
+  margin: 0;
+}
+
+.custom-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.custom-menu li:hover {
+  background-color: #DEF;
+}
+
+/* fixed header on table*/
+.table-fixed tbody {
+    max-height: 300px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.table-fixed thead,
+.table-fixed tbody,
+.table-fixed tr,
+.table-fixed td,
+.table-fixed th {
+    display: block;
+}
+
+.table-fixed tbody td,
+.table-fixed tbody th,
+.table-fixed thead > tr > th {
+    float: left;
+    position: relative;
+
+    &::after {
+        content: '';
+        clear: both;
+        display: block;
+    }
+}
+
+/* fields */
+fieldset.groupbox-border {
+    border: 1px groove #ddd !important;
+    padding: 0 1.2em 1.2em 1.2em !important;
+    margin: 1.0em 1.0em 1.0em 1.0em !important;
+    -webkit-box-shadow: 0px 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px 0px #000;
+}
+
+legend.groupbox-border {
+    text-align: left !important;
+    width: auto;
+    padding: 0px 10px 0px 10px;
+    border-bottom: none;
+    font-size: 1.0rem;
+}
+
+.blink_me {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+.expr_modal {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    margin: 0px;
+}
+
+.header-fixed {
+    width: 100%;
+    max-height: 300px;
+}
+
+.header-fixed > thead,
+.header-fixed > tbody,
+.header-fixed > thead > tr,
+.header-fixed > tbody > tr,
+.header-fixed > thead > tr > th,
+.header-fixed > tbody > tr > td {
+    display: block;
+}
+
+.header-fixed > tbody > tr:after,
+.header-fixed > thead > tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+.header-fixed > tbody {
+    overflow-y: auto;
+    height: 300px;
+}
+
+/*
+.header-fixed > tbody > tr > td,
+.header-fixed > thead > tr > th {
+    width: 33%;
+    float: left;
+    overflow: hidden;
+    white-space: nowrap;
+}
+*/
+
+.tdth_chart_metrics_name {
+    width: 50%;
+    float: left;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.tdth_chart_metrics_type {
+    width: 25%;
+    float: left;
+    overflow: hidden;
+    white-space: nowrap;
+}

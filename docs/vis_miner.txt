@@ -1,0 +1,24 @@
+se the Visualizer command to toggle between displaying and hiding the query results as a bar graph. If a bullet appears next to Visualizer on the View menu, the application 
+displays the graphical representation. The following diagrams depict a query results grid and a corresponding graphical representation.
+
+Whatever selections you make in the Visualizer are displayed when you return to Report view.
+
+
+
+Characteristics of the Visualizer
+
+·	Initially, unique data items within a column are represented as boxes, all the same color. Next to each box is a number that indicates the percentage of the total for the column.
+
+·	If you position the mouse pointer over a box, the details of the data item appear. In the above example, the pointer is positioned to reveal 'Paul Williams' and how many records exist for that data item and the total of records. Numeric data items are displayed in ranges. There are four boxes displayed for each numeric data item. Each represents one part of a range.
+
+·	If you single-click a box, it changes color, along with boxes in the other columns to which it is associated.
+
+·	If you Ctrl-click you can append your selection.
+
+·	Click anywhere in the background to deselect.
+
+·	If you double-click a box, the Visual Miner Record dialog box appears.
+
+The Visual Miner Record dialog box appears when you double-click a box in the Visualizer view. The dialog box contains all the record information 
+pertaining to the data item associated with the box. From the dialog box, you can view details of other records by choosing the Previous and Next buttons.
+

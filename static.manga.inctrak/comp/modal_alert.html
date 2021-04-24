@@ -1,0 +1,26 @@
+﻿<transition name="modal_alert">
+    <div class="modal-mask" v-show="show" @click="$emit('close')">
+        <div class="container modal-container" @click.stop>
+            <h4 class="mb-3"> {{ title }}</h4>
+            <hr class="mb-4">
+            <div class="row">
+                <div class="col-sm">
+                    {{ message }}
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm">
+                    {{ secondary }}
+                </div>
+            </div>
+            <hr class="mb-4">
+            <div class="row">
+                <div class="col-sm">
+                    <button class="btn btn-primary" v-if="yesNo()" @click="sayYes()">Yes</button>
+                    <button class="btn btn-info btn-sm" @click="$emit('close')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</transition>

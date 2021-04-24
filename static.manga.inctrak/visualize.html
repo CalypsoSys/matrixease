@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>IncTrak Manga</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="icon100.ico">
+    <link rel="stylesheet" href="/thirdparty/draggable-resizable-dialog/draggable-resizable-dialog.css" />
+    <link rel="stylesheet" href="https://unpkg.com/gridjs@3.3.0/dist/theme/mermaid.min.css" />
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/visualize.css" />
+    <script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.5.1/dist/vue-router.js"></script>
+    <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
+    <script src="https://unpkg.com/vue2-slideout-panel@1.0.2/dist/vue2-slideout-panel.min.js"></script>
+    <script src="https://unpkg.com/axios@0.21.1/dist/axios.js"></script>
+    <script src="https://unpkg.com/gridjs@3.3.0/dist/gridjs.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script src="thirdparty/draggable-resizable-dialog/draggable-resizable-dialog.js"></script>
+</head>
+<body>
+    <div id="visualize" style="z-index:-2">
+        <modal_column :show="showModalColumn" @close="showModalColumn = false" @ok="setBuckets" :data="selectedColumn" :curbucketized="curBucketized()" :curbucketsize="curBucketSize()"></modal_column>
+        <modal_stats :show="showModalStats" @close="showModalStats = false" :data="colStatistics"></modal_stats>
+        <modal_measures :show="showModalMeasures" @close="showModalMeasures = false" :selected_column="selectedColumn" :selected_node="selectedNode" :measure_columns="measureColumns"></modal_measures>
+        <modal_chart :show="showModalChart" @close="showModalChart = false" :selected_column="selectedColumn" :selected_node="selectedNode" :dimension_columns="dimensionColumns" :measure_columns="measureColumns"></modal_chart>
+        <modal_report :show="showModalReport" @close="showModalReport = false" :curreportdata="curreportdata"></modal_report>
+        <modal_expression :show="showModalExpression" @close="showModalExpression = false" :cur_selection_expression.sync="selection_expression" :cur_saved_expression="saved_expression"></modal_expression>
+        <modal_status :show="showModalStatus" @close="showModalStatus = false" @cancel="cancelJob" :statusfunc="mangaProcessStatus" :curstatuskey="curstatuskey" :curstatusdata="curstatusdata"></modal_status>
+        <modal_alert :show="showModalAlert" @close="showModalAlert = false" @yes="takeAction" :title="modal_title" :message="modal_message" :secondary="modal_secondary" :confirm="modal_yes_no_action"></modal_alert>
+        <div ref="meta" class="form-horizontal fixed-top bg-white" style="z-index:3">
+            <slideout-panel :cur_show_ge_selected="show_ge_selected" :cur_show_le_selected="show_le_selected" :cur_show_percentage="show_percentage" :cur_select_operation="select_operation" :cur_col_ascending="col_ascending" :cur_hide_columns="hide_columns" :cur_columns="my_columns"></slideout-panel>
+            <h3>Manga Visualizer -- {{ mangaName }}</h3>
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div class="col-sm-3  font-weight-bold">
+                            Dataset Statistics
+                        </div>
+                        <div class="col-sm-3 font-weight-bold">
+                            Column Statistics
+                        </div>
+                        <div class="col-sm-3 font-weight-bold">
+                            Column Measures
+                        </div>
+                        <div class="col-sm-3 font-weight-bold">
+                            Data Statistics
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            Total Rows: {{ totalRows.toLocaleString() }}
+                        </div>
+                        <div class="col-sm-3">
+                            Column: {{ ((selectedColumn || {}).name || "") }}
+                        </div>
+                        <div class="col-sm-3">
+                            Group by: {{ bucketDefintion() }}
+                        </div>
+                        <div class="col-sm-3">
+                            Value: {{ (selectedNode || {}).value || null }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            Selected Rows: {{ selectedRows.toLocaleString() }}
+                        </div>
+                        <div class="col-sm-3">
+                            Type: {{ (selectedColumn || {}).colType || null }}
+                        </div>
+                        <div class="col-sm-3">
+                            Distinct Values: {{ ((selectedColumn || {}).distinctValues || "") }}
+                        </div>
+                        <div class="col-sm-3">
+                            Percent of Total: {{ (selectedNode || {}).totalPct || 0 }}%
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                        </div>
+                        <div class="col-sm-3">
+                            Data Type: {{ (selectedColumn || {}).dataType || null }}
+                        </div>
+                        <div class="col-sm-3" v-text="colAttributes1">
+                        </div>
+                        <div class="col-sm-3">
+                            Selected Percent of Total : {{ (selectedNode || {}).selectedAllPct || 0 }}%
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 blink_me" v-text="pendingFilter()">
+                        </div>
+                        <div class="col-sm-3">
+                            Empty Values: {{ (selectedColumn || {}).nullEmpty || 0 }}
+                        </div>
+                        <div class="col-sm-3" v-text="colAttributes2">
+                        </div>
+                        <div class="col-sm-3">
+                            Percent of Selected : {{ (selectedNode || {}).selectedRelPct || 0 }}%
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                        </div>
+                        <div class="col-sm-3">
+                            Selectivity: {{ (selectedColumn || {}).selectivity || 0 }}
+                        </div>
+                        <div class="col-sm-3" v-text="colAttributes3">
+                        </div>
+                        <div class="col-sm-3">
+                            Rows : {{ (selectedNode || {}).totValues || 0 }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <button class="btn btn-primary ml-2" v-on:click.prevent="showPanel">
+                                Selections
+                            </button>
+                            <button class="btn btn-secondary ml-2 " v-on:click.prevent="deleteManga">
+                                Delete
+                            </button>
+                        </div>
+                        <div class="col-sm-3">
+                        </div>
+                        <div class="col-sm-3">
+                        </div>
+                        <div class="col-sm-3">
+                            Selected rows : {{ (selectedNode || {}).selValues  || 0 }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-info mt-1" v-on:click.prevent="showFilter">
+                        Show Current Filter
+                    </button>
+                    <button class="btn btn-info mt-1" v-on:click.prevent="exportSelectedAsCSV">
+                        Export Selected as CSV
+                    </button>
+                    <button class="btn btn-info mt-1" v-on:click.prevent="showChart">
+                        Quick Chart/Report
+                    </button>
+                    <button class="btn btn-info mt-1" v-on:click.prevent="goHome">
+                        Home
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-white" v-bind:style="{'padding-top': colMargin, 'width': maxWidth }" style="z-index:2">
+            <div class="col-xl-12 bg-white" style="z-index:2">
+                <svg id="visSVGCols" xmlns="http://www.w3.org/2000/svg"></svg>
+                <canvas id="visSizingCanvas" style="display:none">
+                    Your browser does not support the HTML5 canvas tag.
+                </canvas>
+                <ul class='custom-menu' v-bind:style="{'top': colMenuTop, 'left': colMenuLeft, 'display':colMenuDisplay }" @mouseleave="colMenuDisplay = 'none'">
+                    <li v-on:click.prevent="displayColumnSettings();">Column Settings</li>
+                    <li v-on:click.prevent="getDetailedColStats();">Column Stats</li>
+                    <li v-on:click.prevent="getDetailedColReport();">Column Report</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" v-bind:style="{ 'margin-top': rowsPadding, 'padding-top': '10px', 'width' : maxWidth }" style="z-index:1">
+            <div class="col-xl-12" style="z-index:1">
+                <svg id="visSVGRows" xmlns="http://www.w3.org/2000/svg"></svg>
+            </div>
+            <ul class='custom-menu' v-bind:style="{'top': cellMenuTop, 'left': cellMenuLeft, 'display':cellMenuDisplay }" @mouseleave="cellMenuDisplay = 'none'">
+                <li v-on:click.prevent="selectNode(null, 'override');">ONLY this Cell</li>
+                <li v-on:click.prevent="selectNode(null, 'and_selections');">AND this Cell</li>
+                <li v-on:click.prevent="selectNode(null, 'or_selection');">OR this Cell</li>
+                <li v-on:click.prevent="showMeasures();">Show Measures for this Cell</li>
+                <li v-on:click.prevent="showNodeRows();">Show rows for this Cell</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="/javascript/overrides.js"></script>
+    <script src="/js/vis_alert.js"></script>
+    <script src="/js/vis_status.js"></script>
+    <script src="/js/vis_column.js"></script>
+    <script src="/js/vis_stats.js"></script>
+    <script src="/js/vis_measures.js"></script>
+    <script src="/js/vis_chart.js"></script>
+    <script src="/js/vis_report.js"></script>
+    <script src="/js/vis_expression.js"></script>
+    <script src="/js/vis_common.js"></script>
+    <script src="/js/visualize.js"></script>
+    <script src="/js/vis_settings.js"></script>
+</body>
+</html>
