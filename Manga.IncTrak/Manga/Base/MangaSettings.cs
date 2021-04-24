@@ -13,7 +13,7 @@ namespace Manga.IncTrak.Manga
         /// Start Serialized Items 
         private Int32 _showGESelected = 0;
         private Int32 _showLESelected = 100;
-        private ShowPercentage _showPercentage = ShowPercentage.pct_of_sel;
+        private ShowPercentage _showPercentage = ShowPercentage.pct_tot_sel;
         private SelectOperation _selectOperation = SelectOperation.overwrite_selection;
         private bool _colAscending;
         private bool[] _hideColumns;
