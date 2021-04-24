@@ -1,4 +1,5 @@
-﻿using Manga.IncTrak.Utility;
+﻿using Manga.IncTrak.Manga.Serialization;
+using Manga.IncTrak.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -48,7 +49,7 @@ namespace Manga.IncTrak.Manga
 
         private static string UserPath(string userFolder)
         {
-            return Path.Combine("Data", userFolder);
+            return Path.Combine(MangaRoot.Folder, userFolder);
         }
 
         public static void SetUserMangaCatalog(string accessToken, string userIdentifier, string userEmail, MangaAuthType authType)

@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using Desktop.Manga.IncTrak;
 using Desktop.Manga.IncTrak.Common;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Http;
@@ -23,16 +24,19 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace manga.inctrak.com
 {
     [Route("/google")]
     public class GoogleController : ControllerBase
     {
+        private readonly IOptions<AppSettings> _options;
         private readonly ILogger<GoogleController> _logger;
 
-        public GoogleController(ILogger<GoogleController> logger)
+        public GoogleController(IOptions<AppSettings> options, ILogger<GoogleController> logger)
         {
+            _options = options;
             _logger = logger;
         }
 
@@ -67,7 +71,10 @@ namespace manga.inctrak.com
                 {
                     using (var writer = new StreamWriter(stream))
                     {
+                        /*
                         writer.Write("{   \"installed\": {    \"client_id\": \"911488426711-66kvhfetkk359ch9jat4ft9rd1i3184b.apps.googleusercontent.com\",    \"project_id\": \"optioneeplan\",    \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",    \"token_uri\": \"https://oauth2.googleapis.com/token\",    \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",    \"client_secret\": \"AM_GPRWKKVafgGZmvtAi24oK\",    \"redirect_uris\": [ \"urn:ietf:wg:oauth:2.0:oob\", \"http://localhost\" ]  }}");
+                        */
+                        writer.Write(string.Format("{   \"installed\": {    \"client_id\": \"{0}\",    \"project_id\": \"optioneeplan\",    \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",    \"token_uri\": \"https://oauth2.googleapis.com/token\",    \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",    \"client_secret\": \"AM_GPRWKKVafgGZmvtAi24oK\",    \"redirect_uris\": [ \"urn:ietf:wg:oauth:2.0:oob\", \"http://localhost\" ]  }}", _options.Value.GetGoogleClientId(), _options.Value.GetGoogleClientSecret()));
                         writer.Flush();
                         stream.Position = 0;
                         // The file token.json stores the user's access and refresh tokens, and is created

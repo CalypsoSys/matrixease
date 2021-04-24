@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using manga.inctrak.com.Tasks;
+using Manga.IncTrak.Manga.Serialization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
@@ -38,6 +39,8 @@ namespace manga.inctrak.com
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             var serviceProvider = services.BuildServiceProvider();
             var opt = serviceProvider.GetRequiredService<IOptions<AppSettings>>().Value;
+
+            MangaRoot.SetRootFolder(opt.FileSaveLocation);
 
             services
                 .AddAuthentication(o =>

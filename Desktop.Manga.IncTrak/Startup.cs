@@ -1,5 +1,6 @@
 using ElectronNET.API;
 using ElectronNET.API.Entities;
+using Manga.IncTrak.Manga.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -66,6 +67,10 @@ namespace Desktop.Manga.IncTrak
 
         public async void ElectronBootstrap()
         {
+            var userPath = Electron.App.GetPathAsync(PathName.AppData);
+            userPath.Wait();
+            MangaRoot.SetRootFolder(userPath.Result);
+
             var browserWindow = await Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
             {
                 Width = 1152,

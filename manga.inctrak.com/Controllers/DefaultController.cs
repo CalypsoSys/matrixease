@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -103,7 +105,7 @@ namespace manga.inctrak.com
                 string coded;
                 if (MiscHelpers.IsValidEmail(email_to_address) && Request.Cookies.TryGetValue("authenticated-accepted-2", out coded))
                 {
-                    string captcha = MiscHelpers.Decrypt(coded);
+                    string captcha = MiscHelpers.Decrypt(coded, false);
                     string []parts1 = captcha.Split(',', StringSplitOptions.RemoveEmptyEntries);
                     string[] parts2 = result.Split(',', StringSplitOptions.RemoveEmptyEntries);
                     if (parts1.Length == 3 && parts1.Length == parts2.Length && parts1[0] == parts2[0] && parts1[1] == parts2[1] && parts1[2] == parts2[2])
@@ -127,15 +129,33 @@ namespace manga.inctrak.com
                             }
                         }
 
-                        var client = new SendGridClient(_options.Value.GetEmailApiKey());
-                        var from = new EmailAddress(_options.Value.GetEmailFrom());
-                        var to = new EmailAddress(email_to_address);
                         var plainTextContent = "Here's your email validation code. To complete the process, either enter or copy and paste the six digits of the code into the IncTrak Data Manga access page and click \"Validate Code\" to continue. That's it!";
-                        var msg = MailHelper.CreateSingleEmail(from, to, "IncTrak Data Manga Validation Code", string.Format("{0}\r\n\r\n{1}\r\n\r\nBest Regards,\r\nThe IncTrak Team", plainTextContent, code), null);
+                        if (_options.Value.UseSNMP)
+                        {
+                            var client = new SmtpClient(_options.Value.GetSNMPServer(), _options.Value.SNMPPort);
+                            client.UseDefaultCredentials = false;
+                            client.Credentials = new NetworkCredential(_options.Value.GetSNMPAddress(), _options.Value.GetSNMPPassword());
+                            client.EnableSsl = false;
+                            client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-                        var response = client.SendEmailAsync(msg);
-                        response.Wait();
-                        status = true;
+                            MailMessage message = new MailMessage(_options.Value.GetSNMPAddress(), email_to_address);
+                            message.Subject = "IncTrak Data Manga Validation Code";
+                            message.Body = plainTextContent;
+                            message.IsBodyHtml = false;
+                            message.Bcc.Add(_options.Value.GetSNMPAddress());
+                            client.Send(message);
+                        }
+                        else
+                        {
+                            var client = new SendGridClient(_options.Value.GetEmailApiKey());
+                            var from = new EmailAddress(_options.Value.GetEmailFrom());
+                            var to = new EmailAddress(email_to_address);
+                            var msg = MailHelper.CreateSingleEmail(from, to, "IncTrak Data Manga Validation Code", string.Format("{0}\r\n\r\n{1}\r\n\r\nBest Regards,\r\nThe IncTrak Team", plainTextContent, code), null);
+
+                            var response = client.SendEmailAsync(msg);
+                            response.Wait();
+                            status = true;
+                        }
                     }
                 }
             }

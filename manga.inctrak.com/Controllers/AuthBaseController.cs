@@ -28,8 +28,8 @@ namespace manga.inctrak.com
             {
                 if (incTrakIdIn == incTrakId)
                 {
-                    string idDec = MiscHelpers.Decrypt(incTrakId);
-                    string idDecIn = MiscHelpers.Decrypt(incTrakIdIn);
+                    string idDec = MiscHelpers.Decrypt(incTrakId, false);
+                    string idDecIn = MiscHelpers.Decrypt(incTrakIdIn, false);
                     if (idDec == idDecIn)
                     {
                         if (update)
@@ -69,7 +69,7 @@ namespace manga.inctrak.com
             string visEmailClaimId;
             if (Request.Cookies.TryGetValue("VisEmailClaimId", out visEmailClaimId))
             {
-                ids.EmailId = MiscHelpers.Decrypt(visEmailClaimId);
+                ids.EmailId = MiscHelpers.Decrypt(visEmailClaimId, false);
 
                 if (ids.EmailId != null)
                 {

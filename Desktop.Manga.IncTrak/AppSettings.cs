@@ -8,11 +8,18 @@ namespace Desktop.Manga.IncTrak
 {
     public class AppSettings
     {
-        public string GoogleClientSecrets { get; set; }
+        public bool ClearText { get; set; }
+        public string GoogleClientId { get; set; }
+        public string GoogleClientSecret { get; set; }
 
-        public string GetGoogleClientSecrets()
+        public string GetGoogleClientId()
         {
-            return MiscHelpers.Decrypt(GoogleClientSecrets);
+            return MiscHelpers.Decrypt(GoogleClientId, ClearText);
+        }
+
+        public string GetGoogleClientSecret()
+        {
+            return MiscHelpers.Decrypt(GoogleClientSecret, ClearText);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Manga.IncTrak.Manga.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -84,7 +85,7 @@ namespace Manga.IncTrak.Utility
 
         public static string GetPendingFile(string file)
         {
-            string pending = Path.Combine("Data", "pending");
+            string pending = Path.Combine(MangaRoot.Folder, "pending");
             Directory.CreateDirectory(pending);
 
             return Path.Combine(pending, file);
@@ -122,9 +123,11 @@ namespace Manga.IncTrak.Utility
 
         private static Tuple<string, byte[]> GetAppHash()
         {
-            string passPhrase = Assembly.GetEntryAssembly().GetCustomAttributes<AssemblyDescriptionAttribute>().First().Description;
-            byte[] salt = new UnicodeEncoding().GetBytes(Assembly.GetEntryAssembly().GetCustomAttributes<AssemblyCompanyAttribute>().First().Company.Substring(0, 8));
+            string myCode = "nG8us2pZFjg1R+xBE4jWTFNLxXPSy5ank3ti28Ar++ZeMdjKTTdqQFyheJc12dUg";
+            string companyDesc = Assembly.GetExecutingAssembly().GetCustomAttributes<AssemblyDescriptionAttribute>().First().Description;
+            byte[] salt = new UnicodeEncoding().GetBytes(Assembly.GetExecutingAssembly().GetCustomAttributes<AssemblyCompanyAttribute>().First().Company.Substring(0, 8));
 
+            string passPhrase = Decrypt(myCode, companyDesc, salt);
             return Tuple.Create(passPhrase, salt);
         }
 
@@ -170,8 +173,13 @@ namespace Manga.IncTrak.Utility
             }
         }
 
-        public static string Decrypt(string cipherText)
+        public static string Decrypt(string cipherText, bool clear)
         {
+            if ( clear )
+            {
+                return cipherText;
+            }
+
             var tup = GetAppHash();
 
             return Decrypt(cipherText, tup.Item1, tup.Item2);
