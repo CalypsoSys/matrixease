@@ -3,6 +3,7 @@ using Manga.IncTrak.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Manga.IncTrak.Manga
@@ -281,10 +282,18 @@ namespace Manga.IncTrak.Manga
 
         public string GetPatternKey(string data)
         {
-            var pattern = string.Join(" ", TextStats.SplitTerms(data));
-            if ( _termPatterns.Contains(pattern) )
+            var terms = (from s in TextStats.SplitTerms(data)
+                         where s.Length > 1 && AllStopWords.Words.Contains(s) == false
+                         select s).ToList();
+
+            while (terms.Count > 0)
             {
-                return pattern;
+                var pattern = string.Join(" ", terms);
+                if (_termPatterns.Contains(pattern))
+                {
+                    return pattern;
+                }
+                terms.RemoveAt(terms.Count - 1);
             }
 
             return MangaConstants.NoPatternFound;
