@@ -1,4 +1,5 @@
-﻿using Google.Apis.Http;
+﻿using Google;
+using Google.Apis.Http;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
@@ -48,6 +49,10 @@ namespace Manga.IncTrak.Processing
                     process(mangaFactory);
                     return mangaFactory.WorkSet;
                 }
+            }
+            catch(GoogleApiException googs)
+            {
+                throw;
             }
             catch (Exception excp)
             {
