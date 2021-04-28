@@ -1,4 +1,9 @@
-﻿function numericAverage(attr) {
+﻿var numericBuckets = [
+    { "value": 0, "text": "Ranges" },
+    { "value": 1, "text": "Max averge/outlier buckets" },
+];
+
+function numericAverage(attr) {
     return "Average: " + attr.Average.toFixed(6);
 }
 

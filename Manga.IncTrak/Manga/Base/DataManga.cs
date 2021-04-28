@@ -189,14 +189,14 @@ namespace Manga.IncTrak.Manga
             return null;
         }
 
-        internal ColumnDefBucket ReBucketize(int colIndex, bool bucketized, decimal bucketSize, IBackgroundJob status)
+        internal ColumnDefBucket ReBucketize(int colIndex, bool bucketized, int bucketSize, decimal bucketMod, IBackgroundJob status)
         {
             if (bucketized)
             {
                 var bucketCol = _columns.FirstOrDefault(c => c.Index == colIndex);
                 if (bucketCol != null)
                 {
-                    var bucket = bucketCol.ReBucketize(_totalRows, bucketSize, false, status);
+                    var bucket = bucketCol.ReBucketize(_totalRows, bucketSize, bucketMod, false, status);
                     ApplyBuckets(bucket, colIndex);
                     return bucket;
                 }

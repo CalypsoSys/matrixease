@@ -26,9 +26,10 @@ namespace Manga.IncTrak.Manga
         protected abstract void ProcessData(int row, T data, bool hasValue, bool isText, IBackgroundJob status);
         protected abstract int TrueDistinctValues { get; }
         public abstract bool CalulateBuckets(bool dimension, int totalRows, int maxDisplayRows, IBackgroundJob status);
-        public abstract decimal MinBucketSize { get; }
+        public abstract int MinBucketSize { get; }
+        public abstract decimal MinBucketMod { get; }
         public abstract UInt32[] AllowedBuckets { get; }
-        public abstract decimal ReSpread(string name, int totalRows, Dictionary<string, MyBitArray> rows, Dictionary<string, int> rowCounts, decimal? newBucket, IBackgroundJob status);
+        public abstract Tuple<int, decimal> ReSpread(string name, int totalRows, Dictionary<string, MyBitArray> rows, Dictionary<string, int> rowCounts, int? newBucketSize, decimal? newBucketMod, IBackgroundJob status);
         public abstract string ColType { get; }
         public abstract object Stat { get; }
         public abstract object DetailedStats { get; }

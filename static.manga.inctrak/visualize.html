@@ -21,7 +21,7 @@
 </head>
 <body>
     <div id="visualize" style="z-index:-2">
-        <modal_column :show="showModalColumn" @close="showModalColumn = false" @ok="setBuckets" :data="selectedColumn" :curbucketized="curBucketized()" :curbucketsize="curBucketSize()"></modal_column>
+        <modal_column :show="showModalColumn" @close="showModalColumn = false" @ok="setBuckets" :data="selectedColumn" :curbucketized="curBucketized()" :curbucketsize="curBucketSize()"  :curbucketmod="curBucketMod()"></modal_column>
         <modal_stats :show="showModalStats" @close="showModalStats = false" :data="colStatistics"></modal_stats>
         <modal_measures :show="showModalMeasures" @close="showModalMeasures = false" :selected_column="selectedColumn" :selected_node="selectedNode" :measure_columns="measureColumns"></modal_measures>
         <modal_chart :show="showModalChart" @close="showModalChart = false" :selected_column="selectedColumn" :selected_node="selectedNode" :dimension_columns="dimensionColumns" :measure_columns="measureColumns"></modal_chart>

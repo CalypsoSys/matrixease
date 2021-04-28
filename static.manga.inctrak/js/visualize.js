@@ -478,7 +478,9 @@ var visualizer = new Vue({
                     "name": colName, "colType": col.ColType, "index": col.Index, "dataType": col.DataType, "nullEmpty": col.NullEmpty,
                     "selectivity": col.Selectivity.toFixed(6), "distinctValues": col.DistinctValues,
                     "onlyBuckets": col.OnlyBuckets, "bucketized": col.Bucketized,
-                    "curBucketSize": col.CurBucketSize, "minBucketSize": col.MinBucketSize, "allowedBuckets": col.AllowedBuckets,
+                    "curBucketSize": col.CurBucketSize, "minBucketSize": col.MinBucketSize,
+                    "curBucketMod": col.CurBucketMod, "minBucketMod": col.MinBucketMod,
+                    "allowedBuckets": col.AllowedBuckets,
                     "attr": col.Attributes, "nodes": nodes
                 });
 
@@ -670,7 +672,13 @@ var visualizer = new Vue({
                 if (this.selectedColumn.bucketized) {
                     var desc;
                     if (this.selectedColumn.dataType == "Numeric") {
-                        desc = " - " + this.selectedColumn.curBucketSize.toLocaleString() + " range buckets";
+                        var numericType = "";
+                        if (this.selectedColumn.curBucketSize == 0) {
+                            numericType = " range buckets";
+                        } else {
+                            numericType = " average/outlier buckets";
+                        }
+                        desc = " - " + this.selectedColumn.curBucketMod.toLocaleString() + numericType;
                     } else if (this.selectedColumn.dataType == "Date" || this.selectedColumn.dataType == "Text") {
                         var buckets;
                         if (this.selectedColumn.dataType == "Date") {
@@ -705,11 +713,17 @@ var visualizer = new Vue({
             }
             return null;
         },
+        curBucketMod: function () {
+            if (this.selectedColumn) {
+                return this.selectedColumn.curBucketMod;
+            }
+            return null;
+        },
         onSubmitDoNothing: function () {
 
         },
-        setBuckets: function (bucketized, bucketsize) {
-            if (this.selectedColumn.bucketized != bucketized || this.selectedColumn.curBucketSize != bucketsize) {
+        setBuckets: function (bucketized, bucketsize, bucketmod) {
+            if (this.selectedColumn.bucketized != bucketized || this.selectedColumn.curBucketSize != bucketsize || this.selectedColumn.curBucketMod != bucketmod) {
                 var colSpec = this.selectedColumn.name + ":" + this.selectedColumn.index;
                 if (this.selection_expression && this.selection_expression.indexOf(colSpec) != -1) {
                     this.showModalDialog("Attention", "Column is filtered, please remove filter to rebucketize", "")
@@ -721,7 +735,8 @@ var visualizer = new Vue({
                             column_name: this.selectedColumn.name,
                             column_index: this.selectedColumn.index,
                             bucketized: bucketized,
-                            bucket_size: bucketsize
+                            bucket_size: bucketsize,
+                            bucket_mod: bucketmod,
                         }
                     })
                     .then(response => {

@@ -4,12 +4,14 @@
         show: Boolean,
         data: Object,
         curbucketized: Boolean,
-        curbucketsize: Number
+        curbucketsize: Number,
+        curbucketmod: Number,
     },
     data: function () {
         return {
             bucketized: this.curbucketized,
-            bucketsize: this.curbucketsize
+            bucketsize: this.curbucketsize,
+            bucketmod: this.curbucketmod,
         }
     },
     watch: {
@@ -18,6 +20,9 @@
         },
         curbucketsize: function (bucketsize) {
             this.bucketsize = bucketsize;
+        },
+        curbucketmod: function (bucketmod) {
+            this.bucketmod = bucketmod;
         }
     },
     computed: {
@@ -59,7 +64,14 @@
                 }
             }
             return ret;
-        }
+        },
+        numeric_options: function () {
+            var ret = []
+            for (var i = 0; i < numericBuckets.length; i++) {
+                ret.push(numericBuckets[i]);
+            }
+            return ret;
+        },
     },
     methods: {
         numericType: function () {
@@ -72,16 +84,38 @@
             return this.data && this.data.dataType == "Text";
         },
         minBucketSize: function () {
-            return this.data && this.data.minBucketSize;
+            return this.data.minBucketSize;
+        },
+        minBucketMod: function () {
+            if (this.data) {
+                if (this.bucketsize == 1) {
+                    return 2;
+                } else {
+                    return this.data.minBucketMod;
+                }
+            }
+        },
+        maxBucketMod: function () {
+            if (this.data) {
+                if (this.bucketsize == 1) {
+                    return 100;
+                } else {
+                    return Number.MAX_SAFE_INTEGER;
+                }
+            }
         },
         allowedBuckets: function () {
             return this.data && this.data.allowedBuckets;
         },
         invalidBucketSize: function () {
-            if (this.data && this.data.dataType == "Text") {
-                return this.data && !this.data.allowedBuckets.includes(this.bucketsize);
-            } else {
-                return this.data && this.bucketsize < this.minBucketSize();
+            if (this.data) {
+                if (this.data.dataType == "Text") {
+                    return this.data && !this.data.allowedBuckets.includes(this.bucketsize);
+                } else if (this.data.dataType == "Date") {
+                    return this.data && this.bucketsize < this.minBucketSize();
+                } else if (this.data.dataType == "Numeric") {
+                    return this.data && this.bucketsize < this.minBucketSize() && this.bucketmod < this.minBucketMod() && this.bucketmod > this.maxBucketMod();
+                }
             }
         },
         onSubmitDoNothing: function () {
@@ -90,7 +124,7 @@
         savePost: function () {
             // Some save logic goes here...
             this.$emit('close');
-            this.$emit('ok', this.bucketized, this.bucketsize);
+            this.$emit('ok', this.bucketized, this.bucketsize, this.bucketmod);
         }
     }
 };

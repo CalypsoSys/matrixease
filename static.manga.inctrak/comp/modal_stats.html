@@ -16,12 +16,17 @@
             <div class="row">
                 <div class="col-sm-4">Bucketed: {{ (data || {}).Bucketized }}</div>
                 <div class="col-sm-4">Only Buckets: {{ (data || {}).OnlyBuckets }}</div>
-                <div class="col-sm-4">Smallest Size: {{ (data || {}).MinBucketSize }}</div>
+                <div class="col-sm-4">Smallest Type: {{ (data || {}).MinBucketSize }}</div>
             </div>
             <div class="row">
-                <div class="col-sm-4">Bucket Size: {{ (data || {}).CurBucketSize }}</div>
+                <div class="col-sm-4">Bucket Type: {{ (data || {}).CurBucketSize }}</div>
                 <div class="col-sm-4">Group Count: {{ (data || {}).GroupCount }}</div>
                 <div class="col-sm-4">Group Filter Count: {{ (data || {}).FilterCount }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">Bucket Mod: {{ (data || {}).CurBucketMod }}</div>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">Smallest Mod: {{ (data || {}).MinBucketMod }}</div>
             </div>
             <hr class="mb-4">
 

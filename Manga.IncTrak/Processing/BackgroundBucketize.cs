@@ -12,14 +12,16 @@ namespace Manga.IncTrak.Processing
         private string _columnName;
         private int _columnIndex;
         private bool _bucketized;
-        private decimal _bucketSize;
+        private int _bucketSize;
+        private decimal _bucketMod;
 
-        public BackgroundBucketize(Tuple<string, Guid> visId, string columnName, int columnIndex, bool bucketized, decimal bucketSize ) : base(visId)
+        public BackgroundBucketize(Tuple<string, Guid> visId, string columnName, int columnIndex, bool bucketized, int bucketSize, decimal bucketMod) : base(visId)
         {
             _columnName = columnName;
             _columnIndex = columnIndex;
             _bucketized = bucketized;
             _bucketSize = bucketSize;
+            _bucketMod = bucketMod;
         }
 
         public override void SetStatusExtra(Dictionary<MangaFactoryStatusKey, MangaFactoryStatus> status)
@@ -36,7 +38,7 @@ namespace Manga.IncTrak.Processing
             SetStatus(MangaFactoryStatusKey.PreProcess, "Loaded Manga for bucketization", MangaFactoryStatusState.Complete);
 
             SetStatus(MangaFactoryStatusKey.Analyzing, "Manga bucketization", MangaFactoryStatusState.Started);
-            ColumnDefBucket column = manga.ReBucketize(_columnIndex, _bucketized, _bucketSize, this);
+            ColumnDefBucket column = manga.ReBucketize(_columnIndex, _bucketized, _bucketSize, _bucketMod, this);
             SetStatus(MangaFactoryStatusKey.Analyzing, "Manga bucketization", MangaFactoryStatusState.Complete);
 
             SetStatus(MangaFactoryStatusKey.Saving, "Manga bucketization", MangaFactoryStatusState.Started);

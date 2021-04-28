@@ -51,13 +51,7 @@
                     </div>
                 </div>
                 <div class="form-group row" v-show="bucketized">
-                    <label class="col-sm-2 col-form-label" for="id_buckets">Bucket Size: </label>
-                    <div class="col-xs-2" v-if="numericType()">
-                        <input class="form-control input-sm" id="id_buckets" type="number" step="any" v-model="bucketsize" required="" :min="minBucketSize()">
-                    </div>
-                    <div class="invalid-feedback" v-if="numericType()">
-                        Please enter the size of each bucket (at least {{minBucketSize()}})
-                    </div>
+                    <label class="col-sm-2 col-form-label" for="id_buckets">Bucket Type: </label>
                     <div class="col-xs-2" v-if="dateType()">
                         <select class="form-control input-sm" id="id_buckets" v-model="bucketsize" required="">
                             <option v-for="option in date_options" v-bind:value="option.value">
@@ -71,6 +65,22 @@
                                 {{ option.text }}
                             </option>
                         </select>
+                    </div>
+                    <div class="col-xs-2" v-if="numericType()">
+                        <select class="form-control input-sm" id="id_buckets" v-model="bucketsize" required="">
+                            <option v-for="option in numeric_options" v-bind:value="option.value">
+                                {{ option.text }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row" v-show="bucketized">
+                    <label class="col-sm-2 col-form-label" for="id_buckets_mod" v-if="numericType()">Bucket Modifier: </label>
+                    <div class="col-xs-2" v-if="numericType()">
+                        <input class="form-control input-sm" id="id_buckets_mod" type="number" step="any" v-model="bucketmod" required="" :min="minBucketMod()" :max="maxBucketMod()">
+                    </div>
+                    <div class="invalid-feedback" v-if="numericType()">
+                        Please enter the size of each bucket (at least {{minBucketMod()}})
                     </div>
                     <div class="invalid-feedback" v-if="dateType()">
                         Please enter the date range bucket

@@ -14,13 +14,15 @@ namespace Manga.IncTrak.Manga
         private const Int32 MinDecimalBucket = 2;
 
         /// Start Serialized Items 
-        private decimal _minBucketSize;
+        private int _minBucketSize;
+        private decimal _minBucketMod;
         private decimal _proposedSpread;
         private MangaStat _decimalStat;
         private MangaStat _decimalCountNoValueStat;
         /// End Serialized Items 
 
-        public override decimal MinBucketSize { get => _minBucketSize; }
+        public override int MinBucketSize { get => _minBucketSize; }
+        public override decimal MinBucketMod { get => _minBucketMod; }
         public override UInt32[] AllowedBuckets { get => null; }
         public override string ColType { get => MangaConstants.Measure; }
         public override object Stat 
@@ -58,7 +60,8 @@ namespace Manga.IncTrak.Manga
 
         protected override void SaveDerived(IMangaSerializationWriter writer)
         {
-            writer.WriteDecimal(_minBucketSize);
+            writer.WriteInt32(_minBucketSize);
+            writer.WriteDecimal(_minBucketMod);
             writer.WriteDecimal(_proposedSpread);
             writer.SaveChild(_decimalStat);
             writer.SaveChild(_decimalCountNoValueStat);
@@ -66,7 +69,8 @@ namespace Manga.IncTrak.Manga
 
         protected override void LoadDerived(Int32 version, IMangaSerializationReader reader, MangaLoadOptions loadOptions)
         {
-            _minBucketSize = reader.ReadDecimal();
+            _minBucketSize = reader.ReadInt32();
+            _minBucketMod = reader.ReadDecimal();
             _proposedSpread = reader.ReadDecimal();
             _decimalStat = reader.LoadChild<MangaStat>(new MangaStat(), loadOptions);
             _decimalCountNoValueStat = reader.LoadChild<MangaStat>(new MangaStat(), loadOptions);
@@ -101,18 +105,18 @@ namespace Manga.IncTrak.Manga
             decimal range = _decimalStat.Range;
             UInt64 avgIntegral = _decimalStat.AvgIntegral;
             UInt64 avgFractional = _decimalStat.AvgFractional;
-            decimal minBucketSize = range / maxDisplayRows;
+            decimal minBucketMod = range / maxDisplayRows;
             if (avgFractional == 0)
             {
-                minBucketSize = Math.Max(MinDecimalBucket, Math.Ceiling(minBucketSize));
+                minBucketMod = Math.Max(MinDecimalBucket, Math.Ceiling(minBucketMod));
             }
             else
             {
-                minBucketSize = TruncateDecimal(minBucketSize, avgFractional);
+                minBucketMod = TruncateDecimal(minBucketMod, avgFractional);
             }
-            if ( minBucketSize > _decimalStat.Average )
+            if ( minBucketMod > _decimalStat.Average )
             {
-                minBucketSize = range / minBucketSize;
+                minBucketMod = range / minBucketMod;
             }
 
             if (range < MangaConstants.DecimalBucketThreshold)
@@ -136,15 +140,15 @@ namespace Manga.IncTrak.Manga
                 }
             }
 
-            if ( _proposedSpread < minBucketSize)
+            if ( _proposedSpread < minBucketMod)
             {
-                minBucketSize = _proposedSpread;
+                minBucketMod = _proposedSpread;
             }
 
             if (avgFractional == 0)
-                _minBucketSize = Math.Max(minBucketSize, MinDecimalBucket);
+                _minBucketMod = Math.Max(minBucketMod, MinDecimalBucket);
             else
-                _minBucketSize = minBucketSize;
+                _minBucketMod = minBucketMod;
         }
 
         private int digits(decimal numba)
@@ -166,10 +170,23 @@ namespace Manga.IncTrak.Manga
                 yield return obj as decimal?;
         }
 
-        public override decimal ReSpread(string name, int totalRows, Dictionary<string, MyBitArray> rows, Dictionary<string, int> rowCounts, decimal? newBucket, IBackgroundJob status)
+        public override Tuple<int, decimal> ReSpread(string name, int totalRows, Dictionary<string, MyBitArray> rows, Dictionary<string, int> rowCounts, int? newBucketSize, decimal? newBucketMod, IBackgroundJob status)
         {
-            if (newBucket.HasValue)
-                _proposedSpread = newBucket.Value;
+            if (newBucketMod.HasValue)
+                _proposedSpread = newBucketMod.Value;
+
+            NumericBuckets bucket;
+            SortedDictionary<decimal, string> averageLengthBuckets = null;
+            if (newBucketSize.HasValue && newBucketSize.Value == (int)NumericBuckets.FromAverage)
+            {
+                bucket = NumericBuckets.FromAverage;
+                averageLengthBuckets = _decimalStat.BuildAverageBasedBuckets(Convert.ToInt32(_proposedSpread), "Value", 2);
+            }
+            else
+            {
+                bucket = NumericBuckets.Range;
+            }
+
 
             decimal minDecimal = _decimalStat.MinDecimal;
             int rowIndex = 0;
@@ -178,9 +195,16 @@ namespace Manga.IncTrak.Manga
                 string key;
                 if (row.HasValue)
                 {
-                    int i = (int)((row.Value - minDecimal) / _proposedSpread);
-                    decimal start = minDecimal + (i * _proposedSpread);
-                    key = string.Format("{0} - {1}", start, (start + _proposedSpread));
+                    if (bucket == NumericBuckets.FromAverage)
+                    {
+                        key = _decimalStat.GetAverageBasedBucket(averageLengthBuckets, row.Value);
+                    }
+                    else
+                    {
+                        int i = (int)((row.Value - minDecimal) / _proposedSpread);
+                        decimal start = minDecimal + (i * _proposedSpread);
+                        key = string.Format("{0} - {1}", start, (start + _proposedSpread));
+                    }
                 }
                 else
                 {
@@ -199,14 +223,14 @@ namespace Manga.IncTrak.Manga
                     status.SetStatus(MangaFactoryStatusKey.Analyzing, string.Format("Distributing data into buckets for {0}", name), MangaFactoryStatusState.Running);
                     if (status.IsCancellationRequested)
                     {
-                        return -1;
+                        return Tuple.Create(-1, 0M);
                     }
                 }
 
                 ++rowIndex;
             }
 
-            return _proposedSpread;
+            return Tuple.Create((int)bucket, _proposedSpread);
         }
 
         public override RawDataReader GetReader()

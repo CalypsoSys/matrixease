@@ -140,13 +140,13 @@ namespace manga.inctrak.com
         }
 
         [HttpGet("bucketize")]
-        public object Bucketize(string inctrak_id, string vis_id, string column_name, int column_index, bool bucketized, decimal bucket_size)
+        public object Bucketize(string inctrak_id, string vis_id, string column_name, int column_index, bool bucketized, int bucket_size, decimal bucket_mod)
         {
             CheckIncTrakId(inctrak_id, true);
             var visId = Decrypt(vis_id);
             if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
             {
-                var bucketJob = new BackgroundBucketize(visId, column_name, column_index, bucketized, bucket_size);
+                var bucketJob = new BackgroundBucketize(visId, column_name, column_index, bucketized, bucket_size, bucket_mod);
                 RunBackroundManagGet(bucketJob);
                 /*
                 var manga = MangaState.LoadManga(visId, true, column_index, false);

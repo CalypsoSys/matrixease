@@ -26,9 +26,8 @@ namespace Manga.IncTrak.Manga
         private TextTerms _textTerms = new TextTerms();
         /// End Serialized Items 
 
-        private SortedDictionary<int, string> _textLenghBuckets;
-
-        public override decimal MinBucketSize { get => (decimal)_bucket; }
+        public override int MinBucketSize { get => (int)_bucket; }
+        public override decimal MinBucketMod { get => 0M; }
         public override UInt32[] AllowedBuckets { get => _bucketsOptions; }
         public override string ColType { get => MangaConstants.Dimension; }
         public override object Stat 
@@ -209,71 +208,15 @@ namespace Manga.IncTrak.Manga
                 yield return obj as string;
         }
 
-        private void BuildTextLengthBuckets()
+        public override Tuple<int, decimal> ReSpread(string name, int totalRows, Dictionary<string, MyBitArray> rows, Dictionary<string, int> rowCounts, int? newBucketSize, decimal? newBucketMod, IBackgroundJob status)
         {
-            _textLenghBuckets = new SortedDictionary<int, string>();
-            int stdDev = Convert.ToInt32(_textLengthStat.StandardDeviation + .5M);
-            int lowRange = Convert.ToInt32(_textLengthStat.MinDecimal);
-            int lowLow = Convert.ToInt32(_textLengthStat.Average) - stdDev;
-            int lowHigh = Convert.ToInt32(_textLengthStat.Average);
-            int highRange = Convert.ToInt32(_textLengthStat.MaxDecimal);
-            int hightLow = Convert.ToInt32(_textLengthStat.Average + 1);
-            int highHigh = Convert.ToInt32(_textLengthStat.Average) + stdDev;
+            if (newBucketSize.HasValue)
+                _bucket = (TextBuckets )newBucketSize.Value;
 
-            bool isSet = true;
-            while (_textLenghBuckets.Count < MangaConstants.SmallBucket && isSet == true)
-            {
-                isSet = false;
-                if (lowLow < lowRange)
-                    lowLow = lowRange;
-                if (lowHigh > lowRange)
-                {
-                    isSet = true;
-                    _textLenghBuckets.Add(lowHigh, string.Format("{0} to {1}", lowLow, lowHigh));
-                    lowHigh = lowLow - 1;
-                    lowLow = lowHigh - stdDev;
-                }
-                if (highHigh > highRange)
-                    highHigh = highRange;
-                if (hightLow < highRange)
-                {
-                    isSet = true;
-                    _textLenghBuckets.Add(highHigh, string.Format("{0} to {1}", hightLow, highHigh));
-                    hightLow = highHigh + 1;
-                    highHigh = hightLow + stdDev;
-                }
-            }
-
-            if (lowLow > lowRange)
-            {
-                _textLenghBuckets.Add(lowLow - 1, string.Format("{0} to {1}", lowRange, lowLow - 1));
-            }
-
-            if (highHigh < highRange)
-            {
-                _textLenghBuckets.Add(highRange, string.Format("{0} to {1}", highHigh + 1, highRange));
-            }
-        }
-
-        private string GetTextLengthBucket(int length)
-        {
-            foreach(int key in _textLenghBuckets.Keys)
-            {
-                if (length <= key)
-                    return _textLenghBuckets[key];
-            }
-
-            return MangaConstants.NoKeyWords;
-        }
-
-        public override decimal ReSpread(string name, int totalRows, Dictionary<string, MyBitArray> rows, Dictionary<string, int> rowCounts, decimal? newBucket, IBackgroundJob status)
-        {
-            if (newBucket.HasValue)
-                _bucket = (TextBuckets )newBucket.Value;
-
+            SortedDictionary<decimal, string> textLenghBuckets = null;
             if (_bucket == TextBuckets.Length)
             {
-                BuildTextLengthBuckets();
+                textLenghBuckets = _textLengthStat.BuildAverageBasedBuckets(MangaConstants.SmallBucket, "Length", 0);
             }
 
             int rowIndex = 0;
@@ -308,7 +251,7 @@ namespace Manga.IncTrak.Manga
                             key = _textUrls.GetUrlKey(_bucket, row);
                             break;
                         case TextBuckets.Length:
-                            key = GetTextLengthBucket(row.Length);
+                            key = _textLengthStat.GetAverageBasedBucket(textLenghBuckets, row.Length);
                             break;
                     }
                 }
@@ -330,14 +273,14 @@ namespace Manga.IncTrak.Manga
                     status.SetStatus(MangaFactoryStatusKey.Analyzing, string.Format("Distributing data into buckets for {0}", name), MangaFactoryStatusState.Running);
                     if (status.IsCancellationRequested)
                     {
-                        return -1;
+                        return Tuple.Create(-1, 0M);
                     }
                 }
 
                 ++rowIndex;
             }
 
-            return (decimal)_bucket;
+            return Tuple.Create((int)_bucket, 0M);
         }
 
         public override RawDataReader GetReader()

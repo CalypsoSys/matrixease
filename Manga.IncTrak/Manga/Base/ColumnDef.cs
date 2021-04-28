@@ -30,7 +30,8 @@ namespace Manga.IncTrak.Manga
         private Int32 _maxDisplayRows = 0;
         private bool _bucketized = false;
         private bool _onlyBuckets = false;
-        private decimal _curBucketSize = 0;
+        private int _curBucketSize = 0;
+        private decimal _curBucketMod = 0;
         private Dictionary<string, MyBitArray> _rows = new Dictionary<string, MyBitArray>();
         private Dictionary<string, Int32> _rowCounts = new Dictionary<string, Int32>();
         /// End Serialized Items 
@@ -72,7 +73,8 @@ namespace Manga.IncTrak.Manga
             writer.WriteInt32(_maxDisplayRows);
             writer.WriteBool(_bucketized);
             writer.WriteBool(_onlyBuckets);
-            writer.WriteDecimal(_curBucketSize);
+            writer.WriteInt32(_curBucketSize);
+            writer.WriteDecimal(_curBucketMod);
 
             writer.WriteDictStringInt32(_rowCounts);
 
@@ -116,7 +118,8 @@ namespace Manga.IncTrak.Manga
             _maxDisplayRows = reader.ReadInt32();
             _bucketized = reader.ReadBool();    
             _onlyBuckets = reader.ReadBool();   
-            _curBucketSize = reader.ReadDecimal();
+            _curBucketSize = reader.ReadInt32();
+            _curBucketMod = reader.ReadDecimal();
 
             _rowCounts = reader.ReadDictStringInt32();
             Int32 rows = reader.ReadInt32();
@@ -250,7 +253,7 @@ namespace Manga.IncTrak.Manga
             }
         }
 
-        internal ColumnDefBucket ReBucketize(int totalRows, decimal? bucketSize, bool overrideBucket, IBackgroundJob status)
+        internal ColumnDefBucket ReBucketize(int totalRows, int? bucketSize, decimal? bucketMod, bool overrideBucket, IBackgroundJob status)
         {
             if (bucketSize.HasValue && overrideBucket == false)
             {
@@ -267,7 +270,7 @@ namespace Manga.IncTrak.Manga
                 bucket._maxDisplayRows = _maxDisplayRows;
                 bucket._onlyBuckets = _onlyBuckets;
 
-                bucket.ReBucketize(totalRows, bucketSize, true, status);
+                bucket.ReBucketize(totalRows, bucketSize, bucketMod, true, status);
                 return bucket;
             }
             else
@@ -277,7 +280,9 @@ namespace Manga.IncTrak.Manga
                 _rowCounts = new Dictionary<string, int>();
                 _filterCounts = null;
                 SetPattern();
-                _curBucketSize = _patterns.ReSpread(_name, totalRows, _rows, _rowCounts, bucketSize, status);
+                Tuple<int, decimal> bucket = _patterns.ReSpread(_name, totalRows, _rows, _rowCounts, bucketSize, bucketMod, status);
+                _curBucketSize = bucket.Item1;
+                _curBucketMod = bucket.Item2;
                 return null;
             }
         }
@@ -319,7 +324,7 @@ namespace Manga.IncTrak.Manga
                 if (_onlyBuckets)
                 {
                     status.SetStatus(MangaFactoryStatusKey.Analyzing, string.Format("Creating Buckets for {0}", _name), MangaFactoryStatusState.Running);
-                    ReBucketize(totalRows, null, true, status);
+                    ReBucketize(totalRows, null, null, true, status);
                 }
                 _maxDisplayRows = _rows.Count;
             }
@@ -350,7 +355,7 @@ namespace Manga.IncTrak.Manga
                 if (_onlyBuckets)
                 {
                     status.SetStatus(MangaFactoryStatusKey.Analyzing, string.Format("Creating Buckets for {0}", _name), MangaFactoryStatusState.Running);
-                    ReBucketize(totalRows, null, true, status);
+                    ReBucketize(totalRows, null, null, true, status);
                 }
             }
         }
@@ -426,7 +431,9 @@ namespace Manga.IncTrak.Manga
 
             return new {Index = _index, ColType = colType, DataType = _dataType.ToString(), NullEmpty = _nullEmpty, Selectivity = _selectivity, DistinctValues = _distinctValues, 
                 Bucketized = _bucketized, OnlyBuckets = _onlyBuckets, 
-                CurBucketSize = Math.Max(_curBucketSize, _patterns.MinBucketSize), MinBucketSize = _patterns.MinBucketSize, AllowedBuckets = _patterns.AllowedBuckets,
+                CurBucketSize = Math.Max(_curBucketSize, _patterns.MinBucketSize), MinBucketSize = _patterns.MinBucketSize, 
+                CurBucketMod = Math.Max(_curBucketMod, _patterns.MinBucketMod), MinBucketMod = _patterns.MinBucketMod, 
+                AllowedBuckets = _patterns.AllowedBuckets,
                 Attributes = attr, Values = vals };
         }
 
@@ -447,6 +454,8 @@ namespace Manga.IncTrak.Manga
                 OnlyBuckets = _onlyBuckets,
                 CurBucketSize = Math.Max(_curBucketSize, _patterns.MinBucketSize),
                 MinBucketSize = _patterns.MinBucketSize,
+                CurBucketMod = Math.Max(_curBucketMod, _patterns.MinBucketMod),
+                MinBucketMod = _patterns.MinBucketMod,
                 GroupCount = _rowCounts.Count,
                 FilterCount = _filterCounts == null ? _rowCounts.Count : _filterCounts.Count,
                 Stats = _patterns.DetailedStats,

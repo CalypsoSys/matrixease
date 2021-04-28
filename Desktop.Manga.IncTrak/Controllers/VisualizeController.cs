@@ -66,9 +66,9 @@ namespace Desktop.Manga.IncTrak.Controllers
         }
 
         [HttpGet("bucketize")]
-        public object Bucketize(string inctrak_id, string vis_id, string column_name, int column_index, bool bucketized, decimal bucket_size)
+        public object Bucketize(string inctrak_id, string vis_id, string column_name, int column_index, bool bucketized, int bucket_size, decimal bucket_mod)
         {
-            var bucketJob = new BackgroundBucketize(MangaDesktop.VisId(vis_id), column_name, column_index, bucketized, bucket_size);
+            var bucketJob = new BackgroundBucketize(MangaDesktop.VisId(vis_id), column_name, column_index, bucketized, bucket_size, bucket_mod);
             MangaDesktop.RunBackroundManagGet(bucketJob);
             return new { Success = true, PickupKey = bucketJob.PickupKey, StatusData = MangaFactory.StartingStatus("Manga Bucket") };
         }

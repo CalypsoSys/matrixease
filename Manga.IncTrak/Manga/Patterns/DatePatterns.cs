@@ -24,7 +24,8 @@ namespace Manga.IncTrak.Manga
         private MangaStat _dateStat;
         /// End Serialized Items 
 
-        public override decimal MinBucketSize { get => (decimal)_minBucket; }
+        public override int MinBucketSize { get => (int)_minBucket; }
+        public override decimal MinBucketMod { get => 0M; }
         public override UInt32[] AllowedBuckets { get => null; }
         public override string ColType { get => MangaConstants.Dimension; }
 
@@ -146,10 +147,10 @@ namespace Manga.IncTrak.Manga
                 yield return obj as DateTime?;
         }
 
-        public override decimal ReSpread(string name, int totalRows, Dictionary<string, MyBitArray> rows, Dictionary<string, int> rowCounts, decimal? newBucket, IBackgroundJob status)
+        public override Tuple<int, decimal> ReSpread(string name, int totalRows, Dictionary<string, MyBitArray> rows, Dictionary<string, int> rowCounts, int? newBucketSize, decimal? newBucketMod, IBackgroundJob status)
         {
-            if (newBucket.HasValue)
-                _bucket = (DateTimeBuckets)newBucket.Value;
+            if (newBucketSize.HasValue)
+                _bucket = (DateTimeBuckets)newBucketSize.Value;
             else
                 _bucket = _minBucket;
 
@@ -252,14 +253,14 @@ namespace Manga.IncTrak.Manga
                     status.SetStatus(MangaFactoryStatusKey.Analyzing, string.Format("Distributing data into buckets for {0}", name), MangaFactoryStatusState.Running);
                     if (status.IsCancellationRequested)
                     {
-                        return -1;
+                        return Tuple.Create(-1, 0M);
                     }
                 }
 
                 ++rowIndex;
             }
 
-            return (decimal)_bucket;
+            return Tuple.Create((int)_bucket, 0M);
         }
 
         public override RawDataReader GetReader()
