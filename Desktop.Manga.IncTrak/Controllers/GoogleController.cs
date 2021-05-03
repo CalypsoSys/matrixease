@@ -71,10 +71,10 @@ namespace manga.inctrak.com
                 {
                     using (var writer = new StreamWriter(stream))
                     {
-                        /*
-                        writer.Write("{   \"installed\": {    \"client_id\": \"911488426711-66kvhfetkk359ch9jat4ft9rd1i3184b.apps.googleusercontent.com\",    \"project_id\": \"optioneeplan\",    \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",    \"token_uri\": \"https://oauth2.googleapis.com/token\",    \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",    \"client_secret\": \"AM_GPRWKKVafgGZmvtAi24oK\",    \"redirect_uris\": [ \"urn:ietf:wg:oauth:2.0:oob\", \"http://localhost\" ]  }}");
-                        */
-                        writer.Write(string.Format("{   \"installed\": {    \"client_id\": \"{0}\",    \"project_id\": \"optioneeplan\",    \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",    \"token_uri\": \"https://oauth2.googleapis.com/token\",    \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",    \"client_secret\": \"AM_GPRWKKVafgGZmvtAi24oK\",    \"redirect_uris\": [ \"urn:ietf:wg:oauth:2.0:oob\", \"http://localhost\" ]  }}", _options.Value.GetGoogleClientId(), _options.Value.GetGoogleClientSecret()));
+                        //writer.Write("{   \"installed\": {    \"client_id\": \"911488426711-66kvhfetkk359ch9jat4ft9rd1i3184b.apps.googleusercontent.com\",    \"project_id\": \"optioneeplan\",    \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",    \"token_uri\": \"https://oauth2.googleapis.com/token\",    \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",    \"client_secret\": \"AM_GPRWKKVafgGZmvtAi24oK\",    \"redirect_uris\": [ \"urn:ietf:wg:oauth:2.0:oob\", \"http://localhost\" ]  }}");
+
+                        var clientSecret = GoogsAuth.GoogsJson.Replace("{", "{{").Replace("}", "}}").Replace("#PARAM1#", "{0}").Replace("#PARAM2#", "{1}").Replace("'", "\"");
+                        writer.Write(string.Format(clientSecret, _options.Value.GetGoogleClientId(), _options.Value.GetGoogleClientSecret()));
                         writer.Flush();
                         stream.Position = 0;
                         // The file token.json stores the user's access and refresh tokens, and is created

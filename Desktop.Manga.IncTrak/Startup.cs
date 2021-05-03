@@ -89,7 +89,7 @@ namespace Desktop.Manga.IncTrak
 
             browserWindow.OnReadyToShow += () => browserWindow.Show();
             browserWindow.SetTitle("IncTrak Data Manga");
-            //browserWindow.RemoveMenu();
+            browserWindow.RemoveMenu();
 
             //require('electron').ipcRenderer.send("open_window")
             ElectronNET.API.Electron.IpcMain.On("open_window", (args) =>
