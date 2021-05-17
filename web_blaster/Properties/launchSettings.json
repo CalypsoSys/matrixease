@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "web_blaster": {
+      "commandName": "Project",
+      "commandLineArgs": "Release C:\\CalypsoSystems\\inctrak_manga\\static.manga.inctrak C:\\CalypsoSystems\\inctrak_manga\\manga.inctrak.com\\wwwroot"
+    }
+  }
+}

@@ -6,9 +6,6 @@
     <Description>IncTrak Data Manga and Visualization</Description>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\static.manga.inctrak\**" Link="wwwroot\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="ElectronNET.API" Version="11.5.1" />
     <PackageReference Include="Google.Apis.Auth" Version="1.51.0" />
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.51.0.2272" />
@@ -39,4 +36,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="$(ProjectDir)..\bin\web_blaster.exe $(ConfigurationName) $(ProjectDir)..\static.manga.inctrak $(ProjectDir)wwwroot" />
+  </Target>
 </Project>

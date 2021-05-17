@@ -239,3 +239,5 @@ _Pvt_Extensions
 .fake/
 /packages
 /manga.inctrak.com/Data
+*/wwwroot/*
+!*/wwwroot/javascript/

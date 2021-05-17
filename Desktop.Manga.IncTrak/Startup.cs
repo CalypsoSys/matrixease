@@ -54,11 +54,15 @@ namespace Desktop.Manga.IncTrak
                 endpoints.MapControllers();
             });
 
+#if DEBUG
+            app.UseStaticFiles();
+#else
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(
                     AppDomain.CurrentDomain.BaseDirectory, "wwwroot")),
             });
+#endif
 
             ElectronBootstrap();
         }

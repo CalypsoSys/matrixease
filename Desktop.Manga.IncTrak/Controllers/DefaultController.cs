@@ -48,7 +48,18 @@ namespace Desktop.Manga.IncTrak.Controllers
         }
 
         [HttpGet("/js/vis_init.js")]
-        public string IncTrakId()
+        public string IncTrakIdDebug()
+        {
+            return IncTrakId();
+        }
+
+        [HttpGet("/js/vis_init.min.js")]
+        public string IncTrakIdRelease()
+        {
+            return IncTrakId();
+        }
+
+        private string IncTrakId()
         {
             return string.Format("document.write('<form><input type=\"hidden\" id=\"inctrak_id\" name=\"inctrak_id\" value=\"{0}\"/></form>');", MangaDesktop.AccessTokenAll);
         }

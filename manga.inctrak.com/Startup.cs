@@ -112,11 +112,15 @@ namespace manga.inctrak.com
 
             });
 
+#if DEBUG
+            app.UseStaticFiles();
+#else
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(
                     AppDomain.CurrentDomain.BaseDirectory, "wwwroot")),
             });
+#endif
         }
     }
 }

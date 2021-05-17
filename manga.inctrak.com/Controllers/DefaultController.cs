@@ -41,7 +41,18 @@ namespace manga.inctrak.com
         }
 
         [HttpGet("/js/vis_init.js")]
-        public string IncTrakId()
+        public string IncTrakIdDebug()
+        {
+            return IncTrakId();
+        }
+
+        [HttpGet("/js/vis_init.min.js")]
+        public string IncTrakIdRelease()
+        {
+            return IncTrakId();
+        }
+
+        private string IncTrakId()
         {
             CookieOptions option = new CookieOptions();
             option.Expires = DateTime.Now.AddMinutes(30);
