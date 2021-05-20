@@ -22,16 +22,8 @@ var mangaAuth = new Vue({
         max_rows: 0,
         ignore_blank_rows: true,
         ignore_cols: "",
-        //sheet_id: "1iTMT0LiFU0aaZJoogQZkAyfY1RKGbpHadXfiuVaLtb0",// 108thHouse_date
-        sheet_id: "1VunkEZX3ajsXMerYXjahOevUd_p88vNrnI9QD2ByGvY", // 108thHouse_small
-        //sheet_id: "19ct49gTNRALe4yMJcWzJhpdsoq8zlNyglQsa6dMv_Iw", // 108thHouse_date_lg
-        //sheet_id: "1r8xOOjwmJGNJKKokpe_vT2hkZaQGQu9HxeN1Ukv7X8o", // 108thHouse_fraq
-        //sheet_id: "1LpDzwTrhsvyq1aLw491z3gOcv7EFy1MG2I_PFJvsqBU", // 108thHouse_fraq_sml
-        //sheet_id: "1Id6DFk5rF_OnNQ0H4MzzbtRcXa11sg2tQm5921dd_eI", //108thHouse_fraq_extra_sml
+        sheet_id: "1VunkEZX3ajsXMerYXjahOevUd_p88vNrnI9QD2ByGvY",
         range: "108thHouse",
-        //sheet_id: "1nuvdd5v2uuS5I0m8sLAZP-z_iivrrh0AQ6Lpi7uEEXw", //Number Test
-        //sheet_id: "1hIG9SldGSi44rTVwehoeT8DaNOLhVU1eomxIki5Lu6M",
-        //range: "Sheet1",
         showModalAlert: false,
         modal_title: "",
         modal_message: "",

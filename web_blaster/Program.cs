@@ -122,6 +122,14 @@ namespace web_blaster
                         {
                             line = line.Replace(".css\"", ".min.css\"");
                         }
+                        else if (line.Contains("108thHouse"))
+                        {
+                            line = line.Replace("108thHouse", "");
+                        }
+                        else if (line.Contains("1VunkEZX3ajsXMerYXjahOevUd_p88vNrnI9QD2ByGvY"))
+                        {
+                            line = line.Replace("1VunkEZX3ajsXMerYXjahOevUd_p88vNrnI9QD2ByGvY", "");
+                        }
 
                         output.WriteLine(line);
                     }
