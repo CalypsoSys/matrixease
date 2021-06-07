@@ -169,7 +169,7 @@ namespace Manga.IncTrak.Manga
                 }
                 else
                 {
-                    StorageHelpers.SafeFileDelete(mangaPath);
+                    StorageHelpers.SafeFileDelete(MangaState.ManagaFilePath(mangaPath, MangaFileType.bucket, colIndex.ToString()));
                 }
             }
         }
