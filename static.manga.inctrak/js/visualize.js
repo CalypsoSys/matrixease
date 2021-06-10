@@ -15,8 +15,8 @@ var visualizer = new Vue({
         vis_id: "",
         mangaName: "",
 
-        percentOfTotalColor = "green",
-        percentOfSelectedTotalColor = "red",
+        percentOfTotalColor: "red",
+        percentOfSelectedTotalColor: "green",
 
         showModalAlert: false,
         modal_title: "",
@@ -448,7 +448,7 @@ var visualizer = new Vue({
                         var showPct2 = "";
                         if (this.show_percentage == "pct_tot_sel") {
                             var pctSize = sizer.maxWidth * (colData.TotalPct / 100);
-                            this.addRect(svgRows, data, sizer.xRectStart + x, y, pctSize, sizer.boxHeight, "red");
+                            this.addRect(svgRows, data, sizer.xRectStart + x, y, pctSize, sizer.boxHeight, this.percentOfTotalColor);
                             showPct2 = "Pct of Total:" + colData.TotalPct.toFixed(2) + "%";
                         }
 
@@ -461,7 +461,7 @@ var visualizer = new Vue({
                             pctSize = sizer.maxWidth * (colData.SelectAllPct / 100);
                             showPct1 = "Selected Pct of Total: " + colData.SelectAllPct.toFixed(2) + "%";
                         }
-                        this.addRect(svgRows, data, sizer.xRectStart + x, y, pctSize, sizer.boxHeight, "green");
+                        this.addRect(svgRows, data, sizer.xRectStart + x, y, pctSize, sizer.boxHeight, this.percentOfSelectedTotalColor);
                         this.addText(svgRows, data, sizer.xTextStart + x, y + sizer.boxTextMod - (sizer.textSize + sizer.textSize / 2), colData.ColumnValue, "18px", false, clipId + "_R");
                         this.addText(svgRows, data, sizer.xTextStart + x, y + sizer.boxTextMod - (sizer.textSize / 2), showPct1, "12px", false, clipId + "_R");
                         this.addText(svgRows, data, sizer.xTextStart + x, y + sizer.boxTextMod + (sizer.textSize / 2), showPct2, "12px", false, clipId + "_R");
