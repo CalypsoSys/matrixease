@@ -43,7 +43,28 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "manga.inctrak.com", "manga.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktop.Manga.IncTrak", "Desktop.Manga.IncTrak\Desktop.Manga.IncTrak.csproj", "{3A5DDEFD-E5B8-4938-93FA-8EBE17DDCD32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web_blaster", "web_blaster\web_blaster.csproj", "{0CA966D2-8604-460D-ABEA-2169C749CF5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web_blaster", "web_blaster\web_blaster.csproj", "{0CA966D2-8604-460D-ABEA-2169C749CF5C}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "inctrak.com", "inctrak.com\", "{50EEB7E0-BB64-4215-A019-1604260D7D27}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_53475"
+		Debug.AspNetCompiler.PhysicalPath = "inctrak.com\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53475\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_53475"
+		Release.AspNetCompiler.PhysicalPath = "inctrak.com\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53475\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "53475"
+		SlnRelativePath = "inctrak.com\"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +92,10 @@ Global
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50EEB7E0-BB64-4215-A019-1604260D7D27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50EEB7E0-BB64-4215-A019-1604260D7D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50EEB7E0-BB64-4215-A019-1604260D7D27}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{50EEB7E0-BB64-4215-A019-1604260D7D27}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

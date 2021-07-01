@@ -15,8 +15,8 @@ var visualizer = new Vue({
         vis_id: "",
         mangaName: "",
 
-        percentOfTotalColor: "red",
-        percentOfSelectedTotalColor: "green",
+        percentOfTotalColor: "#808080",
+        percentOfSelectedTotalColor: "#696969",
 
         showModalAlert: false,
         modal_title: "",
