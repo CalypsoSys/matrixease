@@ -81,12 +81,12 @@ var mangaAuth = new Vue({
                                 this.curstatusdata = response.data.StatusData;
                             }
                         } else {
-                            mangaAuth.showModalDialog("Error", "Vis: failure loading manga status.");
+                            mangaAuth.showModalDialog("Error", "Vis: failure loading VisAlyzer status.");
                         }
                     })
                     .catch(error => {
                         this.showModalStatus = false
-                        mangaAuth.showModalDialog("Unknown Error", "Vis: unknown error checking manga status.", error);
+                        mangaAuth.showModalDialog("Unknown Error", "Vis: unknown error checking VisAlyzer status.", error);
                     });
             } else if (this.my_tick > 6) {
                 this.my_tick = 0;
@@ -149,11 +149,11 @@ var mangaAuth = new Vue({
                 if (response.data && response.data.Success) {
                     this.myMangas = response.data.MyMangas;
                 } else {
-                    this.showModalDialog("Error", "Vis: no data for my manga catalog", "");
+                    this.showModalDialog("Error", "Vis: no data for my VisAlyzer catalog", "");
                 }
             })
             .catch(error => {
-                this.showModalDialog("Unknown Error", "Vis: unknown error retrieving manga catalog.", error);
+                this.showModalDialog("Unknown Error", "Vis: unknown error retrieving VisAlyzer catalog.", error);
             });
         },
         handleFileUpload() {
@@ -162,7 +162,7 @@ var mangaAuth = new Vue({
         validateForm: function () {
             var error = ""
             if (!this.manga_name) {
-                error += "Please enter Manga Name<br>";
+                error += "Please enter VisAlyzer Name<br>";
             }
             if (this.header_row > this.header_rows) {
                 error += "Header on Row cannot be greater then Header Rows<br>";

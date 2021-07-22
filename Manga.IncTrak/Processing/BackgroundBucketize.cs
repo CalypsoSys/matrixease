@@ -33,24 +33,24 @@ namespace Manga.IncTrak.Processing
             CancelToken = cancellationToken;
             SetStatus(MangaFactoryStatusKey.Queued, "Bucketization execution started", MangaFactoryStatusState.Complete);
 
-            SetStatus(MangaFactoryStatusKey.PreProcess, "Loading Manga for bucketization", MangaFactoryStatusState.Started);
+            SetStatus(MangaFactoryStatusKey.PreProcess, "Loading VisAlyzer for bucketization", MangaFactoryStatusState.Started);
             var manga = MangaState.LoadManga(VisId, true, _columnIndex, new MangaLoadOptions(false));
-            SetStatus(MangaFactoryStatusKey.PreProcess, "Loaded Manga for bucketization", MangaFactoryStatusState.Complete);
+            SetStatus(MangaFactoryStatusKey.PreProcess, "Loaded VisAlyzer for bucketization", MangaFactoryStatusState.Complete);
 
-            SetStatus(MangaFactoryStatusKey.Analyzing, "Manga bucketization", MangaFactoryStatusState.Started);
+            SetStatus(MangaFactoryStatusKey.Analyzing, "VisAlyzer bucketization", MangaFactoryStatusState.Started);
             ColumnDefBucket column = manga.ReBucketize(_columnIndex, _bucketized, _bucketSize, _bucketMod, this);
-            SetStatus(MangaFactoryStatusKey.Analyzing, "Manga bucketization", MangaFactoryStatusState.Complete);
+            SetStatus(MangaFactoryStatusKey.Analyzing, "VisAlyzer bucketization", MangaFactoryStatusState.Complete);
 
-            SetStatus(MangaFactoryStatusKey.Saving, "Manga bucketization", MangaFactoryStatusState.Started);
+            SetStatus(MangaFactoryStatusKey.Saving, "VisAlyzer bucketization", MangaFactoryStatusState.Started);
             MangaState.SaveMangaBuckets(VisId, _columnIndex, column);
-            SetStatus(MangaFactoryStatusKey.Saving, "Manga bucketization", MangaFactoryStatusState.Complete);
+            SetStatus(MangaFactoryStatusKey.Saving, "VisAlyzer bucketization", MangaFactoryStatusState.Complete);
 
-            SetStatus(MangaFactoryStatusKey.Processing, "Applying current Manga filters", MangaFactoryStatusState.Started);
+            SetStatus(MangaFactoryStatusKey.Processing, "Applying current VisAlyzer filters", MangaFactoryStatusState.Started);
             if (column != null)
             {
                 manga.ApplyFilterToBucket(column);
             }
-            SetStatus(MangaFactoryStatusKey.Processing, "Appled current Manga filters", MangaFactoryStatusState.Complete);
+            SetStatus(MangaFactoryStatusKey.Processing, "Appled current VisAlyzer filters", MangaFactoryStatusState.Complete);
 
             AddPickup(manga.ReturnVis());
         }

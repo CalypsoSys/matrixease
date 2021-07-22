@@ -92,7 +92,7 @@ namespace Desktop.Manga.IncTrak
             await browserWindow.WebContents.Session.ClearCacheAsync();
 
             browserWindow.OnReadyToShow += () => browserWindow.Show();
-            browserWindow.SetTitle("IncTrak Data Manga");
+            browserWindow.SetTitle("IncTrak VisAlyzer");
             browserWindow.RemoveMenu();
 
             //require('electron').ipcRenderer.send("open_window")

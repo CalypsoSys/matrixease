@@ -80,7 +80,7 @@ namespace manga.inctrak.com.Controllers
                     feedBack.ClientData = GetClientInfo();
 
                     var subject = string.Format("Feedback: {0}", feedBack.Subject);
-                    var messageBody = string.Format("Name: {0}<br />Email: {1}<br />Client:{2}<br />Message: {3}", feedBack.Name, feedBack.EmailAddress, feedBack.ClientData, feedBack.Message));
+                    var messageBody = string.Format("Name: {0}<br />Email: {1}<br />Client:{2}<br />Message: {3}", feedBack.Name, feedBack.EmailAddress, feedBack.ClientData, feedBack.Message);
 
                     if (_options.Value.UseSNMP)
                     {

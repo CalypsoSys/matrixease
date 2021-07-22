@@ -220,15 +220,15 @@ namespace Manga.IncTrak.Processing
             SetStatus(MangaFactoryStatusKey.Queued, "Job execution started", MangaFactoryStatusState.Complete);
 
             SetStatus(MangaFactoryStatusKey.Processing, "Starting processing of data", MangaFactoryStatusState.Starting);
-            MyStopWatch stopWatch = MyStopWatch.StartNew("Manga Total Time");
+            MyStopWatch stopWatch = MyStopWatch.StartNew("VisAlyzer Total Time");
 
-            stopWatch.StartSubTime("Manga Initialization");
+            stopWatch.StartSubTime("VisAlyzer Initialization");
             DataManga manga = new DataManga();
             MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
             if (IsCancellationRequested)
                 return;
 
-            stopWatch.StartSubTime("Manga Data Loop");
+            stopWatch.StartSubTime("VisAlyzer Data Loop");
             int rawRowIndex = 1;
             List<IList<object>> samples = new List<IList<object>>();
             foreach (var row in RowIterator(this))
@@ -272,13 +272,13 @@ namespace Manga.IncTrak.Processing
             SetStatus(MangaFactoryStatusKey.Processing, string.Format("Processed {0} rows", rawRowIndex), MangaFactoryStatusState.Complete);
             MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
 
-            stopWatch.StartSubTime("Manga Process");
+            stopWatch.StartSubTime("VisAlyzer Process");
             SetStatus(MangaFactoryStatusKey.Analyzing, "Analyzing data", MangaFactoryStatusState.Started); 
             manga.Process(this);
             SetStatus(MangaFactoryStatusKey.Analyzing, "Analyzing data", MangaFactoryStatusState.Complete);
             MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
 
-            stopWatch.StartSubTime("Manga Save");
+            stopWatch.StartSubTime("VisAlyzer Save");
             SetStatus(MangaFactoryStatusKey.Saving, "Saving dataset", MangaFactoryStatusState.Started);
             if (IsCancellationRequested)
                 return;
@@ -288,7 +288,7 @@ namespace Manga.IncTrak.Processing
 
             MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.Stop());
             MangaState.UserLogSize(_userId, _mangaInfo.OriginalName, WorkSet);
-            SetStatus(MangaFactoryStatusKey.Complete, "Manga Job", MangaFactoryStatusState.Complete);
+            SetStatus(MangaFactoryStatusKey.Complete, "VisAlyzer Job", MangaFactoryStatusState.Complete);
 
             _mangaInfo.Status = "Complete";
         }

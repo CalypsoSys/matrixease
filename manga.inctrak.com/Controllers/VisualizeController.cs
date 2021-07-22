@@ -113,7 +113,7 @@ namespace manga.inctrak.com
 
                 return manga.ReturnVis();
                 */
-                return new { Success = true, PickupKey = filterJob.PickupKey, StatusData = MangaFactory.StartingStatus("Manga Filter") };
+                return new { Success = true, PickupKey = filterJob.PickupKey, StatusData = MangaFactory.StartingStatus("VisAlyzer Filter") };
             }
 
             return new { Success = false };
@@ -161,7 +161,7 @@ namespace manga.inctrak.com
                 return manga.ReturnVis();
                 */
 
-                return new { Success = true,  PickupKey = bucketJob.PickupKey, StatusData = MangaFactory.StartingStatus("Manga Bucket") };
+                return new { Success = true,  PickupKey = bucketJob.PickupKey, StatusData = MangaFactory.StartingStatus("VisAlyzer Bucket") };
             }
 
             return new { Success = false };

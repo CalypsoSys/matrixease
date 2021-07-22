@@ -15,8 +15,10 @@ var visualizer = new Vue({
         vis_id: "",
         mangaName: "",
 
-        percentOfTotalColor: "#808080",
-        percentOfSelectedTotalColor: "#696969",
+        //percentOfTotalColor: "#808080",
+        //percentOfSelectedTotalColor: "#696969",
+        percentOfTotalColor: "green",
+        percentOfSelectedTotalColor: "red",
 
         showModalAlert: false,
         modal_title: "",
@@ -154,17 +156,17 @@ var visualizer = new Vue({
                             this.curstatusdata = response.data.StatusData;
                         }
                     } else {
-                        this.showModalDialog("Error", "Vis: failure loading manga status.");
+                        this.showModalDialog("Error", "Vis: failure loading VisAlyzer status.");
                     }
                 })
                 .catch(error => {
                     this.showModalStatus = false
-                    this.showModalDialog("Unknown Error", "Vis: unknown error checking manga status.", error);
+                    this.showModalDialog("Unknown Error", "Vis: unknown error checking VisAlyzer status.", error);
                 });
             }
         },
         renderVis: function () {
-            this.showModalStatusDialog("NOP", { "PreProcess": { "Started": new Date(), "Elapsed": "00:00:00", "Desc": "Loading Manga", "Status": "Starting" } });
+            this.showModalStatusDialog("NOP", { "PreProcess": { "Started": new Date(), "Elapsed": "00:00:00", "Desc": "Loading VisAlyzer", "Status": "Starting" } });
             axios.get('/api/visualize', {
                 params: {
                     inctrak_id: document.getElementById('inctrak_id').value,
@@ -611,7 +613,7 @@ var visualizer = new Vue({
             });
         },
         deleteManga: function () {
-            this.showModalDialog("Attention", "Are you sure?", "Deleting a saved manga is irreversible", "delete_manga");
+            this.showModalDialog("Attention", "Are you sure?", "Deleting a saved VisAlyzer is irreversible", "delete_manga");
         },
         takeAction: function () {
             if (this.modal_yes_no_action == "delete_manga") {

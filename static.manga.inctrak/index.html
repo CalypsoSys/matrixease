@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>IncTrak Manga</title>
+    <title>IncTrak VisAlyzer</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
@@ -22,7 +22,7 @@
         <modal_alert :show="showModalAlert" @close="showModalAlert = false" @yes="takeAction" :title="modal_title" :message="modal_message" :secondary="modal_secondary" :confirm="modal_yes_no_action"></modal_alert>
         <div class="py-5 text-center">
             <img class="d-block mx-auto mb-4" src="/img/inctrak.svg" width="200">
-            <h2>Welcome to IncTrak Data Manga</h2>
+            <h2>Welcome to IncTrak VisAlyzer</h2>
             <p class="lead">Please choose the approriate method to start data visualization.</p>
         </div>
 
@@ -30,7 +30,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Manga Name</th>
+                        <th scope="col">VisAlyzer Name</th>
                         <th scope="col">Source</th>
                         <th scope="col">Type</th>
                         <th scope="col">Limit</th>
@@ -54,10 +54,10 @@
         <form class="needs-validation was-validated">
             <div class="form-row">
                 <div class="col-6 pl-2">
-                    <label for="sheet_id">Manga Name</label>
+                    <label for="sheet_id">VisAlyzer Name</label>
                     <input type="text" class="form-control" v-model="manga_name" placeholder="" required="">
                     <div class="invalid-feedback">
-                        Please enter the name you want this manga refered to as.
+                        Please enter the name you want this VisAlyzer refered to as.
                     </div>
                 </div>
                 <div class="col-3 pl-2">
