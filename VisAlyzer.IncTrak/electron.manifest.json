@@ -1,0 +1,40 @@
+{
+  "executable": "VisAlyzer.IncTrak",
+  "splashscreen": {
+    "imageFile": "/wwwroot/IncTrakIcon.png"
+  },
+  "name": "VisAlyzer.IncTrak",
+  "author": "Joe Schmitt",
+  "singleInstance": false,
+  "aspCoreBackendPort": 51266,
+  "environment": "Production",
+  "build": {
+    "appId": "com.VisAlyzer.IncTrak.app",
+    "productName": "VisAlyzer.IncTrak",
+    "copyright": "Copyright Calypso Systems, LLC © 2020",
+    "buildVersion": "1.0.0",
+    "compression": "maximum",
+    "win": {
+      "icon": "Assets/icon.ico"
+    },
+    "directories": {
+      "output": "../../../bin/Desktop",
+      "buildResources": "Assets"
+    },
+    "extraResources": [
+      {
+        "from": "./bin",
+        "to": "bin",
+        "filter": [ "**/*" ]
+      }
+    ],
+    "files": [
+      {
+        "from": "./ElectronHostHook/node_modules",
+        "to": "ElectronHostHook/node_modules",
+        "filter": [ "**/*" ]
+      },
+      "**/*"
+    ]
+  }
+}

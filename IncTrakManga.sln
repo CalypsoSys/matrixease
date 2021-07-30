@@ -39,10 +39,6 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "static.manga.inctrak", "sta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manga.IncTrak", "Manga.IncTrak\Manga.IncTrak.csproj", "{A4320C0D-3E9E-48E9-8BAA-60BDB3A20CD9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "manga.inctrak.com", "manga.inctrak.com\manga.inctrak.com.csproj", "{45F92FB2-080C-4D80-92A5-8460211991EB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desktop.Manga.IncTrak", "Desktop.Manga.IncTrak\Desktop.Manga.IncTrak.csproj", "{3A5DDEFD-E5B8-4938-93FA-8EBE17DDCD32}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web_blaster", "web_blaster\web_blaster.csproj", "{0CA966D2-8604-460D-ABEA-2169C749CF5C}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "visalyzer.com", "visalyzer.com\", "{3F3F476F-9E60-46C5-91D9-59E2BE3D4B23}"
@@ -66,6 +62,31 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "visalyzer.com", "visalyzer.
 		SlnRelativePath = "visalyzer.com\"
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "docs.visalyzer.com", "docs.visalyzer.com\", "{EAEE3E25-D48D-4BED-BF22-AF71589D8D59}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_58736"
+		Debug.AspNetCompiler.PhysicalPath = "docs.visalyzer.com\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_58736\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_58736"
+		Release.AspNetCompiler.PhysicalPath = "docs.visalyzer.com\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_58736\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "58736"
+		SlnRelativePath = "docs.visalyzer.com\"
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisAlyzer.IncTrak", "VisAlyzer.IncTrak\VisAlyzer.IncTrak.csproj", "{359D5C31-9C8D-4F38-9952-1586D0E069DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "visalyzer.inctrak.com", "visalyzer.inctrak.com\visalyzer.inctrak.com.csproj", "{787DAF19-2F57-4837-A8E1-E9C9C1E64E61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,14 +101,6 @@ Global
 		{A4320C0D-3E9E-48E9-8BAA-60BDB3A20CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4320C0D-3E9E-48E9-8BAA-60BDB3A20CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4320C0D-3E9E-48E9-8BAA-60BDB3A20CD9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{45F92FB2-080C-4D80-92A5-8460211991EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45F92FB2-080C-4D80-92A5-8460211991EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45F92FB2-080C-4D80-92A5-8460211991EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45F92FB2-080C-4D80-92A5-8460211991EB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A5DDEFD-E5B8-4938-93FA-8EBE17DDCD32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A5DDEFD-E5B8-4938-93FA-8EBE17DDCD32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A5DDEFD-E5B8-4938-93FA-8EBE17DDCD32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A5DDEFD-E5B8-4938-93FA-8EBE17DDCD32}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -96,6 +109,18 @@ Global
 		{3F3F476F-9E60-46C5-91D9-59E2BE3D4B23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F3F476F-9E60-46C5-91D9-59E2BE3D4B23}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{3F3F476F-9E60-46C5-91D9-59E2BE3D4B23}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{EAEE3E25-D48D-4BED-BF22-AF71589D8D59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAEE3E25-D48D-4BED-BF22-AF71589D8D59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAEE3E25-D48D-4BED-BF22-AF71589D8D59}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAEE3E25-D48D-4BED-BF22-AF71589D8D59}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{359D5C31-9C8D-4F38-9952-1586D0E069DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{359D5C31-9C8D-4F38-9952-1586D0E069DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{359D5C31-9C8D-4F38-9952-1586D0E069DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{359D5C31-9C8D-4F38-9952-1586D0E069DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{787DAF19-2F57-4837-A8E1-E9C9C1E64E61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{787DAF19-2F57-4837-A8E1-E9C9C1E64E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{787DAF19-2F57-4837-A8E1-E9C9C1E64E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{787DAF19-2F57-4837-A8E1-E9C9C1E64E61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
