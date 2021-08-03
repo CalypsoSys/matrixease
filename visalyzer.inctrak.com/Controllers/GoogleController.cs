@@ -108,6 +108,8 @@ namespace manga.inctrak.com
 
                     Console.WriteLine("Login User {0} Authenicated {1} Type {2}", User.Identity.Name, User.Identity.IsAuthenticated, User.Identity.AuthenticationType);
 
+                    MangaState.CheckProjectCount(userId);
+
                     MangaInfo mangaInfo = new MangaInfo("", manga_name, header_row, header_rows, max_rows, ignore_blank_rows, ignore_cols, "google", new Dictionary<string, string> { { MangaConstants.SheetID, sheet_id }, { MangaConstants.SheetRange, range } });
 
                     var authResult = HttpContext.AuthenticateAsync();
@@ -121,6 +123,10 @@ namespace manga.inctrak.com
                         return new { Success = true, VisId = GetMangaVis(inctrak_id, userId, mangaGuid), StatusData = MangaFactory.StartingStatus("Google Sheet") };
                     }
                 }
+            }
+            catch (VisAlyzerLicenseException licExcp)
+            {
+                return new { Success = false, Error = licExcp.Message };
             }
             catch (Google.GoogleApiException googs)
             {

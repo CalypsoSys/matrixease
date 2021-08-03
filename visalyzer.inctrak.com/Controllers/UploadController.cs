@@ -40,6 +40,9 @@ namespace manga.inctrak.com.Controllers
                 if (auth != MangaAuthType.Invalid)
                 {
                     string userId = MyIdentity(myIds, auth);
+
+                    MangaState.CheckProjectCount(userId);
+
                     using (var input = file.OpenReadStream())
                     {
                         MangaInfo mangaInfo = new MangaInfo(file.FileName, manga_name, header_row, header_rows, max_rows, ignore_blank_rows, ignore_cols, sheet_type, null);
@@ -49,6 +52,10 @@ namespace manga.inctrak.com.Controllers
                             return new { Success = true, VisId = GetMangaVis(inctrak_id, userId, mangaGuid), StatusData = MangaFactory.StartingStatus("CSV Upload") };
                     }
                 }
+            }
+            catch (VisAlyzerLicenseException licExcp)
+            {
+                return new { Success = false, Error = licExcp.Message };
             }
             catch (Exception excp)
             {

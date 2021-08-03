@@ -229,7 +229,7 @@ namespace Manga.IncTrak.Processing
                 return;
 
             stopWatch.StartSubTime("VisAlyzer Data Loop");
-            int rawRowIndex = 1;
+            int rawRowIndex = 1, totalCells = 0;
             List<IList<object>> samples = new List<IList<object>>();
             foreach (var row in RowIterator(this))
             {
@@ -254,9 +254,11 @@ namespace Manga.IncTrak.Processing
                     ProcessRow(manga, rawRowIndex, row);
                 }
                 ++rawRowIndex;
+                totalCells += _calculatedNumberOfCols;
 
                 if ((rawRowIndex % TaskConstants.StatusUpdateCheckFreq) == 0)
                 {
+                    VisAlyzerLicense.CheckCellCount(totalCells);
                     //SetStatus(MangaFactoryStatusKey.Processing, string.Format("Processing row {0}", rowIndex), MangaFactoryStatusState.Running);
                     if (IsCancellationRequested)
                     {

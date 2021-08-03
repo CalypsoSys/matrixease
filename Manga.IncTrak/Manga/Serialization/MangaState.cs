@@ -1,4 +1,5 @@
-﻿using Manga.IncTrak.Manga.Serialization;
+﻿#define TEST_LIMITS
+using Manga.IncTrak.Manga.Serialization;
 using Manga.IncTrak.Utility;
 using System;
 using System.Collections;
@@ -72,6 +73,12 @@ namespace Manga.IncTrak.Manga
             }
 
             return MangaAuthType.Invalid;
+        }
+
+        public static void CheckProjectCount(string userIdentifier)
+        {
+            var cats = LoadUserMangaCatalog(userIdentifier, new MangaLoadOptions(true));
+            VisAlyzerLicense.CheckProjectCount(cats.MyMangas.Count);
         }
 
         public static MangaCatalog LoadUserMangaCatalog(string userIdentifier, MangaLoadOptions loadOptions)

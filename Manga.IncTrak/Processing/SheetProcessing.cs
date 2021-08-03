@@ -64,7 +64,9 @@ namespace Manga.IncTrak.Processing
 
         public static Guid ProcessSheet(string userId, Stream uploadFile, MangaInfo mangaInfo, RunBackroundMangaProcess process)
         {
-            MangaUploadFactory mangaFactory;
+            MangaState.CheckProjectCount(userId);
+
+                MangaUploadFactory mangaFactory;
             if (mangaInfo.SheetType == "excel")
                 mangaFactory = new MangaFactoryFromExcelFile(userId, mangaInfo);
             else
