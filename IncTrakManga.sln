@@ -87,6 +87,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisAlyzer.IncTrak", "VisAly
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "visalyzer.inctrak.com", "visalyzer.inctrak.com\visalyzer.inctrak.com.csproj", "{787DAF19-2F57-4837-A8E1-E9C9C1E64E61}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelReader", "ExcelReader\ExcelReader.csproj", "{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,10 @@ Global
 		{787DAF19-2F57-4837-A8E1-E9C9C1E64E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{787DAF19-2F57-4837-A8E1-E9C9C1E64E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{787DAF19-2F57-4837-A8E1-E9C9C1E64E61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.50.0.2231" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExcelReader\ExcelReader.csproj" />
   </ItemGroup>
 
 </Project>
