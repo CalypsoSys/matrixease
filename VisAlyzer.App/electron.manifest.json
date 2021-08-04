@@ -1,17 +1,17 @@
 {
-  "executable": "VisAlyzer.IncTrak",
+  "executable": "VisAlyzer.App",
   "splashscreen": {
     "imageFile": "/wwwroot/IncTrakIcon.png"
   },
-  "name": "VisAlyzer.IncTrak",
+  "name": "VisAlyzer.App",
   "author": "Joe Schmitt",
   "singleInstance": false,
   "aspCoreBackendPort": 51266,
   "environment": "Production",
   "build": {
-    "appId": "com.VisAlyzer.IncTrak.app",
-    "productName": "VisAlyzer.IncTrak",
-    "copyright": "Copyright Calypso Systems, LLC © 2020",
+    "appId": "com.visalyzer.app",
+    "productName": "VisAlyzer.App",
+    "copyright": "Copyright Calypso Systems, LLC © 2021",
     "buildVersion": "1.0.0",
     "compression": "maximum",
     "win": {

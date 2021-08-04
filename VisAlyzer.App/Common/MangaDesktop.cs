@@ -11,8 +11,8 @@ namespace Desktop.Manga.IncTrak.Common
 {
     public static class MangaDesktop
     {
-        public const string AccessTokenAll = "electron.visalyzer.inctrak";
-        public const string UserId = "electron.visalyzer.inctrak";
+        public const string AccessTokenAll = "visalyzer.app";
+        public const string UserId = "visalyzer.app";
 
         public static Tuple<string, Guid> VisId(string mangaGuid)
         {

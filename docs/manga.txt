@@ -15,7 +15,7 @@ electronize in dev CentOS
 
 	/home/calypso/dotnet/web/Desktop.Manga.IncTrak/bin/Desktop/Desktop.Manga.IncTrak-1.0.0.AppImage
 
-	cd C:\CalypsoSystems\inctrak_manga\VisAlyzer.IncTrak
+	cd C:\CalypsoSystems\inctrak_manga\VisAlyzer.App
 
 	electronize start
 
