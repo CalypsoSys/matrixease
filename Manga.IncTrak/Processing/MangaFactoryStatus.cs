@@ -11,6 +11,7 @@ namespace Manga.IncTrak.Processing
         Analyzing,
         Saving,
         Complete,
+        Failed
     }
 
     public enum MangaFactoryStatusState
@@ -18,7 +19,8 @@ namespace Manga.IncTrak.Processing
         Starting,
         Started,
         Running,
-        Complete
+        Complete,
+        Failed
     }
 
     public class MangaFactoryStatus

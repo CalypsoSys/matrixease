@@ -14,7 +14,6 @@ namespace Manga.IncTrak.Utility
         private const int MaxRowsCols = 5000000;
         private const string MaxCellsMessage = "The free version limits a input matrix to a maximum of 5 million cells for personal use. Contact us to get a license to remove this restriction or to enquire about a Enterprise license.";
 
-
         public static void CheckProjectCount(int mangas)
         {
 #if RELEASE || TEST_LIMITS

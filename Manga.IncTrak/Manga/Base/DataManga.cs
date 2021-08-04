@@ -514,5 +514,10 @@ namespace Manga.IncTrak.Manga
                 }
             }
         }
+
+        public void CleanupWorkingSet()
+        {
+            _columns.ForEach(c => c.CleanupWorkingSet());
+        }
     }
 }

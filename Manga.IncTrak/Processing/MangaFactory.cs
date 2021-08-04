@@ -124,10 +124,17 @@ namespace Manga.IncTrak.Processing
 
                 lock (_lockWorkingSets)
                 {
+                    bool success = true;
+                    string message = "";
                     if (_workingSets.ContainsKey(userId))
                     {
                         if (_workingSets[userId].ContainsKey(workSet))
                         {
+                            if (_workingSets[userId][workSet].Status == "Failed")
+                            {
+                                success = false;
+                                message = _workingSets[userId][workSet].Message;
+                            }
                             _workingSets[userId].Remove(workSet);
                         }
                         if (_workingSets[userId].Count == 0)
@@ -136,7 +143,7 @@ namespace Manga.IncTrak.Processing
                         }
                     }
 
-                    return new { Success = true, Complete=true };
+                    return new { Success = success, Complete= true, Message = message };
                 }
             }
 
@@ -215,84 +222,107 @@ namespace Manga.IncTrak.Processing
 
         public override void Process(CancellationToken cancellationToken)
         {
-            CancelToken = cancellationToken;
-            _mangaInfo.Status = "Running";
-            SetStatus(MangaFactoryStatusKey.Queued, "Job execution started", MangaFactoryStatusState.Complete);
+            DataManga manga = null;
 
-            SetStatus(MangaFactoryStatusKey.Processing, "Starting processing of data", MangaFactoryStatusState.Starting);
-            MyStopWatch stopWatch = MyStopWatch.StartNew("VisAlyzer Total Time");
-
-            stopWatch.StartSubTime("VisAlyzer Initialization");
-            DataManga manga = new DataManga();
-            MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
-            if (IsCancellationRequested)
-                return;
-
-            stopWatch.StartSubTime("VisAlyzer Data Loop");
-            int rawRowIndex = 1, totalCells = 0;
-            List<IList<object>> samples = new List<IList<object>>();
-            foreach (var row in RowIterator(this))
+            try
             {
-                if (rawRowIndex < MangaConstants.SampleSize)
+                CancelToken = cancellationToken;
+                _mangaInfo.Status = "Running";
+                SetStatus(MangaFactoryStatusKey.Queued, "Job execution started", MangaFactoryStatusState.Complete);
+
+                SetStatus(MangaFactoryStatusKey.Processing, "Starting processing of data", MangaFactoryStatusState.Starting);
+                MyStopWatch stopWatch = MyStopWatch.StartNew("VisAlyzer Total Time");
+
+                stopWatch.StartSubTime("VisAlyzer Initialization");
+                manga = new DataManga();
+                MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
+                if (IsCancellationRequested)
+                    return;
+
+                stopWatch.StartSubTime("VisAlyzer Data Loop");
+                int rawRowIndex = 1, totalCells = 0;
+                List<IList<object>> samples = new List<IList<object>>();
+                foreach (var row in RowIterator(this))
                 {
-                    samples.Add(row);
-                    for (int i = 0; i < row.Count; i++)
+                    if (rawRowIndex < MangaConstants.SampleSize)
                     {
-                        if (row[i] != null && string.IsNullOrWhiteSpace(row[i].ToString()) == false)
+                        samples.Add(row);
+                        for (int i = 0; i < row.Count; i++)
                         {
-                            _calculatedNumberOfCols = Math.Max(i + 1, _calculatedNumberOfCols);
+                            if (row[i] != null && string.IsNullOrWhiteSpace(row[i].ToString()) == false)
+                            {
+                                _calculatedNumberOfCols = Math.Max(i + 1, _calculatedNumberOfCols);
+                            }
+                        }
+                    }
+                    else if (rawRowIndex == MangaConstants.SampleSize)
+                    {
+                        ProcessSamples(samples, manga);
+                        ProcessRow(manga, rawRowIndex, row);
+                    }
+                    else
+                    {
+                        ProcessRow(manga, rawRowIndex, row);
+                    }
+                    ++rawRowIndex;
+                    totalCells += _calculatedNumberOfCols;
+
+                    if ((rawRowIndex % TaskConstants.StatusUpdateCheckFreq) == 0)
+                    {
+                        VisAlyzerLicense.CheckCellCount(totalCells);
+                        //SetStatus(MangaFactoryStatusKey.Processing, string.Format("Processing row {0}", rowIndex), MangaFactoryStatusState.Running);
+                        if (IsCancellationRequested)
+                        {
+                            return;
                         }
                     }
                 }
-                else if (rawRowIndex == MangaConstants.SampleSize)
+                if (rawRowIndex < MangaConstants.SampleSize)
                 {
                     ProcessSamples(samples, manga);
-                    ProcessRow(manga, rawRowIndex, row);
                 }
-                else
-                {
-                    ProcessRow(manga, rawRowIndex, row);
-                }
-                ++rawRowIndex;
-                totalCells += _calculatedNumberOfCols;
 
-                if ((rawRowIndex % TaskConstants.StatusUpdateCheckFreq) == 0)
-                {
-                    VisAlyzerLicense.CheckCellCount(totalCells);
-                    //SetStatus(MangaFactoryStatusKey.Processing, string.Format("Processing row {0}", rowIndex), MangaFactoryStatusState.Running);
-                    if (IsCancellationRequested)
-                    {
-                        return;
-                    }
-                }
+                SetStatus(MangaFactoryStatusKey.Processing, string.Format("Processed {0} rows", rawRowIndex), MangaFactoryStatusState.Complete);
+                MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
+
+                stopWatch.StartSubTime("VisAlyzer Process");
+                SetStatus(MangaFactoryStatusKey.Analyzing, "Analyzing data", MangaFactoryStatusState.Started);
+                manga.Process(this);
+                SetStatus(MangaFactoryStatusKey.Analyzing, "Analyzing data", MangaFactoryStatusState.Complete);
+                MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
+
+                stopWatch.StartSubTime("VisAlyzer Save");
+                SetStatus(MangaFactoryStatusKey.Saving, "Saving dataset", MangaFactoryStatusState.Started);
+                if (IsCancellationRequested)
+                    return;
+                MangaState.SaveManga(_userId, _mangaInfo, manga);
+                SetStatus(MangaFactoryStatusKey.Saving, "Saving dataset", MangaFactoryStatusState.Complete);
+                MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
+
+                MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.Stop());
+                MangaState.UserLogSize(_userId, _mangaInfo.OriginalName, WorkSet);
+                SetStatus(MangaFactoryStatusKey.Complete, "VisAlyzer Job", MangaFactoryStatusState.Complete);
+
+                _mangaInfo.Status = "Complete";
             }
-            if (rawRowIndex < MangaConstants.SampleSize)
+            catch (VisAlyzerLicenseException licExcp)
             {
-                ProcessSamples(samples, manga);
+                SetStatus(MangaFactoryStatusKey.Failed, licExcp.Message, MangaFactoryStatusState.Failed);
+                _mangaInfo.Status = "Failed";
+                _mangaInfo.Message = licExcp.Message;
+            }
+            catch (Exception excp)
+            {
+                SetStatus(MangaFactoryStatusKey.Failed, "An known error has occured", MangaFactoryStatusState.Failed);
+                _mangaInfo.Status = "Failed";
+                _mangaInfo.Message = "An known error has occured";
+                MyLogger.LogError(excp, "Error adding VisAlyzer");
             }
 
-            SetStatus(MangaFactoryStatusKey.Processing, string.Format("Processed {0} rows", rawRowIndex), MangaFactoryStatusState.Complete);
-            MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
-
-            stopWatch.StartSubTime("VisAlyzer Process");
-            SetStatus(MangaFactoryStatusKey.Analyzing, "Analyzing data", MangaFactoryStatusState.Started); 
-            manga.Process(this);
-            SetStatus(MangaFactoryStatusKey.Analyzing, "Analyzing data", MangaFactoryStatusState.Complete);
-            MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
-
-            stopWatch.StartSubTime("VisAlyzer Save");
-            SetStatus(MangaFactoryStatusKey.Saving, "Saving dataset", MangaFactoryStatusState.Started);
-            if (IsCancellationRequested)
-                return;
-            MangaState.SaveManga(_userId, _mangaInfo, manga);
-            SetStatus(MangaFactoryStatusKey.Saving, "Saving dataset", MangaFactoryStatusState.Complete);
-            MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
-
-            MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.Stop());
-            MangaState.UserLogSize(_userId, _mangaInfo.OriginalName, WorkSet);
-            SetStatus(MangaFactoryStatusKey.Complete, "VisAlyzer Job", MangaFactoryStatusState.Complete);
-
-            _mangaInfo.Status = "Complete";
+            if (_mangaInfo.Status != "Complete" && manga != null)
+            {
+                manga.CleanupWorkingSet();
+            }
         }
     }
 }

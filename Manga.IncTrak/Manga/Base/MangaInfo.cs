@@ -27,6 +27,7 @@ namespace Manga.IncTrak.Manga
 
         public string WorkingSetFile { get; set; }
         public string Status { get; set; }
+        public string Message { get; set; }
 
         public MangaInfo()
         {

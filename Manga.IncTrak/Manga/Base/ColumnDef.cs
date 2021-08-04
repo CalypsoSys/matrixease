@@ -632,5 +632,12 @@ namespace Manga.IncTrak.Manga
                 }
             }
         }
+
+        public void CleanupWorkingSet()
+        {
+            _textPatterns.FinalizeCache(false);
+            _datePatterns.FinalizeCache(false);
+            _numericPatterns.FinalizeCache(false);
+        }
     }
 }

@@ -81,7 +81,11 @@ var mangaAuth = new Vue({
                                 this.curstatusdata = response.data.StatusData;
                             }
                         } else {
-                            mangaAuth.showModalDialog("Error", "Vis: failure loading VisAlyzer status.");
+                            if (response.data && response.data.Message) {
+                                mangaAuth.showModalDialog("Error", response.data.Message);
+                            } else {
+                                mangaAuth.showModalDialog("Error", "Vis: failure loading VisAlyzer status.");
+                            }
                         }
                     })
                     .catch(error => {
