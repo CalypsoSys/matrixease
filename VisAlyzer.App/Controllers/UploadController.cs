@@ -23,7 +23,7 @@ namespace manga.inctrak.com.Controllers
         [HttpPost]
         [DisableRequestSizeLimit]
         [RequestFormLimits(MultipartBodyLengthLimit = 4294967295)]
-        public object PostFormData([FromForm] string inctrak_id, [FromForm] IFormFile file, [FromForm] string manga_name, [FromForm] int header_row, [FromForm] int header_rows, [FromForm] int max_rows, [FromForm] bool ignore_blank_rows, [FromForm] string ignore_cols, [FromForm] string sheet_type)
+        public object PostFormData([FromForm] string inctrak_id, [FromForm] IFormFile file, [FromForm] string manga_name, [FromForm] int header_row, [FromForm] int header_rows, [FromForm] int max_rows, [FromForm] bool ignore_blank_rows, [FromForm] bool trim_leading_whitespace, [FromForm] bool trim_trailing_whitespace, [FromForm] string ignore_cols, [FromForm] string sheet_type)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace manga.inctrak.com.Controllers
 
                 using (var input = file.OpenReadStream())
                 {
-                    MangaInfo mangaInfo = new MangaInfo(file.FileName, manga_name, header_row, header_rows, max_rows, ignore_blank_rows, ignore_cols, sheet_type, null);
+                    MangaInfo mangaInfo = new MangaInfo(file.FileName, manga_name, header_row, header_rows, max_rows, ignore_blank_rows, ignore_blank_rows, trim_leading_whitespace, ignore_cols, sheet_type, null);
                     Guid? mangaGuid = SheetProcessing.ProcessSheet(MangaDesktop.UserId, input, mangaInfo, MangaDesktop.RunBackroundManagGet);
 
                     if (mangaGuid != null)

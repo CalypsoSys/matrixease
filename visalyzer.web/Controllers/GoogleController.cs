@@ -95,7 +95,7 @@ namespace manga.inctrak.com
 
         [Authorize]
         [HttpGet("sheet")]
-        public object Get(string inctrak_id, string manga_name, int header_row, int header_rows, int max_rows, bool ignore_blank_rows, string ignore_cols, string sheet_id, string range)
+        public object Get(string inctrak_id, string manga_name, int header_row, int header_rows, int max_rows, bool ignore_blank_rows, bool trim_leading_whitespace, bool trim_trailing_whitespace, string ignore_cols, string sheet_id, string range)
         {
             try
             {
@@ -110,7 +110,7 @@ namespace manga.inctrak.com
 
                     MangaState.CheckProjectCount(userId);
 
-                    MangaInfo mangaInfo = new MangaInfo("", manga_name, header_row, header_rows, max_rows, ignore_blank_rows, ignore_cols, "google", new Dictionary<string, string> { { MangaConstants.SheetID, sheet_id }, { MangaConstants.SheetRange, range } });
+                    MangaInfo mangaInfo = new MangaInfo("", manga_name, header_row, header_rows, max_rows, ignore_blank_rows, trim_leading_whitespace, trim_trailing_whitespace, ignore_cols, "google", new Dictionary<string, string> { { MangaConstants.SheetID, sheet_id }, { MangaConstants.SheetRange, range } });
 
                     var authResult = HttpContext.AuthenticateAsync();
                     authResult.Wait();

@@ -21,6 +21,8 @@ var mangaAuth = new Vue({
         header_rows: 1,
         max_rows: 0,
         ignore_blank_rows: true,
+        trim_leading_whitespace: false,
+        trim_trailing_whitespace: true,
         ignore_cols: "",
         sheet_id: "1VunkEZX3ajsXMerYXjahOevUd_p88vNrnI9QD2ByGvY",
         range: "108thHouse",
@@ -190,6 +192,8 @@ var mangaAuth = new Vue({
             formData.append('header_rows', this.header_rows);
             formData.append('max_rows', this.max_rows);
             formData.append('ignore_blank_rows', this.ignore_blank_rows);
+            formData.append('trim_leading_whitespace', this.trim_leading_whitespace);
+            formData.append('trim_trailing_whitespace', this.trim_trailing_whitespace);
             formData.append('ignore_cols', this.ignore_cols);
             formData.append('sheet_type', this.sheet_type);
 
@@ -249,6 +253,8 @@ var mangaAuth = new Vue({
                     header_rows: this.header_rows,
                     max_rows: this.max_rows,
                     ignore_blank_rows: this.ignore_blank_rows,
+                    trim_leading_whitespace: this.trim_leading_whitespace,
+                    trim_trailing_whitespace: this.trim_trailing_whitespace,
                     ignore_cols: this.ignore_cols,
                     sheet_id: this.sheet_id,
                     range: this.range

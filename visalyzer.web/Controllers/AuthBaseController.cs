@@ -101,28 +101,35 @@ namespace manga.inctrak.com
             string accessToken;
             if (Request.Cookies.TryGetValue("authenticated-accepted-1", out accessToken))
             {
-                var tok = Decrypt(accessToken);
-                MangaAuthType auth = MangaState.ValidateUserMangaCatalog(tok);
-                if (auth != MangaAuthType.Invalid)
+                try
                 {
-                    string check = null;
-                    if (visId != null)
-                        check = visId.Item1;
-                    else if (auth == MangaAuthType.Googs)
-                        check = myIds.GoogleId;
-                    else if (auth == MangaAuthType.Email)
-                        check = myIds.EmailId;
-                    if ( check != null && check == tok.Item1 )
+                    var tok = Decrypt(accessToken);
+                    MangaAuthType auth = MangaState.ValidateUserMangaCatalog(tok);
+                    if (auth != MangaAuthType.Invalid)
                     {
-                        if (update)
+                        string check = null;
+                        if (visId != null)
+                            check = visId.Item1;
+                        else if (auth == MangaAuthType.Googs)
+                            check = myIds.GoogleId;
+                        else if (auth == MangaAuthType.Email)
+                            check = myIds.EmailId;
+                        if (check != null && check == tok.Item1)
                         {
-                            CookieOptions option = new CookieOptions();
-                            option.Expires = DateTime.Now.AddHours(1);
-                            Response.Cookies.Append("authenticated-accepted-1", accessToken, option);
-                        }
+                            if (update)
+                            {
+                                CookieOptions option = new CookieOptions();
+                                option.Expires = DateTime.Now.AddHours(1);
+                                Response.Cookies.Append("authenticated-accepted-1", accessToken, option);
+                            }
 
-                        return auth;
+                            return auth;
+                        }
                     }
+                }
+                catch(Exception excp)
+                {
+                    MyLogger.LogError(excp, "Error decoding auth 1");
                 }
                 Response.Cookies.Delete("authenticated-accepted-1");
             }

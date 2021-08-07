@@ -107,7 +107,7 @@ namespace Manga.IncTrak.Manga
             return ignoreIndexes;
         }
 
-        public void AddRow(IList<object> rowData, int row, IBackgroundJob status, List<UInt32> ignoreIndexes, int calculatedNumberOfCols)
+        public void AddRow(IList<object> rowData, int row, IBackgroundJob status, List<UInt32> ignoreIndexes, int calculatedNumberOfCols, bool trimLeadingWhitespace, bool trimTrailingWhitespace)
         {
             _totalRows++;
 
@@ -126,7 +126,23 @@ namespace Manga.IncTrak.Manga
 
                 if (ignoreIndexes.Count == 0 || ignoreIndexes.Contains(index) == false)
                 {
-                    _columns[colIndex].AddData(data as string, row, status);
+                    var dataCook = data as string;
+                    if ( dataCook != null && (trimLeadingWhitespace || trimTrailingWhitespace))
+                    {
+                        if (trimLeadingWhitespace && trimTrailingWhitespace)
+                        {
+                            dataCook = dataCook.Trim();
+                        }
+                        else if (trimLeadingWhitespace)
+                        {
+                            dataCook = dataCook.TrimStart();
+                        }
+                        else if (trimTrailingWhitespace)
+                        {
+                            dataCook = dataCook.TrimEnd();
+                        }
+                    }
+                    _columns[colIndex].AddData(dataCook, row, status);
                     ++colIndex;
                 }
                 ++index;

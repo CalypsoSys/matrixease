@@ -17,7 +17,9 @@ namespace Manga.IncTrak.Manga
         private int _headerRow;
         private int _headerRows;
         private int _maxRows;
-        private bool _ignoreBlankRows = true; 
+        private bool _ignoreBlankRows = true;
+        private bool _trimLeadingWhitespace = false;
+        private bool _trimTrailingWhitespace = true;
         private UInt32[] _ignoreColIndexes;
         private List<string> _ignoreColNames;
         private string _sheetType;
@@ -33,7 +35,7 @@ namespace Manga.IncTrak.Manga
         {
         }
 
-        public MangaInfo(string originalName, string mangaName, int headerRow, int headerRows, int maxRows, bool ignoreBlankRows, string ignoreCols, string sheetType, Dictionary<string, string> extraInfo)
+        public MangaInfo(string originalName, string mangaName, int headerRow, int headerRows, int maxRows, bool ignoreBlankRows, bool trimLeadingWhitespace, bool trimTrailingWhitespace, string ignoreCols, string sheetType, Dictionary<string, string> extraInfo)
         {
             _created = DateTime.Now;
             _managGuid = Guid.NewGuid();
@@ -44,7 +46,10 @@ namespace Manga.IncTrak.Manga
             _headerRows = headerRows;
             _maxRows = maxRows;
             _ignoreBlankRows = ignoreBlankRows;
-            _ignoreColNames = new List<string>();
+            _trimLeadingWhitespace = trimLeadingWhitespace;
+            _trimTrailingWhitespace = trimTrailingWhitespace;
+
+        _ignoreColNames = new List<string>();
             if (string.IsNullOrWhiteSpace(ignoreCols))
             {
                 _ignoreColIndexes = new UInt32[0];
@@ -82,6 +87,8 @@ namespace Manga.IncTrak.Manga
         public int HeaderRows { get => _headerRows; }
         public int MaxRows { get => _maxRows; }
         public bool IgnoreBlankRows { get => _ignoreBlankRows; }
+        public bool TrimLeadingWhitespace { get => _trimLeadingWhitespace; }
+        public bool TrimTrailingWhitespace { get => _trimTrailingWhitespace; }
         public uint[] IgnoreColIndexes { get => _ignoreColIndexes; }
         public List<string> IgnoreColNames { get => _ignoreColNames; }
 
@@ -104,6 +111,8 @@ namespace Manga.IncTrak.Manga
             _headerRows = reader.ReadInt32();
             _maxRows = reader.ReadInt32();
             _ignoreBlankRows = reader.ReadBool();
+            _trimLeadingWhitespace = reader.ReadBool();
+            _trimTrailingWhitespace = reader.ReadBool();
             _ignoreColIndexes = reader.ReadArrayUInt32s();
             _ignoreColNames = reader.ReadListString();
             _sheetType = reader.ReadString();
@@ -123,6 +132,8 @@ namespace Manga.IncTrak.Manga
             writer.WriteInt32(_headerRows);
             writer.WriteInt32(_maxRows);
             writer.WriteBool(_ignoreBlankRows);
+            writer.WriteBool(_trimLeadingWhitespace);
+            writer.WriteBool(_trimTrailingWhitespace);
             writer.WriteArrayUInt32s(_ignoreColIndexes);
             writer.WriteListString(_ignoreColNames);
             writer.WriteString(_sheetType);

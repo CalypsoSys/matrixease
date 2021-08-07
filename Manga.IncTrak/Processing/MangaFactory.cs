@@ -203,7 +203,7 @@ namespace Manga.IncTrak.Processing
 
                 if (addRow)
                 {
-                    manga.AddRow(row, _rowIndex, this, _ignoreIndexes, _calculatedNumberOfCols);
+                    manga.AddRow(row, _rowIndex, this, _ignoreIndexes, _calculatedNumberOfCols, _mangaInfo.TrimLeadingWhitespace, _mangaInfo.TrimTrailingWhitespace);
                     ++_rowIndex;
                 }
             }
