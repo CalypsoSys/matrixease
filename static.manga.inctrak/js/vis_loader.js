@@ -21,7 +21,8 @@ var mangaAuth = new Vue({
         header_rows: 1,
         max_rows: 0,
         ignore_blank_rows: true,
-        trim_leading_whitespace: false,
+        ignore_text_case: true,
+        trim_leading_whitespace: true,
         trim_trailing_whitespace: true,
         ignore_cols: "",
         sheet_id: "1VunkEZX3ajsXMerYXjahOevUd_p88vNrnI9QD2ByGvY",
@@ -30,6 +31,7 @@ var mangaAuth = new Vue({
         modal_title: "",
         modal_message: "",
         modal_secondary: "",
+        modal_list: [],
         modal_yes_no_action: "",
         showModalStatus: false,
         curstatuskey: "",
@@ -44,10 +46,11 @@ var mangaAuth = new Vue({
         }
     },
     methods: {
-        showModalDialog: function (title, message, secondary, yesNoAction) {
+        showModalDialog: function (title, message, secondary, yesNoAction, list) {
             this.modal_title = title;
             this.modal_message = message;
             this.modal_secondary = secondary;
+            this.modal_list = list;
             this.modal_yes_no_action = yesNoAction;
             this.showModalStatus = false;
             this.showModalAlert = true
@@ -168,10 +171,10 @@ var mangaAuth = new Vue({
         validateForm: function () {
             var error = ""
             if (!this.manga_name) {
-                error += "Please enter VisAlyzer Name<br>";
+                error += "Please enter VisAlyzer Name\n";
             }
             if (this.header_row > this.header_rows) {
-                error += "Header on Row cannot be greater then Header Rows<br>";
+                error += "Header on Row cannot be greater then Header Row\n";
             }
             if (error) {
                 this.showModalDialog("Error", "Vis: please check managa specification", error);
@@ -192,6 +195,7 @@ var mangaAuth = new Vue({
             formData.append('header_rows', this.header_rows);
             formData.append('max_rows', this.max_rows);
             formData.append('ignore_blank_rows', this.ignore_blank_rows);
+            formData.append('ignore_text_case', this.ignore_text_case);
             formData.append('trim_leading_whitespace', this.trim_leading_whitespace);
             formData.append('trim_trailing_whitespace', this.trim_trailing_whitespace);
             formData.append('ignore_cols', this.ignore_cols);
@@ -253,6 +257,7 @@ var mangaAuth = new Vue({
                     header_rows: this.header_rows,
                     max_rows: this.max_rows,
                     ignore_blank_rows: this.ignore_blank_rows,
+                    ignore_text_case: this.ignore_text_case,
                     trim_leading_whitespace: this.trim_leading_whitespace,
                     trim_trailing_whitespace: this.trim_trailing_whitespace,
                     ignore_cols: this.ignore_cols,

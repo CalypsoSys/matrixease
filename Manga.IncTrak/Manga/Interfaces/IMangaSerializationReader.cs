@@ -18,6 +18,7 @@ namespace Manga.IncTrak.Manga
         byte[] ReadArrayBytes();
         UInt32[] ReadArrayUInt32s();
         List<string> ReadListString();
+        HashSet<string> ReadHashString();
         Dictionary<string, Int32> ReadDictStringInt32();
         Dictionary<Int32, Int32> ReadDictInt32Int32();
         Dictionary<string, double> ReadDictStringDouble();

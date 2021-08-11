@@ -277,7 +277,6 @@ namespace manga.inctrak.com
 
             return new { Success = false };
         }
-
         
         [HttpGet("get_node_rows")]
         public object GetNodeRows(string inctrak_id, string vis_id, int col_index, string selected_node, bool filtered)
@@ -288,6 +287,20 @@ namespace manga.inctrak.com
             {
                 var manga = MangaState.LoadManga(visId, filtered, -1, new MangaLoadOptions(false) );
                 return new { Success = true, ReportData = manga.GetNodeData(selected_node) };
+            }
+
+            return new { Success = false };
+        }
+
+        [HttpGet("get_duplicate_entries")]
+        public object GetDuplicateEntries(string inctrak_id, string vis_id, int col_index, string selected_node, bool filtered)
+        {
+            CheckIncTrakId(inctrak_id, true);
+            var visId = Decrypt(vis_id);
+            if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
+            {
+                var manga = MangaState.LoadManga(visId, filtered, -1, new MangaLoadOptions(false));
+                return new { Success = true, DuplicateEntries = manga.GetDuplicateEntries(selected_node) };
             }
 
             return new { Success = false };

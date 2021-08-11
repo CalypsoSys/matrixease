@@ -33,6 +33,7 @@ namespace Manga.IncTrak.Manga
         private int _curBucketSize = 0;
         private decimal _curBucketMod = 0;
         private Dictionary<string, MyBitArray> _rows = new Dictionary<string, MyBitArray>();
+        private Dictionary<string, HashSet<string>> _cellNames = new Dictionary<string, HashSet<string>>();
         private Dictionary<string, Int32> _rowCounts = new Dictionary<string, Int32>();
         /// End Serialized Items 
 
@@ -86,6 +87,14 @@ namespace Manga.IncTrak.Manga
                 writer.SaveChild(pair.Value);
             }
 
+            Int32 cellNames = _cellNames.Count();
+            writer.WriteInt32(cellNames);
+            foreach (var pair in _cellNames)
+            {
+                writer.WriteString(pair.Key);
+                writer.WriteHashString(pair.Value);
+            }
+
             if (_dataType == DataType.Numeric && _numericPatterns != null)
             {
                 writer.WriteEnum< DataType>(DataType.Numeric);
@@ -130,6 +139,15 @@ namespace Manga.IncTrak.Manga
                 MyBitArray bits = reader.LoadChild<MyBitArray>(new MyBitArray(0), loadOptions);
                 _rows.Add(key, bits);
             }
+            
+            Int32 cellNames = reader.ReadInt32();
+            _cellNames = new Dictionary<string, HashSet<string>>(cellNames);
+            for (int i = 0; i < cellNames; i++)
+            {
+                string key = reader.ReadString();
+                HashSet<string> names = reader.ReadHashString();
+                _cellNames.Add(key, names);
+            }
 
             DataType dataTypeSaved = reader.ReadEnum<DataType>();
             if (_dataType == DataType.Numeric)
@@ -155,7 +173,7 @@ namespace Manga.IncTrak.Manga
         // googls simple
         private static int[] _debugCols = new int[] { 5 };
 #endif
-        public void AddData(string data, int row, IBackgroundJob status)
+        public void AddData(string data, int row, bool ignoreTextCase, IBackgroundJob status)
         {
 #if DEBUG_COLS
             if (_debugCols.Contains(_index) == false)
@@ -231,6 +249,20 @@ namespace Manga.IncTrak.Manga
 
                 if (_bucketized == false)
                 {
+                    if (ignoreTextCase && isEmpty == false)
+                    {
+                        string originalData = data;
+                        data = data.ToLower();
+                        if (_cellNames.ContainsKey(data) == false)
+                        {
+                            _cellNames.Add(data, new HashSet<string>(new string[] { originalData }));
+                        }
+                        else
+                        {
+                            _cellNames[data].Add(originalData);
+                        }
+                    }
+
                     if (_rows.ContainsKey(data) == false)
                     {
                         _rows.Add(data, new MyBitArray());
@@ -417,9 +449,17 @@ namespace Manga.IncTrak.Manga
                 {
                     selected = totalRows;
                 }
+
+                int duplicates = 1;
+                if (_dataType == DataType.Text && _cellNames != null && _cellNames.ContainsKey(val.Key))
+                {
+                    duplicates = _cellNames[val.Key].Count();
+                }
+
                 vals.Add(new
                 {
                     ColumnValue = val.Key,
+                    Duplicates = duplicates,
                     TotalPct = (decimal)totValue / (decimal)totalRows * 100M,
                     SelectAllPct = (decimal)val.Value / (decimal)totalRows * 100M,
                     SelectRelPct = (selected.HasValue && selected.Value != 0 ? (decimal?)val.Value / (decimal)selected.Value * 100M : 0),
@@ -631,6 +671,16 @@ namespace Manga.IncTrak.Manga
                     dataSets.Add(string.Format("{0} - {1} Count", colCount.Name, node.Key), counts);
                 }
             }
+        }
+
+        public object GetDuplicateEntries(string nodeIndex)
+        {
+            if (_cellNames.ContainsKey(nodeIndex))
+            {
+                return _cellNames[nodeIndex];
+            }
+
+            return null;
         }
 
         public void CleanupWorkingSet()

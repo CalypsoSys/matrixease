@@ -24,6 +24,7 @@ var visualizer = new Vue({
         modal_title: "",
         modal_message: "",
         modal_secondary: "",
+        modal_list: [],
         modal_yes_no_action: "",
 
         showModalStatus: false,
@@ -111,10 +112,11 @@ var visualizer = new Vue({
         }
     },
     methods: {
-        showModalDialog: function (title, message, secondary, yesNoAction) {
+        showModalDialog: function (title, message, secondary, yesNoAction, list) {
             this.modal_title = title;
             this.modal_message = message;
             this.modal_secondary = secondary;
+            this.modal_list = list;
             this.modal_yes_no_action = yesNoAction;
             this.showModalStatus = false;
             this.showModalAlert = true;
@@ -470,7 +472,7 @@ var visualizer = new Vue({
                         this.addMenu(svgRows, data, x + sizer.maxWidth, y, "/img/three-dots.svg");
 
                         nodes.push({
-                            "value": colData.ColumnValue, "totalPct": colData.TotalPct.toFixed(4),
+                            "value": colData.ColumnValue, "duplicates": colData.Duplicates, "totalPct": colData.TotalPct.toFixed(4),
                             "selectedAllPct": colData.SelectAllPct.toFixed(4), "selectedRelPct": colData.SelectRelPct.toFixed(4),
                             "totValues": colData.TotalValues.toLocaleString(), "selValues": colData.SelectedValues.toLocaleString(), "rawCol": colData
                         });
@@ -706,6 +708,16 @@ var visualizer = new Vue({
             }
             return "";
         },
+        nodeDefintion: function () {
+            if (this.selectedNode) {
+                if (this.selectedNode.duplicates > 1) {
+                    return this.selectedNode.value + " (" + this.selectedNode.duplicates + " different case)";
+                } else {
+                    return this.selectedNode.value;
+                }
+            }
+            return "";
+        },
         curBucketized: function () {
             if (this.selectedColumn) {
                 return this.selectedColumn.bucketized;
@@ -839,6 +851,35 @@ var visualizer = new Vue({
                     visualizer.showModalDialog("Unknown Error", "Vis: unknown error column rows.", error);
                 });
             }
+        },
+        showDuplicateEntries: function() {
+            this.cellMenuDisplay = "none";
+            if (this.selectedNode == null) {
+                this.showModalDialog("Error", "Vis: cannot determine node, please try again.");
+            } else {
+                axios.get('/api/visualize/get_duplicate_entries', {
+                    params: {
+                        inctrak_id: document.getElementById('inctrak_id').value,
+                        vis_id: this.vis_id,
+                        col_index: this.selectedColumn.index,
+                        selected_node: this.selectedNode.value + "@" + this.selectedColumn.name + ":" + this.selectedColumn.index,
+                        filtered: true
+                    }
+                })
+                .then(response => {
+                    if (response.data && response.data.Success && response.data.DuplicateEntries) {
+                        this.showModalDialog("Duplicate Entries for " + this.selectedColumn.name + ": " + this.selectedNode.value, null, null, null, response.data.DuplicateEntries);
+                    } else {
+                        visualizer.showModalDialog("Unknown Error", "Vis: failure getting duplicates cell.");
+                    }
+                })
+                .catch(error => {
+                    visualizer.showModalDialog("Unknown Error", "Vis: unknown error duplicates cell.", error);
+                });
+            }
+        },
+        isTextType: function () {
+            return this.selectedColumn && this.selectedColumn.dataType == "Text";
         },
         showChart: function () {
             this.showModalChart = true;

@@ -18,6 +18,7 @@ namespace Manga.IncTrak.Manga
         private int _headerRows;
         private int _maxRows;
         private bool _ignoreBlankRows = true;
+        private bool _ignoreTextCase = true;
         private bool _trimLeadingWhitespace = false;
         private bool _trimTrailingWhitespace = true;
         private UInt32[] _ignoreColIndexes;
@@ -35,7 +36,7 @@ namespace Manga.IncTrak.Manga
         {
         }
 
-        public MangaInfo(string originalName, string mangaName, int headerRow, int headerRows, int maxRows, bool ignoreBlankRows, bool trimLeadingWhitespace, bool trimTrailingWhitespace, string ignoreCols, string sheetType, Dictionary<string, string> extraInfo)
+        public MangaInfo(string originalName, string mangaName, int headerRow, int headerRows, int maxRows, bool ignoreBlankRows, bool ignoreTextCase, bool trimLeadingWhitespace, bool trimTrailingWhitespace, string ignoreCols, string sheetType, Dictionary<string, string> extraInfo)
         {
             _created = DateTime.Now;
             _managGuid = Guid.NewGuid();
@@ -46,6 +47,7 @@ namespace Manga.IncTrak.Manga
             _headerRows = headerRows;
             _maxRows = maxRows;
             _ignoreBlankRows = ignoreBlankRows;
+            _ignoreTextCase = ignoreTextCase;
             _trimLeadingWhitespace = trimLeadingWhitespace;
             _trimTrailingWhitespace = trimTrailingWhitespace;
 
@@ -87,6 +89,7 @@ namespace Manga.IncTrak.Manga
         public int HeaderRows { get => _headerRows; }
         public int MaxRows { get => _maxRows; }
         public bool IgnoreBlankRows { get => _ignoreBlankRows; }
+        public bool IgnoreTextCase { get => _ignoreTextCase; }
         public bool TrimLeadingWhitespace { get => _trimLeadingWhitespace; }
         public bool TrimTrailingWhitespace { get => _trimTrailingWhitespace; }
         public uint[] IgnoreColIndexes { get => _ignoreColIndexes; }
@@ -111,6 +114,7 @@ namespace Manga.IncTrak.Manga
             _headerRows = reader.ReadInt32();
             _maxRows = reader.ReadInt32();
             _ignoreBlankRows = reader.ReadBool();
+            _ignoreTextCase = reader.ReadBool();
             _trimLeadingWhitespace = reader.ReadBool();
             _trimTrailingWhitespace = reader.ReadBool();
             _ignoreColIndexes = reader.ReadArrayUInt32s();
@@ -132,6 +136,7 @@ namespace Manga.IncTrak.Manga
             writer.WriteInt32(_headerRows);
             writer.WriteInt32(_maxRows);
             writer.WriteBool(_ignoreBlankRows);
+            writer.WriteBool(_ignoreTextCase);
             writer.WriteBool(_trimLeadingWhitespace);
             writer.WriteBool(_trimTrailingWhitespace);
             writer.WriteArrayUInt32s(_ignoreColIndexes);

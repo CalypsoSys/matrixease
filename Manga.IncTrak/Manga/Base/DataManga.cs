@@ -107,7 +107,7 @@ namespace Manga.IncTrak.Manga
             return ignoreIndexes;
         }
 
-        public void AddRow(IList<object> rowData, int row, IBackgroundJob status, List<UInt32> ignoreIndexes, int calculatedNumberOfCols, bool trimLeadingWhitespace, bool trimTrailingWhitespace)
+        public void AddRow(IList<object> rowData, int row, IBackgroundJob status, List<UInt32> ignoreIndexes, int calculatedNumberOfCols, bool ignoreTextCase, bool trimLeadingWhitespace, bool trimTrailingWhitespace)
         {
             _totalRows++;
 
@@ -142,7 +142,7 @@ namespace Manga.IncTrak.Manga
                             dataCook = dataCook.TrimEnd();
                         }
                     }
-                    _columns[colIndex].AddData(dataCook, row, status);
+                    _columns[colIndex].AddData(dataCook, row, ignoreTextCase, status);
                     ++colIndex;
                 }
                 ++index;
@@ -167,7 +167,7 @@ namespace Manga.IncTrak.Manga
             _columns.ForEach(c => c.ProcessWorkingFolder(mangaPath));
         }
 
-        public MyBitArray GetBitmap(string nodeIdentifier)
+        private Tuple<int, string> GetColIndexAndNodeIndex(string nodeIdentifier)
         {
             Regex regNode = new Regex(@"^(?<nodeIndex>.*)@(?<colName>.*):(?<colIndex>\d*)$");
 
@@ -178,11 +178,23 @@ namespace Manga.IncTrak.Manga
                 int colIndex;
                 if (int.TryParse(match.Result("${colIndex}"), out colIndex))
                 {
-                    var filterCol = _columns.FirstOrDefault(c => c.Index == colIndex);
-                    if (filterCol != null)
-                    {
-                        return filterCol.GetBitmap(nodeIndex);
-                    }
+                    return Tuple.Create(colIndex, nodeIndex);
+                }
+            }
+
+            return Tuple.Create(-1, string.Empty);
+        }
+
+         public MyBitArray GetBitmap(string nodeIdentifier)
+        {
+            var ret = GetColIndexAndNodeIndex(nodeIdentifier);
+
+            if (ret.Item1 >= 0 && ret.Item2.Length > 0)
+            {
+                var filterCol = _columns.FirstOrDefault(c => c.Index == ret.Item1);
+                if (filterCol != null)
+                {
+                    return filterCol.GetBitmap(ret.Item2);
                 }
             }
 
@@ -529,6 +541,21 @@ namespace Manga.IncTrak.Manga
                     MiscHelpers.SafeDispose(reader);
                 }
             }
+        }
+
+        public object GetDuplicateEntries(string selectedNode)
+        {
+            var ret = GetColIndexAndNodeIndex(selectedNode);
+            if (ret.Item1 >= 0 && ret.Item2.Length > 0)
+            {
+                var filterCol = _columns.FirstOrDefault(c => c.Index == ret.Item1);
+                if (filterCol != null)
+                {
+                    return filterCol.GetDuplicateEntries(ret.Item2);
+                }
+            }
+
+            return null;
         }
 
         public void CleanupWorkingSet()

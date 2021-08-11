@@ -5,9 +5,13 @@
         title: String,
         message: String,
         secondary: String,
-        confirm: String
+        confirm: String,
+        list: Array
     },
     methods: {
+        hasList: function () {
+            return this.list && this.list.length > 0;
+        },
         yesNo: function () {
             return this.confirm;
         },

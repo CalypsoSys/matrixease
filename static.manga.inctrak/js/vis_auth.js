@@ -16,6 +16,7 @@
             modal_title: "",
             modal_message: "",
             modal_secondary: "",
+            modal_list: [],
             modal_yes_no_action: "",
         }
     },

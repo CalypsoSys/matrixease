@@ -240,10 +240,41 @@ namespace Manga.IncTrak.Manga
             }
         }
 
+        void IMangaSerializationWriter.WriteHashString(HashSet<string> data)
+        {
+            if (data != null)
+            {
+                Int32 count = data.Count();
+                _dataWriter.Write(count);
+                foreach (var str in data)
+                {
+                    _dataWriter.Write(str);
+                }
+            }
+            else
+            {
+                Int32 count = 0;
+                _dataWriter.Write(count);
+            }
+        }
+
         List<string> IMangaSerializationReader.ReadListString()
         {
             Int32 count = _dataReader.ReadInt32();
             List<string> data = new List<string>(count);
+            for (int i = 0; i < count; i++)
+            {
+                string key = _dataReader.ReadString();
+                data.Add(key);
+            }
+
+            return data;
+        }
+
+        HashSet<string> IMangaSerializationReader.ReadHashString()
+        {
+            Int32 count = _dataReader.ReadInt32();
+            HashSet<string> data = new HashSet<string>(count);
             for (int i = 0; i < count; i++)
             {
                 string key = _dataReader.ReadString();

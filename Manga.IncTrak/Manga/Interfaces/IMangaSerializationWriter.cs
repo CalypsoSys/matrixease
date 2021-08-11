@@ -18,6 +18,7 @@ namespace Manga.IncTrak.Manga
         void WriteArrayBytes(byte[] data);
         void WriteArrayUInt32s(UInt32[] data);
         void WriteListString(List<string> data);
+        void WriteHashString(HashSet<string> data);
         void WriteDictStringInt32(Dictionary<string, Int32> data);
         void WriteDictInt32Int32(Dictionary<Int32, Int32> data);
         void WriteDictStringDouble(Dictionary<string, double> data);

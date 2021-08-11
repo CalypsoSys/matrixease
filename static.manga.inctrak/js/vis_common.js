@@ -194,7 +194,7 @@ function colAttributes4(selectedColumn, popup) {
                 if (popup) {
                     return numericLargest(selectedColumn.attr);
                 } else {
-                    return numericSmallest(selectedColumn.attr);
+                    return numericStandardDeviation(selectedColumn.attr);
                 }
             case "Text":
                 return textLongestLen(selectedColumn.attr);
