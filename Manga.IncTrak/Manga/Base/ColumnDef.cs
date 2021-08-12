@@ -249,11 +249,12 @@ namespace Manga.IncTrak.Manga
 
                 if (_bucketized == false)
                 {
-                    if (ignoreTextCase && isEmpty == false)
+                    if (ignoreTextCase && isEmpty == false && _dataType != DataType.Numeric && _dataType != DataType.Date)
                     {
                         string originalData = data;
                         data = data.ToLower();
-                        /*
+                        if (data.Length < MangaConstants.SmallTextSize)
+                        {
                             if (_cellNames.ContainsKey(data) == false)
                             {
                                 _cellNames.Add(data, new HashSet<string>(new string[] { originalData }));
@@ -262,7 +263,7 @@ namespace Manga.IncTrak.Manga
                             {
                                 _cellNames[data].Add(originalData);
                             }
-                        */
+                        }
                     }
 
                     if (_rows.ContainsKey(data) == false)
