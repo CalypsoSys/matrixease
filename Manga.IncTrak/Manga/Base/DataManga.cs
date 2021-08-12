@@ -157,7 +157,12 @@ namespace Manga.IncTrak.Manga
         {
             _columns.ForEach(c => c.FinalizeDimensionColumn(_totalRows, status));
 
-            int maxDisplayRows = _columns.Where(c => c.DataType == DataType.Text).Max(c => c.MaxDisplayRows);
+            int maxDisplayRows = 0;
+            var textCols = _columns.Where(c => c.DataType == DataType.Text);
+            if (textCols.Any())
+                maxDisplayRows = textCols.Max(c => c.MaxDisplayRows);
+            else
+                maxDisplayRows = MangaConstants.ReasonablBucket;
 
             _columns.ForEach(c => c.FinalizeMeasureColumn(_totalRows, maxDisplayRows, status));
         }

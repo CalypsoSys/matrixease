@@ -253,14 +253,16 @@ namespace Manga.IncTrak.Manga
                     {
                         string originalData = data;
                         data = data.ToLower();
-                        if (_cellNames.ContainsKey(data) == false)
-                        {
-                            _cellNames.Add(data, new HashSet<string>(new string[] { originalData }));
-                        }
-                        else
-                        {
-                            _cellNames[data].Add(originalData);
-                        }
+                        /*
+                            if (_cellNames.ContainsKey(data) == false)
+                            {
+                                _cellNames.Add(data, new HashSet<string>(new string[] { originalData }));
+                            }
+                            else
+                            {
+                                _cellNames[data].Add(originalData);
+                            }
+                        */
                     }
 
                     if (_rows.ContainsKey(data) == false)
@@ -685,9 +687,12 @@ namespace Manga.IncTrak.Manga
 
         public void CleanupWorkingSet()
         {
-            _textPatterns.FinalizeCache(false);
-            _datePatterns.FinalizeCache(false);
-            _numericPatterns.FinalizeCache(false);
+            if (_textPatterns != null)
+                _textPatterns.FinalizeCache(false);
+            if (_datePatterns != null)
+                _datePatterns.FinalizeCache(false);
+            if (_numericPatterns != null)
+                _numericPatterns.FinalizeCache(false);
         }
     }
 }
