@@ -155,25 +155,60 @@
                                         </div>
                                     </div><!--//row-->
                                 </div><!--//section-block-->
-                                <div id="plans" class="section-block">
-                                    <h3 class="block-title">Equity Stock Plans</h3>
-                                    <p>The plans section allows you create, edit and delete equity compensation plans.</p>
+                                <div id="load-source" class="section-block">
+                                    <h3 class="block-title">Load Source</h3>
+                                    <p>The Load Source section allows you specify the input for the matrix data.</p>
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <h6>Plans List</h6>
+                                            <h6>Load Source - File Based</h6>
                                             <div class="screenshot-holder">
-                                                <a href="assets/images/company/03_company_plan_list.png" data-title="Plans List" data-toggle="lightbox"><img class="img-responsive" src="assets/images/company/03_company_plan_list.png" alt="screenshot" /></a>
-                                                <a class="mask" href="assets/images/company/03_company_plan_list.png" data-title="Plans List" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                <a href="assets/images/dashboard/IncTrak_VisAlyzer_load_source_file.png" data-title="Load from File" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/IncTrak_VisAlyzer_load_source_file.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/dashboard/IncTrak_VisAlyzer_load_source_file.png" data-title="Load from File" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
                                             </div>
-                                            <p>The plan list shows you all existing plans. You can create new plans by selecting the "Create New Plan>" link and see detail or edit existing plans by selecting the related link.</p>
+                                            <p>
+                                                <ol>
+                                                    <li>
+                                                        File Type
+                                                        <ul>
+                                                            <li>csv - a comma separated values text file</li>
+                                                            <li>
+                                                                Excel (xls, xlxs, etc.) - a Microsoft Excel file
+                                                                <ul>
+                                                                    <li>xlsx & xlsb - OpenXml - 2007 and newer</li>
+                                                                    <li>
+                                                                        xls - BIFF - 97-98, 2000-2004, XP, 2.0 to 5.0, 95
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>Choose File - press this button to choose a local file to upload for processing</li>
+                                                    <li>Status Bar - shows file upload progress</li>
+                                                    <li>Upload/Process File - press this button to create a new VisAlyze project from the uploaded file</li>
+                                                </ol>
+                                            </p>
                                         </div>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <h6>Plan Details</h6>
+                                            <h6>Load Source - Google Sheet Based</h6>
                                             <div class="screenshot-holder">
-                                                <a href="assets/images/company/04_company_plan.png" data-title="Plans Details" data-toggle="lightbox"><img class="img-responsive" src="assets/images/company/04_company_plan.png" alt="screenshot" /></a>
-                                                <a class="mask" href="assets/images/company/04_company_plan.png" data-title="Plans Details" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                <a href="assets/images/dashboard/IncTrak_VisAlyzer_load_source_google.png" data-title="Load from Google" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/IncTrak_VisAlyzer_load_source_google.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/dashboard/IncTrak_VisAlyzer_load_source_google.png" data-title="Load from Google" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
                                             </div>
-                                            <p>Set the Plan name and total number of shares allocated, Click "Submit" to save changes and "Remove" to delete the plan.</p>
+                                            <p>
+                                                <ol>
+                                                    <li>Sheet ID - The ID of the Google Sheet to load (see below on how to determine this value)</li>
+                                                    <li>Sheet Range - the name of the Sheet and range of cells to to load (see below on how to determine this the sheet name)</li>
+                                                    <li>Process Google Sheet - press this button to create a new VisAlyze project from the Google Sheet</li>
+                                                </ol>
+                                                <div class="screenshot-holder">
+                                                    <a href="assets/images/dashboard/IncTrak_VisAlyzer_google_sheet.png" data-title="Google ID & Sheet" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/IncTrak_VisAlyzer_google_sheet.png" alt="screenshot" /></a>
+                                                    <a class="mask" href="assets/images/dashboard/IncTrak_VisAlyzer_google_sheet.png" data-title="Google ID & Sheet" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                </div>
+                                                <ol>
+                                                    <li>Sheet ID - this is the Google Sheet ID</li>
+                                                    <li>Sheet Name - this is the Goole Sheet Name</li>
+                                                </ol>
+                                            </p>
                                         </div>
                                     </div><!--//row-->
                                 </div><!--//section-block-->
@@ -502,7 +537,7 @@
                                         <li><a class="scrollto" href="#dashboard">Dashboard</a></li>
                                         <li><a class="scrollto" href="#saved-projects">Saved Projects</a></li>
                                         <li><a class="scrollto" href="#project_options">Project Options</a></li>
-                                        <li><a class="scrollto" href="#plans">Equity Stock Plans</a></li>
+                                        <li><a class="scrollto" href="#load-source">Load Source</a></li>
                                         <li><a class="scrollto" href="#vestingschedule">Vesting Schedules</a></li>
                                         <li><a class="scrollto" href="#terminationdates">Termination Dates</a></li>
                                         <li><a class="scrollto" href="#participants">Participants</a></li>
