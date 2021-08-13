@@ -192,6 +192,7 @@ namespace Manga.IncTrak.Processing
                 {
                     ProcessHeaderRow(false, manga, row);
                 }
+
                 bool addRow = !_mangaInfo.IgnoreBlankRows;
                 if (addRow == false)
                 {

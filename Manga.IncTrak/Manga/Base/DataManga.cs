@@ -124,7 +124,7 @@ namespace Manga.IncTrak.Manga
                 if (index > calculatedNumberOfCols)
                     break;
 
-                if (ignoreIndexes.Count == 0 || ignoreIndexes.Contains(index) == false)
+                if (ignoreIndexes == null || ignoreIndexes.Count == 0 || ignoreIndexes.Contains(index) == false)
                 {
                     var dataCook = data as string;
                     if ( dataCook != null && (trimLeadingWhitespace || trimTrailingWhitespace))

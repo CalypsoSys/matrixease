@@ -59,25 +59,25 @@
         <form class="needs-validation was-validated">
             <div class="form-row">
                 <div class="col-6 pl-2">
-                    <label for="sheet_id">VisAlyzer Name</label>
-                    <input type="text" class="form-control" v-model="manga_name" placeholder="" required="">
+                    <label for="manga_name">VisAlyzer Name</label>
+                    <input id="manga_name" type="text" class="form-control" v-model="manga_name" placeholder="" required="">
                     <div class="invalid-feedback">
                         Please enter the name you want this VisAlyzer refered to as.
                     </div>
                 </div>
                 <div class="col-3 pl-2">
-                    <label for="range">Header on Row</label>
-                    <input type="number" class="form-control input-sm" v-model="header_row" placeholder="" :min="0">
+                    <label for="header_row">Header on Row</label>
+                    <input id="header_row" type="number" class="form-control input-sm" v-model="header_row" placeholder="" :min="0">
                 </div>
             </div>
             <div class="form-row ">
                 <div class="col-6 pl-2">
-                    <label for="sheet_id">Ignore Columns<span class="text-muted"> (Optional)</span></label>
-                    <input type="text" class="form-control" v-model="ignore_cols" placeholder="comma separated list of columns to ignore (name or 1 based column index)">
+                    <label for="ignore_cols">Ignore Columns<span class="text-muted"> (Optional)</span></label>
+                    <input type="text" id="ignore_cols" class="form-control" v-model="ignore_cols" placeholder="comma separated list of columns to ignore (name or 1 based column index)">
                 </div>
                 <div class="col-3  pl-2">
-                    <label for="range">Header Rows</label>
-                    <input type="number" class="form-control input-sm" v-model="header_rows" placeholder="" :min="0">
+                    <label for="header_rows">Header Rows</label>
+                    <input id="header_rows" type="number" class="form-control input-sm" v-model="header_rows" placeholder="" :min="0">
                 </div>
             </div>
             <div class="form-row ">

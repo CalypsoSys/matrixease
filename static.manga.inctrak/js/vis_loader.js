@@ -173,6 +173,9 @@ var mangaAuth = new Vue({
             if (!this.manga_name) {
                 error += "Please enter VisAlyzer Name\n";
             }
+            if (this.header_row <=0 ) {
+                error += "Header Row must be greater than zero\n";
+            }
             if (this.header_row > this.header_rows) {
                 error += "Header on Row cannot be greater then Header Row\n";
             }

@@ -9,6 +9,7 @@
     <meta name="description" content="Easliy visualize and analyze massive matrix datas from multiple data sources." />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">  
     <link rel="icon" href="IncTrakIcon.png">
@@ -73,62 +74,84 @@
                             <section id="dashboard-components" class="doc-section">
                                 <h2 class="section-title">Dashboard Components</h2>
                                 <div id="saved-projects" class="section-block">
-                                    <h3 class="block-title">Saved Projects</h3>
-                                    <p>Thise section shows all of your currently saved VisAlyzer projects.</p>
+                                    <h3 class="block-title">Dashboard Overview</h3>
+                                    <p>This is the main launching pad to create a new or load a saved VisAlyzer project.</p>
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <h6>Dashboard Overview</h6>
+                                            <h6>Dashboard</h6>
                                             <div class="screenshot-holder">
                                                 <a href="assets/images/dashboard/VisAlyzer_dashboard_full.png" data-title="Dashboard Overview" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/VisAlyzer_dashboard_full.png" alt="screenshot" /></a>
                                                 <a class="mask" href="assets/images/dashboard/VisAlyzer_dashboard_full.png" data-title="Dashboard Overview" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
                                             </div>
-                                            <p>The dashboard is the main area load a saved or start a new VisAlyze project.</p>
+                                            <p>
+                                                <ol>
+                                                    <li>Saved Project - load a previously saved VisAlyze project</li>
+                                                    <li>Project Options - set the options for a new project</li>
+                                                    <li>Load Source - Define the location of the the source matrix data</li>
+                                                </ol>
+                                            </p>
                                         </div>
                                     </div><!--//row-->
                                 </div><!--//section-block-->
 
                                 <div id="saved-projects" class="section-block">
                                     <h3 class="block-title">Saved Projects</h3>
-                                    <p>The stock class section allows you create, edit and delete stock classes.</p>
+                                    <p>The shows the list of saved project that you have created.</p>
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <h6>Stock Class List</h6>
+                                            <h6>Saved Projects List</h6>
                                             <div class="screenshot-holder">
-                                                <a href="assets/images/company/a_company_stockclass_list.png" data-title="Stock Class List" data-toggle="lightbox"><img class="img-responsive" src="assets/images/company/a_company_stockclass_list.png" alt="screenshot" /></a>
-                                                <a class="mask" href="assets/images/company/a_company_stockclass_list.png" data-title="Stock Class List" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                <a href="assets/images/dashboard/VisAlyzer_saved_projects.png" data-title="Saved Projects" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/VisAlyzer_saved_projects.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/dashboard/VisAlyzer_saved_projects.png" data-title="Saved Projects" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
                                             </div>
-                                            <p>The stock class list shows you all stock classes. You can create new stock classes by selecting the "Create New Stock Class>" link and see detail or edit existing plans by selecting the related link.</p>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <h6>Stock Class Details</h6>
-                                            <div class="screenshot-holder">
-                                                <a href="assets/images/company/a_company_stockclass_edit.png" data-title="Stock Class Details" data-toggle="lightbox"><img class="img-responsive" src="assets/images/company/a_company_stockclass_edit.png" alt="screenshot" /></a>
-                                                <a class="mask" href="assets/images/company/a_company_stockclass_edit.png" data-title="Stock Class Details" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
-                                            </div>
-                                            <p>Set the Plan name and total number for the stock class, Click "Submit" to save changes and "Remove" to delete the stock class.</p>
+                                            <p>
+                                                <ol>
+                                                    <li>VisAlyzer Name - the name of the saved project</li>
+                                                    <li>Source - the file name or Google sheet name of the source matrix</li>
+                                                    <li>Type - the type of the source amtrix data (csv, Excel, Google, etc.)</li>
+                                                    <li>Limit - the number of rows considered from the source matrix (All or a number)</li>
+                                                    <li>Status - the current status of the project (Complete and Running if still being processed)</li>
+                                                    <li>Created - the date and time that the project was created</li>
+                                                </ol>
+                                             </p>
                                         </div>
                                     </div><!--//row-->
                                 </div><!--//section-block-->
 
-                                <div id="stockholder" class="section-block">
-                                    <h3 class="block-title">Stock Holders</h3>
-                                    <p>The stock holder section allows you create, edit and delete stock holders.</p>
+                                <div id="project_options" class="section-block">
+                                    <h3 class="block-title">Project Options</h3>
+                                    <p>The Project Options section allows you customize how the matrix data is loaded into a new project.</p>
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <h6>Stock Holder List</h6>
+                                            <h6>New project options settings</h6>
                                             <div class="screenshot-holder">
-                                                <a href="assets/images/company/a_company_stockholder_list.png" data-title="Stock Holder List" data-toggle="lightbox"><img class="img-responsive" src="assets/images/company/a_company_stockholder_list.png" alt="screenshot" /></a>
-                                                <a class="mask" href="assets/images/company/a_company_stockholder_list.png" data-title="Stock Holder List" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                <a href="assets/images/dashboard/VisAlyzer_project_options.png" data-title="Stock Holder List" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/VisAlyzer_project_options.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/dashboard/VisAlyzer_project_options.png" data-title="Stock Holder List" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
                                             </div>
-                                            <p>The stock holder list shows you a searchable list of stock holders. You can create new stock holders by selecting the "Create New Stock Holder>" link and see detail or edit existing holders by selecting the related link.</p>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <h6>Stock Holder Details</h6>
-                                            <div class="screenshot-holder">
-                                                <a href="assets/images/company/a_company_stockholder_edit.png" data-title="Stock Holder Details" data-toggle="lightbox"><img class="img-responsive" src="assets/images/company/a_company_stockholder_edit.png" alt="screenshot" /></a>
-                                                <a class="mask" href="assets/images/company/a_company_stockholder_edit.png" data-title="Stock Holder Details" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
-                                            </div>
-                                            <p>Set the Participant stock holder name, stock class, date of sale, price per share and the number stocks. Click "Submit" to save changes and "Remove" to delete the stock holder.</p>
+                                            <p>
+                                                <ol>
+                                                    <li>VisAlyzer Name - the name to be saved for the new project</li>
+                                                    <li>
+                                                        Ignore Columns - is list of columns (in CSV format) to not include from the source matrix
+                                                        <ul>
+                                                            <li>Column Indexes - the 1 based index list of columns to ignore. ex: 2, 5, 6 would ignore columns A, E and F in a tradiional spreadsheet</li>
+                                                            <li>Column Names - the "named" columns to ignore. These are derived from the names in your spreadsheet or if auto-generated COL_1, COL_2...COL_N</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        Data Rules
+                                                        <ul>
+                                                            <li>Ignore blank rows - if a row of matrix data has no values, ignore the entire row</li>
+                                                            <li>Ignore Text Case - treat all textual data as lowercase for grouping and analysis. (details of actual case will be preserved)</li>
+                                                            <li>Trim Leading Whitespace - for textual data remove all leading white space characters</li>
+                                                            <li>Trim Trailing Whitespace - for textual data remove all trailing white space characters</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>Header on Row - the one based index of the first row to consider as a header in the matrix data (must be 1 or greater)</li>
+                                                    <li>Header Rows - the number of rows from the "Header on Row" to consider when forming column names. If zero a column name will be generated (COL_1, COL_2...COL_N</li>
+                                                    <li>Stop After n Rows - the number of data rows to process in the matrix. A zero indicates all data is to be consumed.</li>
+                                                </ol>
+                                            </p>
                                         </div>
                                     </div><!--//row-->
                                 </div><!--//section-block-->
@@ -478,7 +501,7 @@
                                     <ul class="nav doc-sub-menu">
                                         <li><a class="scrollto" href="#dashboard">Dashboard</a></li>
                                         <li><a class="scrollto" href="#saved-projects">Saved Projects</a></li>
-                                        <li><a class="scrollto" href="#stockholder">Stock Holders</a></li>
+                                        <li><a class="scrollto" href="#project_options">Project Options</a></li>
                                         <li><a class="scrollto" href="#plans">Equity Stock Plans</a></li>
                                         <li><a class="scrollto" href="#vestingschedule">Vesting Schedules</a></li>
                                         <li><a class="scrollto" href="#terminationdates">Termination Dates</a></li>
