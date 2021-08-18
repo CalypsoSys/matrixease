@@ -272,7 +272,7 @@
                                     <p>Show a overall picture of the VisAlyze interface and the functionality of each component </p>
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <h6>Email</h6>
+                                            <h6>Main VisAlyze Interface</h6>
                                             <div class="screenshot-holder">
                                                 <a href="assets/images/visalyze/VisAlyzer_overview.png" data-title="Overview" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_overview.png" alt="screenshot" /></a>
                                                 <a class="mask" href="assets/images/visalyze/VisAlyzer_overview.png" data-title="Overview" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
@@ -310,57 +310,136 @@
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <h6>Dataset Statistics</h6>
                                             <div class="screenshot-holder">
-                                                <a href="assets/images/visalyze/" data-title="Grant List" data-toggle="lightbox"><img class="img-responsive" src="assets/images/participant/06_visalyze_grants_list.png" alt="screenshot" /></a>
-                                                <a class="mask" href="assets/images/visalyze/" data-title="Grant List" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                <a href="assets/images/visalyze/VisAlyzer_ds_stats.png" data-title="Dataset Statistics" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_ds_stats.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/visalyze/VisAlyzer_ds_stats.png" data-title="Dataset Statistics" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
                                             </div>
-                                            <p>The grant list shows the incentive plans this participant has been granted and see details of the grant by selecting the related link.. </p>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <h6>Grant Details</h6>
-                                            <div class="screenshot-holder">
-                                                <a href="assets/images/participant/07_visalyze_grant.png" data-title="Grant Details" data-toggle="lightbox"><img class="img-responsive" src="assets/images/participant/07_visalyze_grant.png" alt="screenshot" /></a>
-                                                <a class="mask" href="assets/images/participant/07_visalyze_grant.png" data-title="Grant Details" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
-                                            </div>
-                                            <p>The grant details section show all pertinent information of the grant</p>
+                                            <p>
+                                                <ul>
+                                                    <li>Total Rows - the total number of rows in the matrix</li>
+                                                    <li>Selected Rows - the current number of rows in the VisAlyze with the currently applied filter</li>
+                                                </ul>
+                                            </p>
                                         </div>
                                     </div><!--//row-->
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <h6>Grant Schedule</h6>
+                                            <h6>Column Statistics</h6>
                                             <div class="screenshot-holder">
-                                                <a href="assets/images/participant/08_visalyze_vest_schedule.png" data-title="Grant Schedule" data-toggle="lightbox"><img class="img-responsive" src="assets/images/participant/08_visalyze_vest_schedule.png" alt="screenshot" /></a>
-                                                <a class="mask" href="assets/images/participant/08_visalyze_vest_schedule.png" data-title="Grant Schedule" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                <a href="assets/images/visalyze/VisAlyzer_col_stats.png" data-title="Column Statistics" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_col_stats.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/visalyze/VisAlyzer_col_stats.png" data-title="Column Statistics" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
                                             </div>
-                                            <p>The fully calculate vesting schedule can be view here. The vesting schedule is calculated for all shares granted.</p>
+                                            <p>
+                                                Will update as you hover over different columns
+                                                <ul>
+                                                    <li>Column - the name of the active column</li>
+                                                    <li>Type - is this column a Measure or Dimension</li>
+                                                    <li>Data Type - does this column contain a Numbers, Date/Times or Text</li>
+                                                    <li>Empty Values - the number of empty values in this column</li>
+                                                    <li>Selectivity - the overall uniqueness of data in this column (0 to 100 - the higher the number the moer unique values)</li>
+                                                </ul>
+                                            </p>
                                         </div>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <h6>Grant Views</h6>
+                                            <h6>Column Measures</h6>
                                             <div class="screenshot-holder">
-                                                <a href="assets/images/participant/09_visalyze_vest_schedule2.png" data-title="Grant Views" data-toggle="lightbox"><img class="img-responsive" src="assets/images/participant/09_visalyze_vest_schedule2.png" alt="screenshot" /></a>
-                                                <a class="mask" href="assets/images/participant/09_visalyze_vest_schedule2.png" data-title="Grant Views" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                <a href="assets/images/visalyze/VisAlyzer_col_measures.png" data-title="Column Measures" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_col_measures.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/visalyze/VisAlyzer_col_measures.png" data-title="Column Measures" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
                                             </div>
-                                            <p>You can use the view specific detail radio button to show just the details needed</p>
-                                            <ul>
-                                                <li>Show Period - show/hide the sequential period number</li>
-                                                <li>Show Details - show the percentage and shares increments for each vesting period</li>
-                                                <li>Show Total - show the cumulative percentage and shares for each vesting period</li>
-                                                <li>Show Vested Only - only show periods that have vested before the current system date</li>
-                                            </ul>
+                                            <p>
+                                                Will update as you hover over different columns
+                                                <ul>
+                                                    <li>Group by - will show the number of categories (buckets) and the type of category applied. Native infers raw format was used for grouping.</li>
+                                                    <li>Distinct Values - the total number of distinct values in this column</li>
+                                                    <li>
+                                                        For Numbers
+                                                        <ul>
+                                                            <li>Average - the calculated average of all the numbers in the column</li>
+                                                            <li>Smallest - the smallest number of all the numbers in the column</li>
+                                                            <li>Largest - the largest number of all the numbers in the column</li>
+                                                            <li>Standard Deviation - the calculated standard deviation of all the numbers in the column</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        For Text
+                                                        <ul>
+                                                            <li>Average Text Length - the calculated average text length of all the data in the column</li>
+                                                            <li>Average Number of Terms - the calculated average number of terms (separated by white space) of all the data in the column</li>
+                                                            <li>Column is URL - specifies that all the data in the column is a URL</li>
+                                                            <li>Short Test Length - the shortest text length of all the data in the column</li>
+                                                            <li>Longest Test Length - the longest text length of all the data in the column</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        For Date/Time
+                                                        <ul>
+                                                            <li>Earliest - the earliest date/time of all the data in the column</li>
+                                                            <li>Latest - the latest date/time of all the data in the column</li>
+                                                            <li>Average - the average date/time of all the data in the column</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </p>
                                         </div>
                                     </div><!--//row-->
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Data Statistics</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/visalyze/VisAlyzer_data_stats.png" data-title="Data Statistics" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_data_stats.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/visalyze/VisAlyzer_data_stats.png" data-title="Data Statistics" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                Will update as you hover over different cells
+                                                <ul>
+                                                    <li>Value - the named valued of the cell (the grouped catgeory name or range if numberic or date/time)</li>
+                                                    <li>Percent of Total - the percent of the total rows for the rows in the cell</li>
+                                                    <li>Selected Percent of Total - the percent of the total rows for the filtered rows in the cell</li>
+                                                    <li>Percent of Selected - the percent of the filtered rows for the filtered rows in the cell</li>
+                                                    <li>Rows - the total number of rows represented by this cell</li>
+                                                    <li>Selected Rows - the number of rows represented by this cell with the current filter applied</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+
                                 </div><!--//section-block-->
 
-                                <div id="visalyze-summary" class="section-block">
-                                    <h3 class="block-title">Summary</h3>
-                                    <p>The visalyze summary shows all the shares the participant has been granted by plan</p>
+                                <div id="visalyze-selections" class="section-block">
+                                    <h3 class="block-title">Selections</h3>
+                                    <p>Apply different filters and actions to the VisAlyze project</p>
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <h6>Summary Overview</h6>
+                                            <h6>Selection slide-out</h6>
                                             <div class="screenshot-holder">
-                                                <a href="assets/images/participant/05_visalyze_summary.png" data-title="Summary Overview" data-toggle="lightbox"><img class="img-responsive" src="assets/images/participant/05_visalyze_summary.png" alt="screenshot" /></a>
-                                                <a class="mask" href="assets/images/participant/05_visalyze_summary.png" data-title="Summary Overview" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                <a href="assets/images/visalyze/VisAlyzer_selections.png" data-title="Selections" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_selections.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/visalyze/VisAlyzer_selections.png" data-title="Selections" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
                                             </div>
-                                            <p>They can see the total amount of currently vested and unvested shares in this view.</p>
+                                            <p>
+                                                <ol>
+                                                    <li>Apply Selections - apply the currently configured items in the slide-out to the VisAlyze project</li>
+                                                    <li>Only show items that are - this allows you to show only the cells that are within the defined range of the percentage of total</li>
+                                                    <li>Show Cell fill as
+                                                        <ul>
+                                                            <li>Percent of Total - color the cell in red as a percentage of the total</li>
+                                                            <li>Percent of Total and of Selected - color the cell in green as a percentage of the total and color the cell in red as the percentage of the selected filter</li>
+                                                            <li>Percent of Selected - color the cell in red as the percentage of the selected filter</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>Left Click Selection Action - if you left click in a cell apply the filter as
+                                                        <ul>
+                                                            <li>Overwite Selection - replace the entire filter with a filter of this cell</li>
+                                                            <li>OR Selections - add to the current filter a OR of this cell</li>
+                                                            <li>AND Selections - add to the current filter a AND of this cell</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>Columns
+                                                        <ul>
+                                                            <li>Order Ascending - order the columns by percentage in ascending order (smallest to largest)</li>
+                                                            <li>Hidden Column - hide the marked column from the display</li>
+                                                        </ul>
+                                                    </li>
+                                                </ol>
+                                            </p>
                                         </div>
                                     </div><!--//row-->
                                 </div><!--//section-block-->
@@ -433,7 +512,7 @@
                                     <ul class="nav doc-sub-menu">
                                         <li><a class="scrollto" href="#visalyze-overview">Overview</a></li>
                                         <li><a class="scrollto" href="#visalyze-quick-statistics">Quick Statistics</a></li>
-                                        <li><a class="scrollto" href="#visalyze-summary">Summary</a></li>
+                                        <li><a class="scrollto" href="#visalyze-selections">Selections</a></li>
                                         <li><a class="scrollto" href="#visalyze-grants">Grants</a></li>
                                     </ul><!--//nav-->
                                 </li>
