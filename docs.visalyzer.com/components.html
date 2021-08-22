@@ -471,7 +471,31 @@
                                                 <a href="assets/images/visalyze/VisAlyzer_col_settings_text.png" data-title="Text Settings" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_col_settings_text.png" alt="screenshot" /></a>
                                                 <a class="mask" href="assets/images/visalyze/VisAlyzer_col_settings_text.png" data-title="Text Settings" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
                                             </div>
-                                            <p>The fully calculate vesting schedule can be view here. The vesting schedule is calculated for all shares granted.</p>
+                                            <p>
+                                                <ul>
+                                                    <li>Top secton shows metrics on the column (see Column Statistics and Measures above) </li>
+                                                    <li>For text the 2nd secion will also conatin counts of different catgeorizations mechanisms</li>
+                                                    <li>
+                                                        Bucketed - if check the column has been categorized - you can force or change categorization
+                                                        <ul>
+                                                            <li>Natural - use the raw data for cell groups</li>
+                                                            <li>One Letter Prefixes - use the first character of the text for cell groups</li>
+                                                            <li>Two Letter Prefixes - use the first two characters of the text for cell groups</li>
+                                                            <li>Three Letter Prefixes - use the first three characters of the text for cell groups</li>
+                                                            <li>Four Letters Prefixes - use the first four characters of the text for cell groups</li>
+                                                            <li>Word Patterns - determine available word patterns for cell groups</li>
+                                                            <li>Most Significant Terms - analyze the terms in all the text using TF-IDF for cell groups</li>
+                                                            <li>"Text Length - use the average length of text for cell groups</li>
+                                                            <li>"Url Schemes - use the URL Scheme cell groups (http, https, ftp, etc.)</li>
+                                                            <li>"Url Domains - use the URL domain for cell groups</li>
+                                                            <li>"First Url Path - use the 1st part of the URL (after domain) for cell groups</li>
+                                                            <li>Second Url Path - use the 2nd part of the URL (after domain) for cell groups</li>
+                                                            <li>Third Url Path - use the 3rd part of the URL (after domain) for cell groups</li>
+                                                            <li>"Common Url Path Terms</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </p>
                                         </div>
                                     </div><!--//row-->
                                     <div class="row">
@@ -481,7 +505,19 @@
                                                 <a href="assets/images/visalyze/VisAlyzer_col_settings_number.png" data-title="Number Settings" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_col_settings_number.png" alt="screenshot" /></a>
                                                 <a class="mask" href="assets/images/visalyze/VisAlyzer_col_settings_number.png" data-title="Number Settings" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
                                             </div>
-                                            <p>The fully calculate vesting schedule can be view here. The vesting schedule is calculated for all shares granted.</p>
+                                            <p>
+                                                <ul>
+                                                    <li>Top secton shows metrics on the column (see Column Statistics and Measures above) </li>
+                                                    <li>For numbers the 2nd secion will also conatin counts of different catgeorizations mechanisms</li>
+                                                    <li>
+                                                        Bucketed - if check the column has been categorized - you can force or change categorization
+                                                        <ul>
+                                                            <li>Ranges - uses the number entered in the "Bucket Modifier" field as as a range to group numbers from lowest to highest for cell grouping</li>
+                                                            <li>Max average/outlier buckets - uses the average and standard diviation of all values and the number entered in the "Bucket Modifier" field as the number of categories to create bucks for cell grouping. Any item that all out of the standard grouping will be put in high and low outlier groups. </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </p>
                                         </div>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <h6>Date/Time Settings</h6>
@@ -489,7 +525,32 @@
                                                 <a href="assets/images/visalyze/VisAlyzer_col_settings_datetime.png" data-title="Date/Time Settings" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_col_settings_datetime.png" alt="screenshot" /></a>
                                                 <a class="mask" href="assets/images/visalyze/VisAlyzer_col_settings_datetime.png" data-title="Date/Time Settings" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
                                             </div>
-                                            <p>You can use the view specific detail radio button to show just the details needed</p>
+                                            <p>
+                                                <ul>
+                                                    <li>Top secton shows metrics on the column (see Column Statistics and Measures above) </li>
+                                                    <li>For date/time the 2nd secion will also conatin counts of different catgeorizations mechanisms</li>
+                                                    <li>
+                                                        Bucketed - if check the column has been categorized - you can force or change categorization
+                                                        <ul>
+                                                            <li>Milli-Second buckets - from earliest to latest break the date/time into milli-second cell groups</li>
+                                                            <li>1 Second buckets - from earliest to latest break the date/time into one second cell groups</li>
+                                                            <li>1 Minute buckets - from earliest to latest break the date/time into one minute cell groups</li>
+                                                            <li>1 Hour buckets - from earliest to latest break the date/time into one hour cell groups</li>
+                                                            <li>1 Day buckets - from earliest to latest break the date/time into one day cell groups</li>
+                                                            <li>1 Week buckets - from earliest to latest break the date/time into one week cell groups</li>
+                                                            <li>1 Month buckets - from earliest to latest break the date/time into one month cell groups</li>
+                                                            <li>1 Year buckets - from earliest to latest break the date/time into one year cell groups</li>
+                                                            <li>1 Decade buckets - from earliest to latest break the date/time into one decade cell groups</li>
+                                                            <li>1 Century buckets - from earliest to latest break the date/time into one year cell groups</li>
+                                                            <li>Months of the Year - break the date/time inot each month of the year for cell groups</li>
+                                                            <li>Days of the Week - break the date/time into each day of the week for cell groups</li>
+                                                            <li>Hours of the Day - break the date/time into each hour of the day for cell groups</li>
+                                                            <li>Minutes of the Hour - break the date/time into each minute of the hour for cell groups</li>
+                                                            <li>Seconds of the Minute - break the date/time into each second of the minute for cell groups</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </p>
                                         </div>
                                     </div><!--//row-->
                                 </div><!--//section-block-->
