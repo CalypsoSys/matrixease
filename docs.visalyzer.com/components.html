@@ -303,6 +303,34 @@
                                     </div><!--//row-->
                                 </div><!--//section-block-->
 
+                                <div id="visalyze-cell-vis" class="section-block">
+                                    <h3 class="block-title">Cell Visualization</h3>
+                                    <p>Shows how each column cell is group and classified to represent it's relationship to other column cells.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Saved Projects List</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/visalyze/VisAlyzer_cell_data.png" data-title="Cell Visualization" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_cell_data.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/visalyze/VisAlyzer_cell_data.png" data-title="Cell Visualization" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                The above image show the same three rows of data with the same filter applied, but with a different visualization percentage scheme applied. The fill on each cell conveys the percentage of total on the whole.
+                                                <ol>
+                                                    <li>Percent of Total and of Selected - This show the total percent of the rows for this cell (group) in green and currently selected percent of the rows in red. </li>
+                                                    <li>Percent of Total - This shows the percent of the total rows for this filtered cell (group) in red.</li>
+                                                    <li>Percent of Selected - This shows the percentage of the total filtered rows for this filtered cell (group) in red.</li>
+                                                </ol>
+                                                For example in the above data for the column "manufacturer" and the cell "ford"
+                                                <ol>
+                                                    <li>The "ford" model accounts for 17.39% of all the rows with "ford" in this column compared to the total number of rows.</li>
+                                                    <li>The "ford" model accounts for 5.09% of the filter rows with "ford" in this column compared to the total number of rows.</li>
+                                                    <li>The "ford" model accounts for 16.52% of the filter rows with "ford" in this column compared to the total number of filtered rows.</li>
+                                                </ol>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+
                                 <div id="visalyze-quick-statistics" class="section-block">
                                     <h3 class="block-title">Quick Statistics</h3>
                                     <p>A quick view of matrix statistics on the whole, column and cell level. Will auto-update as you hover over columns and cells.</p>
@@ -323,21 +351,41 @@
                                     </div><!--//row-->
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <h6>Column Statistics</h6>
-                                            <div class="screenshot-holder">
-                                                <a href="assets/images/visalyze/VisAlyzer_col_stats.png" data-title="Column Statistics" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_col_stats.png" alt="screenshot" /></a>
-                                                <a class="mask" href="assets/images/visalyze/VisAlyzer_col_stats.png" data-title="Column Statistics" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            <div>
+                                                <h6>Column Statistics</h6>
+                                                <div class="screenshot-holder">
+                                                    <a href="assets/images/visalyze/VisAlyzer_col_stats.png" data-title="Column Statistics" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_col_stats.png" alt="screenshot" /></a>
+                                                    <a class="mask" href="assets/images/visalyze/VisAlyzer_col_stats.png" data-title="Column Statistics" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                </div>
+                                                <p>
+                                                    Will update as you hover over different columns
+                                                    <ul>
+                                                        <li>Column - the name of the active column</li>
+                                                        <li>Type - is this column a Measure or Dimension</li>
+                                                        <li>Data Type - does this column contain a Numbers, Date/Times or Text</li>
+                                                        <li>Empty Values - the number of empty values in this column</li>
+                                                        <li>Selectivity - the overall uniqueness of data in this column (0 to 100 - the higher the number the moer unique values)</li>
+                                                    </ul>
+                                                </p>
                                             </div>
-                                            <p>
-                                                Will update as you hover over different columns
-                                                <ul>
-                                                    <li>Column - the name of the active column</li>
-                                                    <li>Type - is this column a Measure or Dimension</li>
-                                                    <li>Data Type - does this column contain a Numbers, Date/Times or Text</li>
-                                                    <li>Empty Values - the number of empty values in this column</li>
-                                                    <li>Selectivity - the overall uniqueness of data in this column (0 to 100 - the higher the number the moer unique values)</li>
-                                                </ul>
-                                            </p>
+                                            <div>
+                                                <h6>Data Statistics</h6>
+                                                <div class="screenshot-holder">
+                                                    <a href="assets/images/visalyze/VisAlyzer_data_stats.png" data-title="Data Statistics" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_data_stats.png" alt="screenshot" /></a>
+                                                    <a class="mask" href="assets/images/visalyze/VisAlyzer_data_stats.png" data-title="Data Statistics" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                </div>
+                                                <p>
+                                                    Will update as you hover over different cells
+                                                    <ul>
+                                                        <li>Value - the named valued of the cell (the grouped catgeory name or range if numberic or date/time)</li>
+                                                        <li>Percent of Total - the percent of the total rows for the rows in the cell</li>
+                                                        <li>Selected Percent of Total - the percent of the total rows for the filtered rows in the cell</li>
+                                                        <li>Percent of Selected - the percent of the filtered rows for the filtered rows in the cell</li>
+                                                        <li>Rows - the total number of rows represented by this cell</li>
+                                                        <li>Selected Rows - the number of rows represented by this cell with the current filter applied</li>
+                                                    </ul>
+                                                </p>
+                                            </div>
                                         </div>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <h6>Column Measures</h6>
@@ -381,27 +429,6 @@
                                             </p>
                                         </div>
                                     </div><!--//row-->
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <h6>Data Statistics</h6>
-                                            <div class="screenshot-holder">
-                                                <a href="assets/images/visalyze/VisAlyzer_data_stats.png" data-title="Data Statistics" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_data_stats.png" alt="screenshot" /></a>
-                                                <a class="mask" href="assets/images/visalyze/VisAlyzer_data_stats.png" data-title="Data Statistics" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
-                                            </div>
-                                            <p>
-                                                Will update as you hover over different cells
-                                                <ul>
-                                                    <li>Value - the named valued of the cell (the grouped catgeory name or range if numberic or date/time)</li>
-                                                    <li>Percent of Total - the percent of the total rows for the rows in the cell</li>
-                                                    <li>Selected Percent of Total - the percent of the total rows for the filtered rows in the cell</li>
-                                                    <li>Percent of Selected - the percent of the filtered rows for the filtered rows in the cell</li>
-                                                    <li>Rows - the total number of rows represented by this cell</li>
-                                                    <li>Selected Rows - the number of rows represented by this cell with the current filter applied</li>
-                                                </ul>
-                                            </p>
-                                        </div>
-                                    </div><!--//row-->
-
                                 </div><!--//section-block-->
 
                                 <div id="visalyze-selections" class="section-block">
@@ -418,21 +445,24 @@
                                                 <ol>
                                                     <li>Apply Selections - apply the currently configured items in the slide-out to the VisAlyze project</li>
                                                     <li>Only show items that are - this allows you to show only the cells that are within the defined range of the percentage of total</li>
-                                                    <li>Show Cell fill as
+                                                    <li>
+                                                        Show Cell fill as
                                                         <ul>
                                                             <li>Percent of Total - color the cell in red as a percentage of the total</li>
                                                             <li>Percent of Total and of Selected - color the cell in green as a percentage of the total and color the cell in red as the percentage of the selected filter</li>
                                                             <li>Percent of Selected - color the cell in red as the percentage of the selected filter</li>
                                                         </ul>
                                                     </li>
-                                                    <li>Left Click Selection Action - if you left click in a cell apply the filter as
+                                                    <li>
+                                                        Left Click Selection Action - if you left click in a cell apply the filter as
                                                         <ul>
                                                             <li>Overwite Selection - replace the entire filter with a filter of this cell</li>
                                                             <li>OR Selections - add to the current filter a OR of this cell</li>
                                                             <li>AND Selections - add to the current filter a AND of this cell</li>
                                                         </ul>
                                                     </li>
-                                                    <li>Columns
+                                                    <li>
+                                                        Columns
                                                         <ul>
                                                             <li>Order Ascending - order the columns by percentage in ascending order (smallest to largest)</li>
                                                             <li>Hidden Column - hide the marked column from the display</li>
@@ -575,6 +605,7 @@
                                     <a class="scrollto" href="#visalyze-components">VisAlyze Components</a>
                                     <ul class="nav doc-sub-menu">
                                         <li><a class="scrollto" href="#visalyze-overview">Overview</a></li>
+                                        <li><a class="scrollto" href="#visalyze-cell-vis">Cell Visualization</a></li>
                                         <li><a class="scrollto" href="#visalyze-quick-statistics">Quick Statistics</a></li>
                                         <li><a class="scrollto" href="#visalyze-selections">Selections</a></li>
                                         <li><a class="scrollto" href="#visalyze-col-actions">Column Actions</a></li>
