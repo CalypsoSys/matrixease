@@ -331,6 +331,54 @@
                                     </div><!--//row-->
                                 </div><!--//section-block-->
 
+                                <div id="visalyze-filtering" class="section-block">
+                                    <h3 class="block-title">Filtering</h3>
+                                    <p>Shows how set filters on the data based on boolean logic as you interact with cells visually.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Saved Projects List</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/visalyze/VisAlyzer_filters.png" data-title="Filters" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_filters.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/visalyze/VisAlyzer_filters.png" data-title="Filters" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                The above image show the various ways to filter and options.
+                                                <ol>
+                                                    <li>
+                                                        Left Click Cell Selection - the selections sidebar allow you to choose the left click action on cells 
+                                                        <ul>
+                                                            <li>Overwrite Selection - replaces the current filter with a filter for only the selected cell</li>
+                                                            <li>OR Selections - adds to the current filter with a filter with selected cell as a OR condition</li>
+                                                            <li>AND Selections - adds to the current filter with a filter with selected cell as a AND condition</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        Right Click Cell Selection - right click in any cell to choose to add the selection as different types
+                                                        <ul>
+                                                            <li>ONLY this Cell - replaces the current filter with a filter for only the selected cell</li>
+                                                            <li>OR this Cell - adds to the current filter with a filter with selected cell as a OR condition</li>
+                                                            <li>AND this Cell - adds to the current filter with a filter with selected cell as a AND condition</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>Pending Filter Change - this will be flashing if the filter in the Filter Expression dialog is changed from what is displayed as the selection (i.e. it has not been applied)</li>
+                                                    <li>
+                                                        Filter Expression
+                                                        <ul>
+                                                            <li>Expression Block - show the current filter, you can edit this manually to add complex filters (and, or, not groups, etc.)</li>
+                                                            <li>Clear - clears the current filter expression</li>
+                                                            <li>Restore - remove the current pending filter (see flashing notification) and restor the active expression</li>
+                                                            <li>Group Current - treat the current expression a group (add parenthesis) new operations will be addative after the group</li>
+                                                            <li>NOT Current - reverse the logic in the current expression to exclude items in the filter expression</li>
+                                                            <li>Close - hide the Filter Expression dialog</li>
+                                                            <li>Apply Filter - Apply the current viewed filter to the VisAlyze project</li>
+                                                        </ul>
+                                                    </li>
+                                                </ol>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+
                                 <div id="visalyze-quick-statistics" class="section-block">
                                     <h3 class="block-title">Quick Statistics</h3>
                                     <p>A quick view of matrix statistics on the whole, column and cell level. Will auto-update as you hover over columns and cells.</p>
@@ -606,6 +654,7 @@
                                     <ul class="nav doc-sub-menu">
                                         <li><a class="scrollto" href="#visalyze-overview">Overview</a></li>
                                         <li><a class="scrollto" href="#visalyze-cell-vis">Cell Visualization</a></li>
+                                        <li><a class="scrollto" href="#visalyze-filtering">Filtering</a></li>
                                         <li><a class="scrollto" href="#visalyze-quick-statistics">Quick Statistics</a></li>
                                         <li><a class="scrollto" href="#visalyze-selections">Selections</a></li>
                                         <li><a class="scrollto" href="#visalyze-col-actions">Column Actions</a></li>
