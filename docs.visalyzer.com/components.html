@@ -650,6 +650,14 @@
                                             </div>
                                             <p>
                                                 <ul>
+                                                    <li>Header - shows metrics for text columns</li>
+                                                    <li>Unique - the total nuber of unique values</li>
+                                                    <li>Sample Size - the maximum size of unique values considered</li>
+                                                    <li>Text Length - shows statistics for the length of text</li>
+                                                    <li>One Character Prefixes - shows the top one character prefixes and counts for each</li>
+                                                    <li>Two Character Prefixes - shows the top two character prefixes and counts for each</li>
+                                                    <li>Three Character Prefixes - shows the top three character prefixes and counts for each</li>
+                                                    <li>Four Character Prefixes - shows the top four character prefixes and counts for each</li>
                                                 </ul>
                                             </p>
                                         </div>
@@ -661,6 +669,15 @@
                                             </div>
                                             <p>
                                                 <ul>
+                                                    <li>Unique - the total nuber of unique values</li>
+                                                    <li>Sample Size - the maximum size of unique values considered</li>
+                                                    <li>All Term Stats - statistics on terms used per cell across all rows</li>
+                                                    <li>Distinct Term Stats - statistics on the distinct terms used per cell across all rows</li>
+                                                    <li>All Considered Terms Stats - statistics on terms used per cell across all rows removing common(stop) words</li>
+                                                    <li>Distinct Considered Terms Stats - statistics on the distinct terms used per cell across all rows removing common(stop) words</li>
+                                                    <li>Term Counts - the top terms in the document and the occurance count</li>
+                                                    <li>Term Weights - the ranking by TK-IDF (Term Frequency — Inverse Document Frequency) terms in the document</li>
+                                                    <li>Calculated Term Patterns - the list of possible term patterns</li>
                                                 </ul>
                                             </p>
                                         </div>
@@ -674,6 +691,9 @@
                                             </div>
                                             <p>
                                                 <ul>
+                                                    <li>Header - shows metrics for numeric columns</li>
+                                                    <li>Numeric Stats - the numeric metrics on the column across all rows but exluding null or empty values</li>
+                                                    <li>Numeric Stats with null/empty values - the numeric metrics on the column across all rows but treating null and empty values as zero</li>
                                                 </ul>
                                             </p>
                                         </div>
@@ -685,6 +705,56 @@
                                             </div>
                                             <p>
                                                 <ul>
+                                                    <li>Header - shows metrics for date/time columns</li>
+                                                    <li>Date Stats - the date/time metrics on the column across all rows (exluding null or empty values)</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+
+                                <div id="visalyze-col-report" class="section-block">
+                                    <h3 class="block-title">Column Report</h3>
+                                    <p>Show a matrix report on the data and categorization in this column.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Text Stats 1</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/visalyze/VisAlyzer_col_report.png" data-title="Column Report" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_col_report.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/visalyze/VisAlyzer_col_report.png" data-title="Column Report" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ul>
+                                                    <li>Value - The raw value or catgeory value for this cell in the column</li>
+                                                    <li>Percent of Total - the percentage of rows of this value in the column</li>
+                                                    <li>Sel Pct Of Total - the percentage of the filtered rows of this value in the column as it relates to the total rows</li>
+                                                    <li>Pct of Sel - the percentage of the filtered rows of this value in the column as it relates to the filtered rows</li>
+                                                    <li>Rows - the number of rows where this raw value or catgeory value occurs</li>
+                                                    <li>Selected Rows - the number of filtered rows where this raw value or catgeory value occurs</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+
+                                <div id="visalyze-cell-actions" class="section-block">
+                                    <h3 class="block-title">Cell Actions</h3>
+                                    <p>Use cell actions by right clicking in a cell.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Text Stats 1</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/visalyze/VisAlyzer_cell_actions.png" data-title="Cell Actions" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_cell_actions.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/visalyze/VisAlyzer_cell_actions.png" data-title="Cell Actions" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ul>
+                                                    <li>ONLY this Cell - apply this cell as the new filter for the VisAlyzer (replaces all other filter criterial)</li>
+                                                    <li>AND this Cell - apply a boolean AND with this cell to the current filter criteria</li>
+                                                    <li>OR this Cell - apply a boolean OR with this cell to the current filter criteria</li>
+                                                    <li>Show Raw Keys for this Cell - if selected "Ignore Text Case" this will show all raw case sensitive fields for this cell</li>
+                                                    <li>Show Measures for this Cell - select and show metrics for measures as they relate to this cell</li>
+                                                    <li>Show rows for this cell - show the selected rows fot his cell</li>
                                                 </ul>
                                             </p>
                                         </div>
@@ -719,6 +789,8 @@
                                         <li><a class="scrollto" href="#visalyze-col-actions">Column Actions</a></li>
                                         <li><a class="scrollto" href="#visalyze-col-settings">Column Settings</a></li>
                                         <li><a class="scrollto" href="#visalyze-col-stats">Column Stats</a></li>
+                                        <li><a class="scrollto" href="#visalyze-col-report">Column Report</a></li>
+                                        <li><a class="scrollto" href="#visalyze-cell-actions">Cell Actions</a></li>
 
                                     </ul><!--//nav-->
                                 </li>
