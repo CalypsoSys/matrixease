@@ -164,5 +164,12 @@ namespace Desktop.Manga.IncTrak.Controllers
             var manga = MangaState.LoadManga(MangaDesktop.VisId(vis_id), filtered, -1, new MangaLoadOptions(false));
             return new { Success = true, DuplicateEntries = manga.GetDuplicateEntries(selected_node) };
         }
+        
+        [HttpGet("get_dependency_diagram")]
+        public object GetDependencyDiagram(string inctrak_id, string vis_id, int col_index, string selected_node, bool filtered)
+        {
+            var manga = MangaState.LoadManga(MangaDesktop.VisId(vis_id), filtered, -1, new MangaLoadOptions(false));
+            return new { Success = true, DependencyDiagram = manga.GetDependencyDiagram(selected_node) };
+        }
     }
 }

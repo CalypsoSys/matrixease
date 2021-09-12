@@ -305,5 +305,19 @@ namespace manga.inctrak.com
 
             return new { Success = false };
         }
+        
+        [HttpGet("get_dependency_diagram")]
+        public object GetDependencyDiagram(string inctrak_id, string vis_id, int col_index, string selected_node, bool filtered)
+        {
+            CheckIncTrakId(inctrak_id, true);
+            var visId = Decrypt(vis_id);
+            if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
+            {
+                var manga = MangaState.LoadManga(visId, filtered, -1, new MangaLoadOptions(false));
+                return new { Success = true, DependencyDiagram = manga.GetDependencyDiagram(selected_node) };
+            }
+
+            return new { Success = false };
+        }
     }
 }

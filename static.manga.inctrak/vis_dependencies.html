@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>IncTrak VisAlyzer</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="icon100.ico">
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.3.1/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/visualize.css" />
+    <link rel="stylesheet" href="/css/vis_d3_chord.css" />
+    <script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.5.1/dist/vue-router.js"></script>
+    <script src="https://unpkg.com/axios@0.21.1/dist/axios.js"></script>
+    <script src="https://d3js.org/d3.v3.js"></script>
+    <script src="/js/vis_d3_chord.js"></script>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <img class="d-block mx-auto mb-4" src="/img/inctrak.svg" width="200">
+        </div>
+        <div id="vis_dependencies" style="z-index:-2">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="vis-dependencies"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/javascript/overrides.js"></script>
+    <script src="/js/vis_dependencies.js"></script>
+</body>
+</html>

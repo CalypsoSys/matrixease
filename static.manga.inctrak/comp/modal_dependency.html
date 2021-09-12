@@ -1,0 +1,19 @@
+﻿<transition name="modal_dependency">
+    <div class="modal-mask" style="max-height: 900px;overflow: auto; overflow-y:scroll;" v-show="show" @click="$emit('close')">
+        <div class="container modal-container modal-container-large" @click.stop>
+            <h4 class="mb-3"> {{ curdepdata.chord_name }} <button class="btn btn-info btn-sm" @click="openColDependencyWindow">Open in new tab</button></h4> 
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="vis-dependencies"></div>
+                </div>
+            </div>
+            <hr class="mb-4">
+            <div class="row">
+                <div class="col-sm">
+                    <button class="btn btn-primary" @click="$emit('close')">Close</button>
+                    <button class="btn btn-secondary" @click="cancel()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</transition>

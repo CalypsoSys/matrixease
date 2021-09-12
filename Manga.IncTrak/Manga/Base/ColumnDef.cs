@@ -686,6 +686,39 @@ namespace Manga.IncTrak.Manga
             return null;
         }
 
+        public object GetDependencyDiagram(string name, MyBitArray root)
+        {
+            List<Dictionary<string, string>> keys = new List<Dictionary<string, string>>();
+            keys.Add(new Dictionary<string, string> { { "name", name }, { "color", MiscHelpers.GetRandomColor() } });
+
+            List<int> toThisCell = new List<int>();
+            toThisCell.Add(0);
+            foreach (var nodeIndex in _rows.Keys)
+            {
+                var anded = _rows[nodeIndex].And(root);
+                int count = anded.GetCardinality();
+                if ( count > 0 )
+                {
+                    keys.Add(new Dictionary<string, string> { { "name", nodeIndex }, { "color", MiscHelpers.GetRandomColor() } });
+                    toThisCell.Add(count);
+                }
+            }
+            List<List<int>> matrix = new List<List<int>>();
+            for(int i=0; i< keys.Count;i++)
+            {
+                List<int> toAdd;
+                toAdd = Enumerable.Repeat(0, keys.Count).ToList();
+                if ( i != 0 )
+                {
+                    toAdd[0] = toThisCell[i];
+                }
+
+                matrix.Add(toAdd);
+
+            }
+            return new { keys = keys, matrix = matrix };
+        }
+
         public void CleanupWorkingSet()
         {
             if (_textPatterns != null)

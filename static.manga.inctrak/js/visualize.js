@@ -80,6 +80,9 @@ var visualizer = new Vue({
 
         showModalReport: false,
         curreportdata: {},
+
+        showModalDep: false,
+        curdepdata: {},
     },
 
     mounted: function () {
@@ -876,6 +879,34 @@ var visualizer = new Vue({
                 .catch(error => {
                     visualizer.showModalDialog("Unknown Error", "Vis: unknown error duplicates cell.", error);
                 });
+            }
+        },
+        showDependencyDiagram: function() {
+            this.cellMenuDisplay = "none";
+            if (this.selectedNode == null) {
+                this.showModalDialog("Error", "Vis: cannot determine node, please try again.");
+            } else {
+                axios.get('/api/visualize/get_dependency_diagram', {
+                    params: {
+                        inctrak_id: document.getElementById('inctrak_id').value,
+                        vis_id: this.vis_id,
+                        col_index: this.selectedColumn.index,
+                        selected_node: this.selectedNode.value + "@" + this.selectedColumn.name + ":" + this.selectedColumn.index,
+                        filtered: true
+                        }
+                    })
+                    .then(response => {
+                        if (response.data && response.data.Success && response.data.DependencyDiagram) {
+                            this.curdepdata = response.data.DependencyDiagram;
+                            this.curdepdata.chord_name = this.selectedColumn.name + " Dependencies",
+                            this.showModalDep = true;
+                        } else {
+                            visualizer.showModalDialog("Unknown Error", "Vis: failure getting dependency diagram cell.");
+                        }
+                    })
+                    .catch(error => {
+                        visualizer.showModalDialog("Unknown Error", "Vis: unknown error dependency diagram cell.", error);
+                    });
             }
         },
         isTextType: function () {
