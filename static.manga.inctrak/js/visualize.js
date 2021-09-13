@@ -898,7 +898,6 @@ var visualizer = new Vue({
                     .then(response => {
                         if (response.data && response.data.Success && response.data.DependencyDiagram) {
                             this.curdepdata = response.data.DependencyDiagram;
-                            this.curdepdata.chord_name = this.selectedColumn.name + " Dependencies",
                             this.showModalDep = true;
                         } else {
                             visualizer.showModalDialog("Unknown Error", "Vis: failure getting dependency diagram cell.");

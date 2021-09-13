@@ -9,6 +9,8 @@ var visDependencies = new Vue({
     el: '#vis_dependencies',
     data: {
         mangaName: "",
+        curdepdata: null,
+        colData: null,
     },
 
     mounted: function () {
@@ -19,9 +21,12 @@ var visDependencies = new Vue({
         }
     },
     methods: {
-        renderChord: function (data) {
+        onChange() {
             initChords();
-            updateChords(data.depData.keys, data.depData.matrix);
+            updateChords(this.colData.keys, this.colData.matrix);
+        },
+        renderChord: function (data) {
+            this.curdepdata = data.depData.curdepdata;
         }
     }
 })

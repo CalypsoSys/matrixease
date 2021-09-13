@@ -6,28 +6,29 @@
     },
     data: function () {
         return {
-            myDependencies: null
+            colData: null,
         }
     },
     watch: {
         curdepdata: function (curdepdata) {
             this.curdepdata = curdepdata;
-            initChords();
-            updateChords(this.curdepdata.keys, this.curdepdata.matrix);
         },
     },
     methods: {
         onSubmitDoNothing: function () {
         },
+        onChange() {
+            initChords();
+            updateChords(this.colData.keys, this.colData.matrix);
+        },
         openColDependencyWindow: function () {
             var visDependencies = customWindowOpen("/vis_dependencies.html", "_blank",
-                { depData:
-                    {
-                        chord_name: this.curdepdata.chord_name,
-                        keys: this.curdepdata.keys,
-                        matrix: this.curdepdata.matrix
+                {
+                    depData: {
+                        curdepdata: this.curdepdata
                     }
-            });
+                }
+            );
         },
         cancel: function () {
             // Some save logic goes here...
