@@ -754,7 +754,8 @@
                                                     <li>OR this Cell - apply a boolean OR with this cell to the current filter criteria</li>
                                                     <li>Show Raw Keys for this Cell - if selected "Ignore Text Case" this will show all raw case sensitive fields for this cell</li>
                                                     <li>Show Measures for this Cell - select and show metrics for measures as they relate to this cell</li>
-                                                    <li>Show rows for this cell - show the selected rows fot his cell</li>
+                                                    <li>Show rows for this cell - show the selected rows for his cell</li>
+                                                    <li>Dependency Diagram for this cell - show how this particluar cell relates to other columns cells in terms of overlapping rows</li>
                                                 </ul>
                                             </p>
                                         </div>
@@ -800,6 +801,30 @@
                                             </div>
                                             <p>
                                                 You can only show the raw data for a single cell, if the number of rows related to that cell and less than 10,000
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Dependency Diagram for this cell</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/visalyze/VisAlyzer_cell_dependencies.png" data-title="Dependency Diagram" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_cell_dependencies.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/visalyze/VisAlyzer_cell_dependencies.png" data-title="Dependency Diagram" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                This will display a chord diagram of the rows in this cell and how they relate to a selected columns cells. This allows
+                                                you to visually inspect significant relationships between cells across columns. Select different columns from the drop-down to
+                                                chnage the selected view. Hover over individual "chords" to focus in on that relationship
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Dependency Diagram selection</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/visalyze/VisAlyzer_cell_seldep.png" data-title="Dependency Diagram" data-toggle="lightbox"><img class="img-responsive" src="assets/images/visalyze/VisAlyzer_cell_seldep.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/visalyze/VisAlyzer_cell_seldep.png" data-title="Dependency Diagram" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                Demonstraints hover over ations to show number of overlapping rows and highlight teh "chord" for this selection.
                                             </p>
                                         </div>
                                     </div><!--//row-->
