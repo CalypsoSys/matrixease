@@ -13,11 +13,11 @@
     <OutputPath></OutputPath>
   </PropertyGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(OS)' == 'Windows_NT'">
+  <Target Name="PostBuildWin" AfterTargets="PostBuildEvent" Condition="'$(OS)' == 'Windows_NT'">
     <Exec Command="copy $(OutDir)\* $(SolutionDir)bin" />
   </Target>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(OS)' == 'Unix'">
+  <Target Name="PostBuildNix" AfterTargets="PostBuildEvent" Condition="'$(OS)' == 'Unix'">
     <Exec Command="cp -r $(OutDir)/. $(ProjectDir)../bin/.; cp $(OutDir)/web_blaster $(ProjectDir)../bin/web_blaster.exe" />
   </Target>
 
