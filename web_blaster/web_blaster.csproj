@@ -18,7 +18,7 @@
   </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(OS)' == 'Unix'">
-    <Exec Command="if $(OS) == Windows_NT (&#xD;&#xA;copy $(OutDir)\* $(SolutionDir)bin&#xD;&#xA;) else (&#xD;&#xA;cp $(OutDir)\* $(SolutionDir)bin&#xD;&#xA;)&#xD;&#xA;&#xD;&#xA;" />
+    <Exec Command="cp $(OutDir)/web_blaster $(ProjectDir)..\bin\." />
   </Target>
 
 </Project>
