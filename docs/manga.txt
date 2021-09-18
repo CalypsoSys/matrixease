@@ -86,4 +86,16 @@ range: "108thHouse",
 
 Ubuntu Desktop 
 cd ~/dotnet/inctrak_manga
-git clone git@github.com:CalypsoSys/inctrak_manga.git
+git pull
+or
+	git clone git@github.com:CalypsoSys/inctrak_manga.git
+cd VisAlyzer.Apphgistory 
+electronize build /target linux
+
+Build blaster
+cd ~/dotnet/inctrak_manga/
+git pull
+cd web_blaster
+dotnet build --configuration Release
+
+

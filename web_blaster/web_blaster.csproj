@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy $(OutDir)\* $(SolutionDir)bin&#xD;&#xA;" />
+    <Exec Command="if $(OS) == Windows_NT (&#xD;&#xA;copy $(OutDir)\* $(SolutionDir)bin&#xD;&#xA;) else (&#xD;&#xA;cp $(OutDir)\* $(SolutionDir)bin&#xD;&#xA;)&#xD;&#xA;&#xD;&#xA;" />
   </Target>
 
 </Project>
