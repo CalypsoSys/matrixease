@@ -18,7 +18,7 @@
   </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(OS)' == 'Unix'">
-    <Exec Command="cp $(OutDir)/web_blaster $(ProjectDir)../bin/web_blaster.exe" />
+    <Exec Command="cp -r $(OutDir)/. $(ProjectDir)../bin/.; cp $(OutDir)/web_blaster $(ProjectDir)../bin/web_blaster.exe" />
   </Target>
 
 </Project>
