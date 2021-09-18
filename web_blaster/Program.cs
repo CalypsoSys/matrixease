@@ -10,8 +10,8 @@ namespace web_blaster
 
         static void Main(string[] args)
         {
-            DeleteFiles(args[2]);
-            CopyFiles(args[0] != "Debug", args[1], args[2]);
+            DeleteFiles(args[3]);
+            CopyFiles(args[0], args[1] != "Debug", args[2], args[3]);
         }
 
         private static void DeleteFiles(string dest)
@@ -32,7 +32,7 @@ namespace web_blaster
             }
         }
 
-        private static void CopyFiles(bool release, string source, string dest)
+        private static void CopyFiles(string os, bool release, string source, string dest)
         {
             DirectoryInfo di = new DirectoryInfo(source);
             foreach (FileInfo file in di.GetFiles())
@@ -40,7 +40,7 @@ namespace web_blaster
                 var destination = Path.Combine(dest, file.Name);
                 if (release)
                 {
-                    ProcessFile(file, destination);
+                    ProcessFile(os, file, destination);
                 }
                 else
                 {
@@ -51,11 +51,11 @@ namespace web_blaster
             {
                 string subDest = Path.Combine(dest, dir.Name);
                 Directory.CreateDirectory(subDest);
-                CopyFiles(release, dir.FullName, subDest);
+                CopyFiles(os, release, dir.FullName, subDest);
             }
         }
 
-        private static void ProcessFile(FileInfo source, string destination)
+        private static void ProcessFile(string os, FileInfo source, string destination)
         {
             switch (source.Extension)
             {
@@ -63,10 +63,10 @@ namespace web_blaster
                     UseMinifiedInHTML(source.FullName, destination);
                     break;
                 case ".js":
-                    UglifyFile(Uglifytype.uglifyjs, source.FullName, destination);
+                    UglifyFile(os, Uglifytype.uglifyjs, source.FullName, destination);
                     break;
                 case ".css":
-                    UglifyFile(Uglifytype.uglifycss, source.FullName, destination);
+                    UglifyFile(os, Uglifytype.uglifycss, source.FullName, destination);
                     break;
                 case ".png":
                 case ".svg":
@@ -81,11 +81,17 @@ namespace web_blaster
             }
         }
 
-        private static void UglifyFile(Uglifytype ugg, string source, string destination)
+        private static void UglifyFile(string os, Uglifytype ugg, string source, string destination)
         {
             Process process = new Process();
-            //process.StartInfo.FileName = string.Format("{0}.cmd", ugg);
-            process.StartInfo.FileName = string.Format("{0}", ugg);
+            if (os == "Windows_NT")
+            {
+                process.StartInfo.FileName = string.Format("{0}.cmd", ugg);
+            }
+            else
+            {
+                process.StartInfo.FileName = string.Format("{0}", ugg);
+            }
             string parameters = string.Empty;
             if (ugg == Uglifytype.uglifyjs)
             {
