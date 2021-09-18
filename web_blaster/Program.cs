@@ -84,7 +84,8 @@ namespace web_blaster
         private static void UglifyFile(Uglifytype ugg, string source, string destination)
         {
             Process process = new Process();
-            process.StartInfo.FileName = string.Format("{0}.cmd", ugg);
+            //process.StartInfo.FileName = string.Format("{0}.cmd", ugg);
+            process.StartInfo.FileName = string.Format("{0}", ugg);
             string parameters = string.Empty;
             if (ugg == Uglifytype.uglifyjs)
             {

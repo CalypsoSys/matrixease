@@ -66,6 +66,9 @@ Ubuntu Dev Install
 	sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 	 sudo apt install code
 
+	 npm install uglifycss -g
+	 npm install uglify-js -g
+
 
  sudo rmmod floppy
  echo "blacklist floppy" | sudo tee /etc/modprobe.d/blacklist-floppy.conf
@@ -89,7 +92,7 @@ cd ~/dotnet/inctrak_manga
 git pull
 or
 	git clone git@github.com:CalypsoSys/inctrak_manga.git
-cd VisAlyzer.Apphgistory 
+cd VisAlyzer.App
 electronize build /target linux
 
 Build blaster
