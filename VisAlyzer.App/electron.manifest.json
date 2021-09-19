@@ -3,14 +3,14 @@
   "splashscreen": {
     "imageFile": "/wwwroot/IncTrakIcon.png"
   },
-  "name": "VisAlyzer.App",
+  "name": "VisAlyzer",
   "author": "Joe Schmitt",
   "singleInstance": false,
   "aspCoreBackendPort": 51266,
   "environment": "Production",
   "build": {
     "appId": "com.visalyzer.app",
-    "productName": "VisAlyzer.App",
+    "productName": "VisAlyzer",
     "copyright": "Copyright Calypso Systems, LLC © 2021",
     "buildVersion": "1.0.0",
     "compression": "maximum",
