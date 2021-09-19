@@ -22,3 +22,7 @@ function renderWindowData(id, callback) {
 
     ipcRenderer.send("opened_window", id);
 }
+
+function openContactUs() {
+    require('electron').shell.openExternal("https://visalyzer.com#contact-us");
+}

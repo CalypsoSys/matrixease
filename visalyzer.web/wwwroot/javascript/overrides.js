@@ -7,3 +7,7 @@
 function renderWindowData(id, callback) {
     callback(JSON.parse(window[id]));
 }
+
+function openContactUs() {
+    window.open("https://visalyzer.com#contact-us", "_blank");
+}
