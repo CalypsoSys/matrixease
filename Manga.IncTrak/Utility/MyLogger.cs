@@ -44,9 +44,10 @@ namespace Manga.IncTrak.Utility
                         excption = excp.ToString();
                 }
 
-                using(StreamWriter loggie = new StreamWriter(MiscHelpers.GetPendingFile("inctrak_managa.log")) )
+                using(StreamWriter loggie = new StreamWriter(MiscHelpers.GetPendingFile("inctrak_managa.log"), true) )
                 {
                     loggie.WriteLine("{0}: {1}", DateTime.Now.ToString("yyy-MM-dd HH:mm:ss"), messageOut);
+                    loggie.WriteLine(excption);
                 }
             }
             catch //(Exception excp1)

@@ -95,6 +95,10 @@ or
 cd VisAlyzer.App
 electronize build /target linux
 
+
+sudo snap install --dangerous vis-alyzer_1.0.0_amd64.snap
+sudo snap install vis-alyzer_1.0.0_amd64.snap
+
 Build blaster
 cd ~/dotnet/inctrak_manga/
 git pull
