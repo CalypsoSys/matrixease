@@ -19,10 +19,15 @@ electronize in dev CentOS
 
 	electronize start
 
-	C:\Users\Joe\AppData\Roaming
 
 
 	electronize build /target win 
+
+	C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe
+	C:\Users\Joe\AppData\Local\Programs\vis-alyzer\resources\bin\wwwroot
+	C:\Users\Joe\AppData\Roaming
+
+
 	electronize build /target osx
 	electronize build /target linux
 

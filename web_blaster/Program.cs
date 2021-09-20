@@ -63,7 +63,14 @@ namespace web_blaster
                     UseMinifiedInHTML(source.FullName, destination);
                     break;
                 case ".js":
-                    UglifyFile(os, Uglifytype.uglifyjs, source.FullName, destination);
+                    if (source.Name == "vis_helper.js")
+                    {
+                        ClearHelpersJS(source.FullName, destination);
+                    }
+                    else
+                    {
+                        UglifyFile(os, Uglifytype.uglifyjs, source.FullName, destination);
+                    }
                     break;
                 case ".css":
                     UglifyFile(os, Uglifytype.uglifycss, source.FullName, destination);
@@ -117,7 +124,7 @@ namespace web_blaster
                     string line;
                     while ((line = input.ReadLine()) != null)
                     {
-                        if (line.Contains("<script") && line.Contains(".js\"") && !line.Contains("overrides.js") && !line.Contains("vue2-slideout-panel.min.js") && !line.Contains("vue-cookies.js"))
+                        if (line.Contains("<script") && line.Contains(".js\"") && !line.Contains("overrides.js") && !line.Contains("vis_helper.js") && !line.Contains("vue2-slideout-panel.min.js") && !line.Contains("vue-cookies.js"))
                         {
                             line = line.Replace(".js\"", ".min.js\"");
                             if (line.Contains(".development."))
@@ -129,7 +136,23 @@ namespace web_blaster
                         {
                             line = line.Replace(".css\"", ".min.css\"");
                         }
-                        else if (line.Contains("108thHouse"))
+
+                        output.WriteLine(line);
+                    }
+                }
+            }
+        }
+
+        private static void ClearHelpersJS(string source, string destination)
+        {
+            using (StreamReader input = new StreamReader(source))
+            {
+                using (StreamWriter output = new StreamWriter(destination))
+                {
+                    string line;
+                    while ((line = input.ReadLine()) != null)
+                    {
+                        if (line.Contains("108thHouse"))
                         {
                             line = line.Replace("108thHouse", "");
                         }
