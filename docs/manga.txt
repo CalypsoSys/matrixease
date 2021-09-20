@@ -38,10 +38,24 @@ Ubuntu Server Install
 		copy files over
 
 	edit nginx file
+
 	create /etc/systemd/system/manga-inctrak-com.service
-	sudo systemctl enable manga-inctrak-com.service
-	sudo systemctl start manga-inctrak-com.service
-	sudo systemctl status manga-inctrak-com.service
+	sudo systemctl enable visalyzer-inctrak-com.service
+	sudo systemctl start visalyzer-inctrak-com.service
+	sudo systemctl status visalyzer-inctrak-com.service
+
+	cd C:\CalypsoSystems\inctrak_manga\visalyzer.web
+	dotnet publish --configuration Release
+	C:\CalypsoSystems\inctrak_manga\visalyzer.web\bin\Release\net5.0\publish\
+
+	sudo mkdir /var/www/mangadata
+	sudo chown www-data:www-data /var/www/mangadata
+
+	edit	"FileSaveLocation": "C:\\CalypsoSystems\\mangadata",
+			"FileSaveLocation": "/var/www/mangadata",
+
+
+
 
 Ubuntu Dev Install
 	wget https://packages.microsoft.com/config/ubuntu/20.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
