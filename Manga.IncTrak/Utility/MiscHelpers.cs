@@ -91,6 +91,22 @@ namespace Manga.IncTrak.Utility
             return Path.Combine(pending, file);
         }
 
+        public static string GetLogFileFile(string file)
+        {
+            string pending = Path.Combine(MangaRoot.Folder, "logs");
+            Directory.CreateDirectory(pending);
+
+            return Path.Combine(pending, file);
+        }
+
+        public static string GetGoogsFile(string file)
+        {
+            string pending = Path.Combine(MangaRoot.Folder, "googs");
+            Directory.CreateDirectory(pending);
+
+            return Path.Combine(pending, file);
+        }
+
         public static string GetPendingAccountFile(string emailAddress)
         {
             return GetPendingFile(HashEmail(emailAddress, true));

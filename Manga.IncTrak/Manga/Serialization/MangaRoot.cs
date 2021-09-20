@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace Manga.IncTrak.Manga.Serialization
 
         public static void SetRootFolder(string folder)
         {
-            Folder = folder;
+            Folder = Path.Combine(folder, "visalyze");
         }
     }
 }

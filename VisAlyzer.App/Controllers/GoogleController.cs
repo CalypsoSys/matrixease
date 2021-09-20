@@ -81,7 +81,7 @@ namespace manga.inctrak.com
                         stream.Position = 0;
                         // The file token.json stores the user's access and refresh tokens, and is created
                         // automatically when the authorization flow completes for the first time.
-                        string credPath = "token.json";
+                        string credPath = MiscHelpers.GetGoogsFile("token.json");
                         credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                             GoogleClientSecrets.Load(stream).Secrets,
                             Scopes,

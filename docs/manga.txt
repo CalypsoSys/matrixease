@@ -19,6 +19,8 @@ electronize in dev CentOS
 
 	electronize start
 
+	C:\Users\Joe\AppData\Roaming
+
 
 	electronize build /target win 
 	electronize build /target osx
