@@ -2,8 +2,8 @@
 Description=IncTrak Data Manga
 
 [Service]
-WorkingDirectory=/home/inctrakmanga/manga.inctrak.com
-ExecStart=/usr/bin/dotnet /home/inctrakmanga/manga.inctrak.com/manga.inctrak.com.dll
+WorkingDirectory=/home/inctrakmanga/visalyzer.com
+ExecStart=/usr/bin/dotnet /home/inctrakmanga/visalyzer.com/visalyzer.web.dll
 Restart=always
 # Restart service after 10 seconds if the dotnet service crashes:
 RestartSec=10

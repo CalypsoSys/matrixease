@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{7EE35D
 		config\default = config\default
 		config\inctrakmanga_cert.conf = config\inctrakmanga_cert.conf
 		config\inctrakmanga_cert.sh = config\inctrakmanga_cert.sh
+		config\visalyzer-inctrak-com.service = config\visalyzer-inctrak-com.service
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{BD267196-C93C-453B-9180-E5DE14D811AE}"

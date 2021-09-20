@@ -19,7 +19,7 @@ electronize in dev CentOS
 	electronize build /target win 
 	C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe
 	C:\Users\Joe\AppData\Local\Programs\vis-alyzer\resources\bin\wwwroot
-	C:\Users\Joe\AppData\Roaming\visalyze
+	C:\Users\Joe\AppData\Roaming\visalyzer
 
 
 	electronize build /target osx
@@ -101,7 +101,7 @@ sudo snap install --dangerous vis-alyzer_1.0.0_amd64.snap
 ==> sudo snap install vis-alyzer_1.0.0_amd64.snap
 snap remove vis-alyzer
 
-home/inctrakmanga/snap/vis-alyzer/x1/.config/visalyze
+home/inctrakmanga/snap/vis-alyzer/x1/.config/visalyzer
 /snap/vis-alyzer/x1/resources/bin/wwwroot/
 
 
