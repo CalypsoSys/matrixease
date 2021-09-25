@@ -99,7 +99,9 @@ var mangaAuth = new Vue({
                     });
             } else if (this.my_tick > 6) {
                 this.my_tick = 0;
-                this.showMyMangas();
+                if (this.showModalCookie == false && this.showModalLogin == false) {
+                    this.showMyMangas();
+                }
             } else {
                 this.my_tick = this.my_tick + 1;
             }
