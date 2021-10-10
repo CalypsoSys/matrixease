@@ -93,7 +93,9 @@ namespace Desktop.Manga.IncTrak
 
             browserWindow.OnReadyToShow += () => browserWindow.Show();
             browserWindow.SetTitle("IncTrak VisAlyzer");
+#if !DEBUG
             browserWindow.RemoveMenu();
+#endif
 
             //require('electron').ipcRenderer.send("open_window")
             ElectronNET.API.Electron.IpcMain.On("open_window", (args) =>

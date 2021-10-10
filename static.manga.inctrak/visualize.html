@@ -18,9 +18,9 @@
     <script src="https://unpkg.com/axios@0.21.1/dist/axios.js"></script>
     <script src="https://unpkg.com/gridjs@3.3.0/dist/gridjs.development.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
-    <script src="https://d3js.org/d3.v3.js"></script>
+    <script src="https://d3js.org/d3.v3.js" charset="utf-8"></script>
+    <script>if (typeof module === "object") { window.d3 = module.exports; }</script>
     <script src="/thirdparty/draggable-resizable-dialog/draggable-resizable-dialog.js"></script>
-    <script src="/js/vis_d3_chord.js"></script>
 </head>
 <body>
     <div id="visualize" style="z-index:-2">
@@ -193,5 +193,6 @@
     <script src="/js/vis_common.js"></script>
     <script src="/js/visualize.js"></script>
     <script src="/js/vis_settings.js"></script>
+    <script src="/js/vis_d3_chord.js"></script>
 </body>
 </html>

@@ -4,21 +4,25 @@ var width = 800,
     outerRadius = Math.min(width, height) / 2 - 100,
     innerRadius = outerRadius - 18;
 
-//create number formatting functions
-var formatPercent = d3.format("%");
-var numberWithCommas = d3.format("0,f");
-
-//create the arc path data generator for the groups
-var arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
-
-//create the chord path data generator for the chords
-var path = d3.svg.chord().radius(innerRadius);
-
+var formatPercent;
+var numberWithCommas;
+var arc;
+var path;
 var last_layout; //store layout between updates
-
 var g = null;
 
 function initChords() {
+    if (g == null) {
+        formatPercent = d3.format("%");
+        numberWithCommas = d3.format("0,f");
+
+        //create the arc path data generator for the groups
+        arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
+
+        //create the chord path data generator for the chords
+        path = d3.svg.chord().radius(innerRadius);
+    }
+
     d3.select("#vis-dependencies").select("svg").remove()
 
     /*** Initialize the visualization ***/
