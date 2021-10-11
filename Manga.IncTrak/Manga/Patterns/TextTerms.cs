@@ -249,12 +249,17 @@ namespace Manga.IncTrak.Manga
             }
 
             double averageWeight = (totalWeights / countWeights);
-            int thousanth = totalRows / 1000;
             double weightTest = averageWeight + (averageWeight / 4);
+            int thousanth = totalRows / 1000;
             double onePercent = totalRows * 1 / 100;
             double twentyPercent = totalRows * 20 / 100;
-            //OrderByDescending(w => w.Value.AverageWeigth)
+            //
             _termWeights = weights.Where(w => w.Value.Count > onePercent && w.Value.Count < twentyPercent && w.Value.AverageWeigth > weightTest).ToDictionary(k => k.Key, v => v.Value.AverageWeigth);
+            if ( _termWeights.Count < MangaConstants.SmallBucketThreshold )
+            {
+                _termWeights = weights.Where(w => w.Value.Count < twentyPercent && w.Value.AverageWeigth > weightTest).OrderByDescending(w => w.Value.Count).Take((int )Math.Min(twentyPercent/2, MangaConstants.ReasonablBucket)).ToDictionary(k => k.Key, v => v.Value.AverageWeigth);
+                var b = weights.Where(w => w.Value.Count > (twentyPercent / 2) && w.Value.Count < twentyPercent && w.Value.AverageWeigth > weightTest);
+            }
         }
 
         public void AddBuckets(List<TextBuckets> bucketOptions)

@@ -11,12 +11,12 @@ namespace Manga.IncTrak.Manga
         public const string Dimension = "Dimension";
         public const string Measure = "Measure";
         public const string NullOrEmpty = "[Null or Empty Values]";
-        public const string NotURL = "[Not a URL]";
+        public const string NotSignificant = "[Not Significant]";
         public const string NotPrefix = "[Not a Prefix]";
         public const string NoKeyWords = "[No keywords]";
         public const string NoPatternFound = "[No Pattern Found]";
         public const int SelectivityThreshold = 25;
-        public const int DecimalBucketThreshold = 10;
+        public const int SmallBucketThreshold = 10;
         public const int MaxDistinctfactor = 5;
         public const int MaxTextDistinct = 2500;
         public const int ReasonablBucket = 1000;
@@ -24,5 +24,6 @@ namespace Manga.IncTrak.Manga
         public const int SmallTextSize = 100;
         public const string SheetID = "sheet_id";
         public const string SheetRange = "range";
+        public const int ThrowOutOnesThreshold = 50000;
     }
 }

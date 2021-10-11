@@ -202,7 +202,12 @@ namespace Manga.IncTrak.Manga
                 if (tryNumeric)
                 {
                     decimal result;
-                    if (decimal.TryParse(data.ToString(), out result) && (_dataType == DataType.Unknown || _dataType == DataType.Numeric))
+                    string decimalTest = data.ToString();
+                    if (decimalTest.Last() == '%')
+                    {
+                        decimalTest = decimalTest.Substring(0, data.Length - 1);
+                    }
+                    if (decimal.TryParse(decimalTest, out result) && (_dataType == DataType.Unknown || _dataType == DataType.Numeric))
                     {
                         _dataType = DataType.Numeric;
                         _numericPatterns.Process(row, result, true, false, status);

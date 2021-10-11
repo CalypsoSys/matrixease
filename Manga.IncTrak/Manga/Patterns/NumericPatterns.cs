@@ -119,7 +119,7 @@ namespace Manga.IncTrak.Manga
                 minBucketMod = range / minBucketMod;
             }
 
-            if (range < MangaConstants.DecimalBucketThreshold)
+            if (range < MangaConstants.SmallBucketThreshold)
             {
                 if (avgIntegral > 1 && range > MangaConstants.MaxDistinctfactor)
                 {

@@ -44,12 +44,33 @@ namespace Manga.IncTrak.Manga
             return new { Count = 0, Total = 0, Sample = new object[0] };
         }
 
+        protected Dictionary<string, int> CleanTextMetrix(Dictionary<string, int> textSampleCounts)
+        {
+            if (textSampleCounts != null)
+            {
+                if (textSampleCounts.Count > MangaConstants.ReasonablBucket)
+                {
+                    return textSampleCounts.OrderByDescending(s => s.Value).Take(MangaConstants.ReasonablBucket).ToDictionary(k => k.Key, v => v.Value);
+                }
+            }
+
+            return textSampleCounts;
+        }
 
         protected bool ProcessTextMetric(string textSample, Dictionary<string, int> textSampleCounts)
         {
             if (textSampleCounts != null)
             {
-                bool proceed = textSampleCounts.Count < MangaConstants.MaxTextDistinct;
+                bool proceed = textSampleCounts.Count < MangaConstants.ThrowOutOnesThreshold;
+                for(int i=1; proceed == false;i++)
+                {
+                    foreach (var key in textSampleCounts.Where(s => s.Value == i).Select(s => s.Key).ToArray())
+                    {
+                        textSampleCounts.Remove(key);
+                    }
+
+                    proceed = textSampleCounts.Count < MangaConstants.ThrowOutOnesThreshold;
+                }
                 /*
                 if (proceed == false)
                 {

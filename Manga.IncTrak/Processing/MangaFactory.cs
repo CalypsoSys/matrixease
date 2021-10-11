@@ -35,6 +35,13 @@ namespace Manga.IncTrak.Processing
             {
                 if (_workingSets.ContainsKey(userId) && _workingSets[userId].Count > _maxWorkersPerUser)
                     throw new Exception("Max workers for this user - only 1 job at a time for this license type");
+                else if (_workingSets.Count == 0)
+                {
+                    // Cleanup any old stale data and reset
+                    if (Directory.Exists(_workFolder))
+                        Directory.Delete(_workFolder, true);
+                    _workFolder = MangaState.MangaWorkFolder(userId);
+                }
 
                 _mangaInfo = mangaInfo;
                 _workSetFile = Path.Combine(_workFolder, string.Format("{0}.workset", _mangaInfo.ManagGuid.ToString("N")));

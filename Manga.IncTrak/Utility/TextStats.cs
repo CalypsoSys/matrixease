@@ -79,11 +79,14 @@ namespace Manga.IncTrak.Utility
             {
                 //xx://a.a
                 // after 8 failure
-                int stop = Math.Min(data.Length, MaxSchemeLength + MaxDNSLength + MaxPart1Length);
+                int mod = 0;
+                if (data[0] == '"' && data[data.Length - 1] == '"')
+                    mod = 1;
+                int stop = Math.Min(data.Length-mod, MaxSchemeLength + MaxDNSLength + MaxPart1Length);
                 //int[] queryIndexes = new int[32];
                 int queryIndex = 0;
                 int finalStop = (stop - 1);
-                for (int i = 0; i < stop && queryIndex != -1; i++)
+                for (int i = mod; i < stop && queryIndex != -1; i++)
                 {
                     if (state == UrlState.CheckScheme)
                     {

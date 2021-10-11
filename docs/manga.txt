@@ -13,6 +13,7 @@ electronize in dev CentOS
 
 	-no-sandbox
 
+	data ==> C:\Users\Joe\AppData\Roaming\visalyzer\visalyzer.app
 	cd C:\CalypsoSystems\inctrak_manga\VisAlyzer.App
 	electronize start
 

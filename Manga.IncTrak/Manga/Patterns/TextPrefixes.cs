@@ -98,6 +98,10 @@ namespace Manga.IncTrak.Manga
 
         public TextBuckets CalcTextBucketSize()
         {
+            _textPrefix1Counts = CleanTextMetrix(_textPrefix1Counts);
+            _textPrefix2Counts = CleanTextMetrix(_textPrefix2Counts);
+            _textPrefix3Counts = CleanTextMetrix(_textPrefix3Counts);
+            _textPrefix4Counts = CleanTextMetrix(_textPrefix4Counts);
             return ClosestReasonable(TextBuckets.Prefix1, CountDicz, TextBucketz);
         }
 

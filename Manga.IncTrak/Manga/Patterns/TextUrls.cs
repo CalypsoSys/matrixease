@@ -169,7 +169,11 @@ namespace Manga.IncTrak.Manga
             {
                 return TextBuckets.UrlDomain;
             }
-
+            _urlSchemeCounts = CleanTextMetrix(_urlSchemeCounts);
+            _urlDomainCounts = CleanTextMetrix(_urlDomainCounts);
+            _urlFirstPathCounts = CleanTextMetrix(_urlFirstPathCounts);
+            _urlSecondPathCounts = CleanTextMetrix(_urlSecondPathCounts);
+            _urlThirdPathCounts = CleanTextMetrix(_urlThirdPathCounts);
             return ClosestReasonable(TextBuckets.UrlScheme,  CountDicz, TextBucketz);
         }
 
@@ -215,7 +219,7 @@ namespace Manga.IncTrak.Manga
                 }
             }
 
-            return MangaConstants.NotURL;
+            return MangaConstants.NotSignificant;
         }
 
         public void AddBuckets(List<TextBuckets> bucketOptions)
