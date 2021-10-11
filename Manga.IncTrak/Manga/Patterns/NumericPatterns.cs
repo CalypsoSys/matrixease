@@ -203,7 +203,10 @@ namespace Manga.IncTrak.Manga
                     {
                         int i = (int)((row.Value - minDecimal) / _proposedSpread);
                         decimal start = minDecimal + (i * _proposedSpread);
-                        key = string.Format("{0} - {1}", start, (start + _proposedSpread));
+                        if (row.Value > 10)
+                            key = string.Format("{0:F2} - {1:F2}", start, (start + _proposedSpread));
+                        else
+                            key = string.Format("{0:F4} - {1:F4}", start, (start + _proposedSpread));
                     }
                 }
                 else
