@@ -368,7 +368,7 @@ var visualizer = new Vue({
             for (var colName in this.data.Columns) {
                 this.my_columns.push(colName);
                 if (!this.hide_columns || this.hide_columns.length == 0 || this.hide_columns[index] != true) {
-                    maxWidth = Math.max(maxWidth, vctx.measureText(colName).width);
+                    //maxWidth = Math.max(maxWidth, vctx.measureText(colName).width);
                     ++columns;
                     maxRows = Math.max(maxRows, this.data.Columns[colName].Values.length);
                 }
