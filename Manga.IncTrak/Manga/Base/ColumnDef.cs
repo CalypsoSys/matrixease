@@ -359,7 +359,7 @@ namespace Manga.IncTrak.Manga
 
             _onlyBuckets = (_distinctValues > MangaConstants.SmallBucket) && (_bucketized || _selectivity > MangaConstants.SelectivityThreshold || _distinctValues > MangaConstants.MaxTextDistinct);
             status.SetStatus(MangaFactoryStatusKey.Analyzing, string.Format("Calulating Distributions for {0}", _name), MangaFactoryStatusState.Running);
-            if ( _patterns.CalulateBuckets(true, totalRows, MangaConstants.MaxTextDistinct, status) )
+            if ( _patterns.CalulateBuckets(true, totalRows, MangaConstants.MaxTextDistinct, _distinctValues, _onlyBuckets, status) )
             {
                 if (_onlyBuckets)
                 {
@@ -390,7 +390,7 @@ namespace Manga.IncTrak.Manga
             _onlyBuckets = (_distinctValues > MangaConstants.ReasonablBucket) && (_bucketized || _selectivity > MangaConstants.SelectivityThreshold || _distinctValues > (maxDisplayRows * MangaConstants.MaxDistinctfactor) || _distinctValues > MangaConstants.MaxTextDistinct);
             maxDisplayRows = Math.Max(maxDisplayRows, MangaConstants.SmallBucket);
             status.SetStatus(MangaFactoryStatusKey.Analyzing, string.Format("Calulating Distributions for {0}", _name), MangaFactoryStatusState.Running);
-            if ( _patterns.CalulateBuckets(false, totalRows, maxDisplayRows, status) )
+            if ( _patterns.CalulateBuckets(false, totalRows, maxDisplayRows, _distinctValues, _onlyBuckets, status) )
             {
                 if (_onlyBuckets)
                 {

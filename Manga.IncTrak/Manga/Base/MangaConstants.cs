@@ -20,6 +20,7 @@ namespace Manga.IncTrak.Manga
         public const int MaxDistinctfactor = 5;
         public const int MaxTextDistinct = 2500;
         public const int ReasonablBucket = 1000;
+        public const int MaximumBucket = 6000;
         public const int SmallBucket = 100;
         public const int SmallTextSize = 100;
         public const string SheetID = "sheet_id";

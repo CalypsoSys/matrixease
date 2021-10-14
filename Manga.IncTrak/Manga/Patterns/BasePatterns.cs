@@ -25,7 +25,7 @@ namespace Manga.IncTrak.Manga
         protected abstract void LoadDerived(Int32 version, IMangaSerializationReader reader, MangaLoadOptions loadOptions);
         protected abstract void ProcessData(int row, T data, bool hasValue, bool isText, IBackgroundJob status);
         protected abstract int TrueDistinctValues { get; }
-        public abstract bool CalulateBuckets(bool dimension, int totalRows, int maxDisplayRows, IBackgroundJob status);
+        public abstract bool CalulateBuckets(bool dimension, int totalRows, int maxDisplayRows, int distinctValues, bool onlyBuckets, IBackgroundJob status);
         public abstract int MinBucketSize { get; }
         public abstract decimal MinBucketMod { get; }
         public abstract UInt32[] AllowedBuckets { get; }

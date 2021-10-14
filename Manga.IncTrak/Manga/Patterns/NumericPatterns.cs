@@ -82,7 +82,7 @@ namespace Manga.IncTrak.Manga
             _decimalCountNoValueStat.AddStat(data, true);
         }
 
-        public override bool CalulateBuckets(bool dimension, int totalRows, int maxDisplayRows, IBackgroundJob status)
+        public override bool CalulateBuckets(bool dimension, int totalRows, int maxDisplayRows, int distinctValues, bool onlyBuckets, IBackgroundJob status)
         {
             if (dimension == false)
             {

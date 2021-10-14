@@ -10,7 +10,7 @@ namespace Manga.IncTrak.Manga
 {
     public interface IPatterns
     {
-        bool CalulateBuckets(bool dimension, int totalRows, int maxDisplayRows, IBackgroundJob status);
+        bool CalulateBuckets(bool dimension, int totalRows, int maxDisplayRows, int distinctValues, bool onlyBuckets, IBackgroundJob status);
         Tuple<int, decimal> ReSpread(string name, int totalRows, Dictionary<string, MyBitArray> rows, Dictionary<string, int> rowCounts, int? newBucketSize, decimal? newBucketMod, IBackgroundJob status);
         void ProcessWorkingFolder(string mangaPath);
         int DistinctValues { get; }

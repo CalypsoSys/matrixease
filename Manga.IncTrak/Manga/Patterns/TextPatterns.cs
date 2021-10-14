@@ -133,13 +133,16 @@ namespace Manga.IncTrak.Manga
             }
         }
 
-        public override bool CalulateBuckets(bool dimension, int totalRows, int maxDisplayRows, IBackgroundJob status)
+        public override bool CalulateBuckets(bool dimension, int totalRows, int maxDisplayRows, int distinctValues, bool onlyBuckets, IBackgroundJob status)
         {
             if (dimension)
             {
                 _bucket = CalcTextBucketSize(totalRows, status);
 
                 List<TextBuckets> bucketOptions = new List<TextBuckets>();
+                if (onlyBuckets && distinctValues < MangaConstants.MaximumBucket )
+                    bucketOptions.Add(TextBuckets.Natural);
+
                 if (_textUrls.IsUrl)
                 {
                     _textUrls.AddBuckets(bucketOptions);
