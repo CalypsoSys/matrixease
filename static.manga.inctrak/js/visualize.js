@@ -17,8 +17,10 @@ var visualizer = new Vue({
 
         //percentOfTotalColor: "#808080",
         //percentOfSelectedTotalColor: "#696969",
-        percentOfTotalColor: "green",
-        percentOfSelectedTotalColor: "red",
+        //percentOfTotalColor: "green",
+        //percentOfSelectedTotalColor: "red",
+        percentOfTotalColor: "#16A34A",
+        percentOfSelectedTotalColor: "#EF4444",
 
         showModalAlert: false,
         modal_title: "",

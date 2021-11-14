@@ -244,7 +244,8 @@ namespace manga.inctrak.com
                         var visId = Encode(userId, manga.ManagGuid);
                         mangas.Add(new {Name= manga.MangaName, 
                             Url= new Uri(string.Format("/visualize.html?inctrak_id={0}&vis_id={1}", HttpUtility.UrlEncode(inctrak_id), HttpUtility.UrlEncode(visId)), UriKind.Relative).ToString(),
-                            Original = manga.OriginalName, Type = manga.SheetType, Created =manga.Created, MaxRows = manga.MaxRows, Status = manga.Status});
+                            Original = manga.OriginalName, Type = manga.SheetType, Created =manga.Created, MaxRows = manga.MaxRows,
+                            TotalRows = manga.TotalRows, Status = manga.Status});
                         loadedMangas.Add(manga.ManagGuid);
                     }
                     foreach(var manga in MangaFactory.GetPending(userId))
@@ -259,6 +260,7 @@ namespace manga.inctrak.com
                                 Type = manga.SheetType,
                                 Created = manga.Created,
                                 MaxRows = manga.MaxRows,
+                                TotalRows = "N/A",
                                 Status = manga.Status
                             });
                         }

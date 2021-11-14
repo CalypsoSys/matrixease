@@ -114,6 +114,7 @@ namespace Desktop.Manga.IncTrak.Controllers
                         Type = manga.SheetType,
                         Created = manga.Created,
                         MaxRows = manga.MaxRows,
+                        TotalRows = manga.TotalRows,
                         Status = manga.Status
                     });
                     loadedMangas.Add(manga.ManagGuid);
@@ -130,6 +131,7 @@ namespace Desktop.Manga.IncTrak.Controllers
                             Type = manga.SheetType,
                             Created = manga.Created,
                             MaxRows = manga.MaxRows,
+                            TotalRows = "N/A",
                             Status = manga.Status
                         });
                     }

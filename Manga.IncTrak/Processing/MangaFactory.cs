@@ -303,6 +303,8 @@ namespace Manga.IncTrak.Processing
                 SetStatus(MangaFactoryStatusKey.Saving, "Saving dataset", MangaFactoryStatusState.Started);
                 if (IsCancellationRequested)
                     return;
+
+                _mangaInfo.SetCounts(rawRowIndex, _calculatedNumberOfCols, totalCells);
                 MangaState.SaveManga(_userId, _mangaInfo, manga);
                 SetStatus(MangaFactoryStatusKey.Saving, "Saving dataset", MangaFactoryStatusState.Complete);
                 MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());

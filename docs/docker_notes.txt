@@ -1,0 +1,83 @@
+Docker Install Ubuntu on Linode
+=====================
+vi /etc/ssh/sshd_config
+Port 45321
+PermitRootLogin no
+
+https://www.linode.com/docs/guides/use-public-key-authentication-with-ssh/
+PasswordAuthentication no
+
+sudo systemctl restart sshd
+
+
+https://www.linode.com/docs/guides/using-fail2ban-to-secure-your-server-a-tutorial/
+
+useradd calypso
+passwd calypso
+sudo vi /etc/sudoers ==> calypso ALL=(ALL) NOPASSWD:ALL <== near end
+
+
+sudo apt-get update
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo docker run hello-world
+
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+Build Docker Image (from https://github.com/CleaninterNet/filter14.git)
+=======================================================================
+1. cd ~/dotnet
+2. git clone git@github.com:CleaninterNet/filter14.git
+3. cd ~/dotnet/filter14/Server/CleanInternet-Server/CleanInternet-Server/
+4. git pull or git checkout "branch I want"
+5. sudo docker build -t cleaninternetserver .
+6. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
+7. sudo docker save cleaninternetserver > /tmp/cleaninternetserver.tar
+8. copy cleaninternetserver.tar /home/???/docker (on deployment machine)
+
+
+Init Docker Image
+==================
+ 1. cd ~/
+ 2. mkdir Docker
+ 3. cd Docker
+ 4. mkdir cleaninternetserver_dotnet
+ 5. cd cleaninternetserver_dotnet
+ 6. copy over Docker/docker-compose.yml
+ 7. mkdir init
+ 8. copy over init\01.sql to init
+ 9. mkdir mysql
+10. mkdir dp-keys
+11. mkdir app
+12. copy over CleanInternet-Server\appsettings_prod_docker.json to app as appsettings.json
+
+
+Notes
+=====
+sudo docker exec -it cleaninternetserver_db /bin/bash
+sudo docker logs -f cleaninternetserver_db
+mysql --user=root --password=absently-satisfied-jittery-steering-wrist-hardened-attest-linguini-cuddly-freckled
+
+sudo docker exec -it cleaninternetserver /bin/bash
+
+
+sudo rm -r mysql/
+sudo docker rmi cleaninternetserver
+cp ~/dotnet/filter14/Docker/docker-compose.yml .
+
+cp ~/dotnet/filter14/Docker/docker-compose.yml .
+cp ~/dotnet/filter14/init/01.sql  init/.
+
+
+

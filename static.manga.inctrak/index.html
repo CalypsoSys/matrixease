@@ -39,6 +39,7 @@
                         <th scope="col">Source</th>
                         <th scope="col">Type</th>
                         <th scope="col">Limit</th>
+                        <th scope="col">Rows</th>
                         <th scope="col">Status</th>
                         <th scope="col">Created</th>
                     </tr>
@@ -49,6 +50,7 @@
                         <td>{{ manga.Original }}</td>
                         <td>{{ manga.Type }}</td>
                         <td>{{ manga.MaxRows == 0 ? "All" : manga.MaxRows }}</td>
+                        <td>{{ manga.TotalRows }}</td>
                         <td>{{ manga.Status }}</td>
                         <td>{{ new Date(manga.Created).toLocaleString() }}</td>
                     </tr>

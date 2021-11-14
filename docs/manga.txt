@@ -128,3 +128,8 @@ cd web_blaster
 dotnet build --configuration Release
 
 
+Docker Install Ubuntu
+
+
+sudo sh -c "echo 'truncate -s 0 /var/lib/docker/containers/*/*-json.log' > /etc/cron.daily/clear_docker_logs"
+sudo chmod +x /etc/cron.daily/clear_docker_logs

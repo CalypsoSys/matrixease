@@ -93,7 +93,7 @@ namespace Desktop.Manga.IncTrak
 
             browserWindow.OnReadyToShow += () => browserWindow.Show();
             browserWindow.SetTitle("IncTrak VisAlyzer");
-#if !DEBUG
+#if !DEBUGX
             browserWindow.RemoveMenu();
 #endif
 

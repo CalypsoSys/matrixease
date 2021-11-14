@@ -25,6 +25,9 @@ namespace Manga.IncTrak.Manga
         private List<string> _ignoreColNames;
         private string _sheetType;
         private Dictionary<string, string> _extraInfo;
+        private int _totalRows;
+        private int _totalCols;
+        private int _totalCells;
         /// End Serialized Items
 
 
@@ -51,7 +54,7 @@ namespace Manga.IncTrak.Manga
             _trimLeadingWhitespace = trimLeadingWhitespace;
             _trimTrailingWhitespace = trimTrailingWhitespace;
 
-        _ignoreColNames = new List<string>();
+            _ignoreColNames = new List<string>();
             if (string.IsNullOrWhiteSpace(ignoreCols))
             {
                 _ignoreColIndexes = new UInt32[0];
@@ -94,6 +97,9 @@ namespace Manga.IncTrak.Manga
         public bool TrimTrailingWhitespace { get => _trimTrailingWhitespace; }
         public uint[] IgnoreColIndexes { get => _ignoreColIndexes; }
         public List<string> IgnoreColNames { get => _ignoreColNames; }
+        public int TotalRows { get => _totalRows; }
+        public int TotalCols { get => _totalCols; }
+        public int TotalCells { get => _totalCells; }
 
         public string GetExtraInfo(string key)
         {
@@ -103,7 +109,14 @@ namespace Manga.IncTrak.Manga
             return null;
         }
 
-        public void Load(int version, IMangaSerializationReader reader, MangaLoadOptions loadOptions)
+        public void SetCounts(int totalRows, int totalCols, int totalCells)
+        {
+            _totalRows = totalRows;
+            _totalCols = totalCols;
+            _totalCells = totalCells;
+        }
+
+    public void Load(int version, IMangaSerializationReader reader, MangaLoadOptions loadOptions)
         {
             _created = new DateTime((long)reader.ReadUInt64());
             _managGuid = reader.ReadGuid();
@@ -121,6 +134,9 @@ namespace Manga.IncTrak.Manga
             _ignoreColNames = reader.ReadListString();
             _sheetType = reader.ReadString();
             _extraInfo = reader.ReadDictStringString();
+            _totalRows = reader.ReadInt32();
+            _totalCols = reader.ReadInt32();
+            _totalCells = reader.ReadInt32();
 
             Status = "Complete";
         }
@@ -143,6 +159,9 @@ namespace Manga.IncTrak.Manga
             writer.WriteListString(_ignoreColNames);
             writer.WriteString(_sheetType);
             writer.WriteDictStringString(_extraInfo);
+            writer.WriteInt32(_totalRows);
+            writer.WriteInt32(_totalCols);
+            writer.WriteInt32(_totalCells);
         }
     }
 }
