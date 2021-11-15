@@ -192,6 +192,9 @@ var	_minW = 100, // The exact value get's calculated
 				if (top < 0)
 					top = 0;
 			}
+			var maxClient = window.innerWidth - _dialog.clientWidth;
+			if (left > maxClient)
+				left = maxClient;
 			_dialog.style.left = left + 'px';
 			_dialog.style.top = top + 'px';
 			if (evt.clientY > window.innerHeight - 32)
