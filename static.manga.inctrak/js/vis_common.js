@@ -1,6 +1,6 @@
 ﻿var numericBuckets = [
     { "value": 0, "text": "Ranges" },
-    { "value": 1, "text": "Max averge/outlier buckets" },
+    { "value": 1, "text": "Max average/outlier buckets" },
 ];
 
 function numericAverage(attr) {

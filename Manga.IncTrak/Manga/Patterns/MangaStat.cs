@@ -184,7 +184,7 @@ namespace Manga.IncTrak.Manga
 
         public SortedDictionary<decimal, string> BuildAverageBasedBuckets(int maxBuckets, string prePend, int decimalPlaces)
         {
-            SortedDictionary<decimal, string> avergeBasedBuckets = new SortedDictionary<decimal, string>();
+            SortedDictionary<decimal, string> averageBasedBuckets = new SortedDictionary<decimal, string>();
             decimal stdDev = Decimal.Floor(StandardDeviation + .5M);
             decimal lowRange = MinDecimal;
             decimal lowLow = Average - stdDev;
@@ -194,7 +194,7 @@ namespace Manga.IncTrak.Manga
             decimal highHigh = Average + stdDev;
 
             bool isSet = true;
-            while (avergeBasedBuckets.Count < maxBuckets && isSet == true)
+            while (averageBasedBuckets.Count < maxBuckets && isSet == true)
             {
                 isSet = false;
                 if (lowLow < lowRange)
@@ -202,7 +202,7 @@ namespace Manga.IncTrak.Manga
                 if (lowHigh > lowRange)
                 {
                     isSet = true;
-                    avergeBasedBuckets.Add(lowHigh, GetAverageBasedKey(lowLow, lowHigh, prePend, decimalPlaces));
+                    averageBasedBuckets.Add(lowHigh, GetAverageBasedKey(lowLow, lowHigh, prePend, decimalPlaces));
                     lowHigh = lowLow - 1;
                     lowLow = lowHigh - stdDev;
                 }
@@ -211,7 +211,7 @@ namespace Manga.IncTrak.Manga
                 if (hightLow < highRange)
                 {
                     isSet = true;
-                    avergeBasedBuckets.Add(highHigh, GetAverageBasedKey(hightLow, highHigh, prePend, decimalPlaces));
+                    averageBasedBuckets.Add(highHigh, GetAverageBasedKey(hightLow, highHigh, prePend, decimalPlaces));
                     hightLow = highHigh + 1;
                     highHigh = hightLow + stdDev;
                 }
@@ -219,23 +219,23 @@ namespace Manga.IncTrak.Manga
 
             if (lowLow > lowRange)
             {
-                avergeBasedBuckets.Add(lowLow - 1, GetAverageBasedKey(lowRange, lowLow - 1, prePend, decimalPlaces));
+                averageBasedBuckets.Add(lowLow - 1, GetAverageBasedKey(lowRange, lowLow - 1, prePend, decimalPlaces));
             }
 
             if (highHigh < highRange)
             {
-                avergeBasedBuckets.Add(highRange, GetAverageBasedKey(highHigh + 1, highRange, prePend, decimalPlaces));
+                averageBasedBuckets.Add(highRange, GetAverageBasedKey(highHigh + 1, highRange, prePend, decimalPlaces));
             }
 
-            return avergeBasedBuckets;
+            return averageBasedBuckets;
         }
 
-        public string GetAverageBasedBucket(SortedDictionary<decimal, string> avergeBasedBuckets, decimal number)
+        public string GetAverageBasedBucket(SortedDictionary<decimal, string> averageBasedBuckets, decimal number)
         {
-            foreach (decimal key in avergeBasedBuckets.Keys)
+            foreach (decimal key in averageBasedBuckets.Keys)
             {
                 if (number <= key)
-                    return avergeBasedBuckets[key];
+                    return averageBasedBuckets[key];
             }
 
             return MangaConstants.NoKeyWords;
