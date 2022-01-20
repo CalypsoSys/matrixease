@@ -1,21 +1,29 @@
 Docker Install Ubuntu on Linode
 =====================
+useradd calypso
+passwd calypso
+sudo vi /etc/sudoers ==> calypso ALL=(ALL) NOPASSWD:ALL <== near end
+vi /etc/passwd ===> calypso:x:1000:1000::/home/calypso:/bin/bash <== make bash
+ 
 vi /etc/ssh/sshd_config
-Port 45321
+Port 63913
 PermitRootLogin no
 
 https://www.linode.com/docs/guides/use-public-key-authentication-with-ssh/
+
+mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys
+chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys
+vi ~/.ssh/authorized_key
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+chown $USER:$USER ~/.ssh -R
+
 PasswordAuthentication no
 
 sudo systemctl restart sshd
 
 
 https://www.linode.com/docs/guides/using-fail2ban-to-secure-your-server-a-tutorial/
-
-useradd calypso
-passwd calypso
-sudo vi /etc/sudoers ==> calypso ALL=(ALL) NOPASSWD:ALL <== near end
-
 
 sudo apt-get update
 sudo apt-get install \
@@ -34,6 +42,12 @@ sudo docker run hello-world
 
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+
+https://blog.ssdnodes.com/blog/host-multiple-ssl-websites-docker-nginx/
+https://www.youtube.com/watch?v=Iaf6VocUrTQ&t=692s
+?? mkdir nginx-proxy && cd nginx-proxy
+?? docker network create nginx-proxy
 
 Build Docker Image (from https://github.com/CleaninterNet/filter14.git)
 =======================================================================
@@ -65,19 +79,20 @@ Init Docker Image
 
 Notes
 =====
-sudo docker exec -it cleaninternetserver_db /bin/bash
 sudo docker logs -f cleaninternetserver_db
-mysql --user=root --password=absently-satisfied-jittery-steering-wrist-hardened-attest-linguini-cuddly-freckled
-
 sudo docker exec -it cleaninternetserver /bin/bash
 
+swapon -s
+sudo fallocate -l 512M /swapfile(2)
+sudo chmod 600 /swapfile(2)
+sudo mkswap /swapfile(2)
+sudo swapon /swapfile(2)
+swapon -s
+vi /etc/fstab
+sudo vi /etc/fstab
+swapon -s
+free -m 
 
-sudo rm -r mysql/
-sudo docker rmi cleaninternetserver
-cp ~/dotnet/filter14/Docker/docker-compose.yml .
-
-cp ~/dotnet/filter14/Docker/docker-compose.yml .
-cp ~/dotnet/filter14/init/01.sql  init/.
 
 
 
