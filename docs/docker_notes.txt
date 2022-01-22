@@ -55,10 +55,24 @@ mkdir docker
 cd docker
 
 mkdir nginx-proxy && cd nginx-proxy
+mkdir log
+touch log/access.log
+touch log/error.log
+
 sudo docker network create nginx-proxy
 copy over files docker-compose.yml  nginx.tmpl
 sudo docker-compose up -d
 
+sudo apt-get update && apt-get upgrade -y
+sudo apt-get install fail2ban
+sudo ufw allow 63913
+sudo ufw enable
+sudo cp /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.local
+sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+
+enabled = true
+/home/calypso/docker/nginx-proxy/log/error.log
+/home/calypso/docker/nginx-proxy/log/access.log
 
 Build Docker Image (from https://github.com/CleaninterNet/filter14.git)
 =======================================================================
@@ -90,6 +104,7 @@ Init Docker Image
 
 Notes
 =====
+sudo docker logs -f nginx-proxy
 sudo docker logs -f cleaninternetserver_db
 sudo docker exec -it cleaninternetserver /bin/bash
 

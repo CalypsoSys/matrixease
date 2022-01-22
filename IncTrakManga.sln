@@ -91,6 +91,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisAlyzer.App", "VisAlyzer.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "visalyzer.web", "visalyzer.web\visalyzer.web.csproj", "{4CEA404A-BDA0-4552-B0F4-F4068DE02E33}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nginx-proxy", "nginx-proxy", "{7A915214-7A2B-4BD0-B45F-C3990BEC926B}"
+	ProjectSection(SolutionItems) = preProject
+		docker\nginx-proxy\docker-compose.yml = docker\nginx-proxy\docker-compose.yml
+		docker\nginx-proxy\nginx.tmpl = docker\nginx-proxy\nginx.tmpl
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,6 +140,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7A915214-7A2B-4BD0-B45F-C3990BEC926B} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DCA09A05-6598-491D-BACC-4658CA516573}
