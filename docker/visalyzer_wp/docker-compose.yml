@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-   db_node_inctrak_wp:
+   db_node_visalyzer_wp:
      image: mysql:5.7
      volumes:
         - db_data:/var/lib/mysql
@@ -11,11 +11,11 @@ services:
         MYSQL_DATABASE: wordpress
         MYSQL_USER: wordpress
         MYSQL_PASSWORD: gWOweNag07oB70nD3kD7
-     container_name: inctrak_wp_db
+     container_name: visalyzer_wp_db
 
    wordpress:
      depends_on:
-        - db_node_inctrak_wp
+        - db_node_visalyzer_wp
      image: wordpress:latest
      expose:
         - 80
@@ -24,13 +24,13 @@ services:
        - ./wp-content:/var/www/html/wp-content
        - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
      environment:
-        VIRTUAL_HOST: blog.inctrak.com
-        LETSENCRYPT_HOST: blog.inctrak.com
+        VIRTUAL_HOST: blog.visalyzer.com
+        LETSENCRYPT_HOST: blog.visalyzer.com
         LETSENCRYPT_EMAIL: calypsosystemsllc@gmail.com
-        WORDPRESS_DB_HOST: db_node_inctrak_wp:3306
+        WORDPRESS_DB_HOST: db_node_visalyzer_wp:3306
         WORDPRESS_DB_USER: wordpress
         WORDPRESS_DB_PASSWORD: gWOweNag07oB70nD3kD7
-     container_name: inctrak_wp
+     container_name: visalyzer_wp
 volumes:
   db_data:
 

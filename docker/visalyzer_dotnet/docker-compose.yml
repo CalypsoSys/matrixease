@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  inctrak_goals:
+  visalyzer_dotnet:
     image: bobcalypsoweb:latest
     expose:
       - 80
@@ -10,8 +10,8 @@ services:
       - ./app/appsettings.json:/app/appsettings.json
       - ./bobelectron:/var/www/bobelectron
     environment:
-      VIRTUAL_HOST: bobcalypso.com,www.bobcalypso.com
-      LETSENCRYPT_HOST: bobcalypso.com,www.bobcalypso.com
+      VIRTUAL_HOST: my.visalyzer.com
+      LETSENCRYPT_HOST: my.visalyzer.com
       LETSENCRYPT_EMAIL: calypsosystemsllc@gmail.com
     container_name: bobcalypsoweb
 

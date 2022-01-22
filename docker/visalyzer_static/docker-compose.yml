@@ -10,10 +10,10 @@ services:
       - 80
     restart: always
     environment:
-      VIRTUAL_HOST: inctrak.com,www.inctrak.com
-      LETSENCRYPT_HOST: inctrak.com,www.inctrak.com
+      VIRTUAL_HOST: visalyzer.com,www.visalyzer.com
+      LETSENCRYPT_HOST: visalyzer.com,www.visalyzer.com
       LETSENCRYPT_EMAIL: calypsosystemsllc@gmail.com
-    container_name: inctrak_static
+    container_name: visalyzer_static
 
 networks:
   default:
