@@ -99,6 +99,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nginx-proxy", "nginx-proxy"
 		docker\nginx-proxy\nginx.tmpl = docker\nginx-proxy\nginx.tmpl
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visalyzer_docs_static", "visalyzer_docs_static", "{22708B11-71E4-4AF8-BA55-5BF7475A75CE}"
+	ProjectSection(SolutionItems) = preProject
+		docker\visalyzer_docs_static\docker-compose.yml = docker\visalyzer_docs_static\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visalyzer_dotnet", "visalyzer_dotnet", "{019C4567-472A-484D-86CE-954E949B04EA}"
+	ProjectSection(SolutionItems) = preProject
+		docker\visalyzer_dotnet\docker-compose.yml = docker\visalyzer_dotnet\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visalyzer_static", "visalyzer_static", "{E4032A1F-D9A2-43AE-B73A-A51AB9B6B4F9}"
+	ProjectSection(SolutionItems) = preProject
+		docker\visalyzer_static\docker-compose.yml = docker\visalyzer_static\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visalyzer_wp", "visalyzer_wp", "{7FA068B7-0FA7-4DFE-A2E1-CDB1D906E5FB}"
+	ProjectSection(SolutionItems) = preProject
+		docker\visalyzer_wp\docker-compose.yml = docker\visalyzer_wp\docker-compose.yml
+		docker\visalyzer_wp\uploads.ini = docker\visalyzer_wp\uploads.ini
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "htdocs", "htdocs", "{CBF37CCC-5EB9-45D3-9ED0-88A68FE1333C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{E94A4A4C-DA62-4FC2-AA6A-F5E540F7EB26}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "htdocs", "htdocs", "{548601B7-2918-48BE-B32C-907352B8EBC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +170,13 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7A915214-7A2B-4BD0-B45F-C3990BEC926B} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
+		{22708B11-71E4-4AF8-BA55-5BF7475A75CE} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
+		{019C4567-472A-484D-86CE-954E949B04EA} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
+		{E4032A1F-D9A2-43AE-B73A-A51AB9B6B4F9} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
+		{7FA068B7-0FA7-4DFE-A2E1-CDB1D906E5FB} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
+		{CBF37CCC-5EB9-45D3-9ED0-88A68FE1333C} = {22708B11-71E4-4AF8-BA55-5BF7475A75CE}
+		{E94A4A4C-DA62-4FC2-AA6A-F5E540F7EB26} = {019C4567-472A-484D-86CE-954E949B04EA}
+		{548601B7-2918-48BE-B32C-907352B8EBC8} = {E4032A1F-D9A2-43AE-B73A-A51AB9B6B4F9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DCA09A05-6598-491D-BACC-4658CA516573}

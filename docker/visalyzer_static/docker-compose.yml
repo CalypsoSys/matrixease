@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  lighttpd:
+    image: sebp/lighttpd
+    volumes:
+      - ./htdocs:/var/www/localhost/htdocs
+    tty: true
+    expose:
+      - 80
+    restart: always
+    environment:
+      VIRTUAL_HOST: inctrak.com,www.inctrak.com
+      LETSENCRYPT_HOST: inctrak.com,www.inctrak.com
+      LETSENCRYPT_EMAIL: calypsosystemsllc@gmail.com
+    container_name: inctrak_static
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
+
