@@ -104,8 +104,8 @@ Init Docker Image
 Notes
 =====
 sudo docker logs -f nginx-proxy
-sudo docker logs -f visalyzer_dotnet
-sudo docker exec -it visalyzer_dotnet /bin/bash
+sudo docker logs -f visalyzer.web
+sudo docker exec -it visalyzer.web /bin/bash
 
 swapon -s
 sudo fallocate -l 512M /swapfile(2)
