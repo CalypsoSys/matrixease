@@ -74,7 +74,7 @@ enabled = true
 /home/calypso/docker/nginx-proxy/log/error.log
 /home/calypso/docker/nginx-proxy/log/access.log
 
-Build Docker Image (from https://github.com/CleaninterNet/filter14.git)
+Build Docker Image
 =======================================================================
  1. cd ~/dotnet
  2. git clone git@github.com:CalypsoSys/inctrak_manga.gitpwd
@@ -103,8 +103,8 @@ Init Docker Image
 Notes
 =====
 sudo docker logs -f nginx-proxy
-sudo docker logs -f cleaninternetserver_db
-sudo docker exec -it cleaninternetserver /bin/bash
+sudo docker logs -f visalyzer_web_dotnet
+sudo docker exec -it visalyzer_web_dotnet /bin/bash
 
 swapon -s
 sudo fallocate -l 512M /swapfile(2)
