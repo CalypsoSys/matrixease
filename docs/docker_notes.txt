@@ -98,7 +98,7 @@ Init Docker Image
  6. copy over Docker/docker-compose.yml
  7. mkdir app
  8. copy over appsettings_prod_docker.json to app as appsettings.json
- 9 mkdir mangadata
+ 9. mkdir mangadata
 
 
 Notes

@@ -9,6 +9,7 @@
 AppSettings.config
 ConnectionStrings.config
 appsettings.json
+appsettings_prod_docker.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
