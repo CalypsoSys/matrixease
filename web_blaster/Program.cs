@@ -161,9 +161,9 @@ namespace web_blaster
                         {
                             line = line.Replace("108thHouse", "");
                         }
-                        else if (line.Contains("1VunkEZX3ajsXMerYXjahOevUd_p88vNrnI9QD2ByGvY"))
+                        else if (line.Contains("1iTMT0LiFU0aaZJoogQZkAyfY1RKGbpHadXfiuVaLtb0"))
                         {
-                            line = line.Replace("1VunkEZX3ajsXMerYXjahOevUd_p88vNrnI9QD2ByGvY", "");
+                            line = line.Replace("1iTMT0LiFU0aaZJoogQZkAyfY1RKGbpHadXfiuVaLtb0", "");
                         }
 
                         output.WriteLine(line);
