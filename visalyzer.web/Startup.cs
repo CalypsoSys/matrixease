@@ -91,7 +91,8 @@ namespace manga.inctrak.com
             }
 
             app.UseCors(
-                options => options.WithOrigins("https://visalyzer.com", "https://www.visalyzer.com", "https://localhost:44340")
+                options => options.WithOrigins("https://my.visalyzer.com", "https://visalyzer.com", 
+                                                "https://www.visalyzer.com", "https://localhost:44340")
                             .AllowAnyMethod()
                             .AllowAnyHeader()
             );
