@@ -76,16 +76,16 @@ enabled = true
 
 Build Docker Image (from https://github.com/CleaninterNet/filter14.git)
 =======================================================================
-1. cd ~/dotnet
-2. git clone git@github.com:CalypsoSys/inctrak_manga.gitpwd
-3. cd ~/dotnet/inctrak_manga/
-4. git pull or git checkout "branch I want"
-5. Build blaster
-6. ~/dotnet/inctrak_manga/bin/web_blaster Ubuntu Release ~/dotnet/inctrak_manga/static.manga.inctrak ~/dotnet/inctrak_manga/visalyzer.web/wwwroot
-7. sudo docker build -t visalyzer.web .
-6. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
-7. sudo docker save cleaninternetserver > /tmp/cleaninternetserver.tar
-8. copy cleaninternetserver.tar /home/???/docker (on deployment machine)
+ 1. cd ~/dotnet
+ 2. git clone git@github.com:CalypsoSys/inctrak_manga.gitpwd
+ 3. cd ~/dotnet/inctrak_manga/
+ 4. git pull or git checkout "branch I want"
+ 5. Build blaster
+ 6. ~/dotnet/inctrak_manga/bin/web_blaster Ubuntu Release ~/dotnet/inctrak_manga/static.manga.inctrak ~/dotnet/inctrak_manga/visalyzer.web/wwwroot
+ 7. sudo docker build -t visalyzer.web .
+ 8. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
+ 9. sudo docker save visalyzer.web > /tmp/visalyzer.web.tar
+10. copy visalyzer.web.tar /home/???/docker (on deployment machine)
 
 
 Init Docker Image
@@ -93,15 +93,11 @@ Init Docker Image
  1. cd ~/
  2. mkdir Docker
  3. cd Docker
- 4. mkdir cleaninternetserver_dotnet
- 5. cd cleaninternetserver_dotnet
+ 4. mkdir visalyzer_web_dotnet
+ 5. cd visalyzer_web_dotnet
  6. copy over Docker/docker-compose.yml
- 7. mkdir init
- 8. copy over init\01.sql to init
- 9. mkdir mysql
-10. mkdir dp-keys
-11. mkdir app
-12. copy over CleanInternet-Server\appsettings_prod_docker.json to app as appsettings.json
+ 7. mkdir app
+ 8. copy over appsettings_prod_docker.json to app as appsettings.json
 
 
 Notes
