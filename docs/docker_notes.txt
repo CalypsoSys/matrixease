@@ -80,12 +80,14 @@ Build Docker Image
  2. git clone git@github.com:CalypsoSys/inctrak_manga.gitpwd
  3. cd ~/dotnet/inctrak_manga/
  4. git pull or git checkout "branch I want"
- 5. Build blaster
- 6. ~/dotnet/inctrak_manga/bin/web_blaster Ubuntu Release ~/dotnet/inctrak_manga/static.manga.inctrak ~/dotnet/inctrak_manga/visalyzer.web/wwwroot
- 7. sudo docker build -t visalyzer.web .
- 8. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
- 9. sudo docker save visalyzer.web > /tmp/visalyzer.web.tar
-10. copy visalyzer.web.tar /home/???/docker (on deployment machine)
+ 5. cd web_blaster
+ 6. dotnet build --configuration Release
+ 7. cd ..
+ 8. ~/dotnet/inctrak_manga/bin/web_blaster Ubuntu Release ~/dotnet/inctrak_manga/static.manga.inctrak ~/dotnet/inctrak_manga/visalyzer.web/wwwroot
+ 9. sudo docker build -t visalyzer.web .
+10. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
+11. sudo docker save visalyzer.web > /tmp/visalyzer.web.tar
+12. copy visalyzer.web.tar /home/???/docker (on deployment machine)
 
 
 Init Docker Image
