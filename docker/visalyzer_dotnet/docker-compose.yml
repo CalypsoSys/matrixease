@@ -2,18 +2,18 @@ version: "3"
 
 services:
   visalyzer_dotnet:
-    image: bobcalypsoweb:latest
+    image: visalyzer.web:latest
     expose:
       - 80
     restart: always
     volumes:
       - ./app/appsettings.json:/app/appsettings.json
-      - ./bobelectron:/var/www/bobelectron
+      - ./mangadata:/var/www/mangadata
     environment:
       VIRTUAL_HOST: my.visalyzer.com
       LETSENCRYPT_HOST: my.visalyzer.com
       LETSENCRYPT_EMAIL: calypsosystemsllc@gmail.com
-    container_name: bobcalypsoweb
+    container_name: visalyzer.web
 
 networks:
   default:

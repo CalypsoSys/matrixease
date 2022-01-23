@@ -98,13 +98,14 @@ Init Docker Image
  6. copy over Docker/docker-compose.yml
  7. mkdir app
  8. copy over appsettings_prod_docker.json to app as appsettings.json
+ 9 mkdir mangadata
 
 
 Notes
 =====
 sudo docker logs -f nginx-proxy
-sudo docker logs -f visalyzer_web_dotnet
-sudo docker exec -it visalyzer_web_dotnet /bin/bash
+sudo docker logs -f visalyzer_dotnet
+sudo docker exec -it visalyzer_dotnet /bin/bash
 
 swapon -s
 sudo fallocate -l 512M /swapfile(2)
