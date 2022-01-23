@@ -126,6 +126,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "htdocs", "htdocs", "{CBF37CCC-5EB9-45D3-9ED0-88A68FE1333C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{E94A4A4C-DA62-4FC2-AA6A-F5E540F7EB26}"
+	ProjectSection(SolutionItems) = preProject
+		docker\visalyzer_dotnet\app\appsettings.json = docker\visalyzer_dotnet\app\appsettings.json
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "htdocs", "htdocs", "{548601B7-2918-48BE-B32C-907352B8EBC8}"
 EndProject
