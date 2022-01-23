@@ -10,6 +10,11 @@ namespace web_blaster
 
         static void Main(string[] args)
         {
+            foreach (var arg in args)
+            {
+                Console.WriteLine("Arg: {0}", arg);
+            }
+
             DeleteFiles(args[3]);
             CopyFiles(args[0], args[1] != "Debug", args[2], args[3]);
         }
