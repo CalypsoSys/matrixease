@@ -4,13 +4,16 @@ WORKDIR /app
 # copy csproj and restore as distinct layers
 COPY visalyzer.web/*.csproj ./visalyzer.web/
 COPY Manga.IncTrak/*.csproj ./Manga.IncTrak/
+COPY ExcelReader/*.csproj ./ExcelReader/
 #
 RUN dotnet restore ./visalyzer.web/visalyzer.web.csproj
 RUN dotnet restore ./Manga.IncTrak/Manga.IncTrak.csproj 
+RUN dotnet restore ./ExcelReader/ExcelReader.csproj 
 #
 # copy everything else and build app
 COPY visalyzer.web/. ./visalyzer.web/
 COPY Manga.IncTrak/. ./Manga.IncTrak/
+COPY ExcelReader/. ./ExcelReader/
 #
 WORKDIR /app/visalyzer.web
 RUN dotnet publish -c Release -o out 

@@ -82,8 +82,7 @@ Build Docker Image (from https://github.com/CleaninterNet/filter14.git)
 4. git pull or git checkout "branch I want"
 5. Build blaster
 6. ~/dotnet/inctrak_manga/bin/web_blaster Ubuntu Release ~/dotnet/inctrak_manga/static.manga.inctrak ~/dotnet/inctrak_manga/visalyzer.web/wwwroot
-7. cd visalyzer.web
-8. sudo docker build -t visalyzer.web .
+7. sudo docker build -t visalyzer.web .
 6. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
 7. sudo docker save cleaninternetserver > /tmp/cleaninternetserver.tar
 8. copy cleaninternetserver.tar /home/???/docker (on deployment machine)
