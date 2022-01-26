@@ -86,7 +86,7 @@ Build Docker Image
  8. ~/dotnet/inctrak_manga/bin/web_blaster Ubuntu Release ~/dotnet/inctrak_manga/static.manga.inctrak ~/dotnet/inctrak_manga/visalyzer.web/wwwroot
  9. sudo docker build -t visalyzer.web .
 10. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
-11. sudo docker save visalyzer.web > /tmp/visalyzer.web.tar
+11. sudo docker save visalyzer.web > /home/inctrakmanga/Docker/visalyzer.web.tar
 12. copy visalyzer.web.tar /home/calypso/docker (on deployment machine)
 
 
