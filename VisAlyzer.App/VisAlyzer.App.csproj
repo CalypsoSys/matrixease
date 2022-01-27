@@ -37,6 +37,6 @@
     </None>
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="$(ProjectDir)..\bin\web_blaster.exe $(OS) $(ConfigurationName) $(ProjectDir)..\static.manga.inctrak $(ProjectDir)wwwroot" />
+    <Exec Command="$(ProjectDir)..\bin\web_blaster.exe $(OS) $(ConfigurationName) $(ProjectDir)..\static.manga.inctrak $(ProjectDir)wwwroot noGoogleTracking" />
   </Target>
 </Project>

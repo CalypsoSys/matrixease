@@ -36,8 +36,6 @@ $(document).ready(function() {
             "Name": $("#NAME_ID").val(),
             "Subject": $("#SUBJECT_ID").val(),
             "Message": $("#MESSAGE_ID").val(),
-            "MessageTypeFk": "8",
-            "FeedbackPk": 0,
             "ClientData": null,
             "MessageTypeFkNavigation": null
         };

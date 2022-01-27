@@ -16,7 +16,7 @@ namespace web_blaster
             }
 
             DeleteFiles(args[3]);
-            CopyFiles(args[0], args[1] != "Debug", args[2], args[3]);
+            CopyFiles(args[0], args[1] != "Debug", args[2], args[3], args[4] == "noGoogleTracking");
         }
 
         private static void DeleteFiles(string dest)
@@ -37,7 +37,7 @@ namespace web_blaster
             }
         }
 
-        private static void CopyFiles(string os, bool release, string source, string dest)
+        private static void CopyFiles(string os, bool release, string source, string dest, bool noGoogleTracking)
         {
             DirectoryInfo di = new DirectoryInfo(source);
             foreach (FileInfo file in di.GetFiles())
@@ -45,7 +45,7 @@ namespace web_blaster
                 var destination = Path.Combine(dest, file.Name);
                 if (release)
                 {
-                    ProcessFile(os, file, destination);
+                    ProcessFile(os, file, destination, noGoogleTracking);
                 }
                 else
                 {
@@ -56,16 +56,16 @@ namespace web_blaster
             {
                 string subDest = Path.Combine(dest, dir.Name);
                 Directory.CreateDirectory(subDest);
-                CopyFiles(os, release, dir.FullName, subDest);
+                CopyFiles(os, release, dir.FullName, subDest, noGoogleTracking);
             }
         }
 
-        private static void ProcessFile(string os, FileInfo source, string destination)
+        private static void ProcessFile(string os, FileInfo source, string destination, bool noGoogleTracking)
         {
             switch (source.Extension)
             {
                 case ".html":
-                    UseMinifiedInHTML(source.FullName, destination);
+                    UseMinifiedInHTML(source.FullName, destination, noGoogleTracking);
                     break;
                 case ".js":
                     if (source.Name == "vis_helper.js")
@@ -120,7 +120,7 @@ namespace web_blaster
             process.WaitForExit();// Waits here for the process to exit.
         }
 
-        private static void UseMinifiedInHTML(string source, string destination)
+        private static void UseMinifiedInHTML(string source, string destination, bool noGoogleTracking)
         {
             using(StreamReader input = new StreamReader(source))
             {
@@ -141,12 +141,33 @@ namespace web_blaster
                         {
                             line = line.Replace(".css\"", ".min.css\"");
                         }
+                        else if ( noGoogleTracking )
+                        {
+                            if (line.Contains("gtag.js") || line.Contains("G-Y5YZ9L7Y2J") || line.Contains("gtag(") || line.Contains("window.dataLayer = window.dataLayer || [];"))
+                            {
+                                line = "";
+                            }
+                        }
 
-                        output.WriteLine(line);
+                        if (string.IsNullOrWhiteSpace(line) == false)
+                        {
+                            output.WriteLine(line);
+                        }
                     }
                 }
             }
         }
+        /*
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5YZ9L7Y2J"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag() { dataLayer.push(arguments); }
+                gtag('js', new Date());
+
+                gtag('config', 'G-Y5YZ9L7Y2J');
+            </script>
+        */
 
         private static void ClearHelpersJS(string source, string destination)
         {
