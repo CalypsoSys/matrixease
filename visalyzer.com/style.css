@@ -180,6 +180,18 @@ header {
   padding: 0;
 }
 
+.header_product {
+  background-color: #fff;
+  background-size: cover;
+  color: #fff;
+  font-weight: 600;
+  background-position: top;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+
 .logo {
   width: 200px;
 }
