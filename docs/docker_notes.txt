@@ -83,7 +83,7 @@ Build Docker Image
  5. cd web_blaster
  6. dotnet build --configuration Release
  7. cd ..
- 8. ~/dotnet/inctrak_manga/bin/web_blaster Ubuntu Release ~/dotnet/inctrak_manga/static.manga.inctrak ~/dotnet/inctrak_manga/visalyzer.web/wwwroot
+ 8. ~/dotnet/inctrak_manga/bin/web_blaster Ubuntu Release ~/dotnet/inctrak_manga/static.manga.inctrak ~/dotnet/inctrak_manga/visalyzer.web/wwwroot googs
  9. sudo docker build -t visalyzer.web .
 10. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
 11. sudo docker save visalyzer.web > /home/inctrakmanga/Docker/visalyzer.web.tar
