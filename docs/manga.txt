@@ -18,6 +18,9 @@ electronize in dev CentOS
 	electronize start
 
 	electronize build /target win 
+	copy "C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe" "C:\CalypsoSystems\inctrak_manga\visalyzer.com\download\VisAlyzer Setup 1.0.0.exe"
+	copy "C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe" "C:\transfer\VisAlyzer Setup 1.0.0.exe"
+
 	C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe
 	C:\Users\Joe\AppData\Local\Programs\vis-alyzer\resources\bin\wwwroot
 	C:\Users\Joe\AppData\Roaming\visalyzer
