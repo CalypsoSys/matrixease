@@ -14,9 +14,6 @@ namespace Desktop.Manga.IncTrak
     {
         public static void Main(string[] args)
         {
-#if DEBUG
-            System.Diagnostics.Debugger.Launch();
-#endif
             CreateHostBuilder(args).Build().Run();
         }
 

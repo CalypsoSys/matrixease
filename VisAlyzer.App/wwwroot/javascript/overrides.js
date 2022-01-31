@@ -26,3 +26,19 @@ function renderWindowData(id, callback) {
 function openContactUs() {
     require('electron').shell.openExternal("https://visalyzer.com#contact-us");
 }
+
+function openAbout() {
+    require('electron').shell.openExternal("https://www.visalyzer.com/index.html#about");
+}
+
+function openDocs() {
+    require('electron').shell.openExternal("https://docs.visalyzer.com");
+}
+
+function openBlog() {
+    require('electron').shell.openExternal("https://blog.visalyzer.com");
+}
+
+function openSupport() {
+    require('electron').shell.openExternal("https://support.visalyzer.com");
+}

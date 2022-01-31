@@ -93,7 +93,7 @@ namespace Desktop.Manga.IncTrak
 
             browserWindow.OnReadyToShow += () => browserWindow.Show();
             browserWindow.SetTitle("IncTrak VisAlyzer");
-#if !DEBUGX
+#if !DEBUGXXXX
             browserWindow.RemoveMenu();
 #endif
 
@@ -103,6 +103,7 @@ namespace Desktop.Manga.IncTrak
                 var jsonArgs = args as Newtonsoft.Json.Linq.JArray;
                 var browserWindow = Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
                 {
+                    AutoHideMenuBar = true,
                     Icon = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets\\icon.ico"),
                     WebPreferences = new WebPreferences
                     {

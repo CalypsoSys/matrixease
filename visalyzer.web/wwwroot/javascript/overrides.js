@@ -11,3 +11,19 @@ function renderWindowData(id, callback) {
 function openContactUs() {
     window.open("https://visalyzer.com#contact-us", "_blank");
 }
+
+function openAbout() {
+    window.open("https://www.visalyzer.com/index.html#about", "_blank");
+}
+
+function openDocs() {
+    window.open("https://docs.visalyzer.com", "_blank");
+}
+
+function openBlog() {
+    window.open("https://blog.visalyzer.com", "_blank");
+}
+
+function openSupport() {
+    window.open("https://support.visalyzer.com", "_blank");
+}
