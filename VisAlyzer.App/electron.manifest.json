@@ -4,6 +4,7 @@
     "imageFile": "/wwwroot/IncTrakIcon.png"
   },
   "name": "visalyzer",
+  "description": "See data the way you think about it - An Innovative Visualization and Analysis Tool for large matrix data",
   "author": "Joe Schmitt",
   "singleInstance": false,
   "aspCoreBackendPort": 51266,
