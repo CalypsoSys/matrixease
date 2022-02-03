@@ -3,7 +3,7 @@
   "splashscreen": {
     "imageFile": "/wwwroot/IncTrakIcon.png"
   },
-  "name": "VisAlyzer",
+  "name": "visalyzer",
   "author": "Joe Schmitt",
   "singleInstance": false,
   "aspCoreBackendPort": 51266,
