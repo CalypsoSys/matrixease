@@ -127,6 +127,12 @@ snapcraft upload --release=beta /home/inctrakmanga/dotnet/inctrak_manga/VisAlyze
 
 sudo snap install visalyzer
 
+snapcraft login
+snap login joseph@calypsosystemsllc.com
+sudo snap find --private visalyzer
+sudo snap install --beta visalyzer
+
+
 
 Build blaster
 cd ~/dotnet/inctrak_manga/
