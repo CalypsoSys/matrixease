@@ -116,7 +116,11 @@ cd VisAlyzer.App
 sudo rm -r obj/
 sudo rm -r bin/
 electronize build /target linux
-/home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
+cp /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap ~/.
+
+snapcraft login
+snapcraft upload --release=beta /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
+
 sudo snap install --dangerous /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
 ==> sudo snap install vis-alyzer_1.0.0_amd64.snap
 snap remove vis-alyzer
