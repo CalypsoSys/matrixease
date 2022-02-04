@@ -20,7 +20,7 @@
     },
     "linux": {
       "category": "Utility",
-      "icon": "../../../Assets/icon100.png"
+      "icon": "../../../Assets/IncTrakIcon.png"
     },
     "directories": {
       "output": "../../../bin/Desktop",
