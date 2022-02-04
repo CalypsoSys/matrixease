@@ -16,7 +16,11 @@
     "buildVersion": "1.0.0",
     "compression": "maximum",
     "win": {
-      "icon": "Assets/icon.ico"
+      "icon": "../../../Assets/icon.ico"
+    },
+    "linux": {
+      "category": "Utility",
+      "icon": "../../../Assets/icon100.png"
     },
     "directories": {
       "output": "../../../bin/Desktop",

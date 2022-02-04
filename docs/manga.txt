@@ -8,6 +8,7 @@ electronize in dev CentOS
 	sudo yum install aspnetcore-runtime-5.0
 
 	dotnet tool install ElectronNET.CLI -g
+	dotnet tool update --global ElectronNET.CLI
 
 	electronize build /target linux
 
@@ -114,7 +115,7 @@ or
 cd VisAlyzer.App
 
 electronize build /target linux
-/home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/vis-alyzer_1.0.0_amd64.snap
+/home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
 sudo snap install --dangerous /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
 ==> sudo snap install vis-alyzer_1.0.0_amd64.snap
 snap remove vis-alyzer
