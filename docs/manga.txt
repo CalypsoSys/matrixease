@@ -122,11 +122,11 @@ snapcraft login
 snapcraft upload --release=beta /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
 
 sudo snap install --dangerous /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
-==> sudo snap install vis-alyzer_1.0.0_amd64.snap
-snap remove vis-alyzer
+==> sudo snap install visalyzer_1.0.0_amd64.snap
+snap remove visalyzer
 
-home/inctrakmanga/snap/vis-alyzer/x1/.config/visalyzer
-/snap/vis-alyzer/x1/resources/bin/wwwroot/
+home/inctrakmanga/snap/visalyzer/x1/.config/visalyzer
+/snap/visalyzer/x1/resources/bin/wwwroot/
 
 snapcraft login
 snapcraft upload --release=beta /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap

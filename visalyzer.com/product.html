@@ -22,53 +22,49 @@
         gtag('config', 'G-Y5YZ9L7Y2J');
     </script>
 </head>
-  <body>
+<body>
     <div data-scroll-index="0" id="home" class="header_product">
-      <div class="sticky">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="#"><img class="logo" src="./img/IncTrakLogo.png" alt=""/></a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          
-          <i class="ion-android-menu text-center svg2"></i>
-        </button>
-        <div
-          class="collapse navbar-collapse justify-content-end"
-          id="navbarNav"
-        >
-            <ul class="navbar-nav ">
-                <li class="nav-item">
-                    <a data-scroll-nav="0" class="nav-link" href="index.html#home"><span id="must">Home</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Get VisAlyzer</a>
-                </li>
-                <li class="nav-item">
-                    <a data-scroll-nav="1" class="nav-link" href="index.html#about">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://docs.visalyzer.com" target="_blank">Documentation</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://support.visalyzer.com" target="_blank">Support</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://blog.visalyzer.com" target="_blank">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a data-scroll-nav="3" class="nav-link" href="index.html#contact">Contact Us</a>
-                </li>
-            </ul>
+        <div class="sticky">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand" href="#"><img class="logo" src="./img/IncTrakLogo.png" alt="" /></a>
+                <button class="navbar-toggler"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#navbarNav"
+                        aria-controls="navbarNav"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+
+                    <i class="ion-android-menu text-center svg2"></i>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end"
+                     id="navbarNav">
+                    <ul class="navbar-nav ">
+                        <li class="nav-item">
+                            <a data-scroll-nav="0" class="nav-link" href="index.html#home"><span id="must">Home</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Get VisAlyzer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-scroll-nav="1" class="nav-link" href="index.html#about">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://docs.visalyzer.com" target="_blank">Documentation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://support.visalyzer.com" target="_blank">Support</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://blog.visalyzer.com" target="_blank">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-scroll-nav="3" class="nav-link" href="index.html#contact">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
-      </nav>
-    </div>
     </div>
 
     <section class="contact" id="contact">
@@ -119,7 +115,7 @@
                         <li>Email support</li>
                         <li>Help center access</li>
                     </ul>
-                    <a href="download/vis-alyzer_1.0.0_amd64.snap" download class="btn btn-lg btn-block btn-primary" role="button">Download</a>
+                    <a href="" class="btn btn-lg btn-block btn-primary" role="button"  data-toggle="modal" data-target="#ubuntuInstall">Install</a>
                 </div>
             </div>
         </div>
@@ -230,10 +226,40 @@
     </section>
 
     <footer class="footer text-center mt-5">
-      <p class="footCon">&copy; 2019. All Rights Reserved IncTrak.</p>
+        <p class="footCon">&copy; 2019. All Rights Reserved IncTrak.</p>
     </footer>
 
-  </body>
+    <!-- Modal -->
+    <div class="modal fade" id="ubuntuInstall" tabindex="-1" role="dialog" aria-labelledby="ubuntuInstallLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ubuntuInstallLabel">Install VisAlyzer on Ubuntu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-auto">
+
+                    <div>
+                        Install Snap
+                        <code>sudo snap install --beta visalyzer</code>
+                        <a href="" onclick="navigator.clipboard.writeText('sudo snap install --beta visalyzer')" style="all: revert;">
+                            <i data-toggle="tooltip" data-placement="top" title="Copy command to clipboard" class="far fa-copy"></i>
+                        </a>
+                    </div>
+                    <div class="p-3">or</div>
+                    <div>
+                        <a href="download/visalyzer_1.0.0_amd64.snap" download style="all: revert;">Download Snap</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
   <!-- <script src="js/jquery-3.3.1.js"></script> -->
   <script src="js/jquery-2.2.3.min.js"></script>
   <script src="js/popper.js"></script>
