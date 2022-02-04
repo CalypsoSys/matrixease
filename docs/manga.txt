@@ -115,7 +115,7 @@ cd VisAlyzer.App
 
 electronize build /target linux
 /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/vis-alyzer_1.0.0_amd64.snap
-sudo snap install --dangerous vis-alyzer_1.0.0_amd64.snap
+sudo snap install --dangerous /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
 ==> sudo snap install vis-alyzer_1.0.0_amd64.snap
 snap remove vis-alyzer
 
@@ -132,6 +132,7 @@ snap login joseph@calypsosystemsllc.com
 sudo snap find --private visalyzer
 sudo snap install --beta visalyzer
 
+sudo kill -9 $(ps -ef | grep visalyzer | awk '{print $2}')
 
 
 Build blaster
