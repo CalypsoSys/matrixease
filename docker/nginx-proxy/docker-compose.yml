@@ -12,6 +12,7 @@ services:
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - certs:/etc/nginx/certs
+      - ./my_custom_proxy_settings.conf:/etc/nginx/conf.d/my_custom_proxy_settings.conf  
       - ./log/access.log:/var/log/nginx/access.log
       - ./log/error.log:/var/log/nginx/error.log
     restart: always       
