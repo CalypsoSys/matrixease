@@ -147,6 +147,10 @@ namespace web_blaster
                             {
                                 line = "";
                             }
+                            else if ( line.Contains("(100meg limit)"))
+                            {
+                                line = line.Replace("(100meg limit)", "");
+                            }
                         }
 
                         if (string.IsNullOrWhiteSpace(line) == false)
@@ -157,17 +161,6 @@ namespace web_blaster
                 }
             }
         }
-        /*
-            <!-- Global site tag (gtag.js) - Google Analytics -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5YZ9L7Y2J"></script>
-            <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag() { dataLayer.push(arguments); }
-                gtag('js', new Date());
-
-                gtag('config', 'G-Y5YZ9L7Y2J');
-            </script>
-        */
 
         private static void ClearHelpersJS(string source, string destination)
         {
