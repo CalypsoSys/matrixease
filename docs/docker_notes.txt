@@ -87,22 +87,23 @@ Build Docker Image
  9. sudo docker build -t visalyzer.web .
 10. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
 11. sudo docker save visalyzer.web > /home/inctrakmanga/Docker/visalyzer.web.tar
-12. copy visalyzer.web.tar /home/calypso/docker (on deployment machine)
+12. copy visalyzer.web.tar copy to c:\transfer and C:\CalypsoSystems\inctrak_manga\visalyzer.com\download
 
 
 Init Docker Image
 ==================
- 1. cd ~/
- 2. mkdir docker
- 3. cd docker
- 4. sudo docker load <  visalyzer.web.tar
- 5. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
- 6. mkdir visalyzer_dotnet
- 7. cd visalyzer_dotnet
- 8. copy over Docker/docker-compose.yml
- 9. mkdir app
-10. copy over appsettings_prod_docker.json to app as appsettings.json
-11. mkdir mangadata
+ 1. copy visalyzer.web.tar to /home/calypso/docker (on deployment machine)
+ 2. cd ~/
+ 3. mkdir docker
+ 4. cd docker
+ 5. sudo docker load <  visalyzer.web.tar
+ 6. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
+ 7. mkdir visalyzer_dotnet
+ 8. cd visalyzer_dotnet
+ 9. copy over Docker/docker-compose.yml
+10. mkdir app
+11. copy over appsettings_prod_docker.json to app as appsettings.json
+12. mkdir mangadata
 
 
 Notes

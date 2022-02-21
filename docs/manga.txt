@@ -121,6 +121,8 @@ cp /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1
 
 snapcraft login
 snapcraft upload --release=beta /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
+copy to c:\transfer
+copy to C:\CalypsoSystems\inctrak_manga\visalyzer.com\download
 
 sudo snap install --dangerous /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
 ==> sudo snap install visalyzer_1.0.0_amd64.snap
