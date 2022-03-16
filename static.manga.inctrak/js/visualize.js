@@ -715,10 +715,11 @@ var visualizer = new Vue({
         },
         nodeDefintion: function () {
             if (this.selectedNode) {
+                var value = this.selectedNode.value.length > this.colSize ? this.selectedNode.value.substring(0, this.colSize) + "..." : this.selectedNode.value;
                 if (this.selectedNode.duplicates > 1) {
-                    return this.selectedNode.value + " (" + this.selectedNode.duplicates + " different case)";
+                    return value + " (" + this.selectedNode.duplicates + " different case)";
                 } else {
-                    return this.selectedNode.value;
+                    return value;
                 }
             }
             return "";

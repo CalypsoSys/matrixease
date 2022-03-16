@@ -337,10 +337,13 @@ namespace Manga.IncTrak.Manga
             _textPatterns.FinalizeCache(_dataType == DataType.Text);
             _datePatterns.FinalizeCache(_dataType == DataType.Date);
             _numericPatterns.FinalizeCache(_dataType == DataType.Numeric);
+            bool typeOverride = false;
             if ( _dataType == DataType.Text )
             {
                 _numericPatterns = null;
                 _datePatterns = null;
+                if (_textPatterns.AverageTextLength > MangaConstants.LargeColumn)
+                    typeOverride = true;
             } 
             else  if ( _dataType == DataType.Date )
             {
@@ -357,7 +360,7 @@ namespace Manga.IncTrak.Manga
             _distinctValues = _patterns.DistinctValues;
             _selectivity = (decimal)_distinctValues / (decimal)totalRows * 100M;
 
-            _onlyBuckets = (_distinctValues > MangaConstants.SmallBucket) && (_bucketized || _selectivity > MangaConstants.SelectivityThreshold || _distinctValues > MangaConstants.MaxTextDistinct);
+            _onlyBuckets = typeOverride || (_distinctValues > MangaConstants.SmallBucket) && (_bucketized || _selectivity > MangaConstants.SelectivityThreshold || _distinctValues > MangaConstants.MaxTextDistinct);
             status.SetStatus(MangaFactoryStatusKey.Analyzing, string.Format("Calulating Distributions for {0}", _name), MangaFactoryStatusState.Running);
             if ( _patterns.CalulateBuckets(true, totalRows, MangaConstants.MaxTextDistinct, _distinctValues, _onlyBuckets, status) )
             {

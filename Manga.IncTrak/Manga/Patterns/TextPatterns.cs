@@ -26,6 +26,7 @@ namespace Manga.IncTrak.Manga
         private TextTerms _textTerms = new TextTerms();
         /// End Serialized Items 
 
+        public decimal AverageTextLength { get => _textLengthStat.Average; }
         public override int MinBucketSize { get => (int)_bucket; }
         public override decimal MinBucketMod { get => 0M; }
         public override UInt32[] AllowedBuckets { get => _bucketsOptions; }
@@ -183,7 +184,7 @@ namespace Manga.IncTrak.Manga
                 else
                     termBucket = _textTerms.CalcTextBucketSize(totalRows, status);
 
-                if ( DistinctValues <= MangaConstants.SmallBucket)
+                if ( DistinctValues <= MangaConstants.SmallBucket && AverageTextLength <= MangaConstants.LargeColumn)
                 {
                     return TextBuckets.Natural;
                 }

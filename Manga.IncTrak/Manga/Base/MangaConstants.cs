@@ -26,5 +26,6 @@ namespace Manga.IncTrak.Manga
         public const string SheetID = "sheet_id";
         public const string SheetRange = "range";
         public const int ThrowOutOnesThreshold = 50000;
+        public const int LargeColumn = 40;
     }
 }
