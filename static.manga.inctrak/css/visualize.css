@@ -298,3 +298,14 @@ legend.groupbox-border {
     overflow: hidden;
     white-space: nowrap;
 }
+
+.info_icon {
+    background-image: url(/img/info-circle-fill.svg);
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+.info_icon:hover {
+    background-image: url(/img/info-circle-fill-blue.svg);
+}
+

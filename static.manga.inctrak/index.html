@@ -49,6 +49,7 @@
         </div>
 
         <div class="row">
+            <h6 class="mb-3">Projects <a href="https://docs.visalyzer.com/components.html#saved-projects" class="info_icon" target="_blank"></a></h6>
             <table class="table">
                 <thead>
                     <tr>
@@ -76,6 +77,7 @@
         </div>
         <hr class="mb-4">
         <form class="needs-validation was-validated">
+            <h6 class="mb-3">New Project Options <a href="https://docs.visalyzer.com/components.html#project_options" class="info_icon" target="_blank"></a></h6>
             <div class="form-row">
                 <div class="col-6 pl-2">
                     <label for="manga_name">VisAlyzer Name</label>
@@ -123,7 +125,7 @@
         <hr class="mb-4">
         <div class="row ">
             <div class="col-md-5 pb-4">
-                <h4 class="mb-3">Load File Based Sheet</h4>
+                <h4 class="mb-3">Load File Based Sheet <a href="https://docs.visalyzer.com/components.html#load-source" class="info_icon" target="_blank"></a></h4>
 
                 <form class="needs-validation was-validated" v-on:submit.prevent="submitUploadSheetForm">
                     <div class="d-block my-3">
@@ -149,7 +151,7 @@
                 </form>
             </div>
             <div class="col-md-5 pb-4">
-                <h4 class="mb-3">Load Google Sheet</h4>
+                <h4 class="mb-3">Load Google Sheet <a href="https://docs.visalyzer.com/components.html#load-source" class="info_icon" target="_blank"></a></h4>
                 <form method="GET" ref="google_login" action="/google/manual_login">
                     <input type="hidden" name="inctrak_id" v-model="incTrakKey" />
                 </form>
