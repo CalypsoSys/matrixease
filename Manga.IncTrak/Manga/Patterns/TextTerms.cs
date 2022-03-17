@@ -178,7 +178,7 @@ namespace Manga.IncTrak.Manga
         public TextBuckets CalcTextBucketSize(int totalRows, IBackgroundJob status)
         {
             TextBuckets bucket = TextBuckets.Length;
-            if (_allTermsStat.Average != OneWord)
+            if (_allTermsStat.Average != OneWord || _allDocTermCount.Count > OneWord)
             {
                 if (_allTermsStat.Average > CoupleOfWordThreshold || _allDocTermCount.Count < FewWordsThreshold)
                 {
