@@ -14,6 +14,11 @@ var mangaAuth = new Vue({
         myMangas: null,
         my_tick: 0,
         sheet_type: "csv",
+        csv_separator: "comma",
+        csv_quote: "doublequote",
+        csv_escape: "doublequote",
+        csv_null: "null",
+        csv_eol: "crlf",
         file: '',
         uploadPercentage: 0,
         manga_name: "",
@@ -175,7 +180,7 @@ var mangaAuth = new Vue({
             if (!this.manga_name) {
                 error += "Please enter VisAlyzer Name\n";
             }
-            if (this.header_row <=0 ) {
+            if (this.header_row < 0 || (this.header_row == 0 && this.header_rows > 0)) {
                 error += "Header Row must be greater than zero\n";
             }
             if (this.header_row > this.header_rows) {
@@ -205,6 +210,11 @@ var mangaAuth = new Vue({
             formData.append('trim_trailing_whitespace', this.trim_trailing_whitespace);
             formData.append('ignore_cols', this.ignore_cols);
             formData.append('sheet_type', this.sheet_type);
+            formData.append('csv_separator', this.csv_separator);
+            formData.append('csv_quote', this.csv_quote);
+            formData.append('csv_escape', this.csv_escape);
+            formData.append('csv_null', this.csv_null);
+            formData.append('csv_eol', this.csv_eol);
 
             axios.post('/upload_file',
                 formData,

@@ -18,15 +18,28 @@ namespace Manga.IncTrak.Utility
         private StreamReader _input;
         private long _fileSize;
         private long _filePos = 0;
+        private char _csvSeparator = ',';
+        private char _csvQuote = '"';
+        private char _csvEscape = '"';
+        private char _csvNull = '\0';
+        private char _csvEOL1 = '\r';
+        private char _csvEOL2 = '\n';
+
 #elif VB_TEXT_PARSER
         private TextFieldParser _parser;
 #endif
 
-        public CsvParser(StreamReader input)
+        public CsvParser(StreamReader input, char csvSeparator, char csvQuote, char csvEscape, char csvNull, char csvEOL1, char csvEOL2)
         {
 #if JOE_CVS_PARSER
             _input = input;
             _fileSize = input.BaseStream.Length;
+            _csvSeparator = csvSeparator;
+            _csvQuote = csvQuote;
+            _csvEscape = csvEscape;
+            _csvNull = csvNull;
+            _csvEOL1 = csvEOL1;
+            _csvEOL2 = csvEOL2;
 #elif VB_TEXT_PARSER
             _parser = new TextFieldParser(input);
             _parser.Delimiters = new string[] { "," };
@@ -68,27 +81,27 @@ namespace Manga.IncTrak.Utility
             for (; pos < readSize && eol == false; pos++)
             {
                 char c = buffer[pos];
-                if ((c == ',' || c == '\r' || c == '\n') && inQuote == false)
+                if ((c == _csvSeparator || c == _csvEOL1 || c == _csvEOL2) && inQuote == false)
                 {
                     output.Add(temp.ToString());
                     temp.Clear();
-                    if (c == '\r' && pos < readSize - 1 && buffer[pos + 1] == '\n')
+                    if (c == _csvEOL1 && pos < readSize - 1 && buffer[pos + 1] == _csvEOL2)
                     {
                         ++pos;
                         eol = true;
                     }
-                    else if (c == '\n')
+                    else if (c == _csvEOL2)
                     {
                         eol = true;
                     }
                 }
                 else
                 {
-                    if (c == '"')
+                    if (c == _csvQuote)
                     {
                         if (inQuote)
                         {
-                            if ((pos + 1) < readSize && buffer[pos + 1] == '"')
+                            if ((pos + 1) < readSize && buffer[pos + 1] == _csvEscape)
                             {
                                 temp.Append(c);
                                 ++pos;
@@ -108,6 +121,11 @@ namespace Manga.IncTrak.Utility
                         temp.Append(c);
                     }
                 }
+            }
+
+            if (temp.Length > 0)
+            {
+                output.Add(temp.ToString());
             }
 
             if (!eol)
@@ -146,7 +164,7 @@ namespace Manga.IncTrak.Utility
                 {
                     bool eol;
                     List<object> row = SplitLine(buffer, bufSize, ref pos, out eol, out eob);
-                    if (eol)
+                    if (eol || (eob == true && readMore == false && row != null && row.Count != 0))
                     {
                         lastPos = pos;
 

@@ -13,9 +13,37 @@ namespace Manga.IncTrak.Processing
     {
         private string _uploadFile;
         private StreamReader _rows;
+        private char _csvSeparator = ',';
+        private char _csvQuote = '"';
+        private char _csvEscape = '"';
+        private char _csvNull = '\0';
+        private char _csvEOL1 = '\r';
+        private char _csvEOL2 = '\n';
 
         public MangaFactoryFromCSVFile(string userId, MangaInfo mangaInfo) : base(userId, mangaInfo)
         {
+            switch (mangaInfo.GetExtraInfo(MangaConstants.CsvSeparator))
+            {
+                case "tab":
+                    _csvSeparator = '\t';
+                    break;
+                case "space":
+                    _csvSeparator = ' ';
+                    break;
+                case "pipe":
+                    _csvSeparator = '|';
+                    break;
+                case "colon":
+                    _csvSeparator = ':';
+                    break;
+                case "semicolon":
+                    _csvSeparator = ';';
+                    break;
+                case "comma":
+                default:
+                    _csvSeparator = ',';
+                    break;
+            }
         }
 
         public override void SetUploadWorkFile(string uploadFile)
@@ -32,7 +60,7 @@ namespace Manga.IncTrak.Processing
 
         protected override IEnumerable<IList<object>> RowIterator(IBackgroundJob status)
         {
-            using (CsvParser parser = new CsvParser(_rows))
+            using (CsvParser parser = new CsvParser(_rows, _csvSeparator, _csvQuote, _csvEscape, _csvNull, _csvEOL1, _csvEOL2))
             {
                 foreach(var row in parser.ReadParseLine())
                 {

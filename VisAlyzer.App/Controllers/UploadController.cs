@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Web;
 
 namespace manga.inctrak.com.Controllers
@@ -23,7 +24,7 @@ namespace manga.inctrak.com.Controllers
         [HttpPost]
         [DisableRequestSizeLimit]
         [RequestFormLimits(MultipartBodyLengthLimit = 4294967295)]
-        public object PostFormData([FromForm] string inctrak_id, [FromForm] IFormFile file, [FromForm] string manga_name, [FromForm] int header_row, [FromForm] int header_rows, [FromForm] int max_rows, [FromForm] bool ignore_blank_rows, [FromForm] bool ignore_text_case, [FromForm] bool trim_leading_whitespace, [FromForm] bool trim_trailing_whitespace, [FromForm] string ignore_cols, [FromForm] string sheet_type)
+        public object PostFormData([FromForm] string inctrak_id, [FromForm] IFormFile file, [FromForm] string manga_name, [FromForm] int header_row, [FromForm] int header_rows, [FromForm] int max_rows, [FromForm] bool ignore_blank_rows, [FromForm] bool ignore_text_case, [FromForm] bool trim_leading_whitespace, [FromForm] bool trim_trailing_whitespace, [FromForm] string ignore_cols, [FromForm] string sheet_type, [FromForm] string csv_separator, [FromForm] string csv_quote, [FromForm] string csv_escape, [FromForm] string csv_null, [FromForm] string csv_eol)
         {
             try
             {
@@ -31,7 +32,7 @@ namespace manga.inctrak.com.Controllers
 
                 using (var input = file.OpenReadStream())
                 {
-                    MangaInfo mangaInfo = new MangaInfo(file.FileName, manga_name, header_row, header_rows, max_rows, ignore_blank_rows, ignore_text_case, trim_leading_whitespace, trim_trailing_whitespace, ignore_cols, sheet_type, null);
+                    MangaInfo mangaInfo = new MangaInfo(file.FileName, manga_name, header_row, header_rows, max_rows, ignore_blank_rows, ignore_text_case, trim_leading_whitespace, trim_trailing_whitespace, ignore_cols, sheet_type, new Dictionary<string, string> { { MangaConstants.CsvSeparator, csv_separator }, { MangaConstants.CsvQuote, csv_quote }, { MangaConstants.CsvEscape, csv_escape }, { MangaConstants.CsvNull, csv_null }, { MangaConstants.CsvEol, csv_eol } });
                     Guid? mangaGuid = SheetProcessing.ProcessSheet(MangaDesktop.UserId, input, mangaInfo, MangaDesktop.RunBackroundManagGet);
 
                     if (mangaGuid != null)

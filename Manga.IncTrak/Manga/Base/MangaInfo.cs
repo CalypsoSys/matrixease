@@ -30,7 +30,6 @@ namespace Manga.IncTrak.Manga
         private int _totalCells;
         /// End Serialized Items
 
-
         public string WorkingSetFile { get; set; }
         public string Status { get; set; }
         public string Message { get; set; }
@@ -116,7 +115,7 @@ namespace Manga.IncTrak.Manga
             _totalCells = totalCells;
         }
 
-    public void Load(int version, IMangaSerializationReader reader, MangaLoadOptions loadOptions)
+        public void Load(int version, IMangaSerializationReader reader, MangaLoadOptions loadOptions)
         {
             _created = new DateTime((long)reader.ReadUInt64());
             _managGuid = reader.ReadGuid();

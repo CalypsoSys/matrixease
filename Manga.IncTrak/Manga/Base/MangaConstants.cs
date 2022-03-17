@@ -25,6 +25,11 @@ namespace Manga.IncTrak.Manga
         public const int SmallTextSize = 100;
         public const string SheetID = "sheet_id";
         public const string SheetRange = "range";
+        public const string CsvSeparator = "csv_separator";
+        public const string CsvQuote = "csv_quote";
+        public const string CsvEscape = "csv_escape";
+        public const string CsvNull = "csv_null";
+        public const string CsvEol = "csv_eol";
         public const int ThrowOutOnesThreshold = 50000;
         public const int LargeColumn = 40;
     }

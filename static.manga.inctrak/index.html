@@ -133,6 +133,17 @@
                             <input id="csv" name="sheet_type" value="csv" v-model="sheet_type" type="radio" class="custom-control-input" checked="" required="">
                             <label class="custom-control-label" for="csv">csv</label>
                         </div>
+                        <div v-if="sheet_type == 'csv'">
+                            <label for="id_separator"> Separator</label>
+                            <select class="custom-select-sm" id="id_separator" v-model="csv_separator" required="">
+                                <option value="comma">Comma(",")</option>
+                                <option value="tab">Tab("\t")</option>
+                                <option value="space">Space(" ")</option>
+                                <option value="pipe">Pipe("|")</option>
+                                <option value="colon">Colon(":")</option>
+                                <option value="semicolon">Semicolon(";")</option>
+                            </select>
+                        </div>
                         <div class="custom-control custom-radio">
                             <input id="excel" name="sheet_type" value="excel" v-model="sheet_type" type="radio" class="custom-control-input" required="">
                             <label class="custom-control-label" for="excel">Excel (xls, xlxs, etc.)</label>
