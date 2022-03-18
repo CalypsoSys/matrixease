@@ -1,7 +1,7 @@
 ﻿<transition name="modal_dependency">
     <div class="modal-mask" style="max-height: 900px;overflow: auto; overflow-y:scroll;" v-show="show" @click="$emit('close')">
         <div class="container modal-container modal-container-large" @click.stop>
-            <h4 class="mb-3"> "{{ curdepdata.name }}" Dependencies <a href="#" onclick="openDocs('/components.html#visalyze-cell-actions')" class="info_icon"></a>&nbsp;<button class="btn btn-info btn-sm" @click="openColDependencyWindow">Open in new tab</button></h4> 
+            <h4 class="mb-3"> "{{ curdepdata.name }}" Dependencies <a href="#" onclick="openDocs('/components.html#visalyze-cell-dep')" class="info_icon"></a>&nbsp;<button class="btn btn-info btn-sm" @click="openColDependencyWindow">Open in new tab</button></h4> 
             <div class="row">
                 <div class="col-sm-12">
                     <select class="form-control input-sm" v-model="colData" @change="onChange()" required="">
