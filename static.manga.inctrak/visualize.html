@@ -44,12 +44,12 @@
         <modal_alert :show="showModalAlert" @close="showModalAlert = false" @yes="takeAction" :title="modal_title" :message="modal_message" :secondary="modal_secondary" :confirm="modal_yes_no_action" :list="modal_list"></modal_alert>
         <div ref="meta" class="form-horizontal fixed-top bg-white" style="z-index:3">
             <slideout-panel :cur_show_low_equal="show_low_equal" :cur_show_low_bound="show_low_bound" :cur_show_high_equal="show_high_equal" :cur_show_high_bound="show_high_bound" :cur_show_percentage="show_percentage" :cur_select_operation="select_operation" :cur_col_ascending="col_ascending" :cur_hide_columns="hide_columns" :cur_columns="my_columns"></slideout-panel>
-            <h3>VisAlyzer (Beta) -- {{ mangaName }}</h3>
+            <h3>&nbsp;VisAlyzer (Beta) -- {{ mangaName }} <a href="#" onclick="openDocs('/components.html#visalyze-quick-statistics')" class="info_icon"></a></h3>
             <div class="row">
                 <div class="col-sm-10">
                     <div class="row">
                         <div class="col-sm-3  font-weight-bold">
-                            Dataset Statistics
+                            &nbsp;Dataset Statistics
                         </div>
                         <div class="col-sm-3 font-weight-bold">
                             Column Statistics
@@ -63,7 +63,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3">
-                            Total Rows: {{ totalRows.toLocaleString() }}
+                            &nbsp;Total Rows: {{ totalRows.toLocaleString() }}
                         </div>
                         <div class="col-sm-3">
                             Column: {{ ((selectedColumn || {}).name || "") }}
@@ -77,7 +77,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3">
-                            Selected Rows: {{ selectedRows.toLocaleString() }}
+                            &nbsp;Selected Rows: {{ selectedRows.toLocaleString() }}
                         </div>
                         <div class="col-sm-3">
                             Type: {{ (selectedColumn || {}).colType || null }}
@@ -91,6 +91,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3">
+                            &nbsp;
                         </div>
                         <div class="col-sm-3">
                             Data Type: {{ (selectedColumn || {}).dataType || null }}
@@ -115,6 +116,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3">
+                            &nbsp;
                         </div>
                         <div class="col-sm-3">
                             Selectivity: {{ (selectedColumn || {}).selectivity || 0 }}
@@ -127,6 +129,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3">
+                            &nbsp;
                             <button class="btn btn-primary ml-2" v-on:click.prevent="showPanel">
                                 Selections
                             </button>
@@ -145,10 +148,10 @@
                 </div>
                 <div class="col-sm-2">
                     <div>
-                        <a href="#" onclick="openAbout();return false;" target="_blank">About</a> |
-                        <a href="#" onclick="openDocs();return false;" target="_blank">Documentation</a> |
-                        <a href="#" onclick="openBlog();return false;" target="_blank">Blog</a> |
-                        <a href="#" onclick="openSupport();return false;" target="_blank">Support</a>
+                        <a href="#" onclick="openAbout();return false;">About</a> |
+                        <a href="#" onclick="openDocs('');return false;">Documentation</a> |
+                        <a href="#" onclick="openBlog();return false;">Blog</a> |
+                        <a href="#" onclick="openSupport('');return false;">Support</a>
                     </div>
                     <button class="btn btn-info mt-1" v-on:click.prevent="showFilter">
                         Show Current Filter

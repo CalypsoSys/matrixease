@@ -504,9 +504,9 @@ var visualizer = new Vue({
         },
         pendingFilter: function () {
             if ((!this.selection_expression && this.data && this.data.SelectionExpression) || this.selection_expression && this.data && this.selection_expression != this.data.SelectionExpression) {
-                return "Pending Filter Change";
+                return " Pending Filter Change";
             } else {
-                return "";
+                return " ";
             }
         },
         selectNode: function (event, override) {

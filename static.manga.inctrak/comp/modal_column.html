@@ -1,7 +1,7 @@
 ﻿<transition name="modal_column">
     <div class="modal-mask" v-show="show" @click="$emit('close')">
         <div class="container modal-container" @click.stop>
-            <h4 class="mb-3">Column: {{ (data || {}).name }}</h4>
+            <h4 class="mb-3">Column: {{ (data || {}).name }} <a href="#" onclick="openDocs('/components.html#visalyze-col-settings')" class="info_icon"></a></h4>
             <div class="row">
                 <div class="col-sm">
                     Type: {{ (data || {}).colType || null }}

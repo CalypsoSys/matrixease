@@ -24,15 +24,15 @@ function renderWindowData(id, callback) {
 }
 
 function openContactUs() {
-    require('electron').shell.openExternal("https://visalyzer.com#contact-us");
+    require('electron').shell.openExternal("https://www.visalyzer.com#contact-us");
 }
 
 function openAbout() {
     require('electron').shell.openExternal("https://www.visalyzer.com/index.html#about");
 }
 
-function openDocs() {
-    require('electron').shell.openExternal("https://docs.visalyzer.com");
+function openDocs(spec) {
+    require('electron').shell.openExternal("https://docs.visalyzer.com" + spec);
 }
 
 function openBlog() {

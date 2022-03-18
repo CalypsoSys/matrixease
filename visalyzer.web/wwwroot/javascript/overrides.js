@@ -9,21 +9,25 @@ function renderWindowData(id, callback) {
 }
 
 function openContactUs() {
-    window.open("https://visalyzer.com#contact-us", "_blank");
+    window.open("https://www.visalyzer.com#contact-us", "visalyzer_contact");
 }
 
 function openAbout() {
-    window.open("https://www.visalyzer.com/index.html#about", "_blank");
+    window.open("https://www.visalyzer.com/index.html#about", "visalyzer_acount");
 }
 
-function openDocs() {
-    window.open("https://docs.visalyzer.com", "_blank");
+function openDocs(spec) {
+    if (spec) {
+        window.open("https://docs.visalyzer.com" + spec, "visalyzer_docs_popup", "toolbar=yes,scrollbars=yes,resizable=yes,width=400,height=400");
+    } else {
+        window.open("https://docs.visalyzer.com", "visalyzer_docs");
+    }
 }
 
 function openBlog() {
-    window.open("https://blog.visalyzer.com", "_blank");
+    window.open("https://blog.visalyzer.com", "visalyzer_blog");
 }
 
 function openSupport() {
-    window.open("https://support.visalyzer.com", "_blank");
+    window.open("https://support.visalyzer.com", "visalyzer_support");
 }

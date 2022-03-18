@@ -1,6 +1,6 @@
 ﻿<transition name="modal_expression">
     <div id="expression_dialog" class="dialog expr_modal" style="min-width:350px; min-height:280px;z-index: 300;height: 500px;width:200px" v-show="show">
-        <div class="titlebar" style="width:350px">Filter Expression</div>
+        <div class="titlebar" style="width:350px">Filter Expression <a href="#" onclick="openDocs('/components.html#visalyze-filtering')" class="info_icon"></a></div>
         <button class="dialog_button" name="close"  @click="$emit('close')">&times;</button>
         <div class="content">
             <textarea class="form-control" cols="40" rows="11" id="selection_expression" value="selection_expression" v-model="selection_expression" @change="emitUpdate"></textarea>
