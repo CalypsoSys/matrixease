@@ -1,7 +1,7 @@
 ﻿<transition name="modal_measures">
     <div class="modal-mask" style="max-height: 900px;overflow: auto; overflow-y:scroll;" v-show="show" @click="closeUp()">
         <div class="container modal-container modal-container-large" @click.stop>
-            <h2>{{ (selected_column || {}).name }} - {{ (selected_node || {}).value }} <a href="#" onclick="openDocs('/components.html#visalyze-cell-actions')" class="info_icon"></a></h2>
+            <h4 class="mb-3">{{ (selected_column || {}).name }} - {{ (selected_node || {}).value }} <a href="#" onclick="openDocs('/components.html#visalyze-cell-actions')" class="info_icon"></a></h4>
             <hr class="mb-4">
             <div class="row">
                 <div class="col-sm">

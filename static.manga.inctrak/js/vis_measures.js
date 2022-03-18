@@ -13,6 +13,14 @@
             measures: null
         }
     },
+    watch: {
+        selected_column: function (selected_column) {
+            this.selected_column = selected_column;
+        },
+        selected_node: function (selected_node) {
+            this.selected_node = selected_node;
+        },
+    },
     methods: {
         onSubmitDoNothing: function () {
         },
