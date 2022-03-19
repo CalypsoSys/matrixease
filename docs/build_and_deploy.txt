@@ -1,0 +1,32 @@
+Build Windows Desktop App
+=========================
+01. Delete all C:\CalypsoSystems\inctrak_manga\bin
+02. C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin
+03. C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\obj
+04. Rebuild Solution in release mode
+05. Start window developer cmd prompt
+06. cd C:\CalypsoSystems\inctrak_manga\VisAlyzer.App
+07. electronize build /target win 
+08. "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe"
+09. copy "C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe" "C:\CalypsoSystems\inctrak_manga\visalyzer.com\download\VisAlyzer Setup 1.0.0.exe"
+10. copy "C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe" "C:\transfer\VisAlyzer Setup 1.0.0.exe"
+
+
+Build Ubuntu Desktop 
+=====================
+01. Start "Clone of IncTrak Manga Ubuntu 64-bit - Development" vm
+02. Open a terminal
+03. cd ~/dotnet/inctrak_manga/
+04. git pull
+05. cd web_blaster
+06. dotnet build --configuration Release
+07 cd ../VisAlyzer.App
+08. sudo rm -r obj/
+09. sudo rm -r bin/
+10. electronize build /target linux
+11. cp /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap ~/.
+12. snapcraft login
+13. snapcraft upload --release=beta /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
+14. copy to c:\transfer
+15. copy to C:\CalypsoSystems\inctrak_manga\visalyzer.com\download
+

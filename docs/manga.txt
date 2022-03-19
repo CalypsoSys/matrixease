@@ -19,7 +19,7 @@ electronize in dev CentOS
 	electronize start
 
 	electronize build /target win 
-	"C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password /a "C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe"
+	"C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe"
 	copy "C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe" "C:\CalypsoSystems\inctrak_manga\visalyzer.com\download\VisAlyzer Setup 1.0.0.exe"
 	copy "C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe" "C:\transfer\VisAlyzer Setup 1.0.0.exe"
 
