@@ -20,13 +20,45 @@ Build Ubuntu Desktop
 04. git pull
 05. cd web_blaster
 06. dotnet build --configuration Release
-07 cd ../VisAlyzer.App
+07. cd ../VisAlyzer.App
 08. sudo rm -r obj/
 09. sudo rm -r bin/
 10. electronize build /target linux
 11. cp /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap ~/.
 12. snapcraft login
 13. snapcraft upload --release=beta /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
-14. copy to c:\transfer
-15. copy to C:\CalypsoSystems\inctrak_manga\visalyzer.com\download
+14. copy ~/visalyzer_1.0.0_amd64.snap to c:\transfer
+15. from windows copy "C:\transfer\visalyzer_1.0.0_amd64.snap" "C:\CalypsoSystems\inctrak_manga\visalyzer.com\download\visalyzer_1.0.0_amd64.snap"
+
+
+Build Docker Image
+==================
+01. cd ~/dotnet/inctrak_manga/
+02. git pull
+03. cd web_blaster
+04. dotnet build --configuration Release
+05. cd ..
+06. ~/dotnet/inctrak_manga/bin/web_blaster Ubuntu Release ~/dotnet/inctrak_manga/static.manga.inctrak ~/dotnet/inctrak_manga/visalyzer.web/wwwroot googs
+07. sudo docker build -t visalyzer.web .
+08. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
+11. sudo docker save visalyzer.web > ~/visalyzer.web.tar
+12. copy ~/visalyzer.web.tar to c:\transfer
+15. from windows copy "C:\transfer\visalyzer.web.tar" "C:\CalypsoSystems\inctrak_manga\visalyzer.com\download\visalyzer.web.tar"
+
+
+Init Docker Image
+=================
+01. cd ~/docker
+02. ./docker_visalyzer.sh stop
+03. Update static.manga.inctrak with all files
+04. Update docs.visalyzer.com with all files
+05. copy visalyzer.web.tar to /home/calypso/docker (on deployment machine)
+06. sudo docker load <  visalyzer.web.tar
+07. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
+08. cd visalyzer_dotnet
+09. sudo docker-compose down
+10. sudo docker-compose up -d
+11. sudo docker-compose stop
+12. cd ..
+13. ./docker_visalyzer.sh start
 
