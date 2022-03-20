@@ -22,3 +22,8 @@ Characteristics of the Visualizer
 The Visual Miner Record dialog box appears when you double-click a box in the Visualizer view. The dialog box contains all the record information 
 pertaining to the data item associated with the box. From the dialog box, you can view details of other records by choosing the Previous and Next buttons.
 
+
+C:\CalypsoSystems\MatrixEase\
+
+09/18/2021  11:06 AM    <DIR>          .
+09/18/2021  11:06 AM    <DIR>          ..
