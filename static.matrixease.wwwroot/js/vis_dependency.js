@@ -22,7 +22,7 @@
             updateChords(this.colData.keys, this.colData.matrix);
         },
         openColDependencyWindow: function () {
-            var visDependencies = customWindowOpen("/matrixease_dependencies.html", "_blank",
+            var visDependencies = customWindowOpen("/mxes_dependencies.html", "_blank",
                 {
                     depData: {
                         curdepdata: this.curdepdata

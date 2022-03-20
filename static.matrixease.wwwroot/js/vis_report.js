@@ -34,7 +34,7 @@
         onSubmitDoNothing: function () {
         },
         openColReportWindow: function () {
-            var visReporting = customWindowOpen("/matrixease_reports.html", "_blank",
+            var visReporting = customWindowOpen("/mxes_reports.html", "_blank",
                 { reportData:
                     {
                         report_name: this.curreportdata.report_name,

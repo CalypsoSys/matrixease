@@ -138,7 +138,7 @@
         },
         openReportWindow: function () {
             if (this.chart_type == "report") {
-                var visReporting = customWindowOpen("/matrixease_reports.html", "_blank",
+                var visReporting = customWindowOpen("/mxes_reports.html", "_blank",
                     { reportData:
                         {
                             //report_name: JSON.stringify(this.reportData.report_name),
@@ -163,7 +163,7 @@
                         label: this.chartData.datasets[i].label,
                     });
                 }
-                var vischarting = customWindowOpen("/matrixease_charts.html", "_blank",
+                var vischarting = customWindowOpen("/mxes_charts.html", "_blank",
                     { chartData:
                         {
                             chart_type: this.chart_type,

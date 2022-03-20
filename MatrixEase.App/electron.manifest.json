@@ -1,7 +1,7 @@
 {
   "executable": "MatrixEase.App",
   "splashscreen": {
-    "imageFile": "/wwwroot/MatrixEase.png"
+    "imageFile": "/wwwroot/matrixease.png"
   },
   "name": "matrixease",
   "description": "See data the way you think about it - An Innovative Visualization and Analysis Tool for large matrix data",
@@ -20,7 +20,7 @@
     },
     "linux": {
       "category": "Utility",
-      "icon": "../../../Assets/MatrixEase.png"
+      "icon": "../../../Assets/matrixease.png"
     },
     "directories": {
       "output": "../../../bin/Desktop",
