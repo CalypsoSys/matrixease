@@ -164,25 +164,3 @@ Docker Install Ubuntu
 sudo sh -c "echo 'truncate -s 0 /var/lib/docker/containers/*/*-json.log' > /etc/cron.daily/clear_docker_logs"
 sudo chmod +x /etc/cron.daily/clear_docker_logs
 
- static.matrixease.wwwroot\js\
-
-git mv static.matrixease.wwwroot\js\matrixease.js              static.matrixease.wwwroot\js\matrixease.js
-git mv static.matrixease.wwwroot\js\mxes_alert.js			  static.matrixease.wwwroot\js\mxes_alert.js
-git mv static.matrixease.wwwroot\js\mxes_auth.js				  static.matrixease.wwwroot\js\mxes_auth.js
-git mv static.matrixease.wwwroot\js\mxes_chart.js			  static.matrixease.wwwroot\js\mxes_chart.js
-git mv static.matrixease.wwwroot\js\mxes_charting.js			  static.matrixease.wwwroot\js\mxes_charting.js
-git mv static.matrixease.wwwroot\js\mxes_column.js			  static.matrixease.wwwroot\js\mxes_column.js
-git mv static.matrixease.wwwroot\js\mxes_common.js			  static.matrixease.wwwroot\js\mxes_common.js
-git mv static.matrixease.wwwroot\js\mxes_cookie.js			  static.matrixease.wwwroot\js\mxes_cookie.js
-git mv static.matrixease.wwwroot\js\mxes_d3_chord.js			  static.matrixease.wwwroot\js\mxes_d3_chord.js
-git mv static.matrixease.wwwroot\js\mxes_dependencies.js		  static.matrixease.wwwroot\js\mxes_dependencies.js
-git mv static.matrixease.wwwroot\js\mxes_dependency.js		  static.matrixease.wwwroot\js\mxes_dependency.js
-git mv static.matrixease.wwwroot\js\mxes_expression.js		  static.matrixease.wwwroot\js\mxes_expression.js
-git mv static.matrixease.wwwroot\js\mxes_helper.js			  static.matrixease.wwwroot\js\mxes_helper.js
-git mv static.matrixease.wwwroot\js\mxes_loader.js			  static.matrixease.wwwroot\js\mxes_loader.js
-git mv static.matrixease.wwwroot\js\mxes_measures.js			  static.matrixease.wwwroot\js\mxes_measures.js
-git mv static.matrixease.wwwroot\js\mxes_report.js			  static.matrixease.wwwroot\js\mxes_report.js
-git mv static.matrixease.wwwroot\js\mxes_reporting.js		  static.matrixease.wwwroot\js\mxes_reporting.js
-git mv static.matrixease.wwwroot\js\mxes_settings.js			  static.matrixease.wwwroot\js\mxes_settings.js
-git mv static.matrixease.wwwroot\js\mxes_stats.js			  static.matrixease.wwwroot\js\mxes_stats.js
-git mv static.matrixease.wwwroot\js\mxes_status.js			  static.matrixease.wwwroot\js\mxes_status.js
