@@ -1,7 +1,7 @@
-﻿using Desktop.Manga.IncTrak.Common;
-using Manga.IncTrak.Manga;
-using Manga.IncTrak.Processing;
-using Manga.IncTrak.Utility;
+﻿using Desktop.MatrixEase.Manga.Common;
+using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Processing;
+using MatrixEase.Manga.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 
-namespace manga.inctrak.com.Controllers
+namespace MatrixEase.Manga.com.Controllers
 {
     [Route("/upload_file")]
     public class UploadController : ControllerBase

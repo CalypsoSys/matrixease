@@ -1,13 +1,13 @@
 ﻿
-using Manga.IncTrak.Manga;
-using Manga.IncTrak.Utility;
+using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Manga.IncTrak.Expression
+namespace MatrixEase.Manga.Expression
 {
     public class ExpressionCtl
     {

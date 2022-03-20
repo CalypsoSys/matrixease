@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Manga.IncTrak\Manga.IncTrak.csproj" />
+    <ProjectReference Include="..\MatrixEase.Manga\MatrixEase.Manga.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(OS)' == 'Windows_NT'">
-    <Exec Command="$(ProjectDir)..\bin\web_blaster.exe $(OS) $(ConfigurationName) $(ProjectDir)..\static.manga.inctrak $(ProjectDir)wwwroot googs" />
+    <Exec Command="$(ProjectDir)..\bin\web_blaster.exe $(OS) $(ConfigurationName) $(ProjectDir)..\static.MatrixEase.Manga $(ProjectDir)wwwroot googs" />
   </Target>
 
 

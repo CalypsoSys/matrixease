@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Desktop.Manga.IncTrak.Common
+namespace Desktop.MatrixEase.Manga.Common
 {
     public static class GoogsAuth
     {

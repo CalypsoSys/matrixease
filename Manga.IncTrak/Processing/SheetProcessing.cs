@@ -3,8 +3,8 @@ using Google.Apis.Http;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
-using Manga.IncTrak.Manga;
-using Manga.IncTrak.Utility;
+using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Processing
+namespace MatrixEase.Manga.Processing
 {
     public static class SheetProcessing
     {

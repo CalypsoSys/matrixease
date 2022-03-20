@@ -7,9 +7,9 @@ using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
-using Manga.IncTrak.Manga;
-using Manga.IncTrak.Processing;
-using Manga.IncTrak.Utility;
+using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Processing;
+using MatrixEase.Manga.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +20,7 @@ using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-namespace manga.inctrak.com
+namespace MatrixEase.Manga.com
 {
     [Route("/")]
     public class DefaultController : AuthBaseController

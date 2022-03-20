@@ -1,5 +1,5 @@
-﻿using manga.inctrak.com.Common;
-using Manga.IncTrak.Utility;
+﻿using MatrixEase.Manga.com.Common;
+using MatrixEase.Manga.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -13,7 +13,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
-namespace manga.inctrak.com.Controllers
+namespace MatrixEase.Manga.com.Controllers
 {
     [ApiController]
     public class FeedbackController : ControllerBase

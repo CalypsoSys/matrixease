@@ -1,13 +1,13 @@
-﻿using Manga.IncTrak.Expression;
-using Manga.IncTrak.Manga;
-using Manga.IncTrak.Utility;
+﻿using MatrixEase.Manga.Expression;
+using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Processing
+namespace MatrixEase.Manga.Processing
 {
     public class BackgroundFilter : BackgroundAction
     {

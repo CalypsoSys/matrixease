@@ -9,17 +9,17 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
-using manga.inctrak.com.Controllers;
-using manga.inctrak.com.Tasks;
-using Manga.IncTrak.Manga;
-using Manga.IncTrak.Processing;
+using MatrixEase.Manga.com.Controllers;
+using MatrixEase.Manga.com.Tasks;
+using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Processing;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 
-namespace manga.inctrak.com
+namespace MatrixEase.Manga.com
 {
     [ApiController]
     [Route("api/[controller]")]

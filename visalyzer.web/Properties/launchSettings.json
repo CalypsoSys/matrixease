@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "manga.inctrak.com": {
+    "MatrixEase.Manga.com": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

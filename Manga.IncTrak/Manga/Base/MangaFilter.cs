@@ -1,11 +1,11 @@
-﻿using Manga.IncTrak.Utility;
+﻿using MatrixEase.Manga.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Manga
+namespace MatrixEase.Manga.Manga
 {
     public class MangaFilter : MangaSerialize
     {

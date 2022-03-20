@@ -1,7 +1,7 @@
-﻿using Desktop.Manga.IncTrak.Common;
-using Manga.IncTrak.Manga;
-using Manga.IncTrak.Processing;
-using Manga.IncTrak.Utility;
+﻿using Desktop.MatrixEase.Manga.Common;
+using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Processing;
+using MatrixEase.Manga.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Desktop.Manga.IncTrak.Controllers
+namespace Desktop.MatrixEase.Manga.Controllers
 {
     [Route("/")]
     public class DefaultController : ControllerBase

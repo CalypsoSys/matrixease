@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Utility
+namespace MatrixEase.Manga.Utility
 {
     class MyStopWatch
     {

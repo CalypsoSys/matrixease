@@ -1,4 +1,4 @@
-﻿using Manga.IncTrak.Utility;
+﻿using MatrixEase.Manga.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace manga.inctrak.com
+namespace MatrixEase.Manga.com
 {
     public class AppSettings
     {

@@ -1,6 +1,6 @@
 ﻿#define TEST_LIMITS
-using Manga.IncTrak.Manga.Serialization;
-using Manga.IncTrak.Utility;
+using MatrixEase.Manga.Manga.Serialization;
+using MatrixEase.Manga.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Manga
+namespace MatrixEase.Manga.Manga
 {
     public static class MangaState
     {

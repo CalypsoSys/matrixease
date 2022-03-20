@@ -1,11 +1,11 @@
-﻿using Manga.IncTrak.Utility;
+﻿using MatrixEase.Manga.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Processing
+namespace MatrixEase.Manga.Processing
 {
     public abstract class MangaJobFactory : MyDisposable, IBackgroundJob
     {

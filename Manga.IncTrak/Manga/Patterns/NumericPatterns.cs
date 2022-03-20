@@ -1,12 +1,12 @@
-﻿using Manga.IncTrak.Processing;
-using Manga.IncTrak.Utility;
+﻿using MatrixEase.Manga.Processing;
+using MatrixEase.Manga.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace Manga.IncTrak.Manga
+namespace MatrixEase.Manga.Manga
 {
     public class NumericPatterns : BasePatterns<decimal>
     {

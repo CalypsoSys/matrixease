@@ -7,17 +7,17 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using Desktop.Manga.IncTrak;
-using Desktop.Manga.IncTrak.Common;
+using Desktop.MatrixEase.Manga;
+using Desktop.MatrixEase.Manga.Common;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Http;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
-using Manga.IncTrak.Manga;
-using Manga.IncTrak.Processing;
-using Manga.IncTrak.Utility;
+using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Processing;
+using MatrixEase.Manga.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +26,7 @@ using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace manga.inctrak.com
+namespace MatrixEase.Manga.com
 {
     [Route("/google")]
     public class GoogleController : ControllerBase

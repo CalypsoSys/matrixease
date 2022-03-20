@@ -8,7 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace manga.inctrak.com.Controllers
+namespace MatrixEase.Manga.com.Controllers
 {
     public class AccountController : Controller
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Utility
+namespace MatrixEase.Manga.Utility
 {
     public abstract class MyDisposable : IDisposable
     {

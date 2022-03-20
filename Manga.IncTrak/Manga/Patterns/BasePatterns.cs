@@ -1,5 +1,5 @@
-﻿using Manga.IncTrak.Processing;
-using Manga.IncTrak.Utility;
+﻿using MatrixEase.Manga.Processing;
+using MatrixEase.Manga.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Threading;
 
-namespace Manga.IncTrak.Manga
+namespace MatrixEase.Manga.Manga
 {
     public abstract class BasePatterns<T> : MangaSerialize, IPatterns
     {

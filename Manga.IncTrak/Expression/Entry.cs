@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Expression
+namespace MatrixEase.Manga.Expression
 {
     /* symbol table entry */
     public class Entry

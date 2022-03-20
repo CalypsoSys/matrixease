@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace manga.inctrak.com.Common
+namespace MatrixEase.Manga.com.Common
 {
     public partial class Feedback
     {

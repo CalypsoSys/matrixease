@@ -1,6 +1,6 @@
 ﻿//#define DEBUG_COLS
-using Manga.IncTrak.Processing;
-using Manga.IncTrak.Utility;
+using MatrixEase.Manga.Processing;
+using MatrixEase.Manga.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 using System.Threading;
 
 // if ( data == "1500￼")
-namespace Manga.IncTrak.Manga
+namespace MatrixEase.Manga.Manga
 {
     public class ColumnDef : MangaSerialize
     {

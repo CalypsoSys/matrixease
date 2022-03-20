@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Utility
+namespace MatrixEase.Manga.Utility
 {
     public static class TextStats
     {

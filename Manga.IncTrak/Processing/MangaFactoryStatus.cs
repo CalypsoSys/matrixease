@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace Manga.IncTrak.Processing
+namespace MatrixEase.Manga.Processing
 {
     public enum MangaFactoryStatusKey
     {

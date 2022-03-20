@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Desktop.Manga.IncTrak
+namespace Desktop.MatrixEase.Manga
 {
     public class Program
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Manga.Serialization
+namespace MatrixEase.Manga.Manga.Serialization
 {
     public static class MangaRoot
     {

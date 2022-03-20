@@ -12,7 +12,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Manga.IncTrak\Manga.IncTrak.csproj" />
+    <ProjectReference Include="..\MatrixEase.Manga\MatrixEase.Manga.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="wwwroot\javascript\overrides.js">
@@ -34,6 +34,6 @@
     </None>
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="$(ProjectDir)..\bin\web_blaster.exe $(OS) $(ConfigurationName) $(ProjectDir)..\static.manga.inctrak $(ProjectDir)wwwroot noGoogleTracking" />
+    <Exec Command="$(ProjectDir)..\bin\web_blaster.exe $(OS) $(ConfigurationName) $(ProjectDir)..\static.MatrixEase.Manga $(ProjectDir)wwwroot noGoogleTracking" />
   </Target>
 </Project>

@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Description>IncTrak Data Manga and Visualization</Description>
+    <Description>MatrixEase Data Manga and Visualization</Description>
     <Company>Calypso Systems, LLC</Company>
+    <AssemblyName>MatrixEase.Manga</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

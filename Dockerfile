@@ -3,16 +3,16 @@ WORKDIR /app
 #
 # copy csproj and restore as distinct layers
 COPY matrixease.web/*.csproj ./matrixease.web/
-COPY Manga.IncTrak/*.csproj ./Manga.IncTrak/
+COPY MatrixEase.Manga/*.csproj ./MatrixEase.Manga/
 COPY ExcelReader/*.csproj ./ExcelReader/
 #
 RUN dotnet restore ./matrixease.web/matrixease.web.csproj
-RUN dotnet restore ./Manga.IncTrak/Manga.IncTrak.csproj 
+RUN dotnet restore ./MatrixEase.Manga/MatrixEase.Manga.csproj 
 RUN dotnet restore ./ExcelReader/ExcelReader.csproj 
 #
 # copy everything else and build app
 COPY matrixease.web/. ./matrixease.web/
-COPY Manga.IncTrak/. ./Manga.IncTrak/
+COPY MatrixEase.Manga/. ./MatrixEase.Manga/
 COPY ExcelReader/. ./ExcelReader/
 #
 WORKDIR /app/matrixease.web

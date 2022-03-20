@@ -5,7 +5,7 @@
 using Collections.Special;
 using System;
 using System.IO;
-using Manga.IncTrak.Manga;
+using MatrixEase.Manga.Manga;
 #if MS_BITMAP
 using System.Collections;
 #elif WHA_BITMAP
@@ -15,7 +15,7 @@ using Ewah;
 using System.Collections.Generic;
 #endif
 
-namespace Manga.IncTrak.Utility
+namespace MatrixEase.Manga.Utility
 {
 #if EWAH_BITMAP || ROARING_BITMAP
     public class MyBitArray : IMangaSerializeCustom

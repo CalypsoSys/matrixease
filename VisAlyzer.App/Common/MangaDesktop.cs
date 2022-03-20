@@ -1,5 +1,5 @@
-﻿using Manga.IncTrak.Manga;
-using Manga.IncTrak.Processing;
+﻿using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Processing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Desktop.Manga.IncTrak.Common
+namespace Desktop.MatrixEase.Manga.Common
 {
     public static class MangaDesktop
     {

@@ -24,7 +24,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Desktop.Manga.IncTrak": {
+    "Desktop.MatrixEase.Manga": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

@@ -1,5 +1,5 @@
-﻿using Manga.IncTrak.Manga;
-using Manga.IncTrak.Utility;
+﻿using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Processing
+namespace MatrixEase.Manga.Processing
 {
     public abstract class MangaFactory : MangaJobFactory
     {

@@ -1,4 +1,4 @@
-﻿using Manga.IncTrak.Utility;
+﻿using MatrixEase.Manga.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Manga
+namespace MatrixEase.Manga.Manga
 {
     public class MangaStat : IMangaSerializeInline
     {

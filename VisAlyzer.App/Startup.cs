@@ -1,6 +1,6 @@
 using ElectronNET.API;
 using ElectronNET.API.Entities;
-using Manga.IncTrak.Manga.Serialization;
+using MatrixEase.Manga.Manga.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -16,7 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Desktop.Manga.IncTrak
+namespace Desktop.MatrixEase.Manga
 {
     public class Startup
     {

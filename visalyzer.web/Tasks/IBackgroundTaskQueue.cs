@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace manga.inctrak.com.Tasks
+namespace MatrixEase.Manga.com.Tasks
 {
     public interface IBackgroundTaskQueue
     {

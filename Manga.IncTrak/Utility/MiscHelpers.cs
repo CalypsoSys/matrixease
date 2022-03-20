@@ -1,4 +1,4 @@
-﻿using Manga.IncTrak.Manga.Serialization;
+﻿using MatrixEase.Manga.Manga.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Utility
+namespace MatrixEase.Manga.Utility
 {
     public static class MiscHelpers
     {

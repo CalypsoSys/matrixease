@@ -1,6 +1,6 @@
-﻿using Desktop.Manga.IncTrak.Common;
-using Manga.IncTrak.Manga;
-using Manga.IncTrak.Processing;
+﻿using Desktop.MatrixEase.Manga.Common;
+using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Processing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Desktop.Manga.IncTrak.Controllers
+namespace Desktop.MatrixEase.Manga.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

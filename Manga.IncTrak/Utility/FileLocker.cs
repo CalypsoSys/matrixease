@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Utility
+namespace MatrixEase.Manga.Utility
 {
     public class FileLocker : MyDisposable
     {

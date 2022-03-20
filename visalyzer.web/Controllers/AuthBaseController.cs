@@ -1,6 +1,6 @@
-﻿using manga.inctrak.com.Common;
-using Manga.IncTrak.Manga;
-using Manga.IncTrak.Utility;
+﻿using MatrixEase.Manga.com.Common;
+using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
@@ -14,7 +14,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace manga.inctrak.com
+namespace MatrixEase.Manga.com
 {
     public class AuthBaseController : ControllerBase
     {

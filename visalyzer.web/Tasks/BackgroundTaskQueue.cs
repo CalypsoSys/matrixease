@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace manga.inctrak.com.Tasks
+namespace MatrixEase.Manga.com.Tasks
 {
     public class BackgroundTaskQueue : IBackgroundTaskQueue
     {

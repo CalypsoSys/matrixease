@@ -1,5 +1,5 @@
-﻿using Manga.IncTrak.Manga;
-using Manga.IncTrak.Utility;
+﻿using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Utility;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Processing
+namespace MatrixEase.Manga.Processing
 {
     public class MangaFactoryFromCSVFile : MangaUploadFactory
     {

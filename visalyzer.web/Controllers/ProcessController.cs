@@ -1,6 +1,6 @@
-﻿using manga.inctrak.com.Tasks;
-using Manga.IncTrak.Manga;
-using Manga.IncTrak.Processing;
+﻿using MatrixEase.Manga.com.Tasks;
+using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Processing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +12,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace manga.inctrak.com.Controllers
+namespace MatrixEase.Manga.com.Controllers
 {
     public abstract class ProcessController : AuthBaseController
     {

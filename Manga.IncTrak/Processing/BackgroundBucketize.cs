@@ -1,11 +1,11 @@
-﻿using Manga.IncTrak.Manga;
+﻿using MatrixEase.Manga.Manga;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Manga.IncTrak.Processing
+namespace MatrixEase.Manga.Processing
 {
     public class BackgroundBucketize : BackgroundAction
     {
