@@ -6,7 +6,7 @@
     },
     data: function () {
         return {
-            incTrakKey: "",
+            matrixEaseKey: "",
             emailAddress: "",
             myCaptcha: null,
             validCapcha: false,
@@ -21,7 +21,7 @@
         }
     },
     mounted: function () {
-        this.incTrakKey = document.getElementById('matrixease_id').value;
+        this.matrixEaseKey = document.getElementById('matrixease_id').value;
         this.jCaptchaInit();
     },
     methods: {

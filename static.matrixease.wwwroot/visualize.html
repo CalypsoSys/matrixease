@@ -44,7 +44,7 @@
         <modal_alert :show="showModalAlert" @close="showModalAlert = false" @yes="takeAction" :title="modal_title" :message="modal_message" :secondary="modal_secondary" :confirm="modal_yes_no_action" :list="modal_list"></modal_alert>
         <div ref="meta" class="form-horizontal fixed-top bg-white" style="z-index:3">
             <slideout-panel :cur_show_low_equal="show_low_equal" :cur_show_low_bound="show_low_bound" :cur_show_high_equal="show_high_equal" :cur_show_high_bound="show_high_bound" :cur_show_percentage="show_percentage" :cur_select_operation="select_operation" :cur_col_ascending="col_ascending" :cur_hide_columns="hide_columns" :cur_columns="my_columns"></slideout-panel>
-            <h3>&nbsp;MatrixEase (Beta) -- {{ mangaName }} <a href="#" onclick="openDocs('/components.html#visalyze-quick-statistics')" class="info_icon"></a></h3>
+            <h3>&nbsp;MatrixEase (Beta) -- {{ mangaName }} <a href="#" onclick="openDocs('/components.html#matrixease-quick-statistics')" class="info_icon"></a></h3>
             <div class="row">
                 <div class="col-sm-10">
                     <div class="row">
@@ -178,7 +178,7 @@
                     <li v-on:click.prevent="displayColumnSettings();">Column Settings</li>
                     <li v-on:click.prevent="getDetailedColStats();">Column Stats</li>
                     <li v-on:click.prevent="getDetailedColReport();">Column Report</li>
-                    <li>Help <a href="#" onclick="openDocs('/components.html#visalyze-col-actions')" class="info_icon"></a> </li>
+                    <li>Help <a href="#" onclick="openDocs('/components.html#matrixease-col-actions')" class="info_icon"></a> </li>
                 </ul>
             </div>
         </div>
@@ -194,7 +194,7 @@
                 <li v-on:click.prevent="showMeasures();">Show Measures for this Cell</li>
                 <li v-on:click.prevent="showNodeRows();">Show rows for this Cell</li>
                 <li v-on:click.prevent="showDependencyDiagram();">Dependency Diagram for this Cell</li>
-                <li>Help <a href="#" onclick="openDocs('/components.html#visalyze-cell-actions')" class="info_icon"></a> </li>
+                <li>Help <a href="#" onclick="openDocs('/components.html#matrixease-cell-actions')" class="info_icon"></a> </li>
             </ul>
         </div>
     </div>

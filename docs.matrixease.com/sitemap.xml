@@ -2,42 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
     <loc>https://docs.matrixease.com/</loc>
-    <lastmod>2021-07-22</lastmod>
+    <lastmod>2022-03-20</lastmod>
     <priority>1.00</priority>
   </url>
   <url>
     <loc>https://docs.matrixease.com/quick.html</loc>
-    <lastmod>2021-07-22</lastmod>
+    <lastmod>2022-03-20</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://docs.matrixease.com/components.html</loc>
-    <lastmod>2021-07-22</lastmod>
+    <lastmod>2022-03-20</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://docs.matrixease.com/faqs.html</loc>
-    <lastmod>2021-07-22</lastmod>
+    <lastmod>2022-03-20</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://docs.matrixease.com/showcase.html</loc>
-    <lastmod>2021-07-22</lastmod>
+    <lastmod>2022-03-20</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://docs.matrixease.com/videos.html</loc>
-    <lastmod>2021-07-22</lastmod>
+    <lastmod>2022-03-20</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://docs.matrixease.com/license.html</loc>
-    <lastmod>2021-07-22</lastmod>
+    <lastmod>2022-03-20</lastmod>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://docs.matrixease.com/index.html</loc>
-    <lastmod>2021-07-22</lastmod>
+    <lastmod>2022-03-20</lastmod>
     <priority>0.64</priority>
   </url>
 </urlset>

@@ -46,7 +46,6 @@ namespace MatrixEase.Manga.com.Controllers
                 {
                     return Ok(new { success = false, message = "Invalid request" });
                 }
-                var incTrak = referrer.GetLeftPart(UriPartial.Authority);
 
                 if (feedBack == null || (string.IsNullOrWhiteSpace(feedBack.EmailAddress) && string.IsNullOrWhiteSpace(feedBack.Name))
                         || (string.IsNullOrWhiteSpace(feedBack.Message) && string.IsNullOrWhiteSpace(feedBack.Subject)))

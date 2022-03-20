@@ -21,22 +21,22 @@ namespace MatrixEase.Manga.com
         private const int _keysize = 256;
         private const string _seesionKey = "mangaed";
 
-        protected void CheckMatrixEaseId( string incTrakIdIn, bool update)
+        protected void CheckMatrixEaseId( string matrixEaseIdIn, bool update)
         {
-            string incTrakId;
-            if (Request.Cookies.TryGetValue("authenticated-accepted-3", out incTrakId))
+            string matrixEaseId;
+            if (Request.Cookies.TryGetValue("authenticated-accepted-3", out matrixEaseId))
             {
-                if (incTrakIdIn == incTrakId)
+                if (matrixEaseIdIn == matrixEaseId)
                 {
-                    string idDec = MiscHelpers.Decrypt(incTrakId, false);
-                    string idDecIn = MiscHelpers.Decrypt(incTrakIdIn, false);
+                    string idDec = MiscHelpers.Decrypt(matrixEaseId, false);
+                    string idDecIn = MiscHelpers.Decrypt(matrixEaseIdIn, false);
                     if (idDec == idDecIn)
                     {
                         if (update)
                         {
                             CookieOptions option = new CookieOptions();
                             option.Expires = DateTime.Now.AddMinutes(30);
-                            Response.Cookies.Append("authenticated-accepted-3", incTrakId, option);
+                            Response.Cookies.Append("authenticated-accepted-3", matrixEaseId, option);
                         }
                         return;
                     }

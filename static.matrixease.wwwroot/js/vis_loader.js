@@ -8,7 +8,7 @@ var router = new VueRouter({
 var mangaAuth = new Vue({
     el: '#manga_auth',
     data: {
-        incTrakKey: null,
+        matrixEaseKey: null,
         showModalCookie: false,
         showModalLogin: false,
         myMangas: null,
@@ -45,7 +45,7 @@ var mangaAuth = new Vue({
     mounted: function () {
         document.onreadystatechange = () => {
             if (document.readyState == "complete") {
-                this.incTrakKey = document.getElementById('matrixease_id').value;
+                this.matrixEaseKey = document.getElementById('matrixease_id').value;
                 this.testAccess();
             }
         }
