@@ -34,13 +34,13 @@ namespace MatrixEase.Manga.com.Controllers
             });
         }
 
-        protected string GetMangaVis(string inctrak_id, string userId, Guid? mangaGuid)
+        protected string GetMangaVis(string matrixease_id, string userId, Guid? mangaGuid)
         {
             if (mangaGuid.HasValue)
             {
                 CookieOptions option = new CookieOptions();
                 option.Expires = DateTime.Now.AddMinutes(30);
-                Response.Cookies.Append("authenticated-accepted-3", inctrak_id, option);
+                Response.Cookies.Append("authenticated-accepted-3", matrixease_id, option);
 
                 var visId = Encode(userId, mangaGuid.Value);
                 return visId;

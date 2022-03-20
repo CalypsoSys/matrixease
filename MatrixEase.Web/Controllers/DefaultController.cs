@@ -56,18 +56,18 @@ namespace MatrixEase.Manga.com
         {
             CookieOptions option = new CookieOptions();
             option.Expires = DateTime.Now.AddMinutes(30);
-            string inctrak_id = MiscHelpers.Encrypt(Guid.NewGuid().ToString());
-            Response.Cookies.Append("authenticated-accepted-3", inctrak_id, option);
+            string matrixease_id = MiscHelpers.Encrypt(Guid.NewGuid().ToString());
+            Response.Cookies.Append("authenticated-accepted-3", matrixease_id, option);
 
-            return string.Format("document.write('<form><input type=\"hidden\" id=\"inctrak_id\" name=\"inctrak_id\" value=\"{0}\"/></form>');", inctrak_id);
+            return string.Format("document.write('<form><input type=\"hidden\" id=\"matrixease_id\" name=\"matrixease_id\" value=\"{0}\"/></form>');", matrixease_id);
         }
 
         [HttpGet("get_access")]
-        public object GetAccessToken(string inctrak_id, string access_token)
+        public object GetAccessToken(string matrixease_id, string access_token)
         {
             try
             {
-                CheckMatrixEaseId(inctrak_id, true);
+                CheckMatrixEaseId(matrixease_id, true);
                 var tok = Decrypt(access_token);
                 if (MangaState.ValidateUserMangaCatalog(tok) != MangaAuthType.Invalid)
                 {
@@ -82,11 +82,11 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("captcha")]
-        public object Captcha(string inctrak_id)
+        public object Captcha(string matrixease_id)
         {
             try
             {
-                CheckMatrixEaseId(inctrak_id, true);
+                CheckMatrixEaseId(matrixease_id, true);
                 Random rnd = new Random();
                 int num1 = rnd.Next(1, 9);
                 int num2 = rnd.Next(1, 9);
@@ -107,12 +107,12 @@ namespace MatrixEase.Manga.com
 
         //curl https://localhost:44340/send_email_code/?email_to_address=bob
         [HttpGet("send_email_code")]
-        public object SendEmailCode(string inctrak_id, string email_to_address, string result)
+        public object SendEmailCode(string matrixease_id, string email_to_address, string result)
         {
             bool status = false;
             try
             {
-                CheckMatrixEaseId(inctrak_id, true);
+                CheckMatrixEaseId(matrixease_id, true);
                 string coded;
                 if (MiscHelpers.IsValidEmail(email_to_address) && Request.Cookies.TryGetValue("authenticated-accepted-2", out coded))
                 {
@@ -179,12 +179,12 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("validate_email_code")]
-        public object ValidateEmailCode(string inctrak_id, string email_to_address, string emailed_code)
+        public object ValidateEmailCode(string matrixease_id, string email_to_address, string emailed_code)
         {
             bool status = false;
             try
             {
-                CheckMatrixEaseId(inctrak_id, true);
+                CheckMatrixEaseId(matrixease_id, true);
                 if (MiscHelpers.IsValidEmail(email_to_address) )
                 {
                     string filePath = MiscHelpers.GetPendingAccountFile(email_to_address);
@@ -224,11 +224,11 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("my_mangas")]
-        public object MyMangas(string inctrak_id)
+        public object MyMangas(string matrixease_id)
         {
             try
             {
-                CheckMatrixEaseId(inctrak_id, false);
+                CheckMatrixEaseId(matrixease_id, false);
                 var myIds = GetMyIdentities(false);
                 MangaAuthType auth = ValidateAccess(null, myIds, false);
                 if (auth != MangaAuthType.Invalid)
@@ -243,7 +243,7 @@ namespace MatrixEase.Manga.com
                     {
                         var visId = Encode(userId, manga.ManagGuid);
                         mangas.Add(new {Name= manga.MangaName, 
-                            Url= new Uri(string.Format("/visualize.html?inctrak_id={0}&vis_id={1}", HttpUtility.UrlEncode(inctrak_id), HttpUtility.UrlEncode(visId)), UriKind.Relative).ToString(),
+                            Url= new Uri(string.Format("/visualize.html?matrixease_id={0}&vis_id={1}", HttpUtility.UrlEncode(matrixease_id), HttpUtility.UrlEncode(visId)), UriKind.Relative).ToString(),
                             Original = manga.OriginalName, Type = manga.SheetType, Created =manga.Created, MaxRows = manga.MaxRows,
                             TotalRows = manga.TotalRows, Status = manga.Status});
                         loadedMangas.Add(manga.ManagGuid);

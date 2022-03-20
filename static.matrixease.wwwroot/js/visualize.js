@@ -145,7 +145,7 @@ var visualizer = new Vue({
             if (this.curstatuskey && this.curstatuskey != "NOP" && this.showModalStatus) {
                 axios.get('/api/visualize/manga_pickup_status/', {
                     params: {
-                        inctrak_id: document.getElementById('inctrak_id').value,
+                        matrixease_id: document.getElementById('matrixease_id').value,
                         vis_id: this.vis_id,
                         pickup_key: this.curstatuskey
                     }
@@ -176,7 +176,7 @@ var visualizer = new Vue({
             this.showModalStatusDialog("NOP", { "PreProcess": { "Started": new Date(), "Elapsed": "00:00:00", "Desc": "Loading MatrixEase", "Status": "Starting" } });
             axios.get('/api/visualize', {
                 params: {
-                    inctrak_id: document.getElementById('inctrak_id').value,
+                    matrixease_id: document.getElementById('matrixease_id').value,
                     vis_id: this.vis_id
                 }
             })
@@ -534,7 +534,7 @@ var visualizer = new Vue({
         updateSettings: function (settingsCallback) {
             axios.get('/api/visualize/update_settings', {
                 params: {
-                    inctrak_id: document.getElementById('inctrak_id').value,
+                    matrixease_id: document.getElementById('matrixease_id').value,
                     vis_id: this.vis_id,
                     show_low_equal: this.show_low_equal,
                     show_low_bound: this.show_low_bound,
@@ -626,7 +626,7 @@ var visualizer = new Vue({
             if (this.modal_yes_no_action == "delete_manga") {
                 axios.get('/api/visualize/delete_manga', {
                     params: {
-                        inctrak_id: document.getElementById('inctrak_id').value,
+                        matrixease_id: document.getElementById('matrixease_id').value,
                         vis_id: this.vis_id
                     }
                 })
@@ -651,7 +651,7 @@ var visualizer = new Vue({
             axios.get('/api/visualize/export_csv', {
                 responseType: 'blob',
                 params: {
-                    inctrak_id: document.getElementById('inctrak_id').value,
+                    matrixease_id: document.getElementById('matrixease_id').value,
                     vis_id: this.vis_id
                 },
                 onDownloadProgress: (progressEvent) => {
@@ -753,7 +753,7 @@ var visualizer = new Vue({
                 } else {
                     axios.get('/api/visualize/bucketize', {
                         params: {
-                            inctrak_id: document.getElementById('inctrak_id').value,
+                            matrixease_id: document.getElementById('matrixease_id').value,
                             vis_id: this.vis_id,
                             column_name: this.selectedColumn.name,
                             column_index: this.selectedColumn.index,
@@ -786,7 +786,7 @@ var visualizer = new Vue({
             this.colMenuDisplay = "none";
             axios.get('/api/visualize/detailed_col_stats', {
                 params: {
-                    inctrak_id: document.getElementById('inctrak_id').value,
+                    matrixease_id: document.getElementById('matrixease_id').value,
                     vis_id: this.vis_id,
                     column_name: this.selectedColumn.name,
                     column_index: this.selectedColumn.index
@@ -832,7 +832,7 @@ var visualizer = new Vue({
             } else {
                 axios.get('/api/visualize/get_node_rows', {
                     params: {
-                        inctrak_id: document.getElementById('inctrak_id').value,
+                        matrixease_id: document.getElementById('matrixease_id').value,
                         vis_id: this.vis_id,
                         col_index: this.selectedColumn.index,
                         selected_node: this.selectedNode.value + "@" + this.selectedColumn.name + ":" + this.selectedColumn.index,
@@ -865,7 +865,7 @@ var visualizer = new Vue({
             } else {
                 axios.get('/api/visualize/get_duplicate_entries', {
                     params: {
-                        inctrak_id: document.getElementById('inctrak_id').value,
+                        matrixease_id: document.getElementById('matrixease_id').value,
                         vis_id: this.vis_id,
                         col_index: this.selectedColumn.index,
                         selected_node: this.selectedNode.value + "@" + this.selectedColumn.name + ":" + this.selectedColumn.index,
@@ -891,7 +891,7 @@ var visualizer = new Vue({
             } else {
                 axios.get('/api/visualize/get_dependency_diagram', {
                     params: {
-                        inctrak_id: document.getElementById('inctrak_id').value,
+                        matrixease_id: document.getElementById('matrixease_id').value,
                         vis_id: this.vis_id,
                         col_index: this.selectedColumn.index,
                         selected_node: this.selectedNode.value + "@" + this.selectedColumn.name + ":" + this.selectedColumn.index,

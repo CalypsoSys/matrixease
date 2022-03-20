@@ -45,7 +45,7 @@ var mangaAuth = new Vue({
     mounted: function () {
         document.onreadystatechange = () => {
             if (document.readyState == "complete") {
-                this.incTrakKey = document.getElementById('inctrak_id').value;
+                this.incTrakKey = document.getElementById('matrixease_id').value;
                 this.testAccess();
             }
         }
@@ -76,7 +76,7 @@ var mangaAuth = new Vue({
             if (this.curstatuskey && this.curstatuskey != "NOP" && this.showModalStatus) {
                 axios.get('/api/visualize/manga_status/', {
                     params: {
-                        inctrak_id: document.getElementById('inctrak_id').value,
+                        matrixease_id: document.getElementById('matrixease_id').value,
                         status_key: this.curstatuskey
                     }
                 })
@@ -85,7 +85,7 @@ var mangaAuth = new Vue({
                             if (response.data.Complete) {
                                 this.showModalStatus = false;
                                 this.curstatusdata = null;
-                                window.location = "/visualize.html?inctrak_id=" + encodeURIComponent(document.getElementById('inctrak_id').value) + "&vis_id=" + encodeURIComponent(this.curstatuskey);
+                                window.location = "/visualize.html?matrixease_id=" + encodeURIComponent(document.getElementById('matrixease_id').value) + "&vis_id=" + encodeURIComponent(this.curstatuskey);
                                 this.curstatuskey = "";
                             } else {
                                 this.curstatusdata = response.data.StatusData;
@@ -123,7 +123,7 @@ var mangaAuth = new Vue({
                 //this.showModalLogin = true;
                 axios.get('/get_access/', {
                     params: {
-                        inctrak_id: document.getElementById('inctrak_id').value,
+                        matrixease_id: document.getElementById('matrixease_id').value,
                         access_token: this.$cookies.get("authenticated-accepted-1")
                     }
                 })
@@ -158,7 +158,7 @@ var mangaAuth = new Vue({
         showMyMangas: function () {
             axios.get('/my_mangas/', {
                 params: {
-                    inctrak_id: document.getElementById('inctrak_id').value
+                    matrixease_id: document.getElementById('matrixease_id').value
                 }
             })
             .then(response => {
@@ -198,7 +198,7 @@ var mangaAuth = new Vue({
                 return;
             }
             let formData = new FormData();
-            formData.append('inctrak_id', document.getElementById('inctrak_id').value);
+            formData.append('matrixease_id', document.getElementById('matrixease_id').value);
             formData.append('file', this.file);
             formData.append('manga_name', this.manga_name);
             formData.append('header_row', this.header_row);
@@ -243,7 +243,7 @@ var mangaAuth = new Vue({
             }
             axios.get('/google/check_login/', {
                 params: {
-                    inctrak_id: document.getElementById('inctrak_id').value
+                    matrixease_id: document.getElementById('matrixease_id').value
                 }
             })
             .then(response => {
@@ -266,7 +266,7 @@ var mangaAuth = new Vue({
             this.showModalStatusDialog("NOP", { "PreProcess": { "Started": new Date(), "Elapsed": "00:00:00", "Desc": "Getting data from Google Sheets", "Status": "Starting" } });
             axios.get('/google/sheet/', {
                 params: {
-                    inctrak_id: document.getElementById('inctrak_id').value,
+                    matrixease_id: document.getElementById('matrixease_id').value,
                     manga_name: this.manga_name,
                     header_row: this.header_row,
                     header_rows: this.header_rows,

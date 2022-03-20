@@ -119,27 +119,27 @@ Ubuntu Desktop
 cd ~/dotnet/MatrixEase
 git pull
 or
-	git clone git@github.com:CalypsoSys/inctrak_manga.git
+	git clone git@github.com:CalypsoSys/matrixease.git
 cd MatrixEase.App
 sudo rm -r obj/
 sudo rm -r bin/
 electronize build /target linux
-cp /home/inctrakmanga/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap ~/.
+cp /home/calypsosys/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap ~/.
 
 snapcraft login
-snapcraft upload --release=beta /home/inctrakmanga/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
+snapcraft upload --release=beta /home/calypsosys/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
 copy to c:\transfer
 copy to C:\CalypsoSystems\MatrixEase\matrixease.com\download
 
-sudo snap install --dangerous /home/inctrakmanga/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
+sudo snap install --dangerous /home/calypsosys/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
 ==> sudo snap install matrixease_1.0.0_amd64.snap
 snap remove matrixease
 
-home/inctrakmanga/snap/matrixease/x1/.config/matrixease
+/home/calypsosys/snap/matrixease/x1/.config/matrixease
 /snap/matrixease/x1/resources/bin/wwwroot/
 
 snapcraft login
-snapcraft upload --release=beta /home/inctrakmanga/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
+snapcraft upload --release=beta /home/calypsosys/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
 
 sudo snap install matrixease
 

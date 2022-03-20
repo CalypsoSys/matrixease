@@ -88,7 +88,7 @@
             //
             axios.get('/api/visualize/get_chart_data', {
                 params: {
-                    inctrak_id: document.getElementById('inctrak_id').value,
+                    matrixease_id: document.getElementById('matrixease_id').value,
                     vis_id: visualizer.vis_id,
                     chart_type: this.chart_type,
                     col_dimension_indexes: dimensionIndexes.join(","),

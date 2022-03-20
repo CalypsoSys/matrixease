@@ -36,11 +36,11 @@ namespace MatrixEase.Manga.com
 
         [Authorize]
         [HttpGet("login")]
-        public RedirectResult Get(string inctrak_id)
+        public RedirectResult Get(string matrixease_id)
         {
             try
             {
-                CheckMatrixEaseId(inctrak_id, true);
+                CheckMatrixEaseId(matrixease_id, true);
 
                 var googleId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 var googleEmail = User.FindFirst(ClaimTypes.Email).Value;
@@ -58,11 +58,11 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("check_login")]
-        public object CheckLogin(string inctrak_id)
+        public object CheckLogin(string matrixease_id)
         {
             try
             {
-                CheckMatrixEaseId(inctrak_id, true);
+                CheckMatrixEaseId(matrixease_id, true);
 
                 var authResult = HttpContext.AuthenticateAsync();
                 authResult.Wait();
@@ -78,11 +78,11 @@ namespace MatrixEase.Manga.com
 
         [Authorize]
         [HttpGet("manual_login")]
-        public RedirectResult ManualLogin(string inctrak_id)
+        public RedirectResult ManualLogin(string matrixease_id)
         {
             try
             {
-                CheckMatrixEaseId(inctrak_id, true);
+                CheckMatrixEaseId(matrixease_id, true);
 
                 return Redirect(new Uri("/index.html", UriKind.Relative).ToString());
             }
@@ -95,11 +95,11 @@ namespace MatrixEase.Manga.com
 
         [Authorize]
         [HttpGet("sheet")]
-        public object Get(string inctrak_id, string manga_name, int header_row, int header_rows, int max_rows, bool ignore_blank_rows, bool ignore_text_case, bool trim_leading_whitespace, bool trim_trailing_whitespace, string ignore_cols, string sheet_id, string range)
+        public object Get(string matrixease_id, string manga_name, int header_row, int header_rows, int max_rows, bool ignore_blank_rows, bool ignore_text_case, bool trim_leading_whitespace, bool trim_trailing_whitespace, string ignore_cols, string sheet_id, string range)
         {
             try
             {
-                CheckMatrixEaseId(inctrak_id, true);
+                CheckMatrixEaseId(matrixease_id, true);
                 var myIds = GetMyIdentities(true);
                 MangaAuthType auth = ValidateAccess(null, myIds, true);
                 if (auth != MangaAuthType.Invalid)
@@ -120,7 +120,7 @@ namespace MatrixEase.Manga.com
                     Guid? mangaGuid = SheetProcessing.ProcessSheet(credential, userId, mangaInfo, RunBackroundManagGet);
                     if (mangaGuid != null)
                     {
-                        return new { Success = true, VisId = GetMangaVis(inctrak_id, userId, mangaGuid), StatusData = MangaFactory.StartingStatus("Google Sheet") };
+                        return new { Success = true, VisId = GetMangaVis(matrixease_id, userId, mangaGuid), StatusData = MangaFactory.StartingStatus("Google Sheet") };
                     }
                 }
             }

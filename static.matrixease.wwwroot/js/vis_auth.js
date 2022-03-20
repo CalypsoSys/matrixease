@@ -21,7 +21,7 @@
         }
     },
     mounted: function () {
-        this.incTrakKey = document.getElementById('inctrak_id').value;
+        this.incTrakKey = document.getElementById('matrixease_id').value;
         this.jCaptchaInit();
     },
     methods: {
@@ -43,7 +43,7 @@
         sendEmailCode: function (code, parts) {
             axios.get('/send_email_code', {
                 params: {
-                    inctrak_id: document.getElementById('inctrak_id').value,
+                    matrixease_id: document.getElementById('matrixease_id').value,
                     email_to_address: this.emailAddress,
                     result: parts
                 }
@@ -64,7 +64,7 @@
         validateEmailCode: function (response, $captchaInputElement, numberOfTries) {
             axios.get('/validate_email_code', {
                 params: {
-                    inctrak_id: document.getElementById('inctrak_id').value,
+                    matrixease_id: document.getElementById('matrixease_id').value,
                     email_to_address: this.emailAddress,
                     emailed_code: this.emailCode
                 }

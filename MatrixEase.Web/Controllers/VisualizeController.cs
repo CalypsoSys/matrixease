@@ -33,9 +33,9 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet]
-        public object Get(string inctrak_id, string vis_id)
+        public object Get(string matrixease_id, string vis_id)
         {
-            CheckMatrixEaseId(inctrak_id, true);
+            CheckMatrixEaseId(matrixease_id, true);
             var visId = Decrypt(vis_id);
             if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
             {
@@ -49,9 +49,9 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("manga_status")]
-        public object MangaStatus(string inctrak_id, string status_key)
+        public object MangaStatus(string matrixease_id, string status_key)
         {
-            CheckMatrixEaseId(inctrak_id, true);
+            CheckMatrixEaseId(matrixease_id, true);
 
             var myIds = GetMyIdentities(true);
             MangaAuthType auth = ValidateAccess(null, myIds, true);
@@ -70,9 +70,9 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("manga_pickup_status")]
-        public object MangaPickup(string inctrak_id, string vis_id, string pickup_key)
+        public object MangaPickup(string matrixease_id, string vis_id, string pickup_key)
         {
-            CheckMatrixEaseId(inctrak_id, true);
+            CheckMatrixEaseId(matrixease_id, true);
 
             var visId = Decrypt(vis_id);
             if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
@@ -84,9 +84,9 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("filter")]
-        public object Filter(string inctrak_id, string vis_id, string selection_expression)
+        public object Filter(string matrixease_id, string vis_id, string selection_expression)
         {
-            CheckMatrixEaseId(inctrak_id, true);
+            CheckMatrixEaseId(matrixease_id, true);
             var visId = Decrypt(vis_id);
             if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
             {
@@ -120,9 +120,9 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("update_settings")]
-        public object UpdateSettings(string inctrak_id, string vis_id, bool show_low_equal, int show_low_bound, bool show_high_equal, int show_high_bound, string select_operation, string show_percentage, bool col_ascending, string hide_columns)
+        public object UpdateSettings(string matrixease_id, string vis_id, bool show_low_equal, int show_low_bound, bool show_high_equal, int show_high_bound, string select_operation, string show_percentage, bool col_ascending, string hide_columns)
         {
-            CheckMatrixEaseId(inctrak_id, true);
+            CheckMatrixEaseId(matrixease_id, true);
             var visId = Decrypt(vis_id);
             if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
             {
@@ -140,9 +140,9 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("bucketize")]
-        public object Bucketize(string inctrak_id, string vis_id, string column_name, int column_index, bool bucketized, int bucket_size, decimal bucket_mod)
+        public object Bucketize(string matrixease_id, string vis_id, string column_name, int column_index, bool bucketized, int bucket_size, decimal bucket_mod)
         {
-            CheckMatrixEaseId(inctrak_id, true);
+            CheckMatrixEaseId(matrixease_id, true);
             var visId = Decrypt(vis_id);
             if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
             {
@@ -168,9 +168,9 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("delete_manga")]
-        public object DeleteManga(string inctrak_id, string vis_id)
+        public object DeleteManga(string matrixease_id, string vis_id)
         {
-            CheckMatrixEaseId(inctrak_id, true);
+            CheckMatrixEaseId(matrixease_id, true);
             var visId = Decrypt(vis_id);
             if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
             {
@@ -190,9 +190,9 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("export_csv")]
-        public async Task ExportSelectedMangaData(string inctrak_id, string vis_id)
+        public async Task ExportSelectedMangaData(string matrixease_id, string vis_id)
         {
-            CheckMatrixEaseId(inctrak_id, true);
+            CheckMatrixEaseId(matrixease_id, true);
             var visId = Decrypt(vis_id);
             if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
             {
@@ -220,9 +220,9 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("detailed_col_stats")]
-        public object DetailedColumnStats(string inctrak_id, string vis_id, string column_name, int column_index)
+        public object DetailedColumnStats(string matrixease_id, string vis_id, string column_name, int column_index)
         {
-            CheckMatrixEaseId(inctrak_id, true);
+            CheckMatrixEaseId(matrixease_id, true);
             var visId = Decrypt(vis_id);
             if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
             {
@@ -235,9 +235,9 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("get_col_measures")]
-        public object GetColumnMeasures(string inctrak_id, string vis_id, int col_index, string selected_node, string col_measure_indexes, bool filtered)
+        public object GetColumnMeasures(string matrixease_id, string vis_id, int col_index, string selected_node, string col_measure_indexes, bool filtered)
         {
-            CheckMatrixEaseId(inctrak_id, true);
+            CheckMatrixEaseId(matrixease_id, true);
             var visId = Decrypt(vis_id);
             if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
             {
@@ -251,9 +251,9 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("get_chart_data")]
-        public object GetChartData(string inctrak_id, string vis_id, string chart_type, string col_dimension_indexes, string col_measure_tot_indexes, string col_measure_avg_indexes, string col_measure_cnt_indexes, bool filtered)
+        public object GetChartData(string matrixease_id, string vis_id, string chart_type, string col_dimension_indexes, string col_measure_tot_indexes, string col_measure_avg_indexes, string col_measure_cnt_indexes, bool filtered)
         {
-            CheckMatrixEaseId(inctrak_id, true);
+            CheckMatrixEaseId(matrixease_id, true);
             var visId = Decrypt(vis_id);
             if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
             {
@@ -279,9 +279,9 @@ namespace MatrixEase.Manga.com
         }
         
         [HttpGet("get_node_rows")]
-        public object GetNodeRows(string inctrak_id, string vis_id, int col_index, string selected_node, bool filtered)
+        public object GetNodeRows(string matrixease_id, string vis_id, int col_index, string selected_node, bool filtered)
         {
-            CheckMatrixEaseId(inctrak_id, true);
+            CheckMatrixEaseId(matrixease_id, true);
             var visId = Decrypt(vis_id);
             if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
             {
@@ -293,9 +293,9 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("get_duplicate_entries")]
-        public object GetDuplicateEntries(string inctrak_id, string vis_id, int col_index, string selected_node, bool filtered)
+        public object GetDuplicateEntries(string matrixease_id, string vis_id, int col_index, string selected_node, bool filtered)
         {
-            CheckMatrixEaseId(inctrak_id, true);
+            CheckMatrixEaseId(matrixease_id, true);
             var visId = Decrypt(vis_id);
             if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
             {
@@ -307,9 +307,9 @@ namespace MatrixEase.Manga.com
         }
         
         [HttpGet("get_dependency_diagram")]
-        public object GetDependencyDiagram(string inctrak_id, string vis_id, int col_index, string selected_node, bool filtered)
+        public object GetDependencyDiagram(string matrixease_id, string vis_id, int col_index, string selected_node, bool filtered)
         {
-            CheckMatrixEaseId(inctrak_id, true);
+            CheckMatrixEaseId(matrixease_id, true);
             var visId = Decrypt(vis_id);
             if (ValidateAccess(visId, null, true) != MangaAuthType.Invalid)
             {

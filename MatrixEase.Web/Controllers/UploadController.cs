@@ -30,11 +30,11 @@ namespace MatrixEase.Manga.com.Controllers
         [HttpPost]
         [DisableRequestSizeLimit]
         [RequestFormLimits(MultipartBodyLengthLimit = 4294967295)]
-        public object PostFormData([FromForm] string inctrak_id, [FromForm] IFormFile file,  [FromForm] string manga_name, [FromForm] int header_row, [FromForm] int header_rows, [FromForm] int max_rows, [FromForm] bool ignore_blank_rows, [FromForm] bool ignore_text_case, [FromForm] bool trim_leading_whitespace, [FromForm] bool trim_trailing_whitespace, [FromForm] string ignore_cols, [FromForm] string sheet_type, [FromForm] string csv_separator, [FromForm] string csv_quote, [FromForm] string csv_escape, [FromForm] string csv_null, [FromForm] string csv_eol)
+        public object PostFormData([FromForm] string matrixease_id, [FromForm] IFormFile file,  [FromForm] string manga_name, [FromForm] int header_row, [FromForm] int header_rows, [FromForm] int max_rows, [FromForm] bool ignore_blank_rows, [FromForm] bool ignore_text_case, [FromForm] bool trim_leading_whitespace, [FromForm] bool trim_trailing_whitespace, [FromForm] string ignore_cols, [FromForm] string sheet_type, [FromForm] string csv_separator, [FromForm] string csv_quote, [FromForm] string csv_escape, [FromForm] string csv_null, [FromForm] string csv_eol)
         {
             try
             {
-                CheckMatrixEaseId(inctrak_id, true);
+                CheckMatrixEaseId(matrixease_id, true);
                 var myIds = GetMyIdentities(true);
                 MangaAuthType auth = ValidateAccess(null, myIds, true);
                 if (auth != MangaAuthType.Invalid)
@@ -49,7 +49,7 @@ namespace MatrixEase.Manga.com.Controllers
                         Guid? mangaGuid = SheetProcessing.ProcessSheet(userId, input, mangaInfo, RunBackroundManagGet);
 
                         if (mangaGuid != null)
-                            return new { Success = true, VisId = GetMangaVis(inctrak_id, userId, mangaGuid), StatusData = MangaFactory.StartingStatus("CSV Upload") };
+                            return new { Success = true, VisId = GetMangaVis(matrixease_id, userId, mangaGuid), StatusData = MangaFactory.StartingStatus("CSV Upload") };
                     }
                 }
             }

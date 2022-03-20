@@ -23,7 +23,7 @@
         var generateRandomNum = function generateRandomNum(jcap) {
             axios.get('/captcha', {
                 params: {
-                    inctrak_id: document.getElementById('inctrak_id').value
+                    matrixease_id: document.getElementById('matrixease_id').value
                 }
             })
                 .then(response => {

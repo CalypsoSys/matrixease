@@ -61,11 +61,11 @@ namespace Desktop.MatrixEase.Manga.Controllers
 
         private string MatrixEaseId()
         {
-            return string.Format("document.write('<form><input type=\"hidden\" id=\"inctrak_id\" name=\"inctrak_id\" value=\"{0}\"/></form>');", MangaDesktop.AccessTokenAll);
+            return string.Format("document.write('<form><input type=\"hidden\" id=\"matrixease_id\" name=\"matrixease_id\" value=\"{0}\"/></form>');", MangaDesktop.AccessTokenAll);
         }
 
         [HttpGet("get_access")]
-        public object GetAccessToken(string inctrak_id, string access_token)
+        public object GetAccessToken(string matrixease_id, string access_token)
         {
             try
             {
@@ -78,25 +78,25 @@ namespace Desktop.MatrixEase.Manga.Controllers
         }
 
         [HttpGet("captcha")]
-        public object Captcha(string inctrak_id)
+        public object Captcha(string matrixease_id)
         {
             return new { num1 = 0, num2 = 0 };
         }
 
         [HttpGet("send_email_code")]
-        public object SendEmailCode(string inctrak_id, string email_to_address, string result)
+        public object SendEmailCode(string matrixease_id, string email_to_address, string result)
         {
             return new { Success = false };
         }
 
         [HttpGet("validate_email_code")]
-        public object ValidateEmailCode(string inctrak_id, string email_to_address, string emailed_code)
+        public object ValidateEmailCode(string matrixease_id, string email_to_address, string emailed_code)
         {
             return new { Success = false };
         }
 
         [HttpGet("my_mangas")]
-        public object MyMangas(string inctrak_id)
+        public object MyMangas(string matrixease_id)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
                     mangas.Add(new
                     {
                         Name = manga.MangaName,
-                        Url = new Uri(string.Format("/visualize.html?inctrak_id={0}&vis_id={1}", HttpUtility.UrlEncode(inctrak_id), HttpUtility.UrlEncode(manga.ManagGuid.ToString())), UriKind.Relative).ToString(),
+                        Url = new Uri(string.Format("/visualize.html?matrixease_id={0}&vis_id={1}", HttpUtility.UrlEncode(matrixease_id), HttpUtility.UrlEncode(manga.ManagGuid.ToString())), UriKind.Relative).ToString(),
                         Original = manga.OriginalName,
                         Type = manga.SheetType,
                         Created = manga.Created,

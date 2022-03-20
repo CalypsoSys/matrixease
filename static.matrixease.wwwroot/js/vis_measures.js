@@ -34,7 +34,7 @@
             //
             axios.get('/api/visualize/get_col_measures', {
                 params: {
-                    inctrak_id: document.getElementById('inctrak_id').value,
+                    matrixease_id: document.getElementById('matrixease_id').value,
                     vis_id: visualizer.vis_id,
                     col_index: this.selected_column.index,
                     selected_node: this.selected_node.value + "@" + this.selected_column.name + ":" + this.selected_column.index,

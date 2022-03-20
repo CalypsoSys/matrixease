@@ -53,7 +53,7 @@
         filterByNode: function () {
             axios.get('/api/visualize/filter', {
                 params: {
-                    inctrak_id: document.getElementById('inctrak_id').value,
+                    matrixease_id: document.getElementById('matrixease_id').value,
                     vis_id: visualizer.vis_id,
                     selection_expression: this.selection_expression
                 }

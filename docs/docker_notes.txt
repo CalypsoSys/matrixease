@@ -77,7 +77,7 @@ enabled = true
 Build Docker Image
 =======================================================================
  1. cd ~/dotnet
- 2. git clone git@github.com:CalypsoSys/inctrak_manga.git pwd
+ 2. git clone git@github.com:CalypsoSys/matrixease.git pwd
  3. cd ~/dotnet/MatrixEase/
  4. git pull or git checkout "branch I want"
  5. cd web_blaster
@@ -86,7 +86,7 @@ Build Docker Image
  8. ~/dotnet/MatrixEase/bin/web_blaster Ubuntu Release ~/dotnet/MatrixEase/static.MatrixEase.Manga ~/dotnet/MatrixEase/matrixease.web/wwwroot googs
  9. sudo docker build -t matrixease.web .
 10. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
-11. sudo docker save matrixease.web > /home/inctrakmanga/Docker/matrixease.web.tar
+11. sudo docker save matrixease.web > /home/calypsosys/Docker/matrixease.web.tar
 12. copy matrixease.web.tar copy to c:\transfer and C:\CalypsoSystems\MatrixEase\matrixease.com\download
 
 
