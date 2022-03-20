@@ -41,18 +41,18 @@ namespace MatrixEase.Manga.com
         }
 
         [HttpGet("/js/vis_init.js")]
-        public string IncTrakIdDebug()
+        public string MatrixEaseIdDebug()
         {
-            return IncTrakId();
+            return MatrixEaseId();
         }
 
         [HttpGet("/js/vis_init.min.js")]
-        public string IncTrakIdRelease()
+        public string MatrixEaseIdRelease()
         {
-            return IncTrakId();
+            return MatrixEaseId();
         }
 
-        private string IncTrakId()
+        private string MatrixEaseId()
         {
             CookieOptions option = new CookieOptions();
             option.Expires = DateTime.Now.AddMinutes(30);
@@ -67,7 +67,7 @@ namespace MatrixEase.Manga.com
         {
             try
             {
-                CheckIncTrakId(inctrak_id, true);
+                CheckMatrixEaseId(inctrak_id, true);
                 var tok = Decrypt(access_token);
                 if (MangaState.ValidateUserMangaCatalog(tok) != MangaAuthType.Invalid)
                 {
@@ -86,7 +86,7 @@ namespace MatrixEase.Manga.com
         {
             try
             {
-                CheckIncTrakId(inctrak_id, true);
+                CheckMatrixEaseId(inctrak_id, true);
                 Random rnd = new Random();
                 int num1 = rnd.Next(1, 9);
                 int num2 = rnd.Next(1, 9);
@@ -112,7 +112,7 @@ namespace MatrixEase.Manga.com
             bool status = false;
             try
             {
-                CheckIncTrakId(inctrak_id, true);
+                CheckMatrixEaseId(inctrak_id, true);
                 string coded;
                 if (MiscHelpers.IsValidEmail(email_to_address) && Request.Cookies.TryGetValue("authenticated-accepted-2", out coded))
                 {
@@ -140,7 +140,7 @@ namespace MatrixEase.Manga.com
                             }
                         }
 
-                        var plainTextContent = "Here's your email validation code. To complete the process, either enter or copy and paste the six digits of the code into the IncTrak MatrixEase access page and click \"Validate Code\" to continue. That's it!";
+                        var plainTextContent = "Here's your email validation code. To complete the process, either enter or copy and paste the six digits of the code into the MatrixEase access page and click \"Validate Code\" to continue. That's it!";
                         if (_options.Value.UseSNMP)
                         {
                             var client = new SmtpClient(_options.Value.GetSNMPServer(), _options.Value.SNMPPort);
@@ -150,7 +150,7 @@ namespace MatrixEase.Manga.com
                             client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
                             MailMessage message = new MailMessage(_options.Value.GetSNMPAddress(), email_to_address);
-                            message.Subject = "IncTrak MatrixEase Validation Code";
+                            message.Subject = "MatrixEase Validation Code";
                             message.Body = plainTextContent;
                             message.IsBodyHtml = false;
                             message.Bcc.Add(_options.Value.GetSNMPAddress());
@@ -161,7 +161,7 @@ namespace MatrixEase.Manga.com
                             var client = new SendGridClient(_options.Value.GetEmailApiKey());
                             var from = new EmailAddress(_options.Value.GetEmailFrom());
                             var to = new EmailAddress(email_to_address);
-                            var msg = MailHelper.CreateSingleEmail(from, to, "IncTrak MatrixEase Validation Code", string.Format("{0}\r\n\r\n{1}\r\n\r\nBest Regards,\r\nThe IncTrak Team", plainTextContent, code), null);
+                            var msg = MailHelper.CreateSingleEmail(from, to, "MatrixEase Validation Code", string.Format("{0}\r\n\r\n{1}\r\n\r\nBest Regards,\r\nThe MatrixEase Team", plainTextContent, code), null);
 
                             var response = client.SendEmailAsync(msg);
                             response.Wait();
@@ -184,7 +184,7 @@ namespace MatrixEase.Manga.com
             bool status = false;
             try
             {
-                CheckIncTrakId(inctrak_id, true);
+                CheckMatrixEaseId(inctrak_id, true);
                 if (MiscHelpers.IsValidEmail(email_to_address) )
                 {
                     string filePath = MiscHelpers.GetPendingAccountFile(email_to_address);
@@ -228,7 +228,7 @@ namespace MatrixEase.Manga.com
         {
             try
             {
-                CheckIncTrakId(inctrak_id, false);
+                CheckMatrixEaseId(inctrak_id, false);
                 var myIds = GetMyIdentities(false);
                 MangaAuthType auth = ValidateAccess(null, myIds, false);
                 if (auth != MangaAuthType.Invalid)

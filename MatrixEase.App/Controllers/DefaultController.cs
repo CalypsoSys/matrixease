@@ -48,18 +48,18 @@ namespace Desktop.MatrixEase.Manga.Controllers
         }
 
         [HttpGet("/js/vis_init.js")]
-        public string IncTrakIdDebug()
+        public string MatrixEaseIdDebug()
         {
-            return IncTrakId();
+            return MatrixEaseId();
         }
 
         [HttpGet("/js/vis_init.min.js")]
-        public string IncTrakIdRelease()
+        public string MatrixEaseIdRelease()
         {
-            return IncTrakId();
+            return MatrixEaseId();
         }
 
-        private string IncTrakId()
+        private string MatrixEaseId()
         {
             return string.Format("document.write('<form><input type=\"hidden\" id=\"inctrak_id\" name=\"inctrak_id\" value=\"{0}\"/></form>');", MangaDesktop.AccessTokenAll);
         }

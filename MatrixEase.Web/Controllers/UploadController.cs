@@ -34,7 +34,7 @@ namespace MatrixEase.Manga.com.Controllers
         {
             try
             {
-                CheckIncTrakId(inctrak_id, true);
+                CheckMatrixEaseId(inctrak_id, true);
                 var myIds = GetMyIdentities(true);
                 MangaAuthType auth = ValidateAccess(null, myIds, true);
                 if (auth != MangaAuthType.Invalid)

@@ -21,7 +21,7 @@ namespace MatrixEase.Manga.com
         private const int _keysize = 256;
         private const string _seesionKey = "mangaed";
 
-        protected void CheckIncTrakId( string incTrakIdIn, bool update)
+        protected void CheckMatrixEaseId( string incTrakIdIn, bool update)
         {
             string incTrakId;
             if (Request.Cookies.TryGetValue("authenticated-accepted-3", out incTrakId))

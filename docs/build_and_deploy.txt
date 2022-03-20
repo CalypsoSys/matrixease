@@ -14,7 +14,7 @@ Build Windows Desktop App
 
 Build Ubuntu Desktop 
 =====================
-01. Start "Clone of IncTrak Manga Ubuntu 64-bit - Development" vm
+01. Start "Clone of MatrixEase Manga Ubuntu 64-bit - Development" vm
 02. Open a terminal
 03. cd ~/dotnet/MatrixEase/
 04. git pull

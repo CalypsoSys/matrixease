@@ -40,7 +40,7 @@ namespace MatrixEase.Manga.com
         {
             try
             {
-                CheckIncTrakId(inctrak_id, true);
+                CheckMatrixEaseId(inctrak_id, true);
 
                 var googleId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 var googleEmail = User.FindFirst(ClaimTypes.Email).Value;
@@ -62,7 +62,7 @@ namespace MatrixEase.Manga.com
         {
             try
             {
-                CheckIncTrakId(inctrak_id, true);
+                CheckMatrixEaseId(inctrak_id, true);
 
                 var authResult = HttpContext.AuthenticateAsync();
                 authResult.Wait();
@@ -82,7 +82,7 @@ namespace MatrixEase.Manga.com
         {
             try
             {
-                CheckIncTrakId(inctrak_id, true);
+                CheckMatrixEaseId(inctrak_id, true);
 
                 return Redirect(new Uri("/index.html", UriKind.Relative).ToString());
             }
@@ -99,7 +99,7 @@ namespace MatrixEase.Manga.com
         {
             try
             {
-                CheckIncTrakId(inctrak_id, true);
+                CheckMatrixEaseId(inctrak_id, true);
                 var myIds = GetMyIdentities(true);
                 MangaAuthType auth = ValidateAccess(null, myIds, true);
                 if (auth != MangaAuthType.Invalid)

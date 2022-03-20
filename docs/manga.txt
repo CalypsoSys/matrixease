@@ -45,10 +45,10 @@ Ubuntu Server Install
 
 	edit nginx file
 
-	create /etc/systemd/system/manga-inctrak-com.service
-	sudo systemctl enable matrixease-inctrak-com.service
-	sudo systemctl start matrixease-inctrak-com.service
-	sudo systemctl status matrixease-inctrak-com.service
+	create /etc/systemd/system/matrixease-com.service
+	sudo systemctl enable matrixease-com.service
+	sudo systemctl start matrixease-com.service
+	sudo systemctl status matrixease-com.service
 
 	cd C:\CalypsoSystems\MatrixEase\matrixease.web
 	dotnet publish --configuration Release

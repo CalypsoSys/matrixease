@@ -92,7 +92,7 @@ namespace Desktop.MatrixEase.Manga
             await browserWindow.WebContents.Session.ClearCacheAsync();
 
             browserWindow.OnReadyToShow += () => browserWindow.Show();
-            browserWindow.SetTitle("IncTrak MatrixEase");
+            browserWindow.SetTitle("MatrixEase");
 #if !DEBUGXXXX
             browserWindow.RemoveMenu();
 #endif

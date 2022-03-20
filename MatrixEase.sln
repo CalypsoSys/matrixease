@@ -19,36 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{BD267196-C
 		docs\matrixease_notes.txt = docs\matrixease_notes.txt
 	EndProjectSection
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "static.manga.inctrak", "static.manga.inctrak\", "{94E50B7F-4F08-499D-A223-886FAF9B8273}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_62973"
-		Debug.AspNetCompiler.PhysicalPath = "static.manga.inctrak\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62973\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_62973"
-		Release.AspNetCompiler.PhysicalPath = "static.manga.inctrak\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62973\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "62973"
-		SlnRelativePath = "static.manga.inctrak\"
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manga.IncTrak", "Manga.IncTrak\Manga.IncTrak.csproj", "{A4320C0D-3E9E-48E9-8BAA-60BDB3A20CD9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web_blaster", "web_blaster\web_blaster.csproj", "{0CA966D2-8604-460D-ABEA-2169C749CF5C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelReader", "ExcelReader\ExcelReader.csproj", "{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisAlyzer.App", "VisAlyzer.App\VisAlyzer.App.csproj", "{140AA6B2-08EF-41E9-BA2F-B5C0CE82BEE2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "visalyzer.web", "visalyzer.web\visalyzer.web.csproj", "{4CEA404A-BDA0-4552-B0F4-F4068DE02E33}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}"
 	ProjectSection(SolutionItems) = preProject
@@ -137,20 +110,38 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{101B51C0-44F
 		docker\matrixease_dotnet\app\appsettings.json = docker\matrixease_dotnet\app\appsettings.json
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixEase.Manga", "MatrixEase.Manga\MatrixEase.Manga.csproj", "{FF898086-F839-4D43-9323-F6CB50B7C39F}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "static.matrixease.wwwroot", "static.matrixease.wwwroot\", "{DB8BEFC0-FCC1-476D-820C-3B973EB66A06}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_54024"
+		Debug.AspNetCompiler.PhysicalPath = "static.matrixease.wwwroot\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54024\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_54024"
+		Release.AspNetCompiler.PhysicalPath = "static.matrixease.wwwroot\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54024\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "54024"
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixEase.App", "MatrixEase.App\MatrixEase.App.csproj", "{124B3877-F659-4DCD-BBE7-F089AA164A1B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixEase.Web", "MatrixEase.Web\MatrixEase.Web.csproj", "{457D4ACF-EFA5-4C81-8D2E-4D63B3D3BB9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{94E50B7F-4F08-499D-A223-886FAF9B8273}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94E50B7F-4F08-499D-A223-886FAF9B8273}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94E50B7F-4F08-499D-A223-886FAF9B8273}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{94E50B7F-4F08-499D-A223-886FAF9B8273}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{A4320C0D-3E9E-48E9-8BAA-60BDB3A20CD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4320C0D-3E9E-48E9-8BAA-60BDB3A20CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4320C0D-3E9E-48E9-8BAA-60BDB3A20CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4320C0D-3E9E-48E9-8BAA-60BDB3A20CD9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -159,14 +150,6 @@ Global
 		{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{140AA6B2-08EF-41E9-BA2F-B5C0CE82BEE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{140AA6B2-08EF-41E9-BA2F-B5C0CE82BEE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{140AA6B2-08EF-41E9-BA2F-B5C0CE82BEE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{140AA6B2-08EF-41E9-BA2F-B5C0CE82BEE2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4CEA404A-BDA0-4552-B0F4-F4068DE02E33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4CEA404A-BDA0-4552-B0F4-F4068DE02E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4CEA404A-BDA0-4552-B0F4-F4068DE02E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4CEA404A-BDA0-4552-B0F4-F4068DE02E33}.Release|Any CPU.Build.0 = Release|Any CPU
 		{143F71D8-FD19-4D3C-B75B-7F490BB16B30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{143F71D8-FD19-4D3C-B75B-7F490BB16B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{143F71D8-FD19-4D3C-B75B-7F490BB16B30}.Release|Any CPU.ActiveCfg = Debug|Any CPU
@@ -175,6 +158,22 @@ Global
 		{8D35FFD4-8F9F-4CE1-9EBB-1A11CA42CD82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D35FFD4-8F9F-4CE1-9EBB-1A11CA42CD82}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{8D35FFD4-8F9F-4CE1-9EBB-1A11CA42CD82}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{FF898086-F839-4D43-9323-F6CB50B7C39F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF898086-F839-4D43-9323-F6CB50B7C39F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF898086-F839-4D43-9323-F6CB50B7C39F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF898086-F839-4D43-9323-F6CB50B7C39F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB8BEFC0-FCC1-476D-820C-3B973EB66A06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB8BEFC0-FCC1-476D-820C-3B973EB66A06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB8BEFC0-FCC1-476D-820C-3B973EB66A06}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB8BEFC0-FCC1-476D-820C-3B973EB66A06}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{124B3877-F659-4DCD-BBE7-F089AA164A1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{124B3877-F659-4DCD-BBE7-F089AA164A1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{124B3877-F659-4DCD-BBE7-F089AA164A1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{124B3877-F659-4DCD-BBE7-F089AA164A1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{457D4ACF-EFA5-4C81-8D2E-4D63B3D3BB9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{457D4ACF-EFA5-4C81-8D2E-4D63B3D3BB9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{457D4ACF-EFA5-4C81-8D2E-4D63B3D3BB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{457D4ACF-EFA5-4C81-8D2E-4D63B3D3BB9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

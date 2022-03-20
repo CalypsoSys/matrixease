@@ -5,7 +5,9 @@
     <UserSecretsId>5724ae88-4f48-4d89-ba2f-7dcb0b1f7d1e</UserSecretsId>
     <Company>Calypso Systems, LLC</Company>
     <Authors>Joe Schmitt</Authors>
-    <Description>IncTrak Data Manga and Visualization</Description>
+    <Description>MatrixEase Data Manga and Visualization</Description>
+    <AssemblyName>MatrixEase.web</AssemblyName>
+    <RootNamespace>MatrixEase.web</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

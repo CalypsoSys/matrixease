@@ -3,7 +3,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <Company>Calypso Systems, LLC</Company>
     <Authors>Joe Schmitt</Authors>
-    <Description>IncTrak Data Manga and Visualization</Description>
+    <Description>MatrixEase Data Manga and Visualization</Description>
+    <AssemblyName>MatrixEase.App</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ElectronNET.API" Version="13.5.1" />
