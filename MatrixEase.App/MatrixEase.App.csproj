@@ -8,8 +8,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ElectronNET.API" Version="13.5.1" />
-    <PackageReference Include="Google.Apis.Auth" Version="1.55.0" />
-    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.55.0.2371" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.56.0" />
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.56.0.2623" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
@@ -35,6 +35,6 @@
     </None>
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="$(ProjectDir)..\bin\web_blaster.exe $(OS) $(ConfigurationName) $(ProjectDir)..\static.MatrixEase.Manga $(ProjectDir)wwwroot noGoogleTracking" />
+    <Exec Command="$(ProjectDir)..\bin\web_blaster.exe $(OS) $(ConfigurationName) $(ProjectDir)..\static.matrixease.wwwroot $(ProjectDir)wwwroot noGoogleTracking" />
   </Target>
 </Project>

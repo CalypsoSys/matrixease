@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.55.0.2371" />
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.56.0.2623" />
   </ItemGroup>
 
   <ItemGroup>
