@@ -2,7 +2,7 @@
   "profiles": {
     "web_blaster": {
       "commandName": "Project",
-      "commandLineArgs": "$(OS) Release C:\\CalypsoSystems\\MatrixEase\\static.manga.inctrak C:\\CalypsoSystems\\MatrixEase\\visalyzer.app\\wwwroot\\ noGoogleTracking"
+      "commandLineArgs": "$(OS) Release C:\\CalypsoSystems\\MatrixEase\\static.manga.inctrak C:\\CalypsoSystems\\MatrixEase\\matrixease.app\\wwwroot\\ noGoogleTracking"
     }
   }
 }

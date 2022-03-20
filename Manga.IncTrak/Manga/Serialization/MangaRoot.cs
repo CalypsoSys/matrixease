@@ -13,7 +13,7 @@ namespace Manga.IncTrak.Manga.Serialization
 
         public static void SetRootFolder(string folder)
         {
-            Folder = Path.Combine(folder, "visalyzer");
+            Folder = Path.Combine(folder, "matrixease");
         }
     }
 }

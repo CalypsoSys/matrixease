@@ -8,7 +8,7 @@ Build Windows Desktop App
 06. cd C:\CalypsoSystems\MatrixEase\MatrixEase.App
 07. electronize build /target win 
 08. "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe"
-09. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\CalypsoSystems\MatrixEase\visalyzer.com\download\MatrixEase Setup 1.0.0.exe"
+09. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\CalypsoSystems\MatrixEase\matrixease.com\download\MatrixEase Setup 1.0.0.exe"
 10. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\transfer\MatrixEase Setup 1.0.0.exe"
 
 
@@ -24,11 +24,11 @@ Build Ubuntu Desktop
 08. sudo rm -r obj/
 09. sudo rm -r bin/
 10. electronize build /target linux
-11. cp /home/inctrakmanga/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/visalyzer_1.0.0_amd64.snap ~/.
+11. cp /home/inctrakmanga/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap ~/.
 12. snapcraft login
-13. snapcraft upload --release=beta /home/inctrakmanga/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
-14. copy ~/visalyzer_1.0.0_amd64.snap to c:\transfer
-15. from windows copy "C:\transfer\visalyzer_1.0.0_amd64.snap" "C:\CalypsoSystems\MatrixEase\visalyzer.com\download\visalyzer_1.0.0_amd64.snap"
+13. snapcraft upload --release=beta /home/inctrakmanga/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
+14. copy ~/matrixease_1.0.0_amd64.snap to c:\transfer
+15. from windows copy "C:\transfer\matrixease_1.0.0_amd64.snap" "C:\CalypsoSystems\MatrixEase\matrixease.com\download\matrixease_1.0.0_amd64.snap"
 
 
 Build Docker Image
@@ -38,28 +38,28 @@ Build Docker Image
 03. cd web_blaster
 04. dotnet build --configuration Release
 05. cd ..
-06. ~/dotnet/MatrixEase/bin/web_blaster Ubuntu Release ~/dotnet/MatrixEase/static.manga.inctrak ~/dotnet/MatrixEase/visalyzer.web/wwwroot googs
-07. sudo docker build -t visalyzer.web .
+06. ~/dotnet/MatrixEase/bin/web_blaster Ubuntu Release ~/dotnet/MatrixEase/static.manga.inctrak ~/dotnet/MatrixEase/matrixease.web/wwwroot googs
+07. sudo docker build -t matrixease.web .
 08. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
-11. sudo docker save visalyzer.web > ~/visalyzer.web.tar
-12. copy ~/visalyzer.web.tar to c:\transfer
-15. from windows copy "C:\transfer\visalyzer.web.tar" "C:\CalypsoSystems\MatrixEase\visalyzer.com\download\visalyzer.web.tar"
+11. sudo docker save matrixease.web > ~/matrixease.web.tar
+12. copy ~/matrixease.web.tar to c:\transfer
+15. from windows copy "C:\transfer\matrixease.web.tar" "C:\CalypsoSystems\MatrixEase\matrixease.com\download\matrixease.web.tar"
 
 
 Init Docker Image
 =================
 01. cd ~/docker
-02. ./docker_visalyzer.sh stop
+02. ./docker_matrixease.sh stop
 03. Update static.manga.inctrak with all files
-04. Update docs.visalyzer.com with all files
-05. copy visalyzer.web.tar to /home/calypso/docker (on deployment machine)
-06. sudo docker load <  visalyzer.web.tar
+04. Update docs.matrixease.com with all files
+05. copy matrixease.web.tar to /home/calypso/docker (on deployment machine)
+06. sudo docker load <  matrixease.web.tar
 07. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
-08. cd visalyzer_dotnet
+08. cd matrixease_dotnet
 09. sudo docker-compose down
 10. sudo docker-compose up -d
 11. sudo docker-compose stop
 12. cd ..
-13. ./docker_visalyzer.sh start
+13. ./docker_matrixease.sh start
 
 TEST TEST TEST

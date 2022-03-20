@@ -38,7 +38,7 @@ namespace manga.inctrak.com.Controllers
                     referrer = new Uri(header);
 
                 if (referrer == null ||
-                    (referrer.DnsSafeHost.EndsWith("visalyzer.com") == false
+                    (referrer.DnsSafeHost.EndsWith("matrixease.com") == false
 #if DEBUG 
                     && referrer.DnsSafeHost != "localhost"
 #endif
@@ -90,7 +90,7 @@ namespace manga.inctrak.com.Controllers
                         client.EnableSsl = false;
                         client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-                        MailMessage message = new MailMessage(_options.Value.GetSNMPAddress(), "visalyzer@inctrak.com");
+                        MailMessage message = new MailMessage(_options.Value.GetSNMPAddress(), "matrixease@inctrak.com");
                         message.Subject = subject;
                         message.Body = messageBody;
                         message.IsBodyHtml = true;
@@ -101,7 +101,7 @@ namespace manga.inctrak.com.Controllers
                     {
                         var client = new SendGridClient(_options.Value.GetEmailApiKey());
                         var from = new EmailAddress(_options.Value.GetEmailFrom());
-                        var to = new EmailAddress("visalyzer@inctrak.com");
+                        var to = new EmailAddress("matrixease@inctrak.com");
                         var msg = MailHelper.CreateSingleEmail(from, to, subject, messageBody, null);
 
                         var response = client.SendEmailAsync(msg);

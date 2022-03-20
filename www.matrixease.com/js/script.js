@@ -43,7 +43,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "https://my.visalyzer.com/api/feedback/save_message/",
+            url: "https://my.matrixease.com/api/feedback/save_message/",
             contentType: "application/json;charset=UTF-8",
             data: JSON.stringify(formData),
             success: function (data) {

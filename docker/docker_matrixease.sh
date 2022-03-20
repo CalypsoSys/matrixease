@@ -10,28 +10,28 @@ if [ "$op" == "stop" ]; then
     OP=stop
 fi
 
-cd ~/docker/visalyzer_blog_wp
-echo "visalyzer_blog_wp $OP"
+cd ~/docker/matrixease_blog_wp
+echo "matrixease_blog_wp $OP"
 sudo docker-compose $OP
 echo ""
 
-cd ~/docker/visalyzer_docs_static
-echo "vi visalyzer_docs_static $OP"
+cd ~/docker/matrixease_docs_static
+echo "vi matrixease_docs_static $OP"
 sudo docker-compose $OP
 echo ""
 
-cd ~/docker/visalyzer_dotnet
-echo "visalyzer_dotnet $OP"
+cd ~/docker/matrixease_dotnet
+echo "matrixease_dotnet $OP"
 sudo docker-compose $OP
 echo ""
 
-cd ~/docker/visalyzer_static
-echo "visalyzer_static $OP"
+cd ~/docker/matrixease_static
+echo "matrixease_static $OP"
 sudo docker-compose $OP
 echo ""
 
-cd ~/docker/visalyzer_support_wp
-echo "visalyzer_support_wp $OP"
+cd ~/docker/matrixease_support_wp
+echo "matrixease_support_wp $OP"
 sudo docker-compose $OP
 echo ""
 

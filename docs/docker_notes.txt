@@ -83,23 +83,23 @@ Build Docker Image
  5. cd web_blaster
  6. dotnet build --configuration Release
  7. cd ..
- 8. ~/dotnet/MatrixEase/bin/web_blaster Ubuntu Release ~/dotnet/MatrixEase/static.manga.inctrak ~/dotnet/MatrixEase/visalyzer.web/wwwroot googs
- 9. sudo docker build -t visalyzer.web .
+ 8. ~/dotnet/MatrixEase/bin/web_blaster Ubuntu Release ~/dotnet/MatrixEase/static.manga.inctrak ~/dotnet/MatrixEase/matrixease.web/wwwroot googs
+ 9. sudo docker build -t matrixease.web .
 10. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
-11. sudo docker save visalyzer.web > /home/inctrakmanga/Docker/visalyzer.web.tar
-12. copy visalyzer.web.tar copy to c:\transfer and C:\CalypsoSystems\MatrixEase\visalyzer.com\download
+11. sudo docker save matrixease.web > /home/inctrakmanga/Docker/matrixease.web.tar
+12. copy matrixease.web.tar copy to c:\transfer and C:\CalypsoSystems\MatrixEase\matrixease.com\download
 
 
 Init Docker Image
 ==================
- 1. copy visalyzer.web.tar to /home/calypso/docker (on deployment machine)
+ 1. copy matrixease.web.tar to /home/calypso/docker (on deployment machine)
  2. cd ~/
  3. mkdir docker
  4. cd docker
- 5. sudo docker load <  visalyzer.web.tar
+ 5. sudo docker load <  matrixease.web.tar
  6. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
- 7. mkdir visalyzer_dotnet
- 8. cd visalyzer_dotnet
+ 7. mkdir matrixease_dotnet
+ 8. cd matrixease_dotnet
  9. copy over Docker/docker-compose.yml
 10. mkdir app
 11. copy over appsettings_prod_docker.json to app as appsettings.json
@@ -109,8 +109,8 @@ Init Docker Image
 Notes
 =====
 sudo docker logs -f nginx-proxy
-sudo docker logs -f visalyzer.web
-sudo docker exec -it visalyzer.web /bin/bash
+sudo docker logs -f matrixease.web
+sudo docker exec -it matrixease.web /bin/bash
 
 swapon -s
 sudo fallocate -l 512M /swapfile(2)

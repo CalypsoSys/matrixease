@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  visalyzer_dotnet:
-    image: visalyzer.web:latest
+  matrixease_dotnet:
+    image: matrixease.web:latest
     expose:
       - 80
     restart: always
@@ -10,10 +10,10 @@ services:
       - ./app/appsettings.json:/app/appsettings.json
       - ./mangadata:/var/www/mangadata
     environment:
-      VIRTUAL_HOST: my.visalyzer.com
-      LETSENCRYPT_HOST: my.visalyzer.com
+      VIRTUAL_HOST: my.matrixease.com
+      LETSENCRYPT_HOST: my.matrixease.com
       LETSENCRYPT_EMAIL: calypsosystemsllc@gmail.com
-    container_name: visalyzer.web
+    container_name: matrixease.web
 
 networks:
   default:

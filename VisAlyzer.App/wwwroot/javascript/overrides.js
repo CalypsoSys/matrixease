@@ -24,21 +24,21 @@ function renderWindowData(id, callback) {
 }
 
 function openContactUs() {
-    require('electron').shell.openExternal("https://www.visalyzer.com#contact-us");
+    require('electron').shell.openExternal("https://www.matrixease.com#contact-us");
 }
 
 function openAbout() {
-    require('electron').shell.openExternal("https://www.visalyzer.com/index.html#about");
+    require('electron').shell.openExternal("https://www.matrixease.com/index.html#about");
 }
 
 function openDocs(spec) {
-    require('electron').shell.openExternal("https://docs.visalyzer.com" + spec);
+    require('electron').shell.openExternal("https://docs.matrixease.com" + spec);
 }
 
 function openBlog() {
-    require('electron').shell.openExternal("https://blog.visalyzer.com");
+    require('electron').shell.openExternal("https://blog.matrixease.com");
 }
 
 function openSupport() {
-    require('electron').shell.openExternal("https://support.visalyzer.com");
+    require('electron').shell.openExternal("https://support.matrixease.com");
 }

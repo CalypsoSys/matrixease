@@ -10,10 +10,10 @@ services:
       - 80
     restart: always
     environment:
-      VIRTUAL_HOST: docs.visalyzer.com
-      LETSENCRYPT_HOST: docs.visalyzer.com
+      VIRTUAL_HOST: docs.matrixease.com
+      LETSENCRYPT_HOST: docs.matrixease.com
       LETSENCRYPT_EMAIL: calypsosystemsllc@gmail.com
-    container_name: visalyzer_docs_static
+    container_name: matrixease_docs_static
 
 networks:
   default:
