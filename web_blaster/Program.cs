@@ -143,7 +143,7 @@ namespace web_blaster
                         }
                         else if ( noGoogleTracking )
                         {
-                            if (line.Contains("gtag.js") || line.Contains("G-Y5YZ9L7Y2J") || line.Contains("gtag(") || line.Contains("window.dataLayer = window.dataLayer || [];"))
+                            if (line.Contains("gtag.js") || line.Contains("G-3JNFZ1WY8H") || line.Contains("gtag(") || line.Contains("window.dataLayer = window.dataLayer || [];"))
                             {
                                 line = "";
                             }
