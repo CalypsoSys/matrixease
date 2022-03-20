@@ -90,7 +90,7 @@ namespace MatrixEase.Manga.com.Controllers
                         client.EnableSsl = false;
                         client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-                        MailMessage message = new MailMessage(_options.Value.GetSNMPAddress(), "matrixease@inctrak.com");
+                        MailMessage message = new MailMessage(_options.Value.GetSNMPAddress(), "feedback@matrixease.com");
                         message.Subject = subject;
                         message.Body = messageBody;
                         message.IsBodyHtml = true;
@@ -101,7 +101,7 @@ namespace MatrixEase.Manga.com.Controllers
                     {
                         var client = new SendGridClient(_options.Value.GetEmailApiKey());
                         var from = new EmailAddress(_options.Value.GetEmailFrom());
-                        var to = new EmailAddress("matrixease@inctrak.com");
+                        var to = new EmailAddress("feedback@matrixease.com");
                         var msg = MailHelper.CreateSingleEmail(from, to, subject, messageBody, null);
 
                         var response = client.SendEmailAsync(msg);

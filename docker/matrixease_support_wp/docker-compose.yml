@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-   db_node_visalyzer_support_wp:
+   db_node_matrixease_support_wp:
      image: mysql:5.7
      volumes:
         - db_data:/var/lib/mysql
@@ -11,11 +11,11 @@ services:
         MYSQL_DATABASE: wordpress
         MYSQL_USER: wordpress
         MYSQL_PASSWORD: gWOweNag07oB70nD3kD7
-     container_name: visalyzer_support_wp_db
+     container_name: matrixease_support_wp_db
 
    wordpress:
      depends_on:
-        - db_node_visalyzer_support_wp
+        - db_node_matrixease_support_wp
      image: wordpress:latest
      expose:
         - 80
@@ -24,13 +24,13 @@ services:
        - ./wp-content:/var/www/html/wp-content
        - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
      environment:
-        VIRTUAL_HOST: support.visalyzer.com
-        LETSENCRYPT_HOST: support.visalyzer.com
+        VIRTUAL_HOST: support.matrixease.com
+        LETSENCRYPT_HOST: support.matrixease.com
         LETSENCRYPT_EMAIL: calypsosystemsllc@gmail.com
-        WORDPRESS_DB_HOST: db_node_visalyzer_support_wp:3306
+        WORDPRESS_DB_HOST: db_node_matrixease_support_wp:3306
         WORDPRESS_DB_USER: wordpress
         WORDPRESS_DB_PASSWORD: gWOweNag07oB70nD3kD7
-     container_name: visalyzer_support_wp
+     container_name: matrixease_support_wp
 volumes:
   db_data:
 

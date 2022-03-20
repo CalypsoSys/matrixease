@@ -30,7 +30,7 @@
     <None Update="Assets\icon100.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\IncTrakIcon.png">
+    <None Update="Assets\MatrixEase.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

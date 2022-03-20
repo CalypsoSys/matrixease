@@ -130,6 +130,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "static.matrixease.wwwroot",
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "54024"
+		SlnRelativePath = "static.matrixease.wwwroot\"
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixEase.App", "MatrixEase.App\MatrixEase.App.csproj", "{124B3877-F659-4DCD-BBE7-F089AA164A1B}"
