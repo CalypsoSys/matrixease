@@ -140,7 +140,7 @@ namespace manga.inctrak.com
                             }
                         }
 
-                        var plainTextContent = "Here's your email validation code. To complete the process, either enter or copy and paste the six digits of the code into the IncTrak VisAlyzer access page and click \"Validate Code\" to continue. That's it!";
+                        var plainTextContent = "Here's your email validation code. To complete the process, either enter or copy and paste the six digits of the code into the IncTrak MatrixEase access page and click \"Validate Code\" to continue. That's it!";
                         if (_options.Value.UseSNMP)
                         {
                             var client = new SmtpClient(_options.Value.GetSNMPServer(), _options.Value.SNMPPort);
@@ -150,7 +150,7 @@ namespace manga.inctrak.com
                             client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
                             MailMessage message = new MailMessage(_options.Value.GetSNMPAddress(), email_to_address);
-                            message.Subject = "IncTrak VisAlyzer Validation Code";
+                            message.Subject = "IncTrak MatrixEase Validation Code";
                             message.Body = plainTextContent;
                             message.IsBodyHtml = false;
                             message.Bcc.Add(_options.Value.GetSNMPAddress());
@@ -161,7 +161,7 @@ namespace manga.inctrak.com
                             var client = new SendGridClient(_options.Value.GetEmailApiKey());
                             var from = new EmailAddress(_options.Value.GetEmailFrom());
                             var to = new EmailAddress(email_to_address);
-                            var msg = MailHelper.CreateSingleEmail(from, to, "IncTrak VisAlyzer Validation Code", string.Format("{0}\r\n\r\n{1}\r\n\r\nBest Regards,\r\nThe IncTrak Team", plainTextContent, code), null);
+                            var msg = MailHelper.CreateSingleEmail(from, to, "IncTrak MatrixEase Validation Code", string.Format("{0}\r\n\r\n{1}\r\n\r\nBest Regards,\r\nThe IncTrak Team", plainTextContent, code), null);
 
                             var response = client.SendEmailAsync(msg);
                             response.Wait();

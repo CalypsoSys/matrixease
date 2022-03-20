@@ -92,7 +92,7 @@ namespace Desktop.Manga.IncTrak
             await browserWindow.WebContents.Session.ClearCacheAsync();
 
             browserWindow.OnReadyToShow += () => browserWindow.Show();
-            browserWindow.SetTitle("IncTrak VisAlyzer");
+            browserWindow.SetTitle("IncTrak MatrixEase");
 #if !DEBUGXXXX
             browserWindow.RemoveMenu();
 #endif

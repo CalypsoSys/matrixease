@@ -97,7 +97,7 @@ namespace manga.inctrak.com
                     return new { Success = true, VisId = HttpUtility.UrlEncode(mangaGuid.Value.ToString()), StatusData = MangaFactory.StartingStatus("Google Sheet") };
                 }
             }
-            catch (VisAlyzerLicenseException licExcp)
+            catch (MatrixEaseLicenseException licExcp)
             {
                 return new { Success = false, Error = licExcp.Message };
             }

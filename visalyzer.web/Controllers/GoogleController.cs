@@ -124,7 +124,7 @@ namespace manga.inctrak.com
                     }
                 }
             }
-            catch (VisAlyzerLicenseException licExcp)
+            catch (MatrixEaseLicenseException licExcp)
             {
                 return new { Success = false, Error = licExcp.Message };
             }

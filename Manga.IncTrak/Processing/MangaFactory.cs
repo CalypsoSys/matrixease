@@ -239,15 +239,15 @@ namespace Manga.IncTrak.Processing
                 SetStatus(MangaFactoryStatusKey.Queued, "Job execution started", MangaFactoryStatusState.Complete);
 
                 SetStatus(MangaFactoryStatusKey.Processing, "Starting processing of data", MangaFactoryStatusState.Starting);
-                MyStopWatch stopWatch = MyStopWatch.StartNew("VisAlyzer Total Time");
+                MyStopWatch stopWatch = MyStopWatch.StartNew("MatrixEase Total Time");
 
-                stopWatch.StartSubTime("VisAlyzer Initialization");
+                stopWatch.StartSubTime("MatrixEase Initialization");
                 manga = new DataManga();
                 MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
                 if (IsCancellationRequested)
                     return;
 
-                stopWatch.StartSubTime("VisAlyzer Data Loop");
+                stopWatch.StartSubTime("MatrixEase Data Loop");
                 int rawRowIndex = 1, totalCells = 0;
                 List<IList<object>> samples = new List<IList<object>>();
                 foreach (var row in RowIterator(this))
@@ -277,7 +277,7 @@ namespace Manga.IncTrak.Processing
 
                     if ((rawRowIndex % TaskConstants.StatusUpdateCheckFreq) == 0)
                     {
-                        VisAlyzerLicense.CheckCellCount(totalCells);
+                        MatrixEaseLicense.CheckCellCount(totalCells);
                         //SetStatus(MangaFactoryStatusKey.Processing, string.Format("Processing row {0}", rowIndex), MangaFactoryStatusState.Running);
                         if (IsCancellationRequested)
                         {
@@ -293,13 +293,13 @@ namespace Manga.IncTrak.Processing
                 SetStatus(MangaFactoryStatusKey.Processing, string.Format("Processed {0} rows", rawRowIndex), MangaFactoryStatusState.Complete);
                 MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
 
-                stopWatch.StartSubTime("VisAlyzer Process");
+                stopWatch.StartSubTime("MatrixEase Process");
                 SetStatus(MangaFactoryStatusKey.Analyzing, "Analyzing data", MangaFactoryStatusState.Started);
                 manga.Process(this);
                 SetStatus(MangaFactoryStatusKey.Analyzing, "Analyzing data", MangaFactoryStatusState.Complete);
                 MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
 
-                stopWatch.StartSubTime("VisAlyzer Save");
+                stopWatch.StartSubTime("MatrixEase Save");
                 SetStatus(MangaFactoryStatusKey.Saving, "Saving dataset", MangaFactoryStatusState.Started);
                 if (IsCancellationRequested)
                     return;
@@ -311,11 +311,11 @@ namespace Manga.IncTrak.Processing
 
                 MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.Stop());
                 MangaState.UserLogSize(_userId, _mangaInfo.OriginalName, WorkSet);
-                SetStatus(MangaFactoryStatusKey.Complete, "VisAlyzer Job", MangaFactoryStatusState.Complete);
+                SetStatus(MangaFactoryStatusKey.Complete, "MatrixEase Job", MangaFactoryStatusState.Complete);
 
                 _mangaInfo.Status = "Complete";
             }
-            catch (VisAlyzerLicenseException licExcp)
+            catch (MatrixEaseLicenseException licExcp)
             {
                 SetStatus(MangaFactoryStatusKey.Failed, licExcp.Message, MangaFactoryStatusState.Failed);
                 _mangaInfo.Status = "Failed";
@@ -326,7 +326,7 @@ namespace Manga.IncTrak.Processing
                 SetStatus(MangaFactoryStatusKey.Failed, "An known error has occured", MangaFactoryStatusState.Failed);
                 _mangaInfo.Status = "Failed";
                 _mangaInfo.Message = "An known error has occured";
-                MyLogger.LogError(excp, "Error adding VisAlyzer");
+                MyLogger.LogError(excp, "Error adding MatrixEase");
             }
 
             if (_mangaInfo.Status != "Complete" && manga != null)

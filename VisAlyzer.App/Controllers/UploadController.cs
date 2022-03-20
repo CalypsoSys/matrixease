@@ -39,7 +39,7 @@ namespace manga.inctrak.com.Controllers
                         return new { Success = true, VisId = HttpUtility.UrlEncode(mangaGuid.Value.ToString()), StatusData = MangaFactory.StartingStatus("CSV Upload") };
                 }
             }
-            catch (VisAlyzerLicenseException licExcp)
+            catch (MatrixEaseLicenseException licExcp)
             {
                 return new { Success = false, Error = licExcp.Message };
             }

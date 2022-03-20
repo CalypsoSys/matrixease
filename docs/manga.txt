@@ -15,15 +15,15 @@ electronize in dev CentOS
 	-no-sandbox
 
 	data ==> C:\Users\Joe\AppData\Roaming\visalyzer\visalyzer.app
-	cd C:\CalypsoSystems\MatrixEase\VisAlyzer.App
+	cd C:\CalypsoSystems\MatrixEase\MatrixEase.App
 	electronize start
 
 	electronize build /target win 
-	"C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\MatrixEase\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe"
-	copy "C:\CalypsoSystems\MatrixEase\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe" "C:\CalypsoSystems\MatrixEase\visalyzer.com\download\VisAlyzer Setup 1.0.0.exe"
-	copy "C:\CalypsoSystems\MatrixEase\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe" "C:\transfer\VisAlyzer Setup 1.0.0.exe"
+	"C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe"
+	copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\CalypsoSystems\MatrixEase\visalyzer.com\download\MatrixEase Setup 1.0.0.exe"
+	copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\transfer\MatrixEase Setup 1.0.0.exe"
 
-	C:\CalypsoSystems\MatrixEase\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe
+	C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe
 	C:\Users\Joe\AppData\Local\Programs\vis-alyzer\resources\bin\wwwroot
 	C:\Users\Joe\AppData\Roaming\visalyzer
 
@@ -120,18 +120,18 @@ cd ~/dotnet/MatrixEase
 git pull
 or
 	git clone git@github.com:CalypsoSys/inctrak_manga.git
-cd VisAlyzer.App
+cd MatrixEase.App
 sudo rm -r obj/
 sudo rm -r bin/
 electronize build /target linux
-cp /home/inctrakmanga/dotnet/MatrixEase/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap ~/.
+cp /home/inctrakmanga/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/visalyzer_1.0.0_amd64.snap ~/.
 
 snapcraft login
-snapcraft upload --release=beta /home/inctrakmanga/dotnet/MatrixEase/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
+snapcraft upload --release=beta /home/inctrakmanga/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
 copy to c:\transfer
 copy to C:\CalypsoSystems\MatrixEase\visalyzer.com\download
 
-sudo snap install --dangerous /home/inctrakmanga/dotnet/MatrixEase/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
+sudo snap install --dangerous /home/inctrakmanga/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
 ==> sudo snap install visalyzer_1.0.0_amd64.snap
 snap remove visalyzer
 
@@ -139,7 +139,7 @@ home/inctrakmanga/snap/visalyzer/x1/.config/visalyzer
 /snap/visalyzer/x1/resources/bin/wwwroot/
 
 snapcraft login
-snapcraft upload --release=beta /home/inctrakmanga/dotnet/MatrixEase/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
+snapcraft upload --release=beta /home/inctrakmanga/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
 
 sudo snap install visalyzer
 

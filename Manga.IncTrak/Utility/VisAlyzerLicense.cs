@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Manga.IncTrak.Utility
 {
-    public static class VisAlyzerLicense
+    public static class MatrixEaseLicense
     {
         private const int MaxProjects = 5;
         private const string MaxProjectsMessage = "The free version limits the ability to save more than 5 distinct analysis projects for personal use. Contact us to get a license to remove this restriction or to enquire about a Enterprise license.";
@@ -19,7 +19,7 @@ namespace Manga.IncTrak.Utility
 #if RELEASE || TEST_LIMITS
             if (mangas >= MaxProjects)
             {
-                throw new VisAlyzerLicenseException(MaxProjectsMessage);
+                throw new MatrixEaseLicenseException(MaxProjectsMessage);
             }
 #endif
         }
@@ -29,15 +29,15 @@ namespace Manga.IncTrak.Utility
 #if RELEASE || TEST_LIMITS
             if (cells >= MaxRowsCols)
             {
-                throw new VisAlyzerLicenseException(MaxCellsMessage);
+                throw new MatrixEaseLicenseException(MaxCellsMessage);
             }
 #endif
         }
     }
 
-    public class VisAlyzerLicenseException : ApplicationException
+    public class MatrixEaseLicenseException : ApplicationException
     {
-        public VisAlyzerLicenseException(string message) : base(message)
+        public MatrixEaseLicenseException(string message) : base(message)
         {
         }
     }

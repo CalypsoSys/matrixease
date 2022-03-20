@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>IncTrak VisAlyzer</title>
+    <title>IncTrak MatrixEase</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
@@ -44,7 +44,7 @@
         <modal_alert :show="showModalAlert" @close="showModalAlert = false" @yes="takeAction" :title="modal_title" :message="modal_message" :secondary="modal_secondary" :confirm="modal_yes_no_action" :list="modal_list"></modal_alert>
         <div ref="meta" class="form-horizontal fixed-top bg-white" style="z-index:3">
             <slideout-panel :cur_show_low_equal="show_low_equal" :cur_show_low_bound="show_low_bound" :cur_show_high_equal="show_high_equal" :cur_show_high_bound="show_high_bound" :cur_show_percentage="show_percentage" :cur_select_operation="select_operation" :cur_col_ascending="col_ascending" :cur_hide_columns="hide_columns" :cur_columns="my_columns"></slideout-panel>
-            <h3>&nbsp;VisAlyzer (Beta) -- {{ mangaName }} <a href="#" onclick="openDocs('/components.html#visalyze-quick-statistics')" class="info_icon"></a></h3>
+            <h3>&nbsp;MatrixEase (Beta) -- {{ mangaName }} <a href="#" onclick="openDocs('/components.html#visalyze-quick-statistics')" class="info_icon"></a></h3>
             <div class="row">
                 <div class="col-sm-10">
                     <div class="row">

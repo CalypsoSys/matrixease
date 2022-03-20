@@ -49,7 +49,7 @@ namespace Desktop.Manga.IncTrak.Controllers
         {
             var filterJob = new BackgroundFilter(MangaDesktop.VisId(vis_id), selection_expression);
             MangaDesktop.RunBackroundManagGet(filterJob);
-            return new { Success = true, PickupKey = filterJob.PickupKey, StatusData = MangaFactory.StartingStatus("VisAlyzer Filter") };
+            return new { Success = true, PickupKey = filterJob.PickupKey, StatusData = MangaFactory.StartingStatus("MatrixEase Filter") };
         }
 
         [HttpGet("update_settings")]
@@ -70,7 +70,7 @@ namespace Desktop.Manga.IncTrak.Controllers
         {
             var bucketJob = new BackgroundBucketize(MangaDesktop.VisId(vis_id), column_name, column_index, bucketized, bucket_size, bucket_mod);
             MangaDesktop.RunBackroundManagGet(bucketJob);
-            return new { Success = true, PickupKey = bucketJob.PickupKey, StatusData = MangaFactory.StartingStatus("VisAlyzer Bucket") };
+            return new { Success = true, PickupKey = bucketJob.PickupKey, StatusData = MangaFactory.StartingStatus("MatrixEase Bucket") };
         }
 
         [HttpGet("delete_manga")]

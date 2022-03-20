@@ -163,17 +163,17 @@ var visualizer = new Vue({
                             this.curstatusdata = response.data.StatusData;
                         }
                     } else {
-                        this.showModalDialog("Error", "Vis: failure loading VisAlyzer status.");
+                        this.showModalDialog("Error", "Vis: failure loading MatrixEase status.");
                     }
                 })
                 .catch(error => {
                     this.showModalStatus = false
-                    this.showModalDialog("Unknown Error", "Vis: unknown error checking VisAlyzer status.", error);
+                    this.showModalDialog("Unknown Error", "Vis: unknown error checking MatrixEase status.", error);
                 });
             }
         },
         renderVis: function () {
-            this.showModalStatusDialog("NOP", { "PreProcess": { "Started": new Date(), "Elapsed": "00:00:00", "Desc": "Loading VisAlyzer", "Status": "Starting" } });
+            this.showModalStatusDialog("NOP", { "PreProcess": { "Started": new Date(), "Elapsed": "00:00:00", "Desc": "Loading MatrixEase", "Status": "Starting" } });
             axios.get('/api/visualize', {
                 params: {
                     inctrak_id: document.getElementById('inctrak_id').value,
@@ -620,7 +620,7 @@ var visualizer = new Vue({
             });
         },
         deleteManga: function () {
-            this.showModalDialog("Attention", "Are you sure?", "Deleting a saved VisAlyzer is irreversible", "delete_manga");
+            this.showModalDialog("Attention", "Are you sure?", "Deleting a saved MatrixEase is irreversible", "delete_manga");
         },
         takeAction: function () {
             if (this.modal_yes_no_action == "delete_manga") {

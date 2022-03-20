@@ -94,13 +94,13 @@ var mangaAuth = new Vue({
                             if (response.data && response.data.Message) {
                                 mangaAuth.showModalDialog("Error", response.data.Message);
                             } else {
-                                mangaAuth.showModalDialog("Error", "Vis: failure loading VisAlyzer status.");
+                                mangaAuth.showModalDialog("Error", "Vis: failure loading MatrixEase status.");
                             }
                         }
                     })
                     .catch(error => {
                         this.showModalStatus = false
-                        mangaAuth.showModalDialog("Unknown Error", "Vis: unknown error checking VisAlyzer status.", error);
+                        mangaAuth.showModalDialog("Unknown Error", "Vis: unknown error checking MatrixEase status.", error);
                     });
             } else if (this.my_tick > 6) {
                 this.my_tick = 0;
@@ -165,11 +165,11 @@ var mangaAuth = new Vue({
                 if (response.data && response.data.Success) {
                     this.myMangas = response.data.MyMangas;
                 } else {
-                    this.showModalDialog("Error", "Vis: no data for my VisAlyzer catalog", "");
+                    this.showModalDialog("Error", "Vis: no data for my MatrixEase catalog", "");
                 }
             })
             .catch(error => {
-                this.showModalDialog("Unknown Error", "Vis: unknown error retrieving VisAlyzer catalog.", error);
+                this.showModalDialog("Unknown Error", "Vis: unknown error retrieving MatrixEase catalog.", error);
             });
         },
         handleFileUpload() {
@@ -178,7 +178,7 @@ var mangaAuth = new Vue({
         validateForm: function () {
             var error = ""
             if (!this.manga_name) {
-                error += "Please enter VisAlyzer Name\n";
+                error += "Please enter MatrixEase Name\n";
             }
             if (this.header_row < 0 || (this.header_row == 0 && this.header_rows > 0)) {
                 error += "Header Row must be greater than zero\n";

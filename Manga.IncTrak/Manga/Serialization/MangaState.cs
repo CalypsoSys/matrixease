@@ -78,7 +78,7 @@ namespace Manga.IncTrak.Manga
         public static void CheckProjectCount(string userIdentifier)
         {
             var cats = LoadUserMangaCatalog(userIdentifier, new MangaLoadOptions(true));
-            VisAlyzerLicense.CheckProjectCount(cats.MyMangas.Count);
+            MatrixEaseLicense.CheckProjectCount(cats.MyMangas.Count);
         }
 
         public static MangaCatalog LoadUserMangaCatalog(string userIdentifier, MangaLoadOptions loadOptions)

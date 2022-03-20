@@ -1,5 +1,5 @@
 {
-  "executable": "VisAlyzer.App",
+  "executable": "MatrixEase.App",
   "splashscreen": {
     "imageFile": "/wwwroot/IncTrakIcon.png"
   },
@@ -11,7 +11,7 @@
   "environment": "Production",
   "build": {
     "appId": "com.visalyzer.app",
-    "productName": "VisAlyzer",
+    "productName": "MatrixEase",
     "copyright": "Copyright Calypso Systems, LLC © 2021",
     "buildVersion": "1.0.0",
     "compression": "maximum",

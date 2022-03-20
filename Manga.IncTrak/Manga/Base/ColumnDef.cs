@@ -289,7 +289,7 @@ namespace Manga.IncTrak.Manga
             }
             catch(Exception excp)
             {
-                MyLogger.LogError(excp, "Error adding data to VisAlyzer {0} {1}", row, data);
+                MyLogger.LogError(excp, "Error adding data to MatrixEase {0} {1}", row, data);
             }
         }
 
