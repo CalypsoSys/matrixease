@@ -6,9 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{7EE35D03-3F45-435B-9980-7C22AA7D22E0}"
 	ProjectSection(SolutionItems) = preProject
 		config\default = config\default
-		config\inctrakmanga_cert.conf = config\inctrakmanga_cert.conf
-		config\inctrakmanga_cert.sh = config\inctrakmanga_cert.sh
-		config\visalyzer-inctrak-com.service = config\visalyzer-inctrak-com.service
+		config\matrixease-com.service = config\matrixease-com.service
+		config\matrixease_cert.conf = config\matrixease_cert.conf
+		config\matrixease_cert.sh = config\matrixease_cert.sh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{BD267196-C93C-453B-9180-E5DE14D811AE}"
@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{BD267196-C
 		docs\build_and_deploy.txt = docs\build_and_deploy.txt
 		docs\docker_notes.txt = docs\docker_notes.txt
 		docs\manga.txt = docs\manga.txt
-		docs\vis_miner.txt = docs\vis_miner.txt
+		docs\matrixease_notes.txt = docs\matrixease_notes.txt
 	EndProjectSection
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "static.manga.inctrak", "static.manga.inctrak\", "{94E50B7F-4F08-499D-A223-886FAF9B8273}"
@@ -44,48 +44,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manga.IncTrak", "Manga.IncT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web_blaster", "web_blaster\web_blaster.csproj", "{0CA966D2-8604-460D-ABEA-2169C749CF5C}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "visalyzer.com", "visalyzer.com\", "{3F3F476F-9E60-46C5-91D9-59E2BE3D4B23}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_56342"
-		Debug.AspNetCompiler.PhysicalPath = "visalyzer.com\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_56342\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_56342"
-		Release.AspNetCompiler.PhysicalPath = "visalyzer.com\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_56342\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "56342"
-		SlnRelativePath = "visalyzer.com\"
-	EndProjectSection
-EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "docs.visalyzer.com", "docs.visalyzer.com\", "{EAEE3E25-D48D-4BED-BF22-AF71589D8D59}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_58736"
-		Debug.AspNetCompiler.PhysicalPath = "docs.visalyzer.com\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_58736\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_58736"
-		Release.AspNetCompiler.PhysicalPath = "docs.visalyzer.com\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_58736\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "58736"
-		SlnRelativePath = "docs.visalyzer.com\"
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelReader", "ExcelReader\ExcelReader.csproj", "{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisAlyzer.App", "VisAlyzer.App\VisAlyzer.App.csproj", "{140AA6B2-08EF-41E9-BA2F-B5C0CE82BEE2}"
@@ -94,7 +52,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "visalyzer.web", "visalyzer.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}"
 	ProjectSection(SolutionItems) = preProject
-		docker\docker_visalyzer.sh = docker\docker_visalyzer.sh
+		docker\docker_matrixease.sh = docker\docker_matrixease.sh
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
@@ -105,40 +63,78 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nginx-proxy", "nginx-proxy"
 		docker\nginx-proxy\nginx.tmpl = docker\nginx-proxy\nginx.tmpl
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visalyzer_docs_static", "visalyzer_docs_static", "{22708B11-71E4-4AF8-BA55-5BF7475A75CE}"
-	ProjectSection(SolutionItems) = preProject
-		docker\visalyzer_docs_static\docker-compose.yml = docker\visalyzer_docs_static\docker-compose.yml
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "docs.matrixease.com", "docs.matrixease.com\", "{143F71D8-FD19-4D3C-B75B-7F490BB16B30}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_62649"
+		Debug.AspNetCompiler.PhysicalPath = "docs.matrixease.com\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62649\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_62649"
+		Release.AspNetCompiler.PhysicalPath = "docs.matrixease.com\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62649\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "62649"
+		SlnRelativePath = "docs.matrixease.com\"
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visalyzer_dotnet", "visalyzer_dotnet", "{019C4567-472A-484D-86CE-954E949B04EA}"
-	ProjectSection(SolutionItems) = preProject
-		docker\visalyzer_dotnet\docker-compose.yml = docker\visalyzer_dotnet\docker-compose.yml
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "www.matrixease.com", "www.matrixease.com\", "{8D35FFD4-8F9F-4CE1-9EBB-1A11CA42CD82}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_62753"
+		Debug.AspNetCompiler.PhysicalPath = "www.matrixease.com\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62753\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_62753"
+		Release.AspNetCompiler.PhysicalPath = "www.matrixease.com\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62753\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "62753"
+		SlnRelativePath = "www.matrixease.com\"
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visalyzer_static", "visalyzer_static", "{E4032A1F-D9A2-43AE-B73A-A51AB9B6B4F9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "matrixease_blog_wp", "matrixease_blog_wp", "{900C65F4-CEC9-43DC-A020-EEC942B56276}"
 	ProjectSection(SolutionItems) = preProject
-		docker\visalyzer_static\docker-compose.yml = docker\visalyzer_static\docker-compose.yml
+		docker\matrixease_blog_wp\docker-compose.yml = docker\matrixease_blog_wp\docker-compose.yml
+		docker\matrixease_blog_wp\uploads.ini = docker\matrixease_blog_wp\uploads.ini
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "htdocs", "htdocs", "{CBF37CCC-5EB9-45D3-9ED0-88A68FE1333C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{E94A4A4C-DA62-4FC2-AA6A-F5E540F7EB26}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "matrixease_docs_static", "matrixease_docs_static", "{9204A685-262B-4851-ADDE-AE3BE65C00AE}"
 	ProjectSection(SolutionItems) = preProject
-		docker\visalyzer_dotnet\app\appsettings.json = docker\visalyzer_dotnet\app\appsettings.json
+		docker\matrixease_docs_static\docker-compose.yml = docker\matrixease_docs_static\docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "htdocs", "htdocs", "{548601B7-2918-48BE-B32C-907352B8EBC8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visalyzer_blog_wp", "visalyzer_blog_wp", "{D075D782-29EE-4C1F-9415-7D9885266E25}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "matrixease_dotnet", "matrixease_dotnet", "{A68B2ECC-A065-41F2-ADB7-7C421E5606E0}"
 	ProjectSection(SolutionItems) = preProject
-		docker\visalyzer_blog_wp\docker-compose.yml = docker\visalyzer_blog_wp\docker-compose.yml
-		docker\visalyzer_blog_wp\uploads.ini = docker\visalyzer_blog_wp\uploads.ini
+		docker\matrixease_dotnet\docker-compose.yml = docker\matrixease_dotnet\docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visalyzer_support_wp", "visalyzer_support_wp", "{0059B55B-6DEE-4056-8245-7C35C91822F9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "matrixease_static", "matrixease_static", "{785A70FE-6A17-480C-B290-D5920C9791BF}"
 	ProjectSection(SolutionItems) = preProject
-		docker\visalyzer_support_wp\docker-compose.yml = docker\visalyzer_support_wp\docker-compose.yml
-		docker\visalyzer_support_wp\uploads.ini = docker\visalyzer_support_wp\uploads.ini
+		docker\matrixease_static\docker-compose.yml = docker\matrixease_static\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "matrixease_support_wp", "matrixease_support_wp", "{27CFB9A9-4C47-44A0-BAA1-5C9614A7991A}"
+	ProjectSection(SolutionItems) = preProject
+		docker\matrixease_support_wp\docker-compose.yml = docker\matrixease_support_wp\docker-compose.yml
+		docker\matrixease_support_wp\uploads.ini = docker\matrixease_support_wp\uploads.ini
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{101B51C0-44FE-4FD9-8E87-3568D2EB1397}"
+	ProjectSection(SolutionItems) = preProject
+		docker\matrixease_dotnet\app\appsettings.json = docker\matrixease_dotnet\app\appsettings.json
 	EndProjectSection
 EndProject
 Global
@@ -159,14 +155,6 @@ Global
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F3F476F-9E60-46C5-91D9-59E2BE3D4B23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F3F476F-9E60-46C5-91D9-59E2BE3D4B23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F3F476F-9E60-46C5-91D9-59E2BE3D4B23}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F3F476F-9E60-46C5-91D9-59E2BE3D4B23}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{EAEE3E25-D48D-4BED-BF22-AF71589D8D59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAEE3E25-D48D-4BED-BF22-AF71589D8D59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EAEE3E25-D48D-4BED-BF22-AF71589D8D59}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAEE3E25-D48D-4BED-BF22-AF71589D8D59}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -179,20 +167,26 @@ Global
 		{4CEA404A-BDA0-4552-B0F4-F4068DE02E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CEA404A-BDA0-4552-B0F4-F4068DE02E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CEA404A-BDA0-4552-B0F4-F4068DE02E33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{143F71D8-FD19-4D3C-B75B-7F490BB16B30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{143F71D8-FD19-4D3C-B75B-7F490BB16B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{143F71D8-FD19-4D3C-B75B-7F490BB16B30}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{143F71D8-FD19-4D3C-B75B-7F490BB16B30}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{8D35FFD4-8F9F-4CE1-9EBB-1A11CA42CD82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D35FFD4-8F9F-4CE1-9EBB-1A11CA42CD82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D35FFD4-8F9F-4CE1-9EBB-1A11CA42CD82}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D35FFD4-8F9F-4CE1-9EBB-1A11CA42CD82}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7A915214-7A2B-4BD0-B45F-C3990BEC926B} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
-		{22708B11-71E4-4AF8-BA55-5BF7475A75CE} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
-		{019C4567-472A-484D-86CE-954E949B04EA} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
-		{E4032A1F-D9A2-43AE-B73A-A51AB9B6B4F9} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
-		{CBF37CCC-5EB9-45D3-9ED0-88A68FE1333C} = {22708B11-71E4-4AF8-BA55-5BF7475A75CE}
-		{E94A4A4C-DA62-4FC2-AA6A-F5E540F7EB26} = {019C4567-472A-484D-86CE-954E949B04EA}
-		{548601B7-2918-48BE-B32C-907352B8EBC8} = {E4032A1F-D9A2-43AE-B73A-A51AB9B6B4F9}
-		{D075D782-29EE-4C1F-9415-7D9885266E25} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
-		{0059B55B-6DEE-4056-8245-7C35C91822F9} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
+		{900C65F4-CEC9-43DC-A020-EEC942B56276} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
+		{9204A685-262B-4851-ADDE-AE3BE65C00AE} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
+		{A68B2ECC-A065-41F2-ADB7-7C421E5606E0} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
+		{785A70FE-6A17-480C-B290-D5920C9791BF} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
+		{27CFB9A9-4C47-44A0-BAA1-5C9614A7991A} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
+		{101B51C0-44FE-4FD9-8E87-3568D2EB1397} = {A68B2ECC-A065-41F2-ADB7-7C421E5606E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DCA09A05-6598-491D-BACC-4658CA516573}

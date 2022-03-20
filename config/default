@@ -26,8 +26,8 @@ server {
 	#
 	listen 443 ssl default_server;
 	listen [::]:443 ssl default_server;
-	ssl_certificate /etc/nginx/ssl/inctrak_ssc.crt;
-    ssl_certificate_key /etc/nginx/ssl/inctrak_ssc.key;
+	ssl_certificate /etc/nginx/ssl/matrixease.crt;
+    ssl_certificate_key /etc/nginx/ssl/matrixease.key;
 
 	root /var/www/html;
 

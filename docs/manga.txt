@@ -15,15 +15,15 @@ electronize in dev CentOS
 	-no-sandbox
 
 	data ==> C:\Users\Joe\AppData\Roaming\visalyzer\visalyzer.app
-	cd C:\CalypsoSystems\inctrak_manga\VisAlyzer.App
+	cd C:\CalypsoSystems\MatrixEase\VisAlyzer.App
 	electronize start
 
 	electronize build /target win 
-	"C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe"
-	copy "C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe" "C:\CalypsoSystems\inctrak_manga\visalyzer.com\download\VisAlyzer Setup 1.0.0.exe"
-	copy "C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe" "C:\transfer\VisAlyzer Setup 1.0.0.exe"
+	"C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\MatrixEase\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe"
+	copy "C:\CalypsoSystems\MatrixEase\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe" "C:\CalypsoSystems\MatrixEase\visalyzer.com\download\VisAlyzer Setup 1.0.0.exe"
+	copy "C:\CalypsoSystems\MatrixEase\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe" "C:\transfer\VisAlyzer Setup 1.0.0.exe"
 
-	C:\CalypsoSystems\inctrak_manga\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe
+	C:\CalypsoSystems\MatrixEase\VisAlyzer.App\bin\Desktop\VisAlyzer Setup 1.0.0.exe
 	C:\Users\Joe\AppData\Local\Programs\vis-alyzer\resources\bin\wwwroot
 	C:\Users\Joe\AppData\Roaming\visalyzer
 
@@ -50,9 +50,9 @@ Ubuntu Server Install
 	sudo systemctl start visalyzer-inctrak-com.service
 	sudo systemctl status visalyzer-inctrak-com.service
 
-	cd C:\CalypsoSystems\inctrak_manga\visalyzer.web
+	cd C:\CalypsoSystems\MatrixEase\visalyzer.web
 	dotnet publish --configuration Release
-	C:\CalypsoSystems\inctrak_manga\visalyzer.web\bin\Release\net5.0\publish\
+	C:\CalypsoSystems\MatrixEase\visalyzer.web\bin\Release\net5.0\publish\
 
 	sudo mkdir /var/www/mangadata
 	sudo chown www-data:www-data /var/www/mangadata
@@ -116,7 +116,7 @@ range: "108thHouse",
 
 
 Ubuntu Desktop 
-cd ~/dotnet/inctrak_manga
+cd ~/dotnet/MatrixEase
 git pull
 or
 	git clone git@github.com:CalypsoSys/inctrak_manga.git
@@ -124,14 +124,14 @@ cd VisAlyzer.App
 sudo rm -r obj/
 sudo rm -r bin/
 electronize build /target linux
-cp /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap ~/.
+cp /home/inctrakmanga/dotnet/MatrixEase/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap ~/.
 
 snapcraft login
-snapcraft upload --release=beta /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
+snapcraft upload --release=beta /home/inctrakmanga/dotnet/MatrixEase/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
 copy to c:\transfer
-copy to C:\CalypsoSystems\inctrak_manga\visalyzer.com\download
+copy to C:\CalypsoSystems\MatrixEase\visalyzer.com\download
 
-sudo snap install --dangerous /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
+sudo snap install --dangerous /home/inctrakmanga/dotnet/MatrixEase/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
 ==> sudo snap install visalyzer_1.0.0_amd64.snap
 snap remove visalyzer
 
@@ -139,7 +139,7 @@ home/inctrakmanga/snap/visalyzer/x1/.config/visalyzer
 /snap/visalyzer/x1/resources/bin/wwwroot/
 
 snapcraft login
-snapcraft upload --release=beta /home/inctrakmanga/dotnet/inctrak_manga/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
+snapcraft upload --release=beta /home/inctrakmanga/dotnet/MatrixEase/VisAlyzer.App/bin/Desktop/visalyzer_1.0.0_amd64.snap
 
 sudo snap install visalyzer
 
@@ -152,7 +152,7 @@ sudo kill -9 $(ps -ef | grep visalyzer | awk '{print $2}')
 
 
 Build blaster
-cd ~/dotnet/inctrak_manga/
+cd ~/dotnet/MatrixEase/
 git pull
 cd web_blaster
 dotnet build --configuration Release
