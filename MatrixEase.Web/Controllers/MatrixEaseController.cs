@@ -23,11 +23,11 @@ namespace MatrixEase.Manga.com
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class VisualizeController : ProcessController
+    public class MatrixEaseController : ProcessController
     {
-        private readonly ILogger<VisualizeController> _logger;
+        private readonly ILogger<MatrixEaseController> _logger;
 
-        public VisualizeController(ILogger<VisualizeController> logger, IBackgroundTaskQueue queue) : base(queue)
+        public MatrixEaseController(ILogger<MatrixEaseController> logger, IBackgroundTaskQueue queue) : base(queue)
         {
             _logger = logger;
         }

@@ -85,7 +85,7 @@ var mangaAuth = new Vue({
                             if (response.data.Complete) {
                                 this.showModalStatus = false;
                                 this.curstatusdata = null;
-                                window.location = "/visualize.html?matrixease_id=" + encodeURIComponent(document.getElementById('matrixease_id').value) + "&vis_id=" + encodeURIComponent(this.curstatuskey);
+                                window.location = "/matrixease.html?matrixease_id=" + encodeURIComponent(document.getElementById('matrixease_id').value) + "&vis_id=" + encodeURIComponent(this.curstatuskey);
                                 this.curstatuskey = "";
                             } else {
                                 this.curstatusdata = response.data.StatusData;

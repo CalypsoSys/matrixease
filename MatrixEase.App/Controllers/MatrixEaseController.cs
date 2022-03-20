@@ -14,11 +14,11 @@ namespace Desktop.MatrixEase.Manga.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class VisualizeController : ControllerBase
+    public class MatrxiEaseController : ControllerBase
     {
-        private readonly ILogger<VisualizeController> _logger;
+        private readonly ILogger<MatrxiEaseController> _logger;
 
-        public VisualizeController(ILogger<VisualizeController> logger)
+        public MatrxiEaseController(ILogger<MatrxiEaseController> logger)
         {
             _logger = logger;
         }

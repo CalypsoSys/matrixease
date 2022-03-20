@@ -243,7 +243,7 @@ namespace MatrixEase.Manga.com
                     {
                         var visId = Encode(userId, manga.ManagGuid);
                         mangas.Add(new {Name= manga.MangaName, 
-                            Url= new Uri(string.Format("/visualize.html?matrixease_id={0}&vis_id={1}", HttpUtility.UrlEncode(matrixease_id), HttpUtility.UrlEncode(visId)), UriKind.Relative).ToString(),
+                            Url= new Uri(string.Format("/matrixease.html?matrixease_id={0}&vis_id={1}", HttpUtility.UrlEncode(matrixease_id), HttpUtility.UrlEncode(visId)), UriKind.Relative).ToString(),
                             Original = manga.OriginalName, Type = manga.SheetType, Created =manga.Created, MaxRows = manga.MaxRows,
                             TotalRows = manga.TotalRows, Status = manga.Status});
                         loadedMangas.Add(manga.ManagGuid);
