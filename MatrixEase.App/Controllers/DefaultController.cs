@@ -47,13 +47,13 @@ namespace Desktop.MatrixEase.Manga.Controllers
             return Redirect(new Uri("/index.html", UriKind.Relative).ToString());
         }
 
-        [HttpGet("/js/vis_init.js")]
+        [HttpGet("/js/mxes_init.js")]
         public string MatrixEaseIdDebug()
         {
             return MatrixEaseId();
         }
 
-        [HttpGet("/js/vis_init.min.js")]
+        [HttpGet("/js/mxes_init.min.js")]
         public string MatrixEaseIdRelease()
         {
             return MatrixEaseId();
