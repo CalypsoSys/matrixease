@@ -74,7 +74,7 @@ var mangaAuth = new Vue({
         },
         mangaProcessStatus: function() {
             if (this.curstatuskey && this.curstatuskey != "NOP" && this.showModalStatus) {
-                axios.get('/api/visualize/manga_status/', {
+                axios.get('/api/matrixease/manga_status/', {
                     params: {
                         matrixease_id: document.getElementById('matrixease_id').value,
                         status_key: this.curstatuskey
@@ -85,7 +85,7 @@ var mangaAuth = new Vue({
                             if (response.data.Complete) {
                                 this.showModalStatus = false;
                                 this.curstatusdata = null;
-                                window.location = "/matrixease.html?matrixease_id=" + encodeURIComponent(document.getElementById('matrixease_id').value) + "&vis_id=" + encodeURIComponent(this.curstatuskey);
+                                window.location = "/matrixease.html?matrixease_id=" + encodeURIComponent(document.getElementById('matrixease_id').value) + "&mxes_id=" + encodeURIComponent(this.curstatuskey);
                                 this.curstatuskey = "";
                             } else {
                                 this.curstatusdata = response.data.StatusData;
@@ -94,13 +94,13 @@ var mangaAuth = new Vue({
                             if (response.data && response.data.Message) {
                                 mangaAuth.showModalDialog("Error", response.data.Message);
                             } else {
-                                mangaAuth.showModalDialog("Error", "Vis: failure loading MatrixEase status.");
+                                mangaAuth.showModalDialog("Error", "MatrixEase: failure loading MatrixEase status.");
                             }
                         }
                     })
                     .catch(error => {
                         this.showModalStatus = false
-                        mangaAuth.showModalDialog("Unknown Error", "Vis: unknown error checking MatrixEase status.", error);
+                        mangaAuth.showModalDialog("Unknown Error", "MatrixEase: unknown error checking MatrixEase status.", error);
                     });
             } else if (this.my_tick > 6) {
                 this.my_tick = 0;
@@ -131,9 +131,9 @@ var mangaAuth = new Vue({
                     var showLogin = true;
                     if (!response.data) {
                         this.data = null;
-                        this.showModalDialog("Error", "Vis: no data returned", "");
+                        this.showModalDialog("Error", "MatrixEase: no data returned", "");
                     } else if (!response.data.Success) {
-                        //this.showModalDialog("Error", "Vis: authentication failed", "");
+                        //this.showModalDialog("Error", "MatrixEase: authentication failed", "");
                         showLogin = true;
                     } else {
                         showLogin = (response.data.AccessToken != this.$cookies.get("authenticated-accepted-1"));
@@ -141,7 +141,7 @@ var mangaAuth = new Vue({
                     this.showModalLogin = showLogin;
                 })
                 .catch(error => {
-                    this.showModalDialog("Unknown Error", "Vis: unknown error rendering.", error);
+                    this.showModalDialog("Unknown Error", "MatrixEase: unknown error rendering.", error);
                 });
             }
 
@@ -165,11 +165,11 @@ var mangaAuth = new Vue({
                 if (response.data && response.data.Success) {
                     this.myMangas = response.data.MyMangas;
                 } else {
-                    this.showModalDialog("Error", "Vis: no data for my MatrixEase catalog", "");
+                    this.showModalDialog("Error", "MatrixEase: no data for my MatrixEase catalog", "");
                 }
             })
             .catch(error => {
-                this.showModalDialog("Unknown Error", "Vis: unknown error retrieving MatrixEase catalog.", error);
+                this.showModalDialog("Unknown Error", "MatrixEase: unknown error retrieving MatrixEase catalog.", error);
             });
         },
         handleFileUpload() {
@@ -187,7 +187,7 @@ var mangaAuth = new Vue({
                 error += "Header on Row cannot be greater then Header Row\n";
             }
             if (error) {
-                this.showModalDialog("Error", "Vis: please check managa specification", error);
+                this.showModalDialog("Error", "MatrixEase: please check managa specification", error);
                 return false;
             }
 
@@ -228,13 +228,13 @@ var mangaAuth = new Vue({
                 }
                 ).then(response => {
                     if (response.data && response.data.Success) {
-                        this.showModalStatusDialog(response.data.VisId, response.data.StatusData);
+                        this.showModalStatusDialog(response.data.MatrixId, response.data.StatusData);
                     } else {
-                        this.showModalDialog("Error", "Vis: failure uploading/processing Sheet.", response.data.Error);
+                        this.showModalDialog("Error", "MatrixEase: failure uploading/processing Sheet.", response.data.Error);
                     }
                 })
                 .catch(error => {
-                    this.showModalDialog("Unknown Error", "Vis: unknown error uploading/processing Sheet.", error);
+                    this.showModalDialog("Unknown Error", "MatrixEase: unknown error uploading/processing Sheet.", error);
                 });
         },
         submitGoogleSheetForm: function () {
@@ -254,7 +254,7 @@ var mangaAuth = new Vue({
                 }
             })
             .catch(error => {
-                this.showModalDialog("Unknown Error", "Vis: unknown error checking google creds.", error);
+                this.showModalDialog("Unknown Error", "MatrixEase: unknown error checking google creds.", error);
             });
         },
         takeAction: function () {
@@ -282,13 +282,13 @@ var mangaAuth = new Vue({
             })
             .then(response => {
                 if (response.data && response.data.Success) {
-                    this.showModalStatusDialog(response.data.VisId, response.data.StatusData);
+                    this.showModalStatusDialog(response.data.MatrixId, response.data.StatusData);
                 } else {
-                    this.showModalDialog("Error", "Vis: failure loading Google Sheet.", response.data.Error );
+                    this.showModalDialog("Error", "MatrixEase: failure loading Google Sheet.", response.data.Error );
                 }
             })
             .catch(error => {
-                this.showModalDialog("Unknown Error", "Vis: unknown error checking google creds.", error);
+                this.showModalDialog("Unknown Error", "MatrixEase: unknown error checking google creds.", error);
             });
         }
     }

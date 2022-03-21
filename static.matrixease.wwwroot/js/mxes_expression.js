@@ -51,22 +51,22 @@
             this.emitUpdate();
         },
         filterByNode: function () {
-            axios.get('/api/visualize/filter', {
+            axios.get('/api/matrixease/filter', {
                 params: {
                     matrixease_id: document.getElementById('matrixease_id').value,
-                    vis_id: visualizer.vis_id,
+                    mxes_id: matrixease.mxes_id,
                     selection_expression: this.selection_expression
                 }
             })
             .then(response => {
                 if (!response.data) {
-                    visualizer.showModalDialog("Error", "Vis: no filter data.", "");
+                    matrixease.showModalDialog("Error", "MatrixEase: no filter data.", "");
                 } else {
-                    visualizer.showModalStatusDialog(response.data.PickupKey, response.data.StatusData);
+                    matrixease.showModalStatusDialog(response.data.PickupKey, response.data.StatusData);
                 }
             })
             .catch(error => {
-                this.showModalDialog("Unknown Error", "Vis: unknown error filtering.", error);
+                this.showModalDialog("Unknown Error", "MatrixEase: unknown error filtering.", error);
             });
 
             if (event.preventDefault != undefined)

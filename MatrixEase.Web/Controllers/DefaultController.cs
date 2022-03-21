@@ -203,8 +203,8 @@ namespace MatrixEase.Manga.com
                                     {
                                         CookieOptions option = new CookieOptions();
                                         option.Expires = DateTime.Now.AddMinutes(30);
-                                        string visEmailClaimId = MiscHelpers.Encrypt(emailAddressHash);
-                                        Response.Cookies.Append("VisEmailClaimId", visEmailClaimId, option);
+                                        string MxesEmailClaimId = MiscHelpers.Encrypt(emailAddressHash);
+                                        Response.Cookies.Append("MxesEmailClaimId", MxesEmailClaimId, option);
 
                                         SetAccess(emailAddressHash, email_to_address, MangaAuthType.Email);
                                         status = true;
@@ -241,9 +241,9 @@ namespace MatrixEase.Manga.com
                     List<Guid> loadedMangas = new List<Guid>();
                     foreach(var manga in cats.MyMangas)
                     {
-                        var visId = Encode(userId, manga.ManagGuid);
+                        var mxesId = Encode(userId, manga.ManagGuid);
                         mangas.Add(new {Name= manga.MangaName, 
-                            Url= new Uri(string.Format("/matrixease.html?matrixease_id={0}&vis_id={1}", HttpUtility.UrlEncode(matrixease_id), HttpUtility.UrlEncode(visId)), UriKind.Relative).ToString(),
+                            Url= new Uri(string.Format("/matrixease.html?matrixease_id={0}&mxes_id={1}", HttpUtility.UrlEncode(matrixease_id), HttpUtility.UrlEncode(mxesId)), UriKind.Relative).ToString(),
                             Original = manga.OriginalName, Type = manga.SheetType, Created =manga.Created, MaxRows = manga.MaxRows,
                             TotalRows = manga.TotalRows, Status = manga.Status});
                         loadedMangas.Add(manga.ManagGuid);

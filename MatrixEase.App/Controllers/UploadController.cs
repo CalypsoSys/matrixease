@@ -36,7 +36,7 @@ namespace MatrixEase.Manga.com.Controllers
                     Guid? mangaGuid = SheetProcessing.ProcessSheet(MangaDesktop.UserId, input, mangaInfo, MangaDesktop.RunBackroundManagGet);
 
                     if (mangaGuid != null)
-                        return new { Success = true, VisId = HttpUtility.UrlEncode(mangaGuid.Value.ToString()), StatusData = MangaFactory.StartingStatus("CSV Upload") };
+                        return new { Success = true, MatrixId = HttpUtility.UrlEncode(mangaGuid.Value.ToString()), StatusData = MangaFactory.StartingStatus("CSV Upload") };
                 }
             }
             catch (MatrixEaseLicenseException licExcp)

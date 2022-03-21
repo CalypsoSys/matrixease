@@ -10,18 +10,18 @@ namespace MatrixEase.Manga.Processing
         private static volatile object _lockFilters = new object();
         private static Dictionary<Guid, BackgroundAction> _activeFilters = new Dictionary<Guid, BackgroundAction>();
         private static Dictionary<Guid, object> _pickupFilters = new Dictionary<Guid, object>();
-        private static Dictionary<Guid, Tuple<string, Guid>> _pickupVisIds = new Dictionary<Guid, Tuple<string, Guid>>();
+        private static Dictionary<Guid, Tuple<string, Guid>> _pickupMatrixIds = new Dictionary<Guid, Tuple<string, Guid>>();
 
         private Guid _pickupKey;
-        private Tuple<string, Guid> _visId;
+        private Tuple<string, Guid> _mxesId;
 
-        public Tuple<string, Guid> VisId { get => _visId; }
+        public Tuple<string, Guid> MatrixId { get => _mxesId; }
         public Guid PickupKey { get => _pickupKey; }
 
-        protected BackgroundAction(Tuple<string, Guid> visId)
+        protected BackgroundAction(Tuple<string, Guid> mxesId)
         {
             _pickupKey = Guid.NewGuid();
-            _visId = visId;
+            _mxesId = mxesId;
 
             lock (_lockFilters)
             {
@@ -29,37 +29,37 @@ namespace MatrixEase.Manga.Processing
             }
         }
 
-        private object GetStatus(Tuple<string, Guid> visId, Guid pickupKey)
+        private object GetStatus(Tuple<string, Guid> mxesId, Guid pickupKey)
         {
-            if (visId.Item1 == _visId.Item1 && visId.Item2 == _visId.Item2 && _pickupKey == pickupKey)
+            if (mxesId.Item1 == _mxesId.Item1 && mxesId.Item2 == _mxesId.Item2 && _pickupKey == pickupKey)
             {
                 return new { Success = true, Complete = false, StatusData = Status };
             }
             return new { Success = false };
         }
 
-        public static object GetPickupJob(Tuple<string, Guid> visId, Guid pickupKey)
+        public static object GetPickupJob(Tuple<string, Guid> mxesId, Guid pickupKey)
         {
             lock(_lockFilters)
             {
-                if (_pickupVisIds.ContainsKey(pickupKey))
+                if (_pickupMatrixIds.ContainsKey(pickupKey))
                 {
-                    var matchVisId = _pickupVisIds[pickupKey];
-                    _pickupVisIds.Remove(pickupKey);
+                    var matchMatrixId = _pickupMatrixIds[pickupKey];
+                    _pickupMatrixIds.Remove(pickupKey);
                     var results = _pickupFilters[pickupKey];
                     _pickupFilters.Remove(pickupKey);
 
                     if (_activeFilters.ContainsKey(pickupKey))
                         _activeFilters.Remove(pickupKey);
 
-                    if ( visId.Item1 == matchVisId.Item1 && visId.Item2 == matchVisId.Item2)
+                    if ( mxesId.Item1 == matchMatrixId.Item1 && mxesId.Item2 == matchMatrixId.Item2)
                     {
                         return new { Success = true, Complete = true, Results = results };
                     }
                 }
                 else if (_activeFilters.ContainsKey(pickupKey))
                 {
-                    return _activeFilters[pickupKey].GetStatus(visId, pickupKey);
+                    return _activeFilters[pickupKey].GetStatus(mxesId, pickupKey);
 
                 }
             }
@@ -72,7 +72,7 @@ namespace MatrixEase.Manga.Processing
             lock (_lockFilters)
             {
                 _pickupFilters.Add(_pickupKey, pickup);
-                _pickupVisIds.Add(_pickupKey, _visId);
+                _pickupMatrixIds.Add(_pickupKey, _mxesId);
             }
         }
 

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <link rel="icon" href="icon100.ico">
     <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.3.1/css/bootstrap.css">
-    <link rel="stylesheet" href="/css/visualize.css" />
+    <link rel="stylesheet" href="/css/matrixease.css" />
     <link rel="stylesheet" href="/css/mxes_d3_chord.css" />
     <script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router@3.5.1/dist/vue-router.js"></script>
@@ -36,7 +36,7 @@
             <a href="#" onclick="openSupport();return false;">Support</a>
         </div>
 
-        <div id="vis_dependencies" style="z-index:-2">
+        <div id="mxes_dependencies" style="z-index:-2">
             <h4 class="mb-3"> "{{ (curdepdata || {}).name }}" Dependencies</h4>
             <div class="row">
                 <div class="col-sm-12">
@@ -49,7 +49,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <div id="vis-dependencies"></div>
+                    <div id="mxes-dependencies"></div>
                 </div>
             </div>
         </div>

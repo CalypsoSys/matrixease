@@ -68,7 +68,7 @@ namespace web_blaster
                     UseMinifiedInHTML(source.FullName, destination, noGoogleTracking);
                     break;
                 case ".js":
-                    if (source.Name == "vis_helper.js")
+                    if (source.Name == "mxes_helper.js")
                     {
                         ClearHelpersJS(source.FullName, destination);
                     }
@@ -129,7 +129,7 @@ namespace web_blaster
                     string line;
                     while ((line = input.ReadLine()) != null)
                     {
-                        if (line.Contains("<script") && line.Contains(".js\"") && !line.Contains("overrides.js") && !line.Contains("vis_helper.js") && !line.Contains("vue2-slideout-panel.min.js") && !line.Contains("vue-cookies.js"))
+                        if (line.Contains("<script") && line.Contains(".js\"") && !line.Contains("overrides.js") && !line.Contains("mxes_helper.js") && !line.Contains("vue2-slideout-panel.min.js") && !line.Contains("vue-cookies.js"))
                         {
                             line = line.Replace(".js\"", ".min.js\"");
                             if (line.Contains(".development."))

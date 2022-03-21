@@ -139,15 +139,15 @@ namespace MatrixEase.Manga.Manga
             manga.Save(mangaPath);
         }
 
-        public static bool SaveMangaSettings(Tuple<string, Guid> visId, bool showLowEqual, int showLowBound, bool showHighEqual, int showHighBound, string selectOperation, string showPercentage, bool colAscending, bool[] hideColumns)
+        public static bool SaveMangaSettings(Tuple<string, Guid> mxesId, bool showLowEqual, int showLowBound, bool showHighEqual, int showHighBound, string selectOperation, string showPercentage, bool colAscending, bool[] hideColumns)
         {
-            var userFolder = visId.Item1;
-            Guid mangaGuid = visId.Item2;
+            var userFolder = mxesId.Item1;
+            Guid mangaGuid = mxesId.Item2;
 
             var mangas = LoadUserMangaCatalog(userFolder, new MangaLoadOptions(false));
             if (mangas.GetManga(mangaGuid))
             {
-                MangaSettings mangaSettings = LoadMangaSettings(visId);
+                MangaSettings mangaSettings = LoadMangaSettings(mxesId);
                 mangaSettings.SetOptions(showLowEqual, showLowBound, showHighEqual, showHighBound, selectOperation, showPercentage, colAscending, hideColumns);
 
                 var mangaPath = ManagaPath(userFolder, mangaGuid);
@@ -160,10 +160,10 @@ namespace MatrixEase.Manga.Manga
             return false;
         }
 
-        internal static void SaveMangaBuckets(Tuple<string, Guid> visId, int colIndex, ColumnDefBucket column)
+        internal static void SaveMangaBuckets(Tuple<string, Guid> mxesId, int colIndex, ColumnDefBucket column)
         {
-            var userFolder = visId.Item1;
-            Guid mangaGuid = visId.Item2;
+            var userFolder = mxesId.Item1;
+            Guid mangaGuid = mxesId.Item2;
 
             var mangas = LoadUserMangaCatalog(userFolder, new MangaLoadOptions(false));
             if (mangas.GetManga(mangaGuid))
@@ -181,16 +181,16 @@ namespace MatrixEase.Manga.Manga
             }
         }
 
-        public static DataManga LoadManga(Tuple<string, Guid> visId, bool applyFilter, int ignoreBucketCol, MangaLoadOptions loadOptions)
+        public static DataManga LoadManga(Tuple<string, Guid> mxesId, bool applyFilter, int ignoreBucketCol, MangaLoadOptions loadOptions)
         {
             string mangaName;
-            return LoadManga(visId, applyFilter, ignoreBucketCol, loadOptions, out mangaName);
+            return LoadManga(mxesId, applyFilter, ignoreBucketCol, loadOptions, out mangaName);
         }
 
-        public static DataManga LoadManga(Tuple<string, Guid> visId, bool applyFilter, int ignoreBucketCol, MangaLoadOptions loadOptions, out string mangaName)
+        public static DataManga LoadManga(Tuple<string, Guid> mxesId, bool applyFilter, int ignoreBucketCol, MangaLoadOptions loadOptions, out string mangaName)
         {
-            var userFolder = visId.Item1;
-            Guid mangaGuid = visId.Item2;
+            var userFolder = mxesId.Item1;
+            Guid mangaGuid = mxesId.Item2;
 
             var mangas = LoadUserMangaCatalog(userFolder, new MangaLoadOptions(false));
             
@@ -201,14 +201,14 @@ namespace MatrixEase.Manga.Manga
                 var manga = new DataManga();
                 if (manga.Load(mangaPath, loadOptions))
                 {
-                    MangaSettings settings = LoadMangaSettings(visId);
+                    MangaSettings settings = LoadMangaSettings(mxesId);
                     manga.ApplySettings(settings);
 
                     for (int colIndex = 0; colIndex < manga.Columns; colIndex++)
                     {
                         if (colIndex != ignoreBucketCol)
                         {
-                            ColumnDefBucket column = LoadMangaBucket(visId, colIndex, loadOptions);
+                            ColumnDefBucket column = LoadMangaBucket(mxesId, colIndex, loadOptions);
                             if (column != null)
                             {
                                 manga.ApplyBuckets(column, colIndex);
@@ -218,7 +218,7 @@ namespace MatrixEase.Manga.Manga
 
                     if (applyFilter)
                     {
-                        MangaFilter filter = LoadMangaFilter(visId, loadOptions);
+                        MangaFilter filter = LoadMangaFilter(mxesId, loadOptions);
                         manga.ApplyFilter(filter, applyFilter, ignoreBucketCol);
                     }
 
@@ -229,10 +229,10 @@ namespace MatrixEase.Manga.Manga
             return new DataManga();
         }
 
-        private static ColumnDefBucket LoadMangaBucket(Tuple<string, Guid> visId, int colIndex, MangaLoadOptions loadOptions)
+        private static ColumnDefBucket LoadMangaBucket(Tuple<string, Guid> mxesId, int colIndex, MangaLoadOptions loadOptions)
         {
-            var userFolder = visId.Item1;
-            Guid mangaGuid = visId.Item2;
+            var userFolder = mxesId.Item1;
+            Guid mangaGuid = mxesId.Item2;
 
             var mangas = LoadUserMangaCatalog(userFolder, new MangaLoadOptions(false));
             if (mangas.GetManga(mangaGuid))
@@ -248,10 +248,10 @@ namespace MatrixEase.Manga.Manga
             return null;
         }
 
-        private static MangaSettings LoadMangaSettings(Tuple<string, Guid> visId)
+        private static MangaSettings LoadMangaSettings(Tuple<string, Guid> mxesId)
         {
-            var userFolder = visId.Item1;
-            Guid mangaGuid = visId.Item2;
+            var userFolder = mxesId.Item1;
+            Guid mangaGuid = mxesId.Item2;
 
             MangaLoadOptions loadOptions = new MangaLoadOptions(false);
             var mangas = LoadUserMangaCatalog(userFolder, loadOptions);
@@ -269,10 +269,10 @@ namespace MatrixEase.Manga.Manga
             return new MangaSettings();
         }
 
-        private static MangaFilter LoadMangaFilter(Tuple<string, Guid> visId, MangaLoadOptions loadOptions)
+        private static MangaFilter LoadMangaFilter(Tuple<string, Guid> mxesId, MangaLoadOptions loadOptions)
         {
-            var userFolder = visId.Item1;
-            Guid mangaGuid = visId.Item2;
+            var userFolder = mxesId.Item1;
+            Guid mangaGuid = mxesId.Item2;
 
             var mangas = LoadUserMangaCatalog(userFolder, new MangaLoadOptions(false));
             if (mangas.GetManga(mangaGuid))
@@ -288,16 +288,16 @@ namespace MatrixEase.Manga.Manga
             return new MangaFilter();
         }
 
-        public static MangaFilter SaveMangaFilter(Tuple<string, Guid> visId, string selectionExpression, MyBitArray bitmapFilter)
+        public static MangaFilter SaveMangaFilter(Tuple<string, Guid> mxesId, string selectionExpression, MyBitArray bitmapFilter)
         {
-            var userFolder = visId.Item1;
-            Guid mangaGuid = visId.Item2;
+            var userFolder = mxesId.Item1;
+            Guid mangaGuid = mxesId.Item2;
 
             MangaLoadOptions loadOptions = new MangaLoadOptions(false);
             var mangas = LoadUserMangaCatalog(userFolder, loadOptions);
             if (mangas.GetManga(mangaGuid))
             {
-                MangaFilter mangaFilter = LoadMangaFilter(visId, loadOptions);
+                MangaFilter mangaFilter = LoadMangaFilter(mxesId, loadOptions);
                 mangaFilter.SetFilter(selectionExpression, bitmapFilter);
 
                 var mangaPath = ManagaPath(userFolder, mangaGuid);
@@ -316,10 +316,10 @@ namespace MatrixEase.Manga.Manga
             return null;
         }
 
-        public static bool DeleteManga(Tuple<string, Guid> visId)
+        public static bool DeleteManga(Tuple<string, Guid> mxesId)
         {
-            var userFolder = visId.Item1;
-            Guid mangaGuid = visId.Item2;
+            var userFolder = mxesId.Item1;
+            Guid mangaGuid = mxesId.Item2;
 
             var mangas = LoadUserMangaCatalog(userFolder, new MangaLoadOptions(false));
             if (mangas.DeleteManga(mangaGuid))

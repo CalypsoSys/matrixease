@@ -44,7 +44,7 @@
         }
     },
     mounted() {
-        this.chartCTX = document.getElementById("vis-quick-chart");
+        this.chartCTX = document.getElementById("mxes-quick-chart");
     },
     methods: {
         getRandomColor: function () {
@@ -79,17 +79,17 @@
             var measureCountIndexes = this.getSelectedCols(this.included_measure_count, this.included_dim);
 
             if (measureTotalIndexes == null || measureAvgIndexes === null || measureCountIndexes == null) {
-                visualizer.showModalDialog("Attention", "Dimension cannot also be measure.");
+                matrixease.showModalDialog("Attention", "Dimension cannot also be measure.");
                 return;
             } else if (dimensionIndexes.length == 0 || (measureTotalIndexes.length + measureAvgIndexes.length + measureCountIndexes.length) == 0) {
-                visualizer.showModalDialog("Attention", "Please select at least one dimension and one measure.");
+                matrixease.showModalDialog("Attention", "Please select at least one dimension and one measure.");
                 return;
             }
             //
-            axios.get('/api/visualize/get_chart_data', {
+            axios.get('/api/matrixease/get_chart_data', {
                 params: {
                     matrixease_id: document.getElementById('matrixease_id').value,
-                    vis_id: visualizer.vis_id,
+                    mxes_id: matrixease.mxes_id,
                     chart_type: this.chart_type,
                     col_dimension_indexes: dimensionIndexes.join(","),
                     col_measure_tot_indexes: measureTotalIndexes.join(","),
@@ -121,7 +121,7 @@
                         response.data.ReportData.pagination = true;
                         response.data.ReportData.fixedHeader = true;
                         response.data.ReportData.height = '400px';
-                        this.myReport = new gridjs.Grid(response.data.ReportData).render(document.getElementById("vis-quick-report"));
+                        this.myReport = new gridjs.Grid(response.data.ReportData).render(document.getElementById("mxes-quick-report"));
                     } else {
                         this.myReport.updateConfig({
                             columns: response.data.ReportData.columns,
@@ -129,16 +129,16 @@
                         }).forceRender();
                     }
                 } else {
-                    visualizer.showModalDialog("Unknown Error", "Vis: failure getting chart data.");
+                    matrixease.showModalDialog("Unknown Error", "MatrixEase: failure getting chart data.");
                 }
             })
             .catch(error => {
-                visualizer.showModalDialog("Unknown Error", "Vis: unknown error chart data.", error);
+                matrixease.showModalDialog("Unknown Error", "MatrixEase: unknown error chart data.", error);
             });
         },
         openReportWindow: function () {
             if (this.chart_type == "report") {
-                var visReporting = customWindowOpen("/mxes_reports.html", "_blank",
+                var mxesReporting = customWindowOpen("/mxes_reports.html", "_blank",
                     { reportData:
                         {
                             //report_name: JSON.stringify(this.reportData.report_name),
@@ -147,7 +147,7 @@
                         }
                 });
                 /*
-                visReporting.reportData = {
+                mxesReporting.reportData = {
                     //report_name: JSON.stringify(this.reportData.report_name),
                     columns: JSON.stringify(this.reportData.columns),
                     data: JSON.stringify(this.reportData.data)
@@ -163,7 +163,7 @@
                         label: this.chartData.datasets[i].label,
                     });
                 }
-                var vischarting = customWindowOpen("/mxes_charts.html", "_blank",
+                var mxesCharting = customWindowOpen("/mxes_charts.html", "_blank",
                     { chartData:
                         {
                             chart_type: this.chart_type,
@@ -173,7 +173,7 @@
                         }
                 });
                 /*
-                vischarting.chartData = {
+                mxesCharting.chartData = {
                     chart_type: JSON.stringify(this.chart_type),
                     labels: JSON.stringify(this.chartData.labels),
                     datasets: JSON.stringify(dataSets),

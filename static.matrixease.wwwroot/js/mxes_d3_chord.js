@@ -23,10 +23,10 @@ function initChords() {
         path = d3.svg.chord().radius(innerRadius);
     }
 
-    d3.select("#vis-dependencies").select("svg").remove()
+    d3.select("#mxes-dependencies").select("svg").remove()
 
     /*** Initialize the visualization ***/
-    g = d3.select("#vis-dependencies").append("svg")
+    g = d3.select("#mxes-dependencies").append("svg")
         .attr("width", width)
         .attr("height", height)
         .append("g")

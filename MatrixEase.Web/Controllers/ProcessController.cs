@@ -42,8 +42,8 @@ namespace MatrixEase.Manga.com.Controllers
                 option.Expires = DateTime.Now.AddMinutes(30);
                 Response.Cookies.Append("authenticated-accepted-3", matrixease_id, option);
 
-                var visId = Encode(userId, mangaGuid.Value);
-                return visId;
+                var mxesId = Encode(userId, mangaGuid.Value);
+                return mxesId;
             }
 
             return null;
@@ -53,7 +53,7 @@ namespace MatrixEase.Manga.com.Controllers
         {
             foreach (var cookie in Request.Cookies.Keys.ToList())
             {
-                if (cookie != "cookies-accepted-1" && cookie != "VisEmailClaimId" && cookie != "authenticated-accepted-1" && cookie != "authenticated-accepted-2" && cookie != "authenticated-accepted-3")
+                if (cookie != "cookies-accepted-1" && cookie != "MxesEmailClaimId" && cookie != "authenticated-accepted-1" && cookie != "authenticated-accepted-2" && cookie != "authenticated-accepted-3")
                     Response.Cookies.Delete(cookie);
             }
         }

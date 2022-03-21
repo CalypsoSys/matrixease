@@ -24,7 +24,7 @@ electronize in dev CentOS
 	copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\transfer\MatrixEase Setup 1.0.0.exe"
 
 	C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe
-	C:\Users\Joe\AppData\Local\Programs\vis-alyzer\resources\bin\wwwroot
+	C:\Users\Joe\AppData\Local\Programs\mxes-alyzer\resources\bin\wwwroot
 	C:\Users\Joe\AppData\Roaming\matrixease
 
 

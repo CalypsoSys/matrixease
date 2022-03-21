@@ -4,9 +4,9 @@
 });
 
 
-var visReporting = new Vue({
+var mxesReporting = new Vue({
     router,
-    el: '#vis_reporting',
+    el: '#mxes_reporting',
     data: {
         mangaName: "",
     },
@@ -29,7 +29,7 @@ var visReporting = new Vue({
                 height: '400px',
                 autoWidth: true,
                 data: data.reportData.data
-            }).render(document.getElementById("vis-reporting"));
+            }).render(document.getElementById("mxes-reporting"));
         }
     }
 })

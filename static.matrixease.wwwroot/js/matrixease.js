@@ -4,15 +4,15 @@
 });
 
 
-var visualizer = new Vue({
+var matrixease = new Vue({
     router,
-    el: '#visualize',
+    el: '#matrixease',
     data: {
         svgRows: null,
         svgCols: null,
         svgns: "http://www.w3.org/2000/svg",
 
-        vis_id: "",
+        mxes_id: "",
         mangaName: "",
 
         //percentOfTotalColor: "#808080",
@@ -90,8 +90,8 @@ var visualizer = new Vue({
     mounted: function () {
         document.onreadystatechange = () => {
             if (document.readyState == "complete") {
-                this.vis_id = this.$route.query.vis_id;
-                this.renderVis();
+                this.mxes_id = this.$route.query.mxes_id;
+                this.renderMatrixEase();
             }
             window.addEventListener('scroll', this.handleScroll);
         }
@@ -143,10 +143,10 @@ var visualizer = new Vue({
         },
         mangaProcessStatus: function() {
             if (this.curstatuskey && this.curstatuskey != "NOP" && this.showModalStatus) {
-                axios.get('/api/visualize/manga_pickup_status/', {
+                axios.get('/api/matrixease/manga_pickup_status/', {
                     params: {
                         matrixease_id: document.getElementById('matrixease_id').value,
-                        vis_id: this.vis_id,
+                        mxes_id: this.mxes_id,
                         pickup_key: this.curstatuskey
                     }
                  })
@@ -163,28 +163,28 @@ var visualizer = new Vue({
                             this.curstatusdata = response.data.StatusData;
                         }
                     } else {
-                        this.showModalDialog("Error", "Vis: failure loading MatrixEase status.");
+                        this.showModalDialog("Error", "MatrixEase: failure loading MatrixEase status.");
                     }
                 })
                 .catch(error => {
                     this.showModalStatus = false
-                    this.showModalDialog("Unknown Error", "Vis: unknown error checking MatrixEase status.", error);
+                    this.showModalDialog("Unknown Error", "MatrixEase: unknown error checking MatrixEase status.", error);
                 });
             }
         },
-        renderVis: function () {
+        renderMatrixEase: function () {
             this.showModalStatusDialog("NOP", { "PreProcess": { "Started": new Date(), "Elapsed": "00:00:00", "Desc": "Loading MatrixEase", "Status": "Starting" } });
-            axios.get('/api/visualize', {
+            axios.get('/api/matrixease', {
                 params: {
                     matrixease_id: document.getElementById('matrixease_id').value,
-                    vis_id: this.vis_id
+                    mxes_id: this.mxes_id
                 }
             })
             .then(response => {
                 this.showModalStatus = false;
                 if (!response.data) {
                     this.data = null;
-                    this.showModalDialog("Error", "Vis: no data returned", "");
+                    this.showModalDialog("Error", "MatrixEase: no data returned", "");
                 } else {
                     this.mangaName = response.data.MangaName;
                     this.data = response.data.MangaData;
@@ -193,7 +193,7 @@ var visualizer = new Vue({
             })
             .catch(error => {
                 this.showModalStatus = false;
-                this.showModalDialog("Unknown Error", "Vis: unknown error rendering.", error);
+                this.showModalDialog("Unknown Error", "MatrixEase: unknown error rendering.", error);
             });
         },
         setOptionsFromData: function () {
@@ -253,7 +253,7 @@ var visualizer = new Vue({
                     }
                 }
             }
-            this.setVisSize();
+            this.setMatrixEaseSize();
         },
         nodeAction: function (event) {
             this.nodeSelected(event);
@@ -341,7 +341,7 @@ var visualizer = new Vue({
             svg.appendChild(image);
         },
         calcTextSizes: function () {
-            var vc = document.getElementById("visSizingCanvas");
+            var vc = document.getElementById("matrixEaseSizingCanvas");
             vc.width = window.innerWidth;
             vc.height = window.innerHeight;
 
@@ -397,7 +397,7 @@ var visualizer = new Vue({
             return false
         },
         drawNodes: function (ignoreDataOptions) {
-            this.setVisSize();
+            this.setMatrixEaseSize();
             this.totalRows = this.data.TotalRows;
             this.selectedRows = this.data.SelectedRows;
 
@@ -406,10 +406,10 @@ var visualizer = new Vue({
             }
 
             var sizer = this.calcTextSizes();
-            var svgCols = this.startDisplayMode("visSVGCols", sizer.maxWdithCols, this.colSize);
+            var svgCols = this.startDisplayMode("matrixEaseSVGCols", sizer.maxWdithCols, this.colSize);
 
             var totalHeight = (sizer.boxHeight + this.boxSpace) * (sizer.maxRows + 1);
-            var svgRows = this.startDisplayMode("visSVGRows", sizer.maxWdithCols, totalHeight);
+            var svgRows = this.startDisplayMode("matrixEaseSVGRows", sizer.maxWdithCols, totalHeight);
 
             var x = 0;
             this.dataPositions = [];
@@ -500,7 +500,7 @@ var visualizer = new Vue({
             }
 
             this.endDisplayMode()
-            this.setVisSize();
+            this.setMatrixEaseSize();
         },
         pendingFilter: function () {
             if ((!this.selection_expression && this.data && this.data.SelectionExpression) || this.selection_expression && this.data && this.selection_expression != this.data.SelectionExpression) {
@@ -532,10 +532,10 @@ var visualizer = new Vue({
             //this.filterByNode();
         },
         updateSettings: function (settingsCallback) {
-            axios.get('/api/visualize/update_settings', {
+            axios.get('/api/matrixease/update_settings', {
                 params: {
                     matrixease_id: document.getElementById('matrixease_id').value,
-                    vis_id: this.vis_id,
+                    mxes_id: this.mxes_id,
                     show_low_equal: this.show_low_equal,
                     show_low_bound: this.show_low_bound,
                     show_high_equal: this.show_high_equal,
@@ -548,18 +548,18 @@ var visualizer = new Vue({
             })
             .then(response => {
                 if (!response.data) {
-                    this.showModalDialog("Error", "Vis: no data returned", "");
+                    this.showModalDialog("Error", "MatrixEase: no data returned", "");
                 } else if (!response.data.Success) {
-                    this.showModalDialog("Error", "Vis: could not save settings.", "");
+                    this.showModalDialog("Error", "MatrixEase: could not save settings.", "");
                 } else {
                     settingsCallback.call(this, true);
                 }
             })
             .catch(error => {
-                this.showModalDialog("Unknown Error", "Vis: unknown error saving settings.", error);
+                this.showModalDialog("Unknown Error", "MatrixEase: unknown error saving settings.", error);
             });
         },
-        setVisSize: function () {
+        setMatrixEaseSize: function () {
             var newTop = this.$refs.meta.clientHeight + document.scrollingElement.scrollTop;
             if (newTop > this.colMarginSize) {
                 this.colMargin = newTop + "px";
@@ -609,7 +609,7 @@ var visualizer = new Vue({
                     this.hide_columns = [...result.hide_columns];
                     var settingsCallback = null;
                     if (order_changed) {
-                        settingsCallback = this.renderVis;
+                        settingsCallback = this.renderMatrixEase;
                     } else {
                         settingsCallback = this.drawNodes;
                     }
@@ -624,23 +624,23 @@ var visualizer = new Vue({
         },
         takeAction: function () {
             if (this.modal_yes_no_action == "delete_manga") {
-                axios.get('/api/visualize/delete_manga', {
+                axios.get('/api/matrixease/delete_manga', {
                     params: {
                         matrixease_id: document.getElementById('matrixease_id').value,
-                        vis_id: this.vis_id
+                        mxes_id: this.mxes_id
                     }
                 })
                 .then(response => {
                     if (!response.data) {
-                        this.showModalDialog("Error", "Vis: no data returned", "");
+                        this.showModalDialog("Error", "MatrixEase: no data returned", "");
                     } else if (!response.data.Success) {
-                        this.showModalDialog("Error", "Vis: could not delete.", "");
+                        this.showModalDialog("Error", "MatrixEase: could not delete.", "");
                     } else {
                         window.location = '/index.html';
                     }
                 })
                 .catch(error => {
-                    this.showModalDialog("Unknown Error", "Vis: unknown error deleting.", error);
+                    this.showModalDialog("Unknown Error", "MatrixEase: unknown error deleting.", error);
                 });
             }
         },
@@ -648,11 +648,11 @@ var visualizer = new Vue({
             this.statusStart = new Date();
             this.statusCheckCount = 0;
             this.showModalStatusDialog("NOP", { "Download": { "Started": this.statusStart, "Elapsed": "00:00:00", "Desc": "Download CSV data", "Status": "Starting" } });
-            axios.get('/api/visualize/export_csv', {
+            axios.get('/api/matrixease/export_csv', {
                 responseType: 'blob',
                 params: {
                     matrixease_id: document.getElementById('matrixease_id').value,
-                    vis_id: this.vis_id
+                    mxes_id: this.mxes_id
                 },
                 onDownloadProgress: (progressEvent) => {
                     if ((this.statusCheckCount % 10) == 0) {
@@ -667,17 +667,17 @@ var visualizer = new Vue({
                 const url = window.URL.createObjectURL(new Blob([response.data]));
                 const link = document.createElement('a');
                 link.href = url;
-                link.setAttribute('download', 'vis_manga.csv'); //or any other extension
+                link.setAttribute('download', 'mxes_manga.csv'); //or any other extension
                 document.body.appendChild(link);
                 link.click();
             })
             .catch(error => {
                 this.showModalStatus = false;
-                this.showModalDialog("Unknown Error", "Vis: unknown error exporting.", error);
+                this.showModalDialog("Unknown Error", "MatrixEase: unknown error exporting.", error);
             });
         },
         handleScroll: function (event) {
-            this.setVisSize();
+            this.setMatrixEaseSize();
         },
         bucketDefintion: function () {
             if (this.selectedColumn) {
@@ -751,10 +751,10 @@ var visualizer = new Vue({
                 if (this.selection_expression && this.selection_expression.indexOf(colSpec) != -1) {
                     this.showModalDialog("Attention", "Column is filtered, please remove filter to rebucketize", "")
                 } else {
-                    axios.get('/api/visualize/bucketize', {
+                    axios.get('/api/matrixease/bucketize', {
                         params: {
                             matrixease_id: document.getElementById('matrixease_id').value,
-                            vis_id: this.vis_id,
+                            mxes_id: this.mxes_id,
                             column_name: this.selectedColumn.name,
                             column_index: this.selectedColumn.index,
                             bucketized: bucketized,
@@ -765,7 +765,7 @@ var visualizer = new Vue({
                     .then(response => {
                         if (!response.data) {
                             this.data = null;
-                            this.showModalDialog("Error", "Vis: no data for bucketization.", "");
+                            this.showModalDialog("Error", "MatrixEase: no data for bucketization.", "");
                         } else {
                             this.showModalStatusDialog(response.data.PickupKey, response.data.StatusData);
                             //this.data = response.data;
@@ -773,7 +773,7 @@ var visualizer = new Vue({
                         }
                     })
                     .catch(error => {
-                        this.showModalDialog("Unknown Error", "Vis: unknown error bucketing.", error);
+                        this.showModalDialog("Unknown Error", "MatrixEase: unknown error bucketing.", error);
                     });
                 }
             }
@@ -784,10 +784,10 @@ var visualizer = new Vue({
         },
         getDetailedColStats: function () {
             this.colMenuDisplay = "none";
-            axios.get('/api/visualize/detailed_col_stats', {
+            axios.get('/api/matrixease/detailed_col_stats', {
                 params: {
                     matrixease_id: document.getElementById('matrixease_id').value,
-                    vis_id: this.vis_id,
+                    mxes_id: this.mxes_id,
                     column_name: this.selectedColumn.name,
                     column_index: this.selectedColumn.index
                 }
@@ -797,11 +797,11 @@ var visualizer = new Vue({
                     this.colStatistics = response.data.ColStats;
                     this.showModalStatsDialog();
                 } else {
-                    this.showModalDialog("Unknown Error", "Vis: failure getting column stats.");
+                    this.showModalDialog("Unknown Error", "MatrixEase: failure getting column stats.");
                 }
             })
             .catch(error => {
-                this.showModalDialog("Unknown Error", "Vis: unknown error column stats.", error);
+                this.showModalDialog("Unknown Error", "MatrixEase: unknown error column stats.", error);
             });
         },
         getDetailedColReport: function () {
@@ -826,14 +826,14 @@ var visualizer = new Vue({
         showNodeRows: function () {
             this.cellMenuDisplay = "none";
             if (this.selectedNode == null) {
-                this.showModalDialog("Error", "Vis: cannot determine node, please try again.");
+                this.showModalDialog("Error", "MatrixEase: cannot determine node, please try again.");
             } else if (this.selectedNode.rawCol.SelectedValues > 10000) {
-                this.showModalDialog("Error", "Vis: too many rows for quick view (over 10000) please export.");
+                this.showModalDialog("Error", "MatrixEase: too many rows for quick view (over 10000) please export.");
             } else {
-                axios.get('/api/visualize/get_node_rows', {
+                axios.get('/api/matrixease/get_node_rows', {
                     params: {
                         matrixease_id: document.getElementById('matrixease_id').value,
-                        vis_id: this.vis_id,
+                        mxes_id: this.mxes_id,
                         col_index: this.selectedColumn.index,
                         selected_node: this.selectedNode.value + "@" + this.selectedColumn.name + ":" + this.selectedColumn.index,
                         filtered: true
@@ -850,23 +850,23 @@ var visualizer = new Vue({
                         this.curreportdata = colReport;
                         this.showModalReport = true;
                     } else {
-                        visualizer.showModalDialog("Unknown Error", "Vis: failure getting column rows.");
+                        matrixease.showModalDialog("Unknown Error", "MatrixEase: failure getting column rows.");
                     }
                 })
                 .catch(error => {
-                    visualizer.showModalDialog("Unknown Error", "Vis: unknown error column rows.", error);
+                    matrixease.showModalDialog("Unknown Error", "MatrixEase: unknown error column rows.", error);
                 });
             }
         },
         showDuplicateEntries: function() {
             this.cellMenuDisplay = "none";
             if (this.selectedNode == null) {
-                this.showModalDialog("Error", "Vis: cannot determine node, please try again.");
+                this.showModalDialog("Error", "MatrixEase: cannot determine node, please try again.");
             } else {
-                axios.get('/api/visualize/get_duplicate_entries', {
+                axios.get('/api/matrixease/get_duplicate_entries', {
                     params: {
                         matrixease_id: document.getElementById('matrixease_id').value,
-                        vis_id: this.vis_id,
+                        mxes_id: this.mxes_id,
                         col_index: this.selectedColumn.index,
                         selected_node: this.selectedNode.value + "@" + this.selectedColumn.name + ":" + this.selectedColumn.index,
                         filtered: true
@@ -876,23 +876,23 @@ var visualizer = new Vue({
                     if (response.data && response.data.Success && response.data.DuplicateEntries) {
                         this.showModalDialog("Duplicate Entries for " + this.selectedColumn.name + ": " + this.selectedNode.value, null, null, null, response.data.DuplicateEntries);
                     } else {
-                        visualizer.showModalDialog("Unknown Error", "Vis: failure getting duplicates cell.");
+                        matrixease.showModalDialog("Unknown Error", "MatrixEase: failure getting duplicates cell.");
                     }
                 })
                 .catch(error => {
-                    visualizer.showModalDialog("Unknown Error", "Vis: unknown error duplicates cell.", error);
+                    matrixease.showModalDialog("Unknown Error", "MatrixEase: unknown error duplicates cell.", error);
                 });
             }
         },
         showDependencyDiagram: function() {
             this.cellMenuDisplay = "none";
             if (this.selectedNode == null) {
-                this.showModalDialog("Error", "Vis: cannot determine node, please try again.");
+                this.showModalDialog("Error", "MatrixEase: cannot determine node, please try again.");
             } else {
-                axios.get('/api/visualize/get_dependency_diagram', {
+                axios.get('/api/matrixease/get_dependency_diagram', {
                     params: {
                         matrixease_id: document.getElementById('matrixease_id').value,
-                        vis_id: this.vis_id,
+                        mxes_id: this.mxes_id,
                         col_index: this.selectedColumn.index,
                         selected_node: this.selectedNode.value + "@" + this.selectedColumn.name + ":" + this.selectedColumn.index,
                         filtered: true
@@ -903,11 +903,11 @@ var visualizer = new Vue({
                             this.curdepdata = response.data.DependencyDiagram;
                             this.showModalDep = true;
                         } else {
-                            visualizer.showModalDialog("Unknown Error", "Vis: failure getting dependency diagram cell.");
+                            matrixease.showModalDialog("Unknown Error", "MatrixEase: failure getting dependency diagram cell.");
                         }
                     })
                     .catch(error => {
-                        visualizer.showModalDialog("Unknown Error", "Vis: unknown error dependency diagram cell.", error);
+                        matrixease.showModalDialog("Unknown Error", "MatrixEase: unknown error dependency diagram cell.", error);
                     });
             }
         },

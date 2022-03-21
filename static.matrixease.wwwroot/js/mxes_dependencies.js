@@ -4,9 +4,9 @@
 });
 
 
-var visDependencies = new Vue({
+var mxesDependencies = new Vue({
     router,
-    el: '#vis_dependencies',
+    el: '#mxes_dependencies',
     data: {
         mangaName: "",
         curdepdata: null,

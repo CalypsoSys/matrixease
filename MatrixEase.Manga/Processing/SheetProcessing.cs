@@ -28,7 +28,7 @@ namespace MatrixEase.Manga.Processing
                 var service = new SheetsService(new BaseClientService.Initializer()
                 {
                     HttpClientInitializer = credential,
-                    ApplicationName = "Managa Visualizer",
+                    ApplicationName = "MatrixEase",
                 });
 
                 // Define request parameters.

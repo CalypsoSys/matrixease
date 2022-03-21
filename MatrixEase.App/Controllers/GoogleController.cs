@@ -83,7 +83,7 @@ namespace MatrixEase.Manga.com
                 Guid? mangaGuid = SheetProcessing.ProcessSheet(credential, MangaDesktop.UserId, mangaInfo, MangaDesktop.RunBackroundManagGet);
                 if (mangaGuid != null)
                 {
-                    return new { Success = true, VisId = HttpUtility.UrlEncode(mangaGuid.Value.ToString()), StatusData = MangaFactory.StartingStatus("Google Sheet") };
+                    return new { Success = true, MatrixId = HttpUtility.UrlEncode(mangaGuid.Value.ToString()), StatusData = MangaFactory.StartingStatus("Google Sheet") };
                 }
             }
             catch (MatrixEaseLicenseException licExcp)

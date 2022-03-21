@@ -32,10 +32,10 @@
                 }
             }
             //
-            axios.get('/api/visualize/get_col_measures', {
+            axios.get('/api/matrixease/get_col_measures', {
                 params: {
                     matrixease_id: document.getElementById('matrixease_id').value,
-                    vis_id: visualizer.vis_id,
+                    mxes_id: matrixease.mxes_id,
                     col_index: this.selected_column.index,
                     selected_node: this.selected_node.value + "@" + this.selected_column.name + ":" + this.selected_column.index,
                     col_measure_indexes: measureIndexes.join(","),
@@ -46,11 +46,11 @@
                 if (response.data && response.data.Success) {
                     this.measures = response.data.MeasureStats;
                 } else {
-                    visualizer.showModalDialog("Unknown Error", "Vis: failure getting column measures.");
+                    matrixease.showModalDialog("Unknown Error", "MatrixEase: failure getting column measures.");
                 }
             })
             .catch(error => {
-                visualizer.showModalDialog("Unknown Error", "Vis: unknown error column measures.", error);
+                matrixease.showModalDialog("Unknown Error", "MatrixEase: unknown error column measures.", error);
             });
         },
         closeUp: function () {

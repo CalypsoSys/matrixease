@@ -13,7 +13,7 @@ namespace MatrixEase.Manga.Processing
     {
         private string _selectionExpression;
 
-        public BackgroundFilter(Tuple<string, Guid> visId, string selectionExpression) : base(visId)
+        public BackgroundFilter(Tuple<string, Guid> mxesId, string selectionExpression) : base(mxesId)
         {
             _selectionExpression = selectionExpression;
         }
@@ -28,7 +28,7 @@ namespace MatrixEase.Manga.Processing
             SetStatus(MangaFactoryStatusKey.Queued, "Filter execution started", MangaFactoryStatusState.Complete);
 
             SetStatus(MangaFactoryStatusKey.PreProcess, "Loading MatrixEase for filtering", MangaFactoryStatusState.Started);
-            DataManga manga = MangaState.LoadManga(VisId, false, -1, new MangaLoadOptions(false));
+            DataManga manga = MangaState.LoadManga(MatrixId, false, -1, new MangaLoadOptions(false));
             SetStatus(MangaFactoryStatusKey.PreProcess, "Loading MatrixEase for filtering", MangaFactoryStatusState.Complete);
 
             if (string.IsNullOrWhiteSpace(_selectionExpression) == false)
@@ -41,7 +41,7 @@ namespace MatrixEase.Manga.Processing
                 if (bitmap != null)
                 {
                     SetStatus(MangaFactoryStatusKey.Saving, "MatrixEase filter", MangaFactoryStatusState.Started);
-                    MangaFilter mangaFilter = MangaState.SaveMangaFilter(VisId, _selectionExpression, bitmap);
+                    MangaFilter mangaFilter = MangaState.SaveMangaFilter(MatrixId, _selectionExpression, bitmap);
                     SetStatus(MangaFactoryStatusKey.Saving, "MatrixEase filter", MangaFactoryStatusState.Complete);
 
                     SetStatus(MangaFactoryStatusKey.Processing, "Applying MatrixEase filters", MangaFactoryStatusState.Started);
@@ -52,7 +52,7 @@ namespace MatrixEase.Manga.Processing
             else
             {
                 SetStatus(MangaFactoryStatusKey.Saving, "MatrixEase filter", MangaFactoryStatusState.Started);
-                MangaFilter mangafilter = MangaState.SaveMangaFilter(VisId, "", null);
+                MangaFilter mangafilter = MangaState.SaveMangaFilter(MatrixId, "", null);
                 SetStatus(MangaFactoryStatusKey.Saving, "MatrixEase filter", MangaFactoryStatusState.Complete);
 
                 SetStatus(MangaFactoryStatusKey.Processing, "Applying MatrixEase filters", MangaFactoryStatusState.Started);
@@ -60,7 +60,7 @@ namespace MatrixEase.Manga.Processing
                 SetStatus(MangaFactoryStatusKey.Processing, "Applying MatrixEase filters", MangaFactoryStatusState.Complete);
             }
 
-            AddPickup(manga.ReturnVis());
+            AddPickup(manga.ReturnMatrixEase());
         }
     }
 }

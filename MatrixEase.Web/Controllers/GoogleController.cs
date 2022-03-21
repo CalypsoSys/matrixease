@@ -120,7 +120,7 @@ namespace MatrixEase.Manga.com
                     Guid? mangaGuid = SheetProcessing.ProcessSheet(credential, userId, mangaInfo, RunBackroundManagGet);
                     if (mangaGuid != null)
                     {
-                        return new { Success = true, VisId = GetMangaVis(matrixease_id, userId, mangaGuid), StatusData = MangaFactory.StartingStatus("Google Sheet") };
+                        return new { Success = true, MatrixId = GetMangaVis(matrixease_id, userId, mangaGuid), StatusData = MangaFactory.StartingStatus("Google Sheet") };
                     }
                 }
             }

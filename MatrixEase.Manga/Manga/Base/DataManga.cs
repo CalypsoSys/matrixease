@@ -244,12 +244,12 @@ namespace MatrixEase.Manga.Manga
                 bucket.Filter(_filter.BitmapFilter);
         }
 
-        public object ReturnVis()
+        public object ReturnMatrixEase()
         {
-            Dictionary<string, object> vis = new Dictionary<string, object>();
+            Dictionary<string, object> mxEs = new Dictionary<string, object>();
             foreach (var col in _columns)
             {
-                vis.Add(col.Name, col.ReturnVis(_selected, _totalRows, _settings.ColAscending));
+                mxEs.Add(col.Name, col.ReturnMatrixEase(_selected, _totalRows, _settings.ColAscending));
             }
 
             if ( _settings.HideColumns == null || _settings.HideColumns.Length == 0)
@@ -257,7 +257,7 @@ namespace MatrixEase.Manga.Manga
                 _settings.HideColumns = new bool[_columns.Count];
             }
 
-            return new { TotalRows = _totalRows, SelectedRows = _selected ?? _totalRows, Columns = vis,
+            return new { TotalRows = _totalRows, SelectedRows = _selected ?? _totalRows, Columns = mxEs,
                 ShowLowEqual = _settings.ShowLowEqual,
                 ShowLowBound = _settings.ShowLowBound,
                 ShowHighEqual = _settings.ShowHighEqual,

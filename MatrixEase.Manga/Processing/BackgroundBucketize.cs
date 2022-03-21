@@ -15,7 +15,7 @@ namespace MatrixEase.Manga.Processing
         private int _bucketSize;
         private decimal _bucketMod;
 
-        public BackgroundBucketize(Tuple<string, Guid> visId, string columnName, int columnIndex, bool bucketized, int bucketSize, decimal bucketMod) : base(visId)
+        public BackgroundBucketize(Tuple<string, Guid> mxesId, string columnName, int columnIndex, bool bucketized, int bucketSize, decimal bucketMod) : base(mxesId)
         {
             _columnName = columnName;
             _columnIndex = columnIndex;
@@ -34,7 +34,7 @@ namespace MatrixEase.Manga.Processing
             SetStatus(MangaFactoryStatusKey.Queued, "Bucketization execution started", MangaFactoryStatusState.Complete);
 
             SetStatus(MangaFactoryStatusKey.PreProcess, "Loading MatrixEase for bucketization", MangaFactoryStatusState.Started);
-            var manga = MangaState.LoadManga(VisId, true, _columnIndex, new MangaLoadOptions(false));
+            var manga = MangaState.LoadManga(MatrixId, true, _columnIndex, new MangaLoadOptions(false));
             SetStatus(MangaFactoryStatusKey.PreProcess, "Loaded MatrixEase for bucketization", MangaFactoryStatusState.Complete);
 
             SetStatus(MangaFactoryStatusKey.Analyzing, "MatrixEase bucketization", MangaFactoryStatusState.Started);
@@ -42,7 +42,7 @@ namespace MatrixEase.Manga.Processing
             SetStatus(MangaFactoryStatusKey.Analyzing, "MatrixEase bucketization", MangaFactoryStatusState.Complete);
 
             SetStatus(MangaFactoryStatusKey.Saving, "MatrixEase bucketization", MangaFactoryStatusState.Started);
-            MangaState.SaveMangaBuckets(VisId, _columnIndex, column);
+            MangaState.SaveMangaBuckets(MatrixId, _columnIndex, column);
             SetStatus(MangaFactoryStatusKey.Saving, "MatrixEase bucketization", MangaFactoryStatusState.Complete);
 
             SetStatus(MangaFactoryStatusKey.Processing, "Applying current MatrixEase filters", MangaFactoryStatusState.Started);
@@ -52,7 +52,7 @@ namespace MatrixEase.Manga.Processing
             }
             SetStatus(MangaFactoryStatusKey.Processing, "Appled current MatrixEase filters", MangaFactoryStatusState.Complete);
 
-            AddPickup(manga.ReturnVis());
+            AddPickup(manga.ReturnMatrixEase());
         }
     }
 }

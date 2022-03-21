@@ -4,9 +4,9 @@
 });
 
 
-var visCharting = new Vue({
+var mxesCharting = new Vue({
     router,
-    el: '#vis_charting',
+    el: '#mxes_charting',
     data: {
         mangaName: "",
     },
@@ -20,7 +20,7 @@ var visCharting = new Vue({
     },
     methods: {
         renderChart: function (data) {
-            var myChart = new Chart(document.getElementById("vis-charting"), {
+            var myChart = new Chart(document.getElementById("mxes-charting"), {
                 type: data.chartData.chart_type,
                 data: { labels: data.chartData.labels, datasets: data.chartData.datasets },
                 options: data.chartData.chart_options,

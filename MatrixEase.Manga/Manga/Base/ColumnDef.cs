@@ -435,7 +435,7 @@ namespace MatrixEase.Manga.Manga
             get { return _index; }
         }
 
-        public object ReturnVis(int? selected, int totalRows, bool colAscending)
+        public object ReturnMatrixEase(int? selected, int totalRows, bool colAscending)
         {
             SetPattern();
 

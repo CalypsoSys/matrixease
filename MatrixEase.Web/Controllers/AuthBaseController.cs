@@ -66,10 +66,10 @@ namespace MatrixEase.Manga.com
             if (googleId != null)
                 ids.GoogleId = googleId.Value;
 
-            string visEmailClaimId;
-            if (Request.Cookies.TryGetValue("VisEmailClaimId", out visEmailClaimId))
+            string mxesEmailClaimId;
+            if (Request.Cookies.TryGetValue("MxesEmailClaimId", out mxesEmailClaimId))
             {
-                ids.EmailId = MiscHelpers.Decrypt(visEmailClaimId, false);
+                ids.EmailId = MiscHelpers.Decrypt(mxesEmailClaimId, false);
 
                 if (ids.EmailId != null)
                 {
@@ -77,7 +77,7 @@ namespace MatrixEase.Manga.com
                     {
                         CookieOptions option = new CookieOptions();
                         option.Expires = DateTime.Now.AddMinutes(30);
-                        Response.Cookies.Append("VisEmailClaimId", visEmailClaimId, option);
+                        Response.Cookies.Append("MxesEmailClaimId", mxesEmailClaimId, option);
                     }
                 }
             }
@@ -96,7 +96,7 @@ namespace MatrixEase.Manga.com
             Response.Cookies.Append("authenticated-accepted-1", authAccepted, option);
         }
 
-        protected MangaAuthType ValidateAccess(Tuple<string, Guid> visId, MyIdentities myIds, bool update)
+        protected MangaAuthType ValidateAccess(Tuple<string, Guid> mxesId, MyIdentities myIds, bool update)
         {
             string accessToken;
             if (Request.Cookies.TryGetValue("authenticated-accepted-1", out accessToken))
@@ -108,8 +108,8 @@ namespace MatrixEase.Manga.com
                     if (auth != MangaAuthType.Invalid)
                     {
                         string check = null;
-                        if (visId != null)
-                            check = visId.Item1;
+                        if (mxesId != null)
+                            check = mxesId.Item1;
                         else if (auth == MangaAuthType.Googs)
                             check = myIds.GoogleId;
                         else if (auth == MangaAuthType.Email)
@@ -194,16 +194,16 @@ namespace MatrixEase.Manga.com
             }
             catch(Exception excp)
             {
-                MyLogger.LogError(excp, "Error encoding visid");
+                MyLogger.LogError(excp, "Error encoding MatrixEase ID");
                 throw;
             }
         }
 
-        protected Tuple<string, Guid> Decrypt(string visId)
+        protected Tuple<string, Guid> Decrypt(string mxesId)
         {
             var tup = GetAppHash();
             byte[] initVectorBytes = tup.Item2;
-            byte[] cipherTextBytes = Convert.FromBase64String(visId);
+            byte[] cipherTextBytes = Convert.FromBase64String(mxesId);
 
             using (PasswordDeriveBytes password = new PasswordDeriveBytes(tup.Item1, null))
             {

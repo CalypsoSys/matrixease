@@ -16,7 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{BD267196-C
 		docs\build_and_deploy.txt = docs\build_and_deploy.txt
 		docs\docker_notes.txt = docs\docker_notes.txt
 		docs\manga.txt = docs\manga.txt
-		docs\matrixease_notes.txt = docs\matrixease_notes.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web_blaster", "web_blaster\web_blaster.csproj", "{0CA966D2-8604-460D-ABEA-2169C749CF5C}"

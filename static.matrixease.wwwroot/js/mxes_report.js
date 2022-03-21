@@ -21,7 +21,7 @@
                     fixedHeader: true,
                     height: '400px',
                     data: this.curreportdata.data
-                }).render(document.getElementById("vis-col-report"));
+                }).render(document.getElementById("mxes-col-report"));
             } else {
                 this.myReport.updateConfig({
                     columns: this.curreportdata.columns,
@@ -34,7 +34,7 @@
         onSubmitDoNothing: function () {
         },
         openColReportWindow: function () {
-            var visReporting = customWindowOpen("/mxes_reports.html", "_blank",
+            var mxesReporting = customWindowOpen("/mxes_reports.html", "_blank",
                 { reportData:
                     {
                         report_name: this.curreportdata.report_name,
@@ -43,7 +43,7 @@
                     }
             });
             /*
-            visReporting.reportData = {
+            mxesReporting.reportData = {
                 report_name: JSON.stringify(this.curreportdata.report_name),
                 columns: JSON.stringify(this.curreportdata.columns),
                 data: JSON.stringify(this.curreportdata.data)

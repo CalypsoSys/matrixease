@@ -54,11 +54,11 @@
                         this.captchaValue = "";
                         this.emailCode = "";
                         this.myCaptcha.reset();
-                        mangaAuth.showModalDialog("Error", "Vis: could not send email access code");
+                        mangaAuth.showModalDialog("Error", "MatrixEase: could not send email access code");
                     }
                 })
                 .catch(error => {
-                    this.showModalDialog("Error", "Vis: unknown error send email access code");
+                    this.showModalDialog("Error", "MatrixEase: unknown error send email access code");
                 });
         },
         validateEmailCode: function (response, $captchaInputElement, numberOfTries) {
@@ -75,13 +75,13 @@
                     this.captchaValue = "";
                     this.emailCode = "";
                     this.myCaptcha.reset();
-                    mangaAuth.showModalDialog("Error", "Vis: could not validate email access code");
+                    mangaAuth.showModalDialog("Error", "MatrixEase: could not validate email access code");
                 } else {
                     this.$emit('close');
                 }
             })
             .catch(error => {
-                this.showModalDialog("Error", "Vis: unknown error validating email access code");
+                this.showModalDialog("Error", "MatrixEase: unknown error validating email access code");
             })
         },
         jCaptchaInit: function () {
