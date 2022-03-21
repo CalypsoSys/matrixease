@@ -5,6 +5,7 @@
     <Description>MatrixEase Data Manga and Visualization</Description>
     <Company>Calypso Systems, LLC</Company>
     <AssemblyName>MatrixEase.Manga</AssemblyName>
+    <Authors>Joe Schmitt</Authors>
   </PropertyGroup>
 
   <ItemGroup>

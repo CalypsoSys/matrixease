@@ -139,7 +139,7 @@ namespace MatrixEase.Manga.Utility
 
         private static Tuple<string, byte[]> GetAppHash()
         {
-            string myCode = "nG8us2pZFjg1R+xBE4jWTFNLxXPSy5ank3ti28Ar++ZeMdjKTTdqQFyheJc12dUg";
+            string myCode = "9owZPLZ0mu6x8FECb/JnEf470qlpH4ouPMCwMCVGX+XpeUDDjag4hK0vJ9q3ZnYc";
             string companyDesc = Assembly.GetExecutingAssembly().GetCustomAttributes<AssemblyDescriptionAttribute>().First().Description;
             byte[] salt = new UnicodeEncoding().GetBytes(Assembly.GetExecutingAssembly().GetCustomAttributes<AssemblyCompanyAttribute>().First().Company.Substring(0, 8));
 
