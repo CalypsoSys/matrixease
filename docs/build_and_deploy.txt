@@ -24,9 +24,9 @@ Build Ubuntu Desktop
 08. sudo rm -r obj/
 09. sudo rm -r bin/
 10. electronize build /target linux
-11. cp /home/calypsosys/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap ~/.
+11. cp ~/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap ~/.
 12. snapcraft login
-13. snapcraft upload --release=beta /home/calypsosys/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
+13. snapcraft upload --release=beta ~/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
 14. copy ~/matrixease_1.0.0_amd64.snap to c:\transfer
 15. from windows copy "C:\transfer\matrixease_1.0.0_amd64.snap" "C:\CalypsoSystems\MatrixEase\matrixease.com\download\matrixease_1.0.0_amd64.snap"
 
