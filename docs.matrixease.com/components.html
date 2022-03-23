@@ -117,6 +117,7 @@
                                                     <li>Source - the file name or Google sheet name of the source matrix</li>
                                                     <li>Type - the type of the source amtrix data (csv, Excel, Google, etc.)</li>
                                                     <li>Limit - the number of rows considered from the source matrix (All or a number)</li>
+                                                    <li>Rows - the actual number of rows in the matrix</li>
                                                     <li>Status - the current status of the project (Complete and Running if still being processed)</li>
                                                     <li>Created - the date and time that the project was created</li>
                                                 </ol>
@@ -132,8 +133,8 @@
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <h6>New project options settings</h6>
                                             <div class="screenshot-holder">
-                                                <a href="assets/images/dashboard/matrixease_project_options.png" data-title="Stock Holder List" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/matrixease_project_options.png" alt="screenshot" /></a>
-                                                <a class="mask" href="assets/images/dashboard/matrixease_project_options.png" data-title="Stock Holder List" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                <a href="assets/images/dashboard/matrixease_project_options.png" data-title="New project options settings" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/matrixease_project_options.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/dashboard/matrixease_project_options.png" data-title="New project options settings" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
                                             </div>
                                             <p>
                                                 <ol>
@@ -177,7 +178,15 @@
                                                     <li>
                                                         File Type
                                                         <ul>
-                                                            <li>csv - a comma separated values text file</li>
+                                                            <li>
+                                                                csv - a comma separated values text file
+                                                                <ul>
+                                                                    <li>Separator - choose the "c" in the csv type</li>
+                                                                    <li>
+                                                                        Options - Comma(","), Tab("\t"), Space(" "), Pipe("|"), Colon(":"), Semicolon(";")
+                                                                    </li>
+                                                                </ul>
+                                                            </li>                                                            </li>
                                                             <li>
                                                                 Excel (xls, xlxs, etc.) - a Microsoft Excel file
                                                                 <ul>
