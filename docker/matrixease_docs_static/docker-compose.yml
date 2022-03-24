@@ -13,7 +13,7 @@ services:
       VIRTUAL_HOST: docs.matrixease.com
       LETSENCRYPT_HOST: docs.matrixease.com
       LETSENCRYPT_EMAIL: calypsosystemsllc@gmail.com
-    container_name: matrixease_docs_static
+    container_name: matrixease-docs-static
 
 networks:
   default:

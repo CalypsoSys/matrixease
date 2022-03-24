@@ -2,8 +2,8 @@
 Description=MatrixEase
 
 [Service]
-WorkingDirectory=/home/user/my.matrixease.com
-ExecStart=/usr/bin/dotnet /home/user/my.matrixease.com/matrixease.web.dll
+WorkingDirectory=/home/user/my_matrixease
+ExecStart=/usr/bin/dotnet /home/user/my_matrixease/matrixease.web.dll
 Restart=always
 # Restart service after 10 seconds if the dotnet service crashes:
 RestartSec=10

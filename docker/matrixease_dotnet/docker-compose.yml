@@ -2,7 +2,7 @@ version: "3"
 
 services:
   matrixease_dotnet:
-    image: matrixease.web:latest
+    image: matrixease_web:latest
     expose:
       - 80
     restart: always
@@ -13,7 +13,7 @@ services:
       VIRTUAL_HOST: my.matrixease.com
       LETSENCRYPT_HOST: my.matrixease.com
       LETSENCRYPT_EMAIL: calypsosystemsllc@gmail.com
-    container_name: matrixease.web
+    container_name: matrixease-web
 
 networks:
   default:

@@ -11,7 +11,7 @@ services:
         MYSQL_DATABASE: wordpress
         MYSQL_USER: wordpress
         MYSQL_PASSWORD: gWOweNag07oB70nD3kD7
-     container_name: matrixease_support_wp_db
+     container_name: matrixease-support-wp-db
 
    wordpress:
      depends_on:
@@ -30,7 +30,7 @@ services:
         WORDPRESS_DB_HOST: db_node_matrixease_support_wp:3306
         WORDPRESS_DB_USER: wordpress
         WORDPRESS_DB_PASSWORD: gWOweNag07oB70nD3kD7
-     container_name: matrixease_support_wp
+     container_name: matrixease-support-wp
 volumes:
   db_data:
 

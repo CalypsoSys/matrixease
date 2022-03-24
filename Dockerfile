@@ -15,11 +15,11 @@ COPY matrixease.web/. ./matrixease.web/
 COPY MatrixEase.Manga/. ./MatrixEase.Manga/
 COPY ExcelReader/. ./ExcelReader/
 #
-WORKDIR /app/matrixease.web
+WORKDIR /app/matrixease_web
 RUN dotnet publish -c Release -o out 
 #
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
 WORKDIR /app 
 #
-COPY --from=build /app/matrixease.web/out ./
+COPY --from=build /app/matrixease_web/out ./
 ENTRYPOINT ["dotnet", "matrixease.web.dll"]
