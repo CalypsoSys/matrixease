@@ -136,6 +136,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixEase.App", "MatrixEas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixEase.Web", "MatrixEase.Web\MatrixEase.Web.csproj", "{457D4ACF-EFA5-4C81-8D2E-4D63B3D3BB9B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "htdocs", "htdocs", "{33167C6A-008B-49CB-81CA-B630D4DB6033}"
+	ProjectSection(SolutionItems) = preProject
+		docker\matrixease_docs_static\htdocs\placeholder.txt = docker\matrixease_docs_static\htdocs\placeholder.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "htdocs", "htdocs", "{C0C4F138-F20F-470D-ACBE-3C8D4D734FB6}"
+	ProjectSection(SolutionItems) = preProject
+		docker\matrixease_static\htdocs\placeholder.txt = docker\matrixease_static\htdocs\placeholder.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "log", "log", "{590D569D-B326-4658-9F38-765C19AB9903}"
+	ProjectSection(SolutionItems) = preProject
+		docker\nginx-proxy\log\placeholder.txt = docker\nginx-proxy\log\placeholder.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -186,6 +201,9 @@ Global
 		{785A70FE-6A17-480C-B290-D5920C9791BF} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
 		{27CFB9A9-4C47-44A0-BAA1-5C9614A7991A} = {CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}
 		{101B51C0-44FE-4FD9-8E87-3568D2EB1397} = {A68B2ECC-A065-41F2-ADB7-7C421E5606E0}
+		{33167C6A-008B-49CB-81CA-B630D4DB6033} = {9204A685-262B-4851-ADDE-AE3BE65C00AE}
+		{C0C4F138-F20F-470D-ACBE-3C8D4D734FB6} = {785A70FE-6A17-480C-B290-D5920C9791BF}
+		{590D569D-B326-4658-9F38-765C19AB9903} = {7A915214-7A2B-4BD0-B45F-C3990BEC926B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DCA09A05-6598-491D-BACC-4658CA516573}
