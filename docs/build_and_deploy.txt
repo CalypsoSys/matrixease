@@ -63,3 +63,6 @@ Init Docker Image
 13. ./docker_matrixease.sh start
 
 TEST TEST TEST
+ sudo docker exec -it  nginx-proxy /bin/bash
+ sudo docker exec -it  nginx-proxy-le /bin/bash
+ 	vi letsencrypt_service_data
