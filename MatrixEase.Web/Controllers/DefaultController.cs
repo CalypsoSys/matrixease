@@ -20,7 +20,7 @@ using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-namespace MatrixEase.Manga.com
+namespace MatrixEase.Web
 {
     [Route("/")]
     public class DefaultController : AuthBaseController

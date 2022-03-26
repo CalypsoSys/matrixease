@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace MatrixEase.Manga.com
+namespace MatrixEase.Web
 {
     public class Program
     {

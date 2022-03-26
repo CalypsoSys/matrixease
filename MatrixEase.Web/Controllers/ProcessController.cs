@@ -1,4 +1,4 @@
-﻿using MatrixEase.Manga.com.Tasks;
+﻿using MatrixEase.Web.Tasks;
 using MatrixEase.Manga.Manga;
 using MatrixEase.Manga.Processing;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +12,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace MatrixEase.Manga.com.Controllers
+namespace MatrixEase.Web.Controllers
 {
     public abstract class ProcessController : AuthBaseController
     {

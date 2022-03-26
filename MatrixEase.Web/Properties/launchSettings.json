@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "MatrixEase.Manga.com": {
+    "MatrixEase.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

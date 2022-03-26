@@ -6,8 +6,8 @@
     <Company>Calypso Systems, LLC</Company>
     <Authors>Joe Schmitt</Authors>
     <Description>MatrixEase Data Manga and Visualization</Description>
-    <AssemblyName>MatrixEase.web</AssemblyName>
-    <RootNamespace>MatrixEase.web</RootNamespace>
+    <AssemblyName>MatrixEase.Web</AssemblyName>
+    <RootNamespace>MatrixEase.Web</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

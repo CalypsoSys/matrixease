@@ -1,4 +1,4 @@
-﻿using MatrixEase.Manga.com.Common;
+﻿using MatrixEase.Web.Common;
 using MatrixEase.Manga.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,7 +13,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
-namespace MatrixEase.Manga.com.Controllers
+namespace MatrixEase.Web.Controllers
 {
     [ApiController]
     public class FeedbackController : ControllerBase

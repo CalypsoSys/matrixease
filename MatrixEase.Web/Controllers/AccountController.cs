@@ -8,7 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace MatrixEase.Manga.com.Controllers
+namespace MatrixEase.Web.Controllers
 {
     public class AccountController : Controller
     {

@@ -1,4 +1,4 @@
-﻿using MatrixEase.Manga.com.Tasks;
+﻿using MatrixEase.Web.Tasks;
 using MatrixEase.Manga.Manga;
 using MatrixEase.Manga.Processing;
 using MatrixEase.Manga.Utility;
@@ -15,7 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace MatrixEase.Manga.com.Controllers
+namespace MatrixEase.Web.Controllers
 {
     [Route("/upload_file")]
     public class UploadController : ProcessController

@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MatrixEase.Manga.com
+namespace MatrixEase.Web
 {
     public class AppSettings
     {

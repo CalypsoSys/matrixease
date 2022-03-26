@@ -10,8 +10,8 @@ using Google.Apis.Http;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
-using MatrixEase.Manga.com.Controllers;
-using MatrixEase.Manga.com.Tasks;
+using MatrixEase.Web.Controllers;
+using MatrixEase.Web.Tasks;
 using MatrixEase.Manga.Manga;
 using MatrixEase.Manga.Processing;
 using MatrixEase.Manga.Utility;
@@ -22,7 +22,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Logging;
 
-namespace MatrixEase.Manga.com
+namespace MatrixEase.Web
 {
     [Route("/google")]
     public class GoogleController : ProcessController

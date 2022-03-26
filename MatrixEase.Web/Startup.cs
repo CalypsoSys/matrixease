@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using MatrixEase.Manga.com.Tasks;
+using MatrixEase.Web.Tasks;
 using MatrixEase.Manga.Manga.Serialization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -22,7 +22,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Serialization;
 
-namespace MatrixEase.Manga.com
+namespace MatrixEase.Web
 {
     public class Startup
     {

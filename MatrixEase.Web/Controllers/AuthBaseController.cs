@@ -1,4 +1,4 @@
-﻿using MatrixEase.Manga.com.Common;
+﻿using MatrixEase.Web.Common;
 using MatrixEase.Manga.Manga;
 using MatrixEase.Manga.Utility;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +14,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MatrixEase.Manga.com
+namespace MatrixEase.Web
 {
     public class AuthBaseController : ControllerBase
     {
