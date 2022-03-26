@@ -43,7 +43,7 @@ Build Docker Image
 08. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
 11. sudo docker save matrixease_web > ~/matrixease_web.tar
 12. copy ~/matrixease_web.tar to c:\transfer
-15. from windows copy "C:\transfer\matrixease_web.tar" "C:\CalypsoSystems\MatrixEase\matrixease.com\download\www.matrixease_web.tar"
+15. from windows copy "C:\transfer\matrixease_web.tar" "C:\CalypsoSystems\MatrixEase\www.matrixease.com\download\matrixease_web.tar"
 
 
 Init Docker Image
