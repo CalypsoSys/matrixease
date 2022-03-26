@@ -8,7 +8,7 @@ Build Windows Desktop App
 06. cd C:\CalypsoSystems\MatrixEase\MatrixEase.App
 07. electronize build /target win 
 08. "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe"
-09. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\CalypsoSystems\MatrixEase\matrixease.com\download\MatrixEase Setup 1.0.0.exe"
+09. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\CalypsoSystems\MatrixEase\www.matrixease.com\download\MatrixEase Setup 1.0.0.exe"
 10. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\transfer\MatrixEase Setup 1.0.0.exe"
 
 
