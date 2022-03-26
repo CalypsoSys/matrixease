@@ -28,7 +28,7 @@ Build Ubuntu Desktop
 12. snapcraft login
 13. snapcraft upload --release=beta ~/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
 14. copy ~/matrixease_1.0.0_amd64.snap to c:\transfer
-15. from windows copy "C:\transfer\matrixease_1.0.0_amd64.snap" "C:\CalypsoSystems\MatrixEase\matrixease.com\download\matrixease_1.0.0_amd64.snap"
+15. from windows copy "C:\transfer\matrixease_1.0.0_amd64.snap" "C:\CalypsoSystems\MatrixEase\www.matrixease.com\download\matrixease_1.0.0_amd64.snap"
 
 
 Build Docker Image
