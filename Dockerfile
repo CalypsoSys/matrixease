@@ -11,7 +11,7 @@ RUN dotnet restore ./MatrixEase.Manga/MatrixEase.Manga.csproj
 RUN dotnet restore ./ExcelReader/ExcelReader.csproj 
 #
 # copy everything else and build app
-COPY MatrixEase.web/. ./MatrixEase.web/
+COPY MatrixEase.Web/. ./MatrixEase.Web/
 COPY MatrixEase.Manga/. ./MatrixEase.Manga/
 COPY ExcelReader/. ./ExcelReader/
 #
@@ -22,4 +22,4 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
 WORKDIR /app 
 #
 COPY --from=build /app/matrixease_web/out ./
-ENTRYPOINT ["dotnet", "matrixease.web.dll"]
+ENTRYPOINT ["dotnet", "MatrixEase.Web.dll"]
