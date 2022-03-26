@@ -38,7 +38,7 @@ Build Docker Image
 03. cd web_blaster
 04. dotnet build --configuration Release
 05. cd ..
-06. ~/dotnet/MatrixEase/bin/web_blaster Ubuntu Release ~/dotnet/MatrixEase/static.MatrixEase.Manga ~/dotnet/MatrixEase/matrixease.web/wwwroot googs
+06. ~/dotnet/MatrixEase/bin/web_blaster Ubuntu Release ~/dotnet/MatrixEase/static.matrixease.wwwroot ~/dotnet/MatrixEase/MatrixEase.Web/wwwroot googs
 07. sudo docker build -t matrixease_web .
 08. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
 11. sudo docker save matrixease_web > ~/matrixease_web.tar
