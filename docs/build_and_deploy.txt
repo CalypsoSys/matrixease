@@ -66,3 +66,5 @@ TEST TEST TEST
  sudo docker exec -it  nginx-proxy /bin/bash
  sudo docker exec -it  nginx-proxy-le /bin/bash
  	vi letsencrypt_service_data
+sudo docker logs -f nginx-proxy-le
+sudo docker logs -f nginx-proxy
