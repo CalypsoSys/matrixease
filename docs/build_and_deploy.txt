@@ -53,10 +53,10 @@ Init Docker Image
 03. Update static.MatrixEase.Manga with all files
 04. Update docs.matrixease.com with all files
 05. copy matrixease_web.tar to /home/calypso/docker (on deployment machine)
-06. sudo docker load <  matrixease_web.tar
-07. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
-08. cd matrixease_dotnet
-09. sudo docker-compose down
+06. sudo docker-compose down
+07. sudo docker load <  matrixease_web.tar
+08. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
+09. cd matrixease_dotnet
 10. sudo docker-compose up -d
 11. sudo docker-compose stop
 12. cd ..
