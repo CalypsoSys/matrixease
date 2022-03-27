@@ -71,6 +71,7 @@ namespace MatrixEase.Manga.Manga
 
             UInt32 index = 1;
             int colIndex = 1;
+            Dictionary<string, int> existsingColNames = new Dictionary<string, int>();
             foreach(var header in colData)
             {
                 if (index > calculatedNumberOfCols)
@@ -84,11 +85,17 @@ namespace MatrixEase.Manga.Manga
                     {
                         colName = string.Format("COL_{0}", colIndex);
                     }
+                    else if (existsingColNames.ContainsKey(colName))
+                    {
+                        existsingColNames[colName] = existsingColNames[colName] + 1;
+                        colName = string.Format("{0}({1})", colName, existsingColNames[colName]);
+                    }
                 }
                 else
                 {
                     colName = string.Format("COL_{0}", colIndex);
                 }
+                existsingColNames.Add(colName, 1);
 
                 if ((ignoreColIndexes == null || ignoreColIndexes.Count() == 0 ||ignoreColIndexes.Contains(index) == false) && 
                     (ignoreColNames == null || ignoreColNames.Count() == 0 || ignoreColNames.Contains(colName.ToLower()) == false))

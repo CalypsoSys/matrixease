@@ -32,36 +32,66 @@ namespace Desktop.MatrixEase.Manga.Controllers
 #if DEBUG
             System.Diagnostics.Debugger.Launch();
 #endif
+            try 
+            { 
+                MangaState.SetUserMangaCatalog(MangaDesktop.AccessTokenAll, MangaDesktop.UserId, MangaDesktop.AccessTokenAll, MangaAuthType.Electron);
 
+                CookieOptions optionCookie = new CookieOptions();
+                optionCookie.Expires = DateTime.Now.AddYears(1);
+                Response.Cookies.Append("cookies-accepted-1", "acceptedxxx", optionCookie);
 
-            MangaState.SetUserMangaCatalog(MangaDesktop.AccessTokenAll, MangaDesktop.UserId, MangaDesktop.AccessTokenAll, MangaAuthType.Electron);
+                CookieOptions optionAuth = new CookieOptions();
+                optionAuth.Expires = DateTime.Now.AddYears(1);
+                Response.Cookies.Append("authenticated-accepted-1", MangaDesktop.AccessTokenAll, optionAuth);
 
-            CookieOptions optionCookie = new CookieOptions();
-            optionCookie.Expires = DateTime.Now.AddYears(1);
-            Response.Cookies.Append("cookies-accepted-1", "acceptedxxx", optionCookie);
-
-            CookieOptions optionAuth = new CookieOptions();
-            optionAuth.Expires = DateTime.Now.AddYears(1);
-            Response.Cookies.Append("authenticated-accepted-1", MangaDesktop.AccessTokenAll, optionAuth);
-
-            return Redirect(new Uri("/index.html", UriKind.Relative).ToString());
+                return Redirect(new Uri("/index.html", UriKind.Relative).ToString());
+            }
+            catch (Exception excp)
+            {
+                MyLogger.LogError(excp, "Error home page");
+                throw;
+            }
         }
 
         [HttpGet("/js/mxes_init.js")]
         public string MatrixEaseIdDebug()
         {
-            return MatrixEaseId();
+            try
+            {
+                return MatrixEaseId();
+            }
+            catch (Exception excp)
+            {
+                MyLogger.LogError(excp, "Error debug ID");
+                throw;
+            }
         }
 
         [HttpGet("/js/mxes_init.min.js")]
         public string MatrixEaseIdRelease()
         {
-            return MatrixEaseId();
+            try 
+            { 
+                return MatrixEaseId();
+            }
+            catch (Exception excp)
+            {
+                MyLogger.LogError(excp, "Error ID");
+                throw;
+            }
         }
 
         private string MatrixEaseId()
         {
-            return string.Format("document.write('<form><input type=\"hidden\" id=\"matrixease_id\" name=\"matrixease_id\" value=\"{0}\"/></form>');", MangaDesktop.AccessTokenAll);
+            try
+            { 
+                return string.Format("document.write('<form><input type=\"hidden\" id=\"matrixease_id\" name=\"matrixease_id\" value=\"{0}\"/></form>');", MangaDesktop.AccessTokenAll);
+            }
+            catch (Exception excp)
+            {
+                MyLogger.LogError(excp, "Error DOC ID");
+                throw;
+            }
         }
 
         [HttpGet("get_access")]

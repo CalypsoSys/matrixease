@@ -37,29 +37,60 @@ namespace MatrixEase.Web
         [HttpGet]
         public RedirectResult Get()
         {
-            return Redirect(new Uri("/index.html", UriKind.Relative).ToString());
+            try { 
+                return Redirect(new Uri("/index.html", UriKind.Relative).ToString());
+            }
+            catch (Exception excp)
+            {
+                MyLogger.LogError(excp, "Error home page");
+                throw;
+            }
         }
 
         [HttpGet("/js/mxes_init.js")]
         public string MatrixEaseIdDebug()
         {
-            return MatrixEaseId();
+            try 
+            { 
+                return MatrixEaseId();
+            }
+            catch (Exception excp)
+            {
+                MyLogger.LogError(excp, "Error debug ID");
+                throw;
+            }
         }
 
         [HttpGet("/js/mxes_init.min.js")]
         public string MatrixEaseIdRelease()
         {
-            return MatrixEaseId();
+            try
+            { 
+                return MatrixEaseId();
+            }
+            catch (Exception excp)
+            {
+                MyLogger.LogError(excp, "Error ID");
+                throw;
+            }
         }
 
         private string MatrixEaseId()
         {
-            CookieOptions option = new CookieOptions();
-            option.Expires = DateTime.Now.AddMinutes(30);
-            string matrixease_id = MiscHelpers.Encrypt(Guid.NewGuid().ToString());
-            Response.Cookies.Append("authenticated-accepted-3", matrixease_id, option);
+            try 
+            { 
+                CookieOptions option = new CookieOptions();
+                option.Expires = DateTime.Now.AddMinutes(30);
+                string matrixease_id = MiscHelpers.Encrypt(Guid.NewGuid().ToString());
+                Response.Cookies.Append("authenticated-accepted-3", matrixease_id, option);
 
-            return string.Format("document.write('<form><input type=\"hidden\" id=\"matrixease_id\" name=\"matrixease_id\" value=\"{0}\"/></form>');", matrixease_id);
+                return string.Format("document.write('<form><input type=\"hidden\" id=\"matrixease_id\" name=\"matrixease_id\" value=\"{0}\"/></form>');", matrixease_id);
+            }
+            catch (Exception excp)
+            {
+                MyLogger.LogError(excp, "Error DOC ID");
+                throw;
+            }
         }
 
         [HttpGet("get_access")]

@@ -16,6 +16,14 @@ namespace MatrixEase.Manga.Manga
     public class ColumnDef : MangaSerialize
     {
         private const Int32 ColumnDefVersion1 = 1;
+        private static string[] _dateFormats = new string[] {
+                    "[dd/MMM/yyyy:HH:mm:ss",
+                    "[dd/MMM/yyyy:HH:mm:sszzzz]",
+                    "[dd/MMM/yyyy:H:mm:ss",
+                    "[dd/MMM/yyyy:H:mm:sszzzz]",
+                    "dd/MMM/yyyy:H:mm:ss",
+                    "dd/MMM/yyyy:H:mm:sszzzz",
+            };
 
         /// Start Serialized Items 
         private string _name;
@@ -37,6 +45,8 @@ namespace MatrixEase.Manga.Manga
         private Dictionary<string, Int32> _rowCounts = new Dictionary<string, Int32>();
         /// End Serialized Items 
 
+        // hack unitl I can all allow custom (user specified) datetimes
+        private bool _useSpecialDatetTime = false;
         private Dictionary<string, int> _filterCounts = null;
         private IPatterns _patterns = null;
 
@@ -167,6 +177,21 @@ namespace MatrixEase.Manga.Manga
             }
         }
 
+        private bool DateParse(string dateTimeIn, out DateTime  dateTimeOut)
+        {
+            if (_useSpecialDatetTime == false && DateTime.TryParse(dateTimeIn, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out dateTimeOut) )
+            {
+                return true;
+            }
+            else if (DateTime.TryParseExact(dateTimeIn, _dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out dateTimeOut))
+            {
+                _useSpecialDatetTime = true;
+                return true;
+            }
+
+            return false;
+        }
+
 #if DEBUG_COLS
         // vehicles
         //private static int[] _debugCols = new int[] { 0, 1, 5, 6, 12, 23, 24, 25 };
@@ -207,7 +232,7 @@ namespace MatrixEase.Manga.Manga
                     {
                         decimalTest = decimalTest.Substring(0, data.Length - 1);
                     }
-                    if (decimal.TryParse(decimalTest, out result) && (_dataType == DataType.Unknown || _dataType == DataType.Numeric))
+                    if ((_dataType == DataType.Unknown || _dataType == DataType.Numeric) && decimal.TryParse(decimalTest, out result))
                     {
                         _dataType = DataType.Numeric;
                         _numericPatterns.Process(row, result, true, false, status);
@@ -220,7 +245,7 @@ namespace MatrixEase.Manga.Manga
                 if (tryDate)
                 {
                     DateTime result;
-                    if (DateTime.TryParse(data.ToString(), out result) && (_dataType == DataType.Unknown || _dataType == DataType.Date))
+                    if ((_dataType == DataType.Unknown || _dataType == DataType.Date) && DateParse(data.ToString(), out result))
                     {
                         _dataType = DataType.Date;
                         _datePatterns.Process(row, result.Ticks, true, false, status);

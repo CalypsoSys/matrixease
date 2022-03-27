@@ -170,17 +170,22 @@ namespace MatrixEase.Manga.Utility
 
         private static bool CheckPathPart(string part)
         {
-            int goodParts = 0;
-            foreach(char d in part)
+            if (part.Length > 0)
             {
-                char c = char.ToLower(d);
-                if (c >= 'g' && c <= 'z')
+                int goodParts = 0;
+                foreach (char d in part)
                 {
-                    ++goodParts;
+                    char c = char.ToLower(d);
+                    if (c >= 'g' && c <= 'z')
+                    {
+                        ++goodParts;
+                    }
                 }
+
+                return ((goodParts * 100) / part.Length) > partGoodPct;
             }
 
-            return ((goodParts * 100) / part.Length) > partGoodPct;
+            return false;
         }
 
         public static HashSet<string> SplitUrlPath(string data)
