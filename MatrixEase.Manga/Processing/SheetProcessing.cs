@@ -66,7 +66,7 @@ namespace MatrixEase.Manga.Processing
         {
             MangaState.CheckProjectCount(userId);
 
-                MangaUploadFactory mangaFactory;
+            MangaUploadFactory mangaFactory;
             if (mangaInfo.SheetType == "excel")
                 mangaFactory = new MangaFactoryFromExcelFile(userId, mangaInfo);
             else

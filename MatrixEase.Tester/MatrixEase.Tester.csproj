@@ -6,4 +6,8 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MatrixEase.Manga\MatrixEase.Manga.csproj" />
+  </ItemGroup>
+
 </Project>
