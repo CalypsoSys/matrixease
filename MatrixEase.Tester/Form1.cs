@@ -1,4 +1,6 @@
-﻿using MatrixEase.Manga.Manga.Serialization;
+﻿using MatrixEase.Manga.Manga;
+using MatrixEase.Manga.Manga.Serialization;
+using MatrixEase.Manga.Processing;
 using MatrixEase.Manga.Utility;
 using System;
 using System.Collections.Generic;
@@ -8,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.ListViewItem;
@@ -76,6 +79,26 @@ namespace MatrixEase.Tester
 
             foreach (var row in Specs())
             {
+                if (row[0] == "CSV")
+                {
+                    using (var input = new StreamReader(row[2]))
+                    {
+                        var fileName = Path.GetFileName(row[2]);
+                        int headerRow = 1;
+                        int headerRows = 1;
+                        int maxRows = 0;
+                        bool ignoreBlankRows = true;
+                        bool ignoreTextCase = true;
+                        bool trimLeadingWhitespace = true;
+                        bool trimTrailingWhitespace = true;
+                        string ignoreCols = null;
+                        string sheetType = "csv";
+                        var sheetSpec = new Dictionary<string, string> { { MangaConstants.CsvSeparator, "," }, { MangaConstants.CsvQuote, "\"" }, { MangaConstants.CsvEscape, "\"" }, { MangaConstants.CsvNull, "" }, { MangaConstants.CsvEol, "\r\n" } };
+
+                        MangaInfo mangaInfo = new MangaInfo(row[2], fileName, headerRow, headerRows, maxRows, ignoreBlankRows, ignoreTextCase, trimLeadingWhitespace, trimTrailingWhitespace, ignoreCols, sheetType, sheetSpec);
+                        Guid? mangaGuid = SheetProcessing.ProcessSheet("matrixease.tester", input.BaseStream, mangaInfo, RunBackroundManagGet);
+                    }
+                }
             }
         }
 
@@ -96,6 +119,11 @@ namespace MatrixEase.Tester
                     }
                 }
             }
+        }
+
+        public static void RunBackroundManagGet(IBackgroundJob job)
+        {
+                job.Process(CancellationToken.None);
         }
     }
 }
