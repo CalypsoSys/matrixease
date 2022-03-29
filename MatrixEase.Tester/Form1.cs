@@ -1,4 +1,5 @@
-﻿using MatrixEase.Manga.Utility;
+﻿using MatrixEase.Manga.Manga.Serialization;
+using MatrixEase.Manga.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,24 +17,14 @@ namespace MatrixEase.Tester
     public partial class Form1 : Form
     {
         private const string _specFile = @"C:\CalypsoSystems\mangadata\matrixease\tester\tester.spec";
+        private const string _testsPath = @"C:\CalypsoSystems\mangadata\matrixease\tester\tests";
 
         public Form1()
         {
             InitializeComponent();
-            using (StreamReader spec = new StreamReader(_specFile))
+            foreach (var row in Specs())
             {
-                using (CsvParser parser = new CsvParser(spec, ',', '"', '"', '\0', '\r', '\n'))
-                {
-                    foreach (var row in parser.ReadParseLine())
-                    {
-                        List<string> parts = new List<string>();
-                        foreach(string cell in row)
-                        {
-                            parts.Add(cell);
-                        }
-                        _testsLst.Items.Add(new ListViewItem(parts.ToArray()));
-                    }
-                }
+                _testsLst.Items.Add(new ListViewItem(row.ToArray()));
             }
         }
 
@@ -75,6 +66,34 @@ namespace MatrixEase.Tester
                         spec.Write("\"{0}\",", cell.Text);
                     }
                     spec.WriteLine();
+                }
+            }
+        }
+
+        private void _runBtn_Click(object sender, EventArgs e)
+        {
+            MangaRoot.SetRootFolder(_testsPath);
+
+            foreach (var row in Specs())
+            {
+            }
+        }
+
+        private IEnumerable<IList<string>> Specs()
+        {
+            using (StreamReader spec = new StreamReader(_specFile))
+            {
+                using (CsvParser parser = new CsvParser(spec, ',', '"', '"', '\0', '\r', '\n'))
+                {
+                    foreach (var row in parser.ReadParseLine())
+                    {
+                        List<string> parts = new List<string>();
+                        foreach (string cell in row)
+                        {
+                            parts.Add(cell);
+                        }
+                        yield return parts;
+                    }
                 }
             }
         }

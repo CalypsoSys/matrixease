@@ -209,6 +209,7 @@ namespace MatrixEase.Tester
             this._runBtn.TabIndex = 12;
             this._runBtn.Text = "Run";
             this._runBtn.UseVisualStyleBackColor = true;
+            this._runBtn.Click += new System.EventHandler(this._runBtn_Click);
             // 
             // Form1
             // 
