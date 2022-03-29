@@ -51,6 +51,9 @@ namespace MatrixEase.Tester
             // 
             // _testsLst
             // 
+            this._testsLst.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._testsLst.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
@@ -144,6 +147,8 @@ namespace MatrixEase.Tester
             // 
             // _spec1Txt
             // 
+            this._spec1Txt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._spec1Txt.Location = new System.Drawing.Point(293, 10);
             this._spec1Txt.Name = "_spec1Txt";
             this._spec1Txt.Size = new System.Drawing.Size(365, 27);
@@ -151,6 +156,8 @@ namespace MatrixEase.Tester
             // 
             // _spec2Txt
             // 
+            this._spec2Txt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._spec2Txt.Location = new System.Drawing.Point(293, 62);
             this._spec2Txt.Name = "_spec2Txt";
             this._spec2Txt.Size = new System.Drawing.Size(365, 27);
@@ -158,6 +165,7 @@ namespace MatrixEase.Tester
             // 
             // _browseBtn
             // 
+            this._browseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._browseBtn.Location = new System.Drawing.Point(690, 10);
             this._browseBtn.Name = "_browseBtn";
             this._browseBtn.Size = new System.Drawing.Size(94, 29);
@@ -172,6 +180,7 @@ namespace MatrixEase.Tester
             // 
             // _addBtn
             // 
+            this._addBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._addBtn.Location = new System.Drawing.Point(690, 61);
             this._addBtn.Name = "_addBtn";
             this._addBtn.Size = new System.Drawing.Size(94, 29);
@@ -182,6 +191,7 @@ namespace MatrixEase.Tester
             // 
             // _saveBtn
             // 
+            this._saveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._saveBtn.Location = new System.Drawing.Point(17, 409);
             this._saveBtn.Name = "_saveBtn";
             this._saveBtn.Size = new System.Drawing.Size(94, 29);
@@ -192,6 +202,7 @@ namespace MatrixEase.Tester
             // 
             // _runBtn
             // 
+            this._runBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._runBtn.Location = new System.Drawing.Point(690, 409);
             this._runBtn.Name = "_runBtn";
             this._runBtn.Size = new System.Drawing.Size(94, 29);
