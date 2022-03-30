@@ -21,16 +21,18 @@ namespace MatrixEase.Manga.Utility
                 MyLogger.LogError(excp, "Error deleting file {0}", filePath);
             }
         }
-        public static string FolderSizes(string folderPath)
+        public static List<MyPerformance> FolderSizes(string folderPath)
         {
+            List<MyPerformance> perfCounts = new List<MyPerformance>();
             decimal totalSize = 0;
-            var output = FolderSizes(folderPath, 1, ref totalSize);
-            return string.Format("Total Size: {0:n0}\r\n{1}", totalSize, output);
+            perfCounts.AddRange( FolderSizes(folderPath, 1, ref totalSize));
+            perfCounts.Add(new MyPerformance("total_size", totalSize, folderPath));
+            return perfCounts;
         }
 
-        private static string FolderSizes(string folderPath, int indent, ref decimal totalSize)
+        private static List<MyPerformance> FolderSizes(string folderPath, int indent, ref decimal totalSize)
         {
-            StringBuilder output = new StringBuilder();
+            List<MyPerformance> perfCounts = new List<MyPerformance>();
             DirectoryInfo directory = new DirectoryInfo(folderPath);
             decimal folderSize = 0;
             foreach (var file in directory.GetFiles())
@@ -38,15 +40,14 @@ namespace MatrixEase.Manga.Utility
                 folderSize += file.Length;
             }
             totalSize += folderSize;
-            output.AppendFormat("{0}{1}: {2:n0}\r\n", string.Empty.PadLeft(indent, ' '), directory.Name, folderSize);
+            perfCounts.Add(new MyPerformance(directory.Name, folderSize, folderPath));
 
             foreach (var folder in directory.GetDirectories())
             {
-                output.Append(FolderSizes(folder.FullName, indent + 1, ref totalSize));
+                perfCounts.AddRange(FolderSizes(folder.FullName, indent + 1, ref totalSize));
             }
 
-            return output.ToString();
+            return perfCounts;
         }
-
     }
 }

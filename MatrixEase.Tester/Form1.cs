@@ -24,6 +24,8 @@ namespace MatrixEase.Tester
         private const string _testsPath = @"C:\CalypsoSystems\mangadata\matrixease\tester\tests";
         private const int _specSize = 4;
 
+        private static List<MyPerformance> _perfStats = new List<MyPerformance>();
+
         public Form1()
         {
             InitializeComponent();
@@ -100,9 +102,27 @@ namespace MatrixEase.Tester
                         string sheetType = "csv";
                         var sheetSpec = new Dictionary<string, string> { { MangaConstants.CsvSeparator, row[1] }, { MangaConstants.CsvQuote, "\"" }, { MangaConstants.CsvEscape, "\"" }, { MangaConstants.CsvNull, "" }, { MangaConstants.CsvEol, "\r\n" } };
 
+                        _perfStats = new List<MyPerformance>();
+                        MyStopWatch stopWatch = MyStopWatch.StartNew("total_test_time", "MatrixEase Test Run");
+
+                        stopWatch.StartSubTime("init_time", "MatrixEase Initialization");
                         MangaInfo mangaInfo = new MangaInfo(row[2], fileName, headerRow, headerRows, maxRows, ignoreBlankRows, ignoreTextCase, trimLeadingWhitespace, trimTrailingWhitespace, ignoreCols, sheetType, sheetSpec);
                         Guid? mangaGuid = SheetProcessing.ProcessSheet("matrixease.tester", input.BaseStream, mangaInfo, RunBackroundManagGet);
-                        MangaState.DeleteManga(Tuple.Create(MatrixEaseIdentifier, mangaGuid.Value));
+                        
+                        var myManga = Tuple.Create(MatrixEaseIdentifier, mangaGuid.Value);
+                        stopWatch.StartSubTime("load_display_matrix", "Loading the MatrixEase");
+                        string mangaName;
+                        var manga = MangaState.LoadManga(myManga, true, -1, new MangaLoadOptions(true), out mangaName);
+                        var matrixDisplayData = manga.ReturnMatrixEase();
+                        _perfStats.Add(stopWatch.StopSubTime());
+
+                        stopWatch.StartSubTime("delete_matrix", "Delete the MatrixEase");
+                        MangaState.DeleteManga(myManga);
+                        _perfStats.Add(stopWatch.StopSubTime());
+
+                        _perfStats.Add(stopWatch.Stop());
+
+                        MangaFactory.GetStatus(MatrixEaseIdentifier, mangaGuid.Value);
                     }
                 }
             }
@@ -135,9 +155,9 @@ namespace MatrixEase.Tester
             }
         }
 
-        private static void PerformanceLogger(string mangaName, string message)
+        private static void PerformanceLogger(string mangaName, MyPerformance perf)
         {
-
+            _perfStats.Add(perf);
         }
     }
 }

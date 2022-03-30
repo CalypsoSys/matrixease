@@ -239,15 +239,15 @@ namespace MatrixEase.Manga.Processing
                 SetStatus(MangaFactoryStatusKey.Queued, "Job execution started", MangaFactoryStatusState.Complete);
 
                 SetStatus(MangaFactoryStatusKey.Processing, "Starting processing of data", MangaFactoryStatusState.Starting);
-                MyStopWatch stopWatch = MyStopWatch.StartNew("MatrixEase Total Time");
+                MyStopWatch stopWatch = MyStopWatch.StartNew("total_time", "MatrixEase Total Time");
 
-                stopWatch.StartSubTime("MatrixEase Initialization");
+                stopWatch.StartSubTime("init_time", "MatrixEase Initialization");
                 manga = new DataManga();
                 MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
                 if (IsCancellationRequested)
                     return;
 
-                stopWatch.StartSubTime("MatrixEase Data Loop");
+                stopWatch.StartSubTime("data_loop_time", "MatrixEase Data Loop");
                 int rawRowIndex = 1, totalCells = 0;
                 List<IList<object>> samples = new List<IList<object>>();
                 foreach (var row in RowIterator(this))
@@ -293,13 +293,13 @@ namespace MatrixEase.Manga.Processing
                 SetStatus(MangaFactoryStatusKey.Processing, string.Format("Processed {0} rows", rawRowIndex), MangaFactoryStatusState.Complete);
                 MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
 
-                stopWatch.StartSubTime("MatrixEase Process");
+                stopWatch.StartSubTime("processing_time", "MatrixEase Process");
                 SetStatus(MangaFactoryStatusKey.Analyzing, "Analyzing data", MangaFactoryStatusState.Started);
                 manga.Process(this);
                 SetStatus(MangaFactoryStatusKey.Analyzing, "Analyzing data", MangaFactoryStatusState.Complete);
                 MangaState.UserLog(_userId, _mangaInfo.OriginalName, stopWatch.StopSubTime());
 
-                stopWatch.StartSubTime("MatrixEase Save");
+                stopWatch.StartSubTime("save_time", "MatrixEase Save");
                 SetStatus(MangaFactoryStatusKey.Saving, "Saving dataset", MangaFactoryStatusState.Started);
                 if (IsCancellationRequested)
                     return;

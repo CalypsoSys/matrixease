@@ -6,48 +6,50 @@ using System.Threading.Tasks;
 
 namespace MatrixEase.Manga.Utility
 {
-    class MyStopWatch
+    public class MyStopWatch
     {
 #if DEBUG
-        private Stack<Tuple<string, Stopwatch>> _stopWatches = new Stack<Tuple<string, Stopwatch>>();
+        private Stack<Tuple<MyPerformance, Stopwatch>> _stopWatches = new Stack<Tuple<MyPerformance, Stopwatch>>();
 #endif
 
-        public static MyStopWatch StartNew(string description)
+        public static MyStopWatch StartNew(string name, string description)
         {
-            return new MyStopWatch(description);
+            return new MyStopWatch(name, description);
         }
 
-        private MyStopWatch(string description)
-        {
-#if DEBUG
-            StartSubTime(description);
-#endif
-        }
-
-        public void StartSubTime(string description)
+        private MyStopWatch(string name, string description)
         {
 #if DEBUG
-            _stopWatches.Push(Tuple.Create(description, Stopwatch.StartNew()));
+            StartSubTime(name, description);
 #endif
         }
 
-        public string StopSubTime()
+        public void StartSubTime(string name, string description)
+        {
+#if DEBUG
+            _stopWatches.Push(Tuple.Create(new MyPerformance(name, description), Stopwatch.StartNew()));
+#endif
+        }
+
+        public MyPerformance StopSubTime()
         {
 #if DEBUG
             if (_stopWatches.Count > 0)
             {
                 var stopwatch = _stopWatches.Pop();
                 stopwatch.Item2.Stop();
-                return string.Format("{0} -- {1:00}:{2:00}:{3:00}.{4:00}", stopwatch.Item1,
+                stopwatch.Item1.SetValue(string.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                         stopwatch.Item2.Elapsed.Hours, stopwatch.Item2.Elapsed.Minutes, stopwatch.Item2.Elapsed.Seconds,
-                        stopwatch.Item2.Elapsed.Milliseconds / 10);
+                        stopwatch.Item2.Elapsed.Milliseconds / 10));
+
+                return stopwatch.Item1;
             }
 #endif
 
-            return string.Format("N/A -- Error with stopwatch");
+            return new MyPerformance("stopwatch_error", 0, "N/A -- Error with stopwatch");
         }
 
-        public string Stop()
+        public MyPerformance Stop()
         {
 #if DEBUG
             bool mismatched = false;
@@ -57,9 +59,15 @@ namespace MatrixEase.Manga.Utility
                 mismatched = true;
             }
 
-            return string.Format("{0}{1}", StopSubTime(), (mismatched ? " -- MISMATCHED" : ""));
+            MyPerformance perf = StopSubTime();
+            if ( mismatched)
+            {
+                perf.AppendDescription(" -- MISMATCHED --");
+            }
+
+            return perf;
 #else
-            return string.Empty;
+            return new MyPerformance(string.Empty, null, string.Empty);
 #endif
         }
     }

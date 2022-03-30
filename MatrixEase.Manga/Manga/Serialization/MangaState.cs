@@ -15,7 +15,7 @@ namespace MatrixEase.Manga.Manga
 {
     public static class MangaState
     {
-        public delegate void PerformanceLogger(string mangaName, string message);
+        public delegate void PerformanceLogger(string mangaName, MyPerformance perf);
         private static PerformanceLogger _performanceLogger = null;
 
         public static void SetPerformanceLogger(PerformanceLogger performanceLogger)
@@ -98,7 +98,7 @@ namespace MatrixEase.Manga.Manga
             return new MangaCatalog(); 
         }
 
-        public static void UserLog(string userFolder, string mangaName, string message)
+        public static void UserLog(string userFolder, string mangaName, MyPerformance message)
         {
 #if DEBUG
             if (_performanceLogger == null)
@@ -120,19 +120,20 @@ namespace MatrixEase.Manga.Manga
         {
 #if DEBUG
             var mangaPath = ManagaPath(userFolder, mangaGuid);
-            var message = StorageHelpers.FolderSizes(mangaPath);
-
-            if (_performanceLogger == null)
+            foreach (var message in StorageHelpers.FolderSizes(mangaPath))
             {
-                var performanceFile = Path.Combine(UserPath(userFolder), "performance.txt");
-                using (StreamWriter logFile = new StreamWriter(performanceFile, true))
+                if (_performanceLogger == null)
                 {
-                    logFile.WriteLine("{0} - {1}", mangaName, message);
+                    var performanceFile = Path.Combine(UserPath(userFolder), "performance.txt");
+                    using (StreamWriter logFile = new StreamWriter(performanceFile, true))
+                    {
+                        logFile.WriteLine("{0} - {1}", mangaName, message);
+                    }
                 }
-            }
-            else
-            {
-                _performanceLogger(mangaName, message);
+                else
+                {
+                    _performanceLogger(mangaName, message);
+                }
             }
 #endif
         }
