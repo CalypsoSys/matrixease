@@ -102,6 +102,7 @@ namespace MatrixEase.Tester
 
                         MangaInfo mangaInfo = new MangaInfo(row[2], fileName, headerRow, headerRows, maxRows, ignoreBlankRows, ignoreTextCase, trimLeadingWhitespace, trimTrailingWhitespace, ignoreCols, sheetType, sheetSpec);
                         Guid? mangaGuid = SheetProcessing.ProcessSheet("matrixease.tester", input.BaseStream, mangaInfo, RunBackroundManagGet);
+                        MangaState.DeleteManga(Tuple.Create(MatrixEaseIdentifier, mangaGuid.Value));
                     }
                 }
             }
@@ -128,7 +129,10 @@ namespace MatrixEase.Tester
 
         public static void RunBackroundManagGet(IBackgroundJob job)
         {
-            job.Process(CancellationToken.None);
+            using (job)
+            {
+                job.Process(CancellationToken.None);
+            }
         }
 
         private static void PerformanceLogger(string mangaName, string message)
