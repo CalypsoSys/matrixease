@@ -125,7 +125,16 @@ namespace MatrixEase.Tester
                         dynamic matrix = JsonConvert.DeserializeObject<ExpandoObject>(JsonConvert.SerializeObject(matrixDisplayData), new ExpandoObjectConverter());
                         foreach(dynamic col in matrix.Columns)
                         {
+                            /* TODO
+                            DetailedColumnStats
+                            GetColumnMeasures
+                            GetNodeRows
+                            GetDependencyDiagram
 
+                            filter
+                            bucketize
+                            export
+                            */
                         }
 
                         stopWatch.StartSubTime("delete_matrix", "Delete the MatrixEase");
