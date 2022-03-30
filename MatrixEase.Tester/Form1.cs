@@ -19,15 +19,21 @@ namespace MatrixEase.Tester
 {
     public partial class Form1 : Form
     {
+        public const string MatrixEaseIdentifier = "matrixease.tester";
         private const string _specFile = @"C:\CalypsoSystems\mangadata\matrixease\tester\tester.spec";
         private const string _testsPath = @"C:\CalypsoSystems\mangadata\matrixease\tester\tests";
+        private const int _specSize = 4;
 
         public Form1()
         {
             InitializeComponent();
+
+            MangaRoot.SetRootFolder(_testsPath);
+            MangaState.SetUserMangaCatalog(MatrixEaseIdentifier, MatrixEaseIdentifier, MatrixEaseIdentifier, MangaAuthType.Testing);
+
             foreach (var row in Specs())
             {
-                _testsLst.Items.Add(new ListViewItem(row.ToArray()));
+                _testsLst.Items.Add(new ListViewItem(row.Take(_specSize).ToArray()));
             }
         }
 
@@ -75,8 +81,6 @@ namespace MatrixEase.Tester
 
         private void _runBtn_Click(object sender, EventArgs e)
         {
-            MangaRoot.SetRootFolder(_testsPath);
-
             foreach (var row in Specs())
             {
                 if (row[0] == "CSV")
@@ -93,7 +97,7 @@ namespace MatrixEase.Tester
                         bool trimTrailingWhitespace = true;
                         string ignoreCols = null;
                         string sheetType = "csv";
-                        var sheetSpec = new Dictionary<string, string> { { MangaConstants.CsvSeparator, "," }, { MangaConstants.CsvQuote, "\"" }, { MangaConstants.CsvEscape, "\"" }, { MangaConstants.CsvNull, "" }, { MangaConstants.CsvEol, "\r\n" } };
+                        var sheetSpec = new Dictionary<string, string> { { MangaConstants.CsvSeparator, row[1] }, { MangaConstants.CsvQuote, "\"" }, { MangaConstants.CsvEscape, "\"" }, { MangaConstants.CsvNull, "" }, { MangaConstants.CsvEol, "\r\n" } };
 
                         MangaInfo mangaInfo = new MangaInfo(row[2], fileName, headerRow, headerRows, maxRows, ignoreBlankRows, ignoreTextCase, trimLeadingWhitespace, trimTrailingWhitespace, ignoreCols, sheetType, sheetSpec);
                         Guid? mangaGuid = SheetProcessing.ProcessSheet("matrixease.tester", input.BaseStream, mangaInfo, RunBackroundManagGet);
@@ -123,7 +127,7 @@ namespace MatrixEase.Tester
 
         public static void RunBackroundManagGet(IBackgroundJob job)
         {
-                job.Process(CancellationToken.None);
+            job.Process(CancellationToken.None);
         }
     }
 }

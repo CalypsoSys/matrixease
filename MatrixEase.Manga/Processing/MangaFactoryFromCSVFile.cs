@@ -25,21 +25,27 @@ namespace MatrixEase.Manga.Processing
             switch (mangaInfo.GetExtraInfo(MangaConstants.CsvSeparator))
             {
                 case "tab":
+                case "\t":
                     _csvSeparator = '\t';
                     break;
                 case "space":
+                case " ":
                     _csvSeparator = ' ';
                     break;
                 case "pipe":
+                case "|":
                     _csvSeparator = '|';
                     break;
                 case "colon":
+                case ":":
                     _csvSeparator = ':';
                     break;
                 case "semicolon":
+                case ";":
                     _csvSeparator = ';';
                     break;
                 case "comma":
+                case ",":
                 default:
                     _csvSeparator = ',';
                     break;

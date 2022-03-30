@@ -7,6 +7,7 @@ namespace MatrixEase.Manga.Manga
 {
     public enum MangaAuthType
     {
+        Testing = -2,
         Invalid = -1,
         Electron = 0,
         Email = 1,
