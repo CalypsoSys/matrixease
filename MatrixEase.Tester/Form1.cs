@@ -2,11 +2,14 @@
 using MatrixEase.Manga.Manga.Serialization;
 using MatrixEase.Manga.Processing;
 using MatrixEase.Manga.Utility;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -103,6 +106,7 @@ namespace MatrixEase.Tester
                         var sheetSpec = new Dictionary<string, string> { { MangaConstants.CsvSeparator, row[1] }, { MangaConstants.CsvQuote, "\"" }, { MangaConstants.CsvEscape, "\"" }, { MangaConstants.CsvNull, "" }, { MangaConstants.CsvEol, "\r\n" } };
 
                         _perfStats = new List<MyPerformance>();
+                        dynamic matrixTest = new ExpandoObject();
                         MyStopWatch stopWatch = MyStopWatch.StartNew("total_test_time", "MatrixEase Test Run");
 
                         stopWatch.StartSubTime("init_time", "MatrixEase Initialization");
@@ -116,13 +120,27 @@ namespace MatrixEase.Tester
                         var matrixDisplayData = manga.ReturnMatrixEase();
                         _perfStats.Add(stopWatch.StopSubTime());
 
+                        matrixTest.MatrixDisplayData = matrixDisplayData;
+
+                        dynamic matrix = JsonConvert.DeserializeObject<ExpandoObject>(JsonConvert.SerializeObject(matrixDisplayData), new ExpandoObjectConverter());
+                        foreach(dynamic col in matrix.Columns)
+                        {
+
+                        }
+
                         stopWatch.StartSubTime("delete_matrix", "Delete the MatrixEase");
                         MangaState.DeleteManga(myManga);
                         _perfStats.Add(stopWatch.StopSubTime());
 
                         _perfStats.Add(stopWatch.Stop());
 
+                        matrixTest.PerformanceStats = _perfStats;
+
                         MangaFactory.GetStatus(MatrixEaseIdentifier, mangaGuid.Value);
+
+                        string json = JsonConvert.SerializeObject(matrixTest);
+
+                        System.IO.File.WriteAllText(Path.ChangeExtension(Path.Combine(_testsPath, Path.GetFileNameWithoutExtension(fileName)), "base"), json);
                     }
                 }
             }

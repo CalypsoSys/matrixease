@@ -13,6 +13,9 @@ namespace MatrixEase.Manga.Utility
         private string _description;
         private bool _canSetValue = false;
 
+        public Dictionary<string, object> Measure { get => new Dictionary<string, object>() {{ _name, _value }};  }
+        public string Description { get => _description; }
+
         public MyPerformance(string name, string description) : base()
         {
             Init(name, null, description);
