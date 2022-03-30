@@ -15,6 +15,14 @@ namespace MatrixEase.Manga.Manga
 {
     public static class MangaState
     {
+        public delegate void PerformanceLogger(string mangaName, string message);
+        private static PerformanceLogger _performanceLogger = null;
+
+        public static void SetPerformanceLogger(PerformanceLogger performanceLogger)
+        {
+            _performanceLogger = performanceLogger;
+        }
+
         public static string ManagaFilePath(string mangaPath, MangaFileType fileType, string spec)
         {
             switch (fileType)
@@ -93,10 +101,17 @@ namespace MatrixEase.Manga.Manga
         public static void UserLog(string userFolder, string mangaName, string message)
         {
 #if DEBUG
-            var performanceFile = Path.Combine(UserPath(userFolder), "performance.txt");
-            using (StreamWriter logFile = new StreamWriter(performanceFile, true))
+            if (_performanceLogger == null)
             {
-                logFile.WriteLine("{0}: {1} - {2}", DateTime.Now.ToString("yyy-MM-dd HH:mm:ss"), mangaName, message);
+                var performanceFile = Path.Combine(UserPath(userFolder), "performance.txt");
+                using (StreamWriter logFile = new StreamWriter(performanceFile, true))
+                {
+                    logFile.WriteLine("{0}: {1} - {2}", DateTime.Now.ToString("yyy-MM-dd HH:mm:ss"), mangaName, message);
+                }
+            }
+            else
+            {
+                _performanceLogger(mangaName, message);
             }
 #endif
         }
@@ -104,12 +119,20 @@ namespace MatrixEase.Manga.Manga
         public static void UserLogSize(string userFolder, string mangaName, Guid mangaGuid)
         {
 #if DEBUG
-            var performanceFile = Path.Combine(UserPath(userFolder), "performance.txt");
-            using (StreamWriter logFile = new StreamWriter(performanceFile, true))
+            var mangaPath = ManagaPath(userFolder, mangaGuid);
+            var message = StorageHelpers.FolderSizes(mangaPath);
+
+            if (_performanceLogger == null)
             {
-                var mangaPath = ManagaPath(userFolder, mangaGuid);
-                var message = StorageHelpers.FolderSizes(mangaPath);
-                logFile.WriteLine("{0} - {1}", mangaName, message);
+                var performanceFile = Path.Combine(UserPath(userFolder), "performance.txt");
+                using (StreamWriter logFile = new StreamWriter(performanceFile, true))
+                {
+                    logFile.WriteLine("{0} - {1}", mangaName, message);
+                }
+            }
+            else
+            {
+                _performanceLogger(mangaName, message);
             }
 #endif
         }

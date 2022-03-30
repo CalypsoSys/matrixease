@@ -29,6 +29,7 @@ namespace MatrixEase.Tester
             InitializeComponent();
 
             MangaRoot.SetRootFolder(_testsPath);
+            MangaState.SetPerformanceLogger(PerformanceLogger);
             MangaState.SetUserMangaCatalog(MatrixEaseIdentifier, MatrixEaseIdentifier, MatrixEaseIdentifier, MangaAuthType.Testing);
 
             foreach (var row in Specs())
@@ -128,6 +129,11 @@ namespace MatrixEase.Tester
         public static void RunBackroundManagGet(IBackgroundJob job)
         {
             job.Process(CancellationToken.None);
+        }
+
+        private static void PerformanceLogger(string mangaName, string message)
+        {
+
         }
     }
 }
