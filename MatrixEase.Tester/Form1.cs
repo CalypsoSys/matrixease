@@ -146,13 +146,14 @@ namespace MatrixEase.Tester
                             colData.Add("col_stats", manga.ReturnColStats(index));
 
                             double lastHighestPct = 0;
-                            string columnValue = "";
+                            string nodeToMeasure = "";
+                            string nodeForRows = "";
                             foreach(var node in col.Value.Values)
                             {
                                 double totalPct = node.TotalPct;
                                 if (totalPct > lastHighestPct)
                                 {
-                                    columnValue = node.ColumnValue;
+                                    nodeToMeasure = node.ColumnValue;
                                     if (totalPct > 40)
                                         break;
                                     lastHighestPct = totalPct;
@@ -160,13 +161,12 @@ namespace MatrixEase.Tester
                             }
                             _perfStats.Add(stopWatch.StopSubTime());
 
-                            var selectedNode = string.Format("{0}@{1}:{2}", columnValue, col.Key, index);
+                            var selectedNode = string.Format("{0}@{1}:{2}", nodeToMeasure, col.Key, index);
                             if (measures.Count > 0)
                             {
                                 colData.Add("col_measures", manga.GetMeasureStats(selectedNode, measures.ToArray()));
                             }
                             /* TODO
-                            GetColumnMeasures pneumonia@finding:4
                             GetNodeRows
                             GetDependencyDiagram
 
