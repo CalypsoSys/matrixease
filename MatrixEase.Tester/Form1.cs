@@ -123,11 +123,29 @@ namespace MatrixEase.Tester
                         matrixTest.MatrixDisplayData = matrixDisplayData;
 
                         dynamic matrix = JsonConvert.DeserializeObject<ExpandoObject>(JsonConvert.SerializeObject(matrixDisplayData), new ExpandoObjectConverter());
+                        Dictionary<string, object> columns = new Dictionary<string, object>();
                         foreach(dynamic col in matrix.Columns)
                         {
+                            Dictionary<string, object> colData = new Dictionary<string, object>();
+                            long index = col.Value.Index;
+                            colData.Add("col_stats", manga.ReturnColStats((int)index));
+
+                            double lastHighestPct = 0;
+                            string columnValue;
+                            foreach(var node in col.Value.Values)
+                            {
+                                double totalPct = node.TotalPct;
+                                if (totalPct > lastHighestPct)
+                                {
+                                    columnValue = node.ColumnValue;
+                                    if (totalPct > 40)
+                                        break;
+                                    lastHighestPct = totalPct;
+                                }
+                            }
+
                             /* TODO
-                            DetailedColumnStats
-                            GetColumnMeasures
+                            GetColumnMeasures pneumonia@finding:4
                             GetNodeRows
                             GetDependencyDiagram
 
@@ -135,7 +153,9 @@ namespace MatrixEase.Tester
                             bucketize
                             export
                             */
+                            columns.Add(col.Key, colData);
                         }
+                        matrixTest.ColumnData = columns;
 
                         stopWatch.StartSubTime("delete_matrix", "Delete the MatrixEase");
                         MangaState.DeleteManga(myManga);
