@@ -34,8 +34,8 @@ namespace MatrixEase.Manga.Manga
                 return new
                 {
                     Count = _totalCount,
-                    Min = _minDecimal,
-                    Max = _maxDecimal,
+                    Min = MinDecimal,
+                    Max = MaxDecimal,
                     Average = Average,
                     Range = Range,
                     StandardDeviation = StandardDeviation,
@@ -53,8 +53,8 @@ namespace MatrixEase.Manga.Manga
                 return new
                 {
                     Count = _totalCount,
-                    Min = _minDecimal,
-                    Max = _maxDecimal,
+                    Min = MinDecimal,
+                    Max = MaxDecimal,
                     Average = Average,
                     Range = Range,
                     StandardDeviation = StandardDeviation,
@@ -70,8 +70,8 @@ namespace MatrixEase.Manga.Manga
         public void Save(IMangaSerializationWriter writer)
         {
             writer.WriteInt32(_totalCount);
-            writer.WriteDecimal(_minDecimal);
-            writer.WriteDecimal(_maxDecimal);
+            writer.WriteDecimal(_minDecimal == decimal.MaxValue ? 0 : _minDecimal);
+            writer.WriteDecimal(_maxDecimal == decimal.MinValue ? 0 : _maxDecimal);
             writer.WriteDecimal(_totalDecimal);
             writer.WriteArrayBytes(_totalSqr.ToByteArray());
             writer.WriteUInt64(_totalIntegral);
@@ -168,10 +168,10 @@ namespace MatrixEase.Manga.Manga
                 return 0;
             }
         }
-
-        public decimal MinDecimal { get => _minDecimal; set => _minDecimal = value; }
-        public decimal MaxDecimal { get => _maxDecimal; set => _maxDecimal = value; }
-        public decimal Range { get => _totalCount != 0 ? Math.Abs(_maxDecimal - _minDecimal) : 0; }
+        
+        public decimal MinDecimal { get => _minDecimal == decimal.MaxValue ? 0 : _minDecimal; set => _minDecimal = value; }
+        public decimal MaxDecimal { get => _maxDecimal == decimal.MinValue ? 0 : _maxDecimal; set => _maxDecimal = value; }
+        public decimal Range { get => _totalCount != 0 ? Math.Abs(MaxDecimal - MinDecimal) : 0; }
         public UInt64 AvgIntegral { get => _totalCount != 0 ? (UInt64)Math.Floor((_totalIntegral / (decimal)_totalCount) + .5M) : 0; }
         public UInt64 AvgFractional { get => _totalCount != 0 ? _totalFractional / (UInt64)_totalCount : 0; }
         public decimal Total { get => _totalDecimal; set => _totalDecimal = value; }

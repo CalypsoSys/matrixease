@@ -114,24 +114,39 @@ namespace MatrixEase.Tester
                         Guid? mangaGuid = SheetProcessing.ProcessSheet("matrixease.tester", input.BaseStream, mangaInfo, RunBackroundManagGet);
                         
                         var myManga = Tuple.Create(MatrixEaseIdentifier, mangaGuid.Value);
-                        stopWatch.StartSubTime("load_display_matrix", "Loading the MatrixEase");
+                        stopWatch.StartSubTime("load_display_matrix", "Loading the MatrixEase for Display");
                         string mangaName;
-                        var manga = MangaState.LoadManga(myManga, true, -1, new MangaLoadOptions(true), out mangaName);
-                        var matrixDisplayData = manga.ReturnMatrixEase();
+                        var mangaDisplay = MangaState.LoadManga(myManga, true, -1, new MangaLoadOptions(true), out mangaName);
+                        var matrixDisplayData = mangaDisplay.ReturnMatrixEase();
                         _perfStats.Add(stopWatch.StopSubTime());
 
                         matrixTest.MatrixDisplayData = matrixDisplayData;
 
                         dynamic matrix = JsonConvert.DeserializeObject<ExpandoObject>(JsonConvert.SerializeObject(matrixDisplayData), new ExpandoObjectConverter());
+
+                        List<int> measures = new List<int>();
+                        foreach (dynamic col in matrix.Columns)
+                        {
+                            int index = (int)col.Value.Index;
+                            if (col.Value.ColType == "Measure")
+                                measures.Add(index);
+                        }
+
+                        stopWatch.StartSubTime("load_full_matrix", "Loading the MatrixEase full");
+                        var manga = MangaState.LoadManga(myManga, true, -1, new MangaLoadOptions(false), out mangaName);
+                        _perfStats.Add(stopWatch.StopSubTime());
+
                         Dictionary<string, object> columns = new Dictionary<string, object>();
-                        foreach(dynamic col in matrix.Columns)
+                        stopWatch.StartSubTime("load_columndata", "Loading the MatrixEase Columns");
+                        foreach (dynamic col in matrix.Columns)
                         {
                             Dictionary<string, object> colData = new Dictionary<string, object>();
-                            long index = col.Value.Index;
-                            colData.Add("col_stats", manga.ReturnColStats((int)index));
+                            int index = (int)col.Value.Index;
+                            stopWatch.StartSubTime("load_column_stats", "Loading the MatrixEase Columns Stats");
+                            colData.Add("col_stats", manga.ReturnColStats(index));
 
                             double lastHighestPct = 0;
-                            string columnValue;
+                            string columnValue = "";
                             foreach(var node in col.Value.Values)
                             {
                                 double totalPct = node.TotalPct;
@@ -143,7 +158,13 @@ namespace MatrixEase.Tester
                                     lastHighestPct = totalPct;
                                 }
                             }
+                            _perfStats.Add(stopWatch.StopSubTime());
 
+                            var selectedNode = string.Format("{0}@{1}:{2}", columnValue, col.Key, index);
+                            if (measures.Count > 0)
+                            {
+                                colData.Add("col_measures", manga.GetMeasureStats(selectedNode, measures.ToArray()));
+                            }
                             /* TODO
                             GetColumnMeasures pneumonia@finding:4
                             GetNodeRows
@@ -155,6 +176,7 @@ namespace MatrixEase.Tester
                             */
                             columns.Add(col.Key, colData);
                         }
+                        _perfStats.Add(stopWatch.StopSubTime());
                         matrixTest.ColumnData = columns;
 
                         stopWatch.StartSubTime("delete_matrix", "Delete the MatrixEase");
