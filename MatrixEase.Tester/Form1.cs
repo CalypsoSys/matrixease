@@ -186,6 +186,7 @@ namespace MatrixEase.Tester
                         extraDetails.Add("google_name", mangaInfo.OriginalName);
                         testName = _cleanName.Replace(mangaInfo.OriginalName, "");
                     }
+                    _perfStats.Add(stopWatch.StopSubTime());
                     CheckCacellation();
                     matrixTest.ExtraDetails = extraDetails;
 
@@ -197,7 +198,6 @@ namespace MatrixEase.Tester
 
                     var matrixDisplayData = mangaDisplay.ReturnMatrixEase();
                     CheckCacellation();
-
                     _perfStats.Add(stopWatch.StopSubTime());
 
                     matrixTest.MatrixDisplayData = matrixDisplayData;
