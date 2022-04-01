@@ -124,7 +124,7 @@ namespace MatrixEase.Tester
         {
             EnDisAll(false);
             _outputTxt.Clear();
-            _processWorker.RunWorkerAsync(_baseLineChk.Enabled);
+            _processWorker.RunWorkerAsync(_baseLineChk.Checked);
             _tabCtrl.SelectedIndex = 1;
         }
 
