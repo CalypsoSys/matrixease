@@ -56,30 +56,7 @@ namespace MatrixEase.Manga.com
 
                 MangaInfo mangaInfo = new MangaInfo("", manga_name, header_row, header_rows, max_rows, ignore_blank_rows, ignore_text_case, trim_leading_whitespace, trim_trailing_whitespace, ignore_cols, "google", new Dictionary<string, string> { { MangaConstants.SheetID, sheet_id }, { MangaConstants.SheetRange, range } });
 
-                UserCredential credential;
-                string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
-                using (var stream = new MemoryStream())
-                {
-                    using (var writer = new StreamWriter(stream))
-                    {
-                        //writer.Write("{   \"installed\": {    \"client_id\": \"911488426711-66kvhfetkk359ch9jat4ft9rd1i3184b.apps.googleusercontent.com\",    \"project_id\": \"optioneeplan\",    \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",    \"token_uri\": \"https://oauth2.googleapis.com/token\",    \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",    \"client_secret\": \"AM_GPRWKKVafgGZmvtAi24oK\",    \"redirect_uris\": [ \"urn:ietf:wg:oauth:2.0:oob\", \"http://localhost\" ]  }}");
-
-                        var clientSecret = GoogsAuth.GoogsJson.Replace("{", "{{").Replace("}", "}}").Replace("#PARAM1#", "{0}").Replace("#PARAM2#", "{1}").Replace("'", "\"");
-                        writer.Write(string.Format(clientSecret, _options.Value.GetGoogleClientId(), _options.Value.GetGoogleClientSecret()));
-                        writer.Flush();
-                        stream.Position = 0;
-                        // The file token.json stores the user's access and refresh tokens, and is created
-                        // automatically when the authorization flow completes for the first time.
-                        string credPath = MiscHelpers.GetGoogsFile("token.json");
-                        credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                            GoogleClientSecrets.Load(stream).Secrets,
-                            Scopes,
-                            "user",
-                            CancellationToken.None,
-                            new FileDataStore(credPath, true)).Result;
-                    }
-                }
-
+                UserCredential credential = GoogsAuth.AuthenticateLocal(_options.Value.GetGoogleClientId(), _options.Value.GetGoogleClientSecret());
                 Guid? mangaGuid = SheetProcessing.ProcessSheet(credential, MangaDesktop.UserId, mangaInfo, MangaDesktop.RunBackroundManagGet);
                 if (mangaGuid != null)
                 {
