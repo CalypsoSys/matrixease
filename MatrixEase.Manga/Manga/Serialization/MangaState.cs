@@ -106,7 +106,7 @@ namespace MatrixEase.Manga.Manga
                 var performanceFile = Path.Combine(UserPath(userFolder), "performance.txt");
                 using (StreamWriter logFile = new StreamWriter(performanceFile, true))
                 {
-                    logFile.WriteLine("{0}: {1} - {2}", DateTime.Now.ToString("yyy-MM-dd HH:mm:ss"), mangaName, message);
+                    logFile.WriteLine("{0}: {1} - {2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), mangaName, message);
                 }
             }
             else

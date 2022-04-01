@@ -46,7 +46,7 @@ namespace MatrixEase.Manga.Utility
 
                 using(StreamWriter loggie = new StreamWriter(MiscHelpers.GetLogFileFile("matrixease_managa.log"), true) )
                 {
-                    loggie.WriteLine("{0}: {1}", DateTime.Now.ToString("yyy-MM-dd HH:mm:ss"), messageOut);
+                    loggie.WriteLine("{0}: {1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), messageOut);
                     loggie.WriteLine(excption);
                 }
             }
