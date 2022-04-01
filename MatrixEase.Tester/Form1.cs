@@ -182,7 +182,8 @@ namespace MatrixEase.Tester
 
                         UserCredential credential = GoogsAuth.AuthenticateLocal(row[4], row[5]);
                         mangaGuid = SheetProcessing.ProcessSheet(credential, MatrixEaseIdentifier, mangaInfo, RunBackroundManagGet);
-                        
+
+                        extraDetails.Add("google_name", mangaInfo.OriginalName);
                         testName = _cleanName.Replace(mangaInfo.OriginalName, "");
                     }
                     CheckCacellation();
