@@ -174,7 +174,7 @@ var matrixease = new Vue({
         },
         renderMatrixEase: function () {
             this.showModalStatusDialog("NOP", { "PreProcess": { "Started": new Date(), "Elapsed": "00:00:00", "Desc": "Loading MatrixEase", "Status": "Starting" } });
-            axios.get('/api/matrixease', {
+            axios.get('/api/matrixease/', {
                 params: {
                     matrixease_id: document.getElementById('matrixease_id').value,
                     mxes_id: this.mxes_id
@@ -532,7 +532,7 @@ var matrixease = new Vue({
             //this.filterByNode();
         },
         updateSettings: function (settingsCallback) {
-            axios.get('/api/matrixease/update_settings', {
+            axios.get('/api/matrixease/update_settings/', {
                 params: {
                     matrixease_id: document.getElementById('matrixease_id').value,
                     mxes_id: this.mxes_id,
@@ -624,7 +624,7 @@ var matrixease = new Vue({
         },
         takeAction: function () {
             if (this.modal_yes_no_action == "delete_manga") {
-                axios.get('/api/matrixease/delete_manga', {
+                axios.get('/api/matrixease/delete_manga/', {
                     params: {
                         matrixease_id: document.getElementById('matrixease_id').value,
                         mxes_id: this.mxes_id
@@ -648,7 +648,7 @@ var matrixease = new Vue({
             this.statusStart = new Date();
             this.statusCheckCount = 0;
             this.showModalStatusDialog("NOP", { "Download": { "Started": this.statusStart, "Elapsed": "00:00:00", "Desc": "Download CSV data", "Status": "Starting" } });
-            axios.get('/api/matrixease/export_csv', {
+            axios.get('/api/matrixease/export_csv/', {
                 responseType: 'blob',
                 params: {
                     matrixease_id: document.getElementById('matrixease_id').value,
@@ -751,7 +751,7 @@ var matrixease = new Vue({
                 if (this.selection_expression && this.selection_expression.indexOf(colSpec) != -1) {
                     this.showModalDialog("Attention", "Column is filtered, please remove filter to rebucketize", "")
                 } else {
-                    axios.get('/api/matrixease/bucketize', {
+                    axios.get('/api/matrixease/bucketize/', {
                         params: {
                             matrixease_id: document.getElementById('matrixease_id').value,
                             mxes_id: this.mxes_id,
@@ -784,7 +784,7 @@ var matrixease = new Vue({
         },
         getDetailedColStats: function () {
             this.colMenuDisplay = "none";
-            axios.get('/api/matrixease/detailed_col_stats', {
+            axios.get('/api/matrixease/detailed_col_stats/', {
                 params: {
                     matrixease_id: document.getElementById('matrixease_id').value,
                     mxes_id: this.mxes_id,
@@ -830,7 +830,7 @@ var matrixease = new Vue({
             } else if (this.selectedNode.rawCol.SelectedValues > 10000) {
                 this.showModalDialog("Error", "MatrixEase: too many rows for quick view (over 10000) please export.");
             } else {
-                axios.get('/api/matrixease/get_node_rows', {
+                axios.get('/api/matrixease/get_node_rows/', {
                     params: {
                         matrixease_id: document.getElementById('matrixease_id').value,
                         mxes_id: this.mxes_id,
@@ -863,7 +863,7 @@ var matrixease = new Vue({
             if (this.selectedNode == null) {
                 this.showModalDialog("Error", "MatrixEase: cannot determine node, please try again.");
             } else {
-                axios.get('/api/matrixease/get_duplicate_entries', {
+                axios.get('/api/matrixease/get_duplicate_entries/', {
                     params: {
                         matrixease_id: document.getElementById('matrixease_id').value,
                         mxes_id: this.mxes_id,
@@ -889,7 +889,7 @@ var matrixease = new Vue({
             if (this.selectedNode == null) {
                 this.showModalDialog("Error", "MatrixEase: cannot determine node, please try again.");
             } else {
-                axios.get('/api/matrixease/get_dependency_diagram', {
+                axios.get('/api/matrixease/get_dependency_diagram/', {
                     params: {
                         matrixease_id: document.getElementById('matrixease_id').value,
                         mxes_id: this.mxes_id,

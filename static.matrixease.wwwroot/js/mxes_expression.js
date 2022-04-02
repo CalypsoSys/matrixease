@@ -51,7 +51,7 @@
             this.emitUpdate();
         },
         filterByNode: function () {
-            axios.get('/api/matrixease/filter', {
+            axios.get('/api/matrixease/filter/', {
                 params: {
                     matrixease_id: document.getElementById('matrixease_id').value,
                     mxes_id: matrixease.mxes_id,

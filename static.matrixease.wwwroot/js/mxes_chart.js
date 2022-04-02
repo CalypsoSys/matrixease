@@ -86,7 +86,7 @@
                 return;
             }
             //
-            axios.get('/api/matrixease/get_chart_data', {
+            axios.get('/api/matrixease/get_chart_data/', {
                 params: {
                     matrixease_id: document.getElementById('matrixease_id').value,
                     mxes_id: matrixease.mxes_id,

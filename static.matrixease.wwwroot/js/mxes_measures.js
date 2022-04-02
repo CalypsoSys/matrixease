@@ -32,7 +32,7 @@
                 }
             }
             //
-            axios.get('/api/matrixease/get_col_measures', {
+            axios.get('/api/matrixease/get_col_measures/', {
                 params: {
                     matrixease_id: document.getElementById('matrixease_id').value,
                     mxes_id: matrixease.mxes_id,

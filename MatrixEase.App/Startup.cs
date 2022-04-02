@@ -93,7 +93,7 @@ namespace Desktop.MatrixEase.Manga
 
             browserWindow.OnReadyToShow += () => browserWindow.Show();
             browserWindow.SetTitle("MatrixEase");
-#if !DEBUGXXXX
+#if !DEBUG
             browserWindow.RemoveMenu();
 #endif
 

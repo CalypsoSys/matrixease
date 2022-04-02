@@ -23,7 +23,7 @@ using MatrixEase.Manga.Utility;
 namespace MatrixEase.Web
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/matrixease")]
     public class MatrixEaseController : ProcessController
     {
         private readonly ILogger<MatrixEaseController> _logger;

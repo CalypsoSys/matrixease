@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Desktop.MatrixEase.Manga.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/matrixease")]
     public class MatrxiEaseController : ControllerBase
     {
         private readonly ILogger<MatrxiEaseController> _logger;
