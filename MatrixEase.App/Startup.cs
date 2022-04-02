@@ -1,3 +1,4 @@
+//#define DEBUG_JAVASCRIPT
 using ElectronNET.API;
 using ElectronNET.API.Entities;
 using MatrixEase.Manga.Manga.Serialization;
@@ -93,7 +94,7 @@ namespace Desktop.MatrixEase.Manga
 
             browserWindow.OnReadyToShow += () => browserWindow.Show();
             browserWindow.SetTitle("MatrixEase");
-#if !DEBUG
+#if !DEBUG_JAVASCRIPT
             browserWindow.RemoveMenu();
 #endif
 

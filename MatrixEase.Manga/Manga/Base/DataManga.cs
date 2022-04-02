@@ -69,6 +69,11 @@ namespace MatrixEase.Manga.Manga
         {
             List<UInt32> ignoreIndexes = new List<UInt32>();
 
+            while(calculatedNumberOfCols > colData.Count)
+            {
+                colData.Add(null);
+            }
+
             UInt32 index = 1;
             int colIndex = 1;
             Dictionary<string, int> existsingColNames = new Dictionary<string, int>();
