@@ -71,3 +71,5 @@ TEST TEST TEST
  	vi letsencrypt_service_data
 sudo docker logs -f nginx-proxy-le
 sudo docker logs -f nginx-proxy
+
+sudo truncate -s 0 /var/lib/docker/containers/*/*-json.log
