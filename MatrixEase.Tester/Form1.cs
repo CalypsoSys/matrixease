@@ -30,7 +30,7 @@ namespace MatrixEase.Tester
         public const string MatrixEaseRegistry = @"SOFTWARE\MatrixEase.Tester";
         public const string MatrixEaseRegistryPath = "OutputPath";
         public const string MatrixEaseIdentifier = "matrixease.tester";
-        private const string _specFileName = @"C:\CalypsoSystems\mangadata\matrixease\tester\tester.spec";
+        private const string _specFileName = @"tester.spec";
         private const string _testsPathName = @"tests";
         private const int _specSize = 6;
 
