@@ -234,12 +234,11 @@ namespace MatrixEase.Tester
                         ++testIndex;
                         if (runThese.Contains(testIndex) == false)
                         {
-                            name = row[2];
                             status = "Skipping";
                             continue;
                         }
 
-                        _processWorker.ReportProgress(0, string.Format("[{0}] Processing {1}", startTime.ToString("yyyy-MM-dd HH:mm:ss"), row[2]));
+                        _processWorker.ReportProgress(0, string.Format("[{0}] Processing {1}", startTime.ToString("yyyy-MM-dd HH:mm:ss"), name));
 
                         int headerRow = 1;
                         int headerRows = 1;
@@ -384,6 +383,7 @@ namespace MatrixEase.Tester
                     {
                         status = "Error";
                         excp = excpInner.ToString();
+                        MyLogger.LogError(excpInner, name);
                     }
                     finally
                     {
@@ -392,7 +392,7 @@ namespace MatrixEase.Tester
                         {
                             _processWorker.ReportProgress(0, excp);
                         }
-                        _processWorker.ReportProgress(0, string.Format("[{0}] {1} - {2} - [{3}]", endTime, status, row[2], (endTime - startTime)));
+                        _processWorker.ReportProgress(0, string.Format("[{0}] {1} - {2} - [{3}]", endTime, status, name, (endTime - startTime)));
                         if (_mangaGuid.HasValue)
                         {
                             MangaFactory.GetStatus(MatrixEaseIdentifier, _mangaGuid.Value);
@@ -404,6 +404,7 @@ namespace MatrixEase.Tester
             catch(Exception excpOuter)
             {
                 _processWorker.ReportProgress(0, excpOuter.ToString());
+                MyLogger.LogError(excpOuter, "Outer");
             }
         }
 
