@@ -53,6 +53,10 @@ namespace MatrixEase.Tester
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this._outputTxt = new System.Windows.Forms.RichTextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this._outputPathTxt = new System.Windows.Forms.TextBox();
+            this._browseOutputBtn = new System.Windows.Forms.Button();
+            this._folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this._tabCtrl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -69,7 +73,7 @@ namespace MatrixEase.Tester
             this._testsLst.HideSelection = false;
             this._testsLst.Location = new System.Drawing.Point(3, 3);
             this._testsLst.Name = "_testsLst";
-            this._testsLst.Size = new System.Drawing.Size(753, 270);
+            this._testsLst.Size = new System.Drawing.Size(755, 272);
             this._testsLst.TabIndex = 0;
             this._testsLst.UseCompatibleStateImageBehavior = false;
             this._testsLst.View = System.Windows.Forms.View.Details;
@@ -99,7 +103,7 @@ namespace MatrixEase.Tester
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 14);
+            this.label1.Location = new System.Drawing.Point(19, 71);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(40, 20);
             this.label1.TabIndex = 1;
@@ -113,7 +117,7 @@ namespace MatrixEase.Tester
             "CSV",
             "Excel",
             "Google"});
-            this._typeCmb.Location = new System.Drawing.Point(64, 10);
+            this._typeCmb.Location = new System.Drawing.Point(61, 67);
             this._typeCmb.Name = "_typeCmb";
             this._typeCmb.Size = new System.Drawing.Size(151, 28);
             this._typeCmb.TabIndex = 2;
@@ -121,7 +125,7 @@ namespace MatrixEase.Tester
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 65);
+            this.label2.Location = new System.Drawing.Point(19, 122);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 20);
             this.label2.TabIndex = 3;
@@ -129,7 +133,7 @@ namespace MatrixEase.Tester
             // 
             // _sepTxt
             // 
-            this._sepTxt.Location = new System.Drawing.Point(62, 62);
+            this._sepTxt.Location = new System.Drawing.Point(59, 119);
             this._sepTxt.Name = "_sepTxt";
             this._sepTxt.Size = new System.Drawing.Size(153, 27);
             this._sepTxt.TabIndex = 4;
@@ -137,7 +141,7 @@ namespace MatrixEase.Tester
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(238, 14);
+            this.label3.Location = new System.Drawing.Point(235, 71);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(49, 20);
             this.label3.TabIndex = 5;
@@ -146,7 +150,7 @@ namespace MatrixEase.Tester
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(238, 65);
+            this.label4.Location = new System.Drawing.Point(235, 122);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(49, 20);
             this.label4.TabIndex = 6;
@@ -156,24 +160,24 @@ namespace MatrixEase.Tester
             // 
             this._spec1Txt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._spec1Txt.Location = new System.Drawing.Point(293, 10);
+            this._spec1Txt.Location = new System.Drawing.Point(290, 67);
             this._spec1Txt.Name = "_spec1Txt";
-            this._spec1Txt.Size = new System.Drawing.Size(365, 27);
+            this._spec1Txt.Size = new System.Drawing.Size(367, 27);
             this._spec1Txt.TabIndex = 7;
             // 
             // _spec2Txt
             // 
             this._spec2Txt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._spec2Txt.Location = new System.Drawing.Point(293, 62);
+            this._spec2Txt.Location = new System.Drawing.Point(290, 119);
             this._spec2Txt.Name = "_spec2Txt";
-            this._spec2Txt.Size = new System.Drawing.Size(365, 27);
+            this._spec2Txt.Size = new System.Drawing.Size(367, 27);
             this._spec2Txt.TabIndex = 8;
             // 
             // _browseBtn
             // 
             this._browseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._browseBtn.Location = new System.Drawing.Point(690, 10);
+            this._browseBtn.Location = new System.Drawing.Point(689, 67);
             this._browseBtn.Name = "_browseBtn";
             this._browseBtn.Size = new System.Drawing.Size(94, 29);
             this._browseBtn.TabIndex = 9;
@@ -188,7 +192,7 @@ namespace MatrixEase.Tester
             // _addBtn
             // 
             this._addBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._addBtn.Location = new System.Drawing.Point(690, 61);
+            this._addBtn.Location = new System.Drawing.Point(689, 118);
             this._addBtn.Name = "_addBtn";
             this._addBtn.Size = new System.Drawing.Size(94, 29);
             this._addBtn.TabIndex = 10;
@@ -199,7 +203,7 @@ namespace MatrixEase.Tester
             // _saveBtn
             // 
             this._saveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._saveBtn.Location = new System.Drawing.Point(17, 410);
+            this._saveBtn.Location = new System.Drawing.Point(17, 472);
             this._saveBtn.Name = "_saveBtn";
             this._saveBtn.Size = new System.Drawing.Size(94, 29);
             this._saveBtn.TabIndex = 11;
@@ -210,7 +214,7 @@ namespace MatrixEase.Tester
             // _runBtn
             // 
             this._runBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._runBtn.Location = new System.Drawing.Point(690, 410);
+            this._runBtn.Location = new System.Drawing.Point(692, 472);
             this._runBtn.Name = "_runBtn";
             this._runBtn.Size = new System.Drawing.Size(94, 29);
             this._runBtn.TabIndex = 12;
@@ -222,7 +226,7 @@ namespace MatrixEase.Tester
             // 
             this._baseLineChk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._baseLineChk.AutoSize = true;
-            this._baseLineChk.Location = new System.Drawing.Point(122, 412);
+            this._baseLineChk.Location = new System.Drawing.Point(122, 474);
             this._baseLineChk.Name = "_baseLineChk";
             this._baseLineChk.Size = new System.Drawing.Size(86, 24);
             this._baseLineChk.TabIndex = 13;
@@ -232,7 +236,7 @@ namespace MatrixEase.Tester
             // _canelBtn
             // 
             this._canelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._canelBtn.Location = new System.Drawing.Point(586, 410);
+            this._canelBtn.Location = new System.Drawing.Point(588, 472);
             this._canelBtn.Name = "_canelBtn";
             this._canelBtn.Size = new System.Drawing.Size(94, 29);
             this._canelBtn.TabIndex = 14;
@@ -247,10 +251,10 @@ namespace MatrixEase.Tester
             | System.Windows.Forms.AnchorStyles.Right)));
             this._tabCtrl.Controls.Add(this.tabPage1);
             this._tabCtrl.Controls.Add(this.tabPage2);
-            this._tabCtrl.Location = new System.Drawing.Point(17, 95);
+            this._tabCtrl.Location = new System.Drawing.Point(17, 155);
             this._tabCtrl.Name = "_tabCtrl";
             this._tabCtrl.SelectedIndex = 0;
-            this._tabCtrl.Size = new System.Drawing.Size(767, 309);
+            this._tabCtrl.Size = new System.Drawing.Size(769, 311);
             this._tabCtrl.TabIndex = 15;
             // 
             // tabPage1
@@ -259,7 +263,7 @@ namespace MatrixEase.Tester
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(759, 276);
+            this.tabPage1.Size = new System.Drawing.Size(761, 278);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Input";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -270,7 +274,7 @@ namespace MatrixEase.Tester
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(759, 276);
+            this.tabPage2.Size = new System.Drawing.Size(761, 278);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Output";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -281,15 +285,44 @@ namespace MatrixEase.Tester
             this._outputTxt.Location = new System.Drawing.Point(3, 3);
             this._outputTxt.Name = "_outputTxt";
             this._outputTxt.ReadOnly = true;
-            this._outputTxt.Size = new System.Drawing.Size(753, 270);
+            this._outputTxt.Size = new System.Drawing.Size(755, 272);
             this._outputTxt.TabIndex = 0;
             this._outputTxt.Text = "";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(8, 19);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(55, 20);
+            this.label5.TabIndex = 16;
+            this.label5.Text = "Output";
+            // 
+            // _outputPathTxt
+            // 
+            this._outputPathTxt.Location = new System.Drawing.Point(65, 18);
+            this._outputPathTxt.Name = "_outputPathTxt";
+            this._outputPathTxt.Size = new System.Drawing.Size(592, 27);
+            this._outputPathTxt.TabIndex = 17;
+            // 
+            // _browseOutputBtn
+            // 
+            this._browseOutputBtn.Location = new System.Drawing.Point(688, 16);
+            this._browseOutputBtn.Name = "_browseOutputBtn";
+            this._browseOutputBtn.Size = new System.Drawing.Size(94, 29);
+            this._browseOutputBtn.TabIndex = 18;
+            this._browseOutputBtn.Text = "Browse...";
+            this._browseOutputBtn.UseVisualStyleBackColor = true;
+            this._browseOutputBtn.Click += new System.EventHandler(this._browseOutputBtn_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(802, 512);
+            this.Controls.Add(this._browseOutputBtn);
+            this.Controls.Add(this._outputPathTxt);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this._tabCtrl);
             this.Controls.Add(this._canelBtn);
             this.Controls.Add(this._baseLineChk);
@@ -341,6 +374,10 @@ namespace MatrixEase.Tester
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.RichTextBox _outputTxt;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox _outputPathTxt;
+        private System.Windows.Forms.Button _browseOutputBtn;
+        private System.Windows.Forms.FolderBrowserDialog _folderBrowserDialog;
     }
 }
 

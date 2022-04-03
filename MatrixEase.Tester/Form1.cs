@@ -5,6 +5,7 @@ using MatrixEase.Manga.Manga;
 using MatrixEase.Manga.Manga.Serialization;
 using MatrixEase.Manga.Processing;
 using MatrixEase.Manga.Utility;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
@@ -21,16 +22,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.ListViewItem;
-
+ 
 namespace MatrixEase.Tester
 {
     public partial class Form1 : Form
     {
+        public const string MatrixEaseRegistry = @"SOFTWARE\MatrixEase.Tester";
+        public const string MatrixEaseRegistryPath = "OutputPath";
         public const string MatrixEaseIdentifier = "matrixease.tester";
-        private const string _specFile = @"C:\CalypsoSystems\mangadata\matrixease\tester\tester.spec";
-        private const string _testsPath = @"C:\CalypsoSystems\mangadata\matrixease\tester\tests";
+        private const string _specFileName = @"C:\CalypsoSystems\mangadata\matrixease\tester\tester.spec";
+        private const string _testsPathName = @"tests";
         private const int _specSize = 6;
 
+        private static string _specFile = null;
+        private static string _testsPath = null;
         private static Regex _cleanName = new Regex("[^a-zA-Z0-9 -]");
         private static List<MyPerformance> _perfStats;
         private static CancellationTokenSource _tokenSource;
@@ -40,20 +45,49 @@ namespace MatrixEase.Tester
         {
             InitializeComponent();
 
-            MangaRoot.SetRootFolder(_testsPath);
             MangaState.SetPerformanceLogger(PerformanceLogger);
-            MangaState.SetUserMangaCatalog(MatrixEaseIdentifier, MatrixEaseIdentifier, MatrixEaseIdentifier, MangaAuthType.Testing);
 
-            foreach (var row in Specs())
-            {
-                _testsLst.Items.Add(new ListViewItem(row.Take(_specSize).ToArray()));
-            }
+            Initialize();
 
             _processWorker.WorkerReportsProgress = true;
             _processWorker.WorkerSupportsCancellation = true;
             _processWorker.ProgressChanged += _processWorker_ProgressChanged;
             _processWorker.DoWork += _processWorker_DoWork;
             _processWorker.RunWorkerCompleted += _processWorker_RunWorkerCompleted;
+        }
+
+        private void Initialize()
+        {
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(MatrixEaseRegistry);
+
+            //if it does exist, retrieve the stored values  
+            if (key != null)
+            {
+                _outputPathTxt.Text = key.GetValue(MatrixEaseRegistryPath) as string;
+
+                _testsPath = Path.Combine(_outputPathTxt.Text, _testsPathName);
+                _specFile = Path.Combine(_outputPathTxt.Text, _specFileName);
+                MangaRoot.SetRootFolder(_testsPath);
+                MangaState.SetUserMangaCatalog(MatrixEaseIdentifier, MatrixEaseIdentifier, MatrixEaseIdentifier, MangaAuthType.Testing);
+
+                _testsLst.Items.Clear();
+                foreach (var row in Specs())
+                {
+                    _testsLst.Items.Add(new ListViewItem(row.Take(_specSize).ToArray()));
+                }
+                key.Close();
+            }
+        }
+
+        private void _browseOutputBtn_Click(object sender, EventArgs e)
+        {
+            if (_folderBrowserDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                RegistryKey key = Registry.CurrentUser.CreateSubKey(MatrixEaseRegistry);
+                key.SetValue(MatrixEaseRegistryPath, _folderBrowserDialog.SelectedPath);
+                key.Close();
+                Initialize();
+            }
         }
 
         private void _browseBtn_Click(object sender, EventArgs e)
@@ -107,7 +141,8 @@ namespace MatrixEase.Tester
 
         private void EnDisAll(bool enable)
         {
-            _canelBtn.Enabled = !enable;
+            _outputPathTxt.Enabled = enable;
+            _browseOutputBtn.Enabled = enable;
             _testsLst.Enabled = enable;
             _typeCmb.Enabled = enable;
             _sepTxt.Enabled = enable;
@@ -118,6 +153,8 @@ namespace MatrixEase.Tester
             _saveBtn.Enabled = enable;
             _runBtn.Enabled = enable;
             _baseLineChk.Enabled = enable;
+
+            _canelBtn.Enabled = !enable;
         }
 
         private void _runBtn_Click(object sender, EventArgs e)
