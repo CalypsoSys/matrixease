@@ -274,7 +274,8 @@ namespace MatrixEase.Manga.Manga
 
                 if ((rowIndex % TaskConstants.StatusUpdateCheckFreq) == 0)
                 {
-                    status.SetStatus(MangaFactoryStatusKey.Analyzing, string.Format("Distributing data into buckets for {0}", name), MangaFactoryStatusState.Running);
+                    int pct = ((rowIndex * 100) / totalRows);
+                    status.SetStatus(MangaFactoryStatusKey.Analyzing, string.Format("Distributing data into buckets for {0} {1}%", name, pct), MangaFactoryStatusState.Running);
                     if (status.IsCancellationRequested)
                     {
                         return Tuple.Create(-1, 0M);
