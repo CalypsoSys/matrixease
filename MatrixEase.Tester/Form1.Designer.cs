@@ -57,6 +57,7 @@ namespace MatrixEase.Tester
             this._outputPathTxt = new System.Windows.Forms.TextBox();
             this._browseOutputBtn = new System.Windows.Forms.Button();
             this._folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this._toggleChk = new System.Windows.Forms.CheckBox();
             this._tabCtrl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -64,6 +65,7 @@ namespace MatrixEase.Tester
             // 
             // _testsLst
             // 
+            this._testsLst.CheckBoxes = true;
             this._testsLst.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
@@ -82,6 +84,7 @@ namespace MatrixEase.Tester
             // 
             this.columnHeader1.Name = "columnHeader1";
             this.columnHeader1.Text = "Type";
+            this.columnHeader1.Width = 100;
             // 
             // columnHeader2
             // 
@@ -315,11 +318,25 @@ namespace MatrixEase.Tester
             this._browseOutputBtn.UseVisualStyleBackColor = true;
             this._browseOutputBtn.Click += new System.EventHandler(this._browseOutputBtn_Click);
             // 
+            // _toggleChk
+            // 
+            this._toggleChk.AutoSize = true;
+            this._toggleChk.Checked = true;
+            this._toggleChk.CheckState = System.Windows.Forms.CheckState.Checked;
+            this._toggleChk.Location = new System.Drawing.Point(150, 157);
+            this._toggleChk.Name = "_toggleChk";
+            this._toggleChk.Size = new System.Drawing.Size(77, 24);
+            this._toggleChk.TabIndex = 1;
+            this._toggleChk.Text = "Toggle";
+            this._toggleChk.UseVisualStyleBackColor = true;
+            this._toggleChk.CheckedChanged += new System.EventHandler(this._toggleChk_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(802, 512);
+            this.Controls.Add(this._toggleChk);
             this.Controls.Add(this._browseOutputBtn);
             this.Controls.Add(this._outputPathTxt);
             this.Controls.Add(this.label5);
@@ -378,6 +395,7 @@ namespace MatrixEase.Tester
         private System.Windows.Forms.TextBox _outputPathTxt;
         private System.Windows.Forms.Button _browseOutputBtn;
         private System.Windows.Forms.FolderBrowserDialog _folderBrowserDialog;
+        private System.Windows.Forms.CheckBox _toggleChk;
     }
 }
 

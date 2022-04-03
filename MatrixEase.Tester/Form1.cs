@@ -73,7 +73,7 @@ namespace MatrixEase.Tester
                 _testsLst.Items.Clear();
                 foreach (var row in Specs())
                 {
-                    _testsLst.Items.Add(new ListViewItem(row.Take(_specSize).ToArray()));
+                    _testsLst.Items.Add(new ListViewItem(row.Take(_specSize).ToArray())).Checked = true;
                 }
                 key.Close();
             }
@@ -87,6 +87,14 @@ namespace MatrixEase.Tester
                 key.SetValue(MatrixEaseRegistryPath, _folderBrowserDialog.SelectedPath);
                 key.Close();
                 Initialize();
+            }
+        }
+
+        private void _toggleChk_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in _testsLst.Items)
+            {
+                item.Checked = _toggleChk.Checked;
             }
         }
 
@@ -112,7 +120,7 @@ namespace MatrixEase.Tester
             }
             else
             {
-                _testsLst.Items.Add(new ListViewItem(parts.ToArray()));
+                _testsLst.Items.Add(new ListViewItem(parts.ToArray())).Checked = true;
             }
         }
 
@@ -143,6 +151,7 @@ namespace MatrixEase.Tester
         {
             _outputPathTxt.Enabled = enable;
             _browseOutputBtn.Enabled = enable;
+            _toggleChk.Enabled = enable;
             _testsLst.Enabled = enable;
             _typeCmb.Enabled = enable;
             _sepTxt.Enabled = enable;
@@ -161,163 +170,201 @@ namespace MatrixEase.Tester
         {
             EnDisAll(false);
             _outputTxt.Clear();
-            _processWorker.RunWorkerAsync(_baseLineChk.Checked);
+            _processWorker.RunWorkerAsync(Tuple.Create(_baseLineChk.Checked, _testsLst.CheckedIndices.Cast<int>().ToArray()));
             _tabCtrl.SelectedIndex = 1;
         }
 
         void _processWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            bool isBaseline = (bool)e.Argument;
-            _tokenSource = new CancellationTokenSource();
             try
             {
+                Tuple<bool, int[]> arg = e.Argument as Tuple<bool, int[]>;
+                bool isBaseline = arg.Item1;
+                int[] runThese = arg.Item2;
+                _tokenSource = new CancellationTokenSource();
+                int testIndex = -1;
                 foreach (var row in Specs())
                 {
-                    CheckCacellation();
-
-                    _processWorker.ReportProgress(0, string.Format("Processing {0}", row[2]));
-
-                    int headerRow = 1;
-                    int headerRows = 1;
-                    int maxRows = 0;
-                    bool ignoreBlankRows = true;
-                    bool ignoreTextCase = true;
-                    bool trimLeadingWhitespace = true;
-                    bool trimTrailingWhitespace = true;
-                    string ignoreCols = null;
-                    string sheetType = row[0].ToLower();
-
-                    _perfStats = new List<MyPerformance>();
-                    dynamic matrixTest = new ExpandoObject();
-                    MyStopWatch stopWatch = MyStopWatch.StartNew("total_test_time", "MatrixEase Test Run");
-
-                    stopWatch.StartSubTime("init_time", "MatrixEase Initialization");
-                    Dictionary<string, object> extraDetails = new Dictionary<string, object>();
-                    extraDetails.Add("type", row[0]);
-                    extraDetails.Add("separator", row[1]);
-                    extraDetails.Add("location", row[2]);
-                    extraDetails.Add("spec", row[3]);
-                    Guid? mangaGuid = null;
-                    string testName = null;
-                    if (sheetType == "csv" || sheetType == "excel")
-                    {
-                        testName = Path.GetFileNameWithoutExtension(row[2]);
-                        FileInfo fi = new FileInfo(row[2]);
-                        extraDetails.Add("file_size", fi.Length);
-
-                        var sheetSpec = new Dictionary<string, string> { { MangaConstants.CsvSeparator, row[1] }, { MangaConstants.CsvQuote, "\"" }, { MangaConstants.CsvEscape, "\"" }, { MangaConstants.CsvNull, "" }, { MangaConstants.CsvEol, "\r\n" } };
-                        MangaInfo mangaInfo = new MangaInfo(row[2], testName, headerRow, headerRows, maxRows, ignoreBlankRows, ignoreTextCase, trimLeadingWhitespace, trimTrailingWhitespace, ignoreCols, sheetType, sheetSpec);
-                        using (var input = new StreamReader(row[2]))
-                        {
-                            mangaGuid = SheetProcessing.ProcessSheet(MatrixEaseIdentifier, input.BaseStream, mangaInfo, RunBackroundManagGet);
-                        }
-                    }
-                    else if (sheetType == "google")
-                    {
-                        var sheetSpec = new Dictionary<string, string> { { MangaConstants.SheetID, row[2] }, { MangaConstants.SheetRange, row[3] } };
-                        MangaInfo mangaInfo = new MangaInfo("", row[2], headerRow, headerRows, maxRows, ignoreBlankRows, ignoreTextCase, trimLeadingWhitespace, trimTrailingWhitespace, ignoreCols, sheetType, sheetSpec);
-
-                        UserCredential credential = GoogsAuth.AuthenticateLocal(row[4], row[5]);
-                        mangaGuid = SheetProcessing.ProcessSheet(credential, MatrixEaseIdentifier, mangaInfo, RunBackroundManagGet);
-
-                        extraDetails.Add("google_name", mangaInfo.OriginalName);
-                        testName = _cleanName.Replace(mangaInfo.OriginalName, "");
-                    }
-                    _perfStats.Add(stopWatch.StopSubTime());
-                    CheckCacellation();
-                    matrixTest.ExtraDetails = extraDetails;
-
-                    var myManga = Tuple.Create(MatrixEaseIdentifier, mangaGuid.Value);
-                    stopWatch.StartSubTime("load_display_matrix", "Loading the MatrixEase for Display");
-                    string mangaName;
-                    var mangaDisplay = MangaState.LoadManga(myManga, true, -1, new MangaLoadOptions(true), out mangaName);
-                    CheckCacellation();
-
-                    var matrixDisplayData = mangaDisplay.ReturnMatrixEase();
-                    CheckCacellation();
-                    _perfStats.Add(stopWatch.StopSubTime());
-
-                    matrixTest.MatrixDisplayData = matrixDisplayData;
-
-                    dynamic matrix = JsonConvert.DeserializeObject<ExpandoObject>(JsonConvert.SerializeObject(matrixDisplayData), new ExpandoObjectConverter());
-
-                    List<int> measures = new List<int>();
-                    foreach (dynamic col in matrix.Columns)
-                    {
-                        int index = (int)col.Value.Index;
-                        if (col.Value.ColType == "Measure")
-                            measures.Add(index);
-                    }
-
-                    stopWatch.StartSubTime("load_full_matrix", "Loading the MatrixEase full");
-                    var manga = MangaState.LoadManga(myManga, true, -1, new MangaLoadOptions(false), out mangaName);
-                    _perfStats.Add(stopWatch.StopSubTime());
-
-                    Dictionary<string, object> columns = new Dictionary<string, object>();
-                    stopWatch.StartSubTime("load_columndata", "Loading the MatrixEase Columns");
-                    foreach (dynamic col in matrix.Columns)
+                    DateTime startTime = DateTime.Now;
+                    string name = "Unknown";
+                    string status = "Unknown";
+                    string excp = null;
+                    try
                     {
                         CheckCacellation();
 
-                        Dictionary<string, object> colData = new Dictionary<string, object>();
-                        int index = (int)col.Value.Index;
-                        stopWatch.StartSubTime("load_column_stats", "Loading the MatrixEase Columns Stats");
-                        colData.Add("col_stats", manga.ReturnColStats(index));
-
-                        double lastHighestPct = 0;
-                        string nodeToMeasure = "";
-                        string nodeForRows = "";
-                        foreach (var node in col.Value.Values)
+                        ++testIndex;
+                        if (runThese.Contains(testIndex) == false)
                         {
-                            double totalPct = node.TotalPct;
-                            if (totalPct > lastHighestPct)
+                            _processWorker.ReportProgress(0, string.Format("Skipping {0}", row[2]));
+                            continue;
+                        }
+
+                        name = row[2];
+                        _processWorker.ReportProgress(0, string.Format("[{0}] Processing {1}", startTime.ToString("yyyy-MM-dd HH:mm:ss"), row[2]));
+
+                        int headerRow = 1;
+                        int headerRows = 1;
+                        int maxRows = 0;
+                        bool ignoreBlankRows = true;
+                        bool ignoreTextCase = true;
+                        bool trimLeadingWhitespace = true;
+                        bool trimTrailingWhitespace = true;
+                        string ignoreCols = null;
+                        string sheetType = row[0].ToLower();
+
+                        _perfStats = new List<MyPerformance>();
+                        dynamic matrixTest = new ExpandoObject();
+                        MyStopWatch stopWatch = MyStopWatch.StartNew("total_test_time", "MatrixEase Test Run");
+
+                        stopWatch.StartSubTime("init_time", "MatrixEase Initialization");
+                        Dictionary<string, object> extraDetails = new Dictionary<string, object>();
+                        extraDetails.Add("type", row[0]);
+                        extraDetails.Add("separator", row[1]);
+                        extraDetails.Add("location", row[2]);
+                        extraDetails.Add("spec", row[3]);
+                        Guid? mangaGuid = null;
+                        string testName = null;
+                        if (sheetType == "csv" || sheetType == "excel")
+                        {
+                            testName = Path.GetFileNameWithoutExtension(row[2]);
+                            FileInfo fi = new FileInfo(row[2]);
+                            extraDetails.Add("file_size", fi.Length);
+
+                            var sheetSpec = new Dictionary<string, string> { { MangaConstants.CsvSeparator, row[1] }, { MangaConstants.CsvQuote, "\"" }, { MangaConstants.CsvEscape, "\"" }, { MangaConstants.CsvNull, "" }, { MangaConstants.CsvEol, "\r\n" } };
+                            MangaInfo mangaInfo = new MangaInfo(row[2], testName, headerRow, headerRows, maxRows, ignoreBlankRows, ignoreTextCase, trimLeadingWhitespace, trimTrailingWhitespace, ignoreCols, sheetType, sheetSpec);
+                            using (var input = new StreamReader(row[2]))
                             {
-                                nodeToMeasure = node.ColumnValue;
-                                if (totalPct > 40)
-                                    break;
-                                lastHighestPct = totalPct;
+                                mangaGuid = SheetProcessing.ProcessSheet(MatrixEaseIdentifier, input.BaseStream, mangaInfo, RunBackroundManagGet);
                             }
                         }
+                        else if (sheetType == "google")
+                        {
+                            var sheetSpec = new Dictionary<string, string> { { MangaConstants.SheetID, row[2] }, { MangaConstants.SheetRange, row[3] } };
+                            MangaInfo mangaInfo = new MangaInfo("", row[2], headerRow, headerRows, maxRows, ignoreBlankRows, ignoreTextCase, trimLeadingWhitespace, trimTrailingWhitespace, ignoreCols, sheetType, sheetSpec);
+
+                            UserCredential credential = GoogsAuth.AuthenticateLocal(row[4], row[5]);
+                            mangaGuid = SheetProcessing.ProcessSheet(credential, MatrixEaseIdentifier, mangaInfo, RunBackroundManagGet);
+
+                            extraDetails.Add("google_name", mangaInfo.OriginalName);
+                            testName = _cleanName.Replace(mangaInfo.OriginalName, "");
+                        }
+                        _perfStats.Add(stopWatch.StopSubTime());
+                        CheckCacellation();
+                        matrixTest.ExtraDetails = extraDetails;
+
+                        var myManga = Tuple.Create(MatrixEaseIdentifier, mangaGuid.Value);
+                        stopWatch.StartSubTime("load_display_matrix", "Loading the MatrixEase for Display");
+                        string mangaName;
+                        var mangaDisplay = MangaState.LoadManga(myManga, true, -1, new MangaLoadOptions(true), out mangaName);
+                        CheckCacellation();
+
+                        var matrixDisplayData = mangaDisplay.ReturnMatrixEase();
+                        CheckCacellation();
                         _perfStats.Add(stopWatch.StopSubTime());
 
-                        var selectedNode = string.Format("{0}@{1}:{2}", nodeToMeasure, col.Key, index);
-                        if (measures.Count > 0)
+                        matrixTest.MatrixDisplayData = matrixDisplayData;
+
+                        dynamic matrix = JsonConvert.DeserializeObject<ExpandoObject>(JsonConvert.SerializeObject(matrixDisplayData), new ExpandoObjectConverter());
+
+                        List<int> measures = new List<int>();
+                        foreach (dynamic col in matrix.Columns)
+                        {
+                            int index = (int)col.Value.Index;
+                            if (col.Value.ColType == "Measure")
+                                measures.Add(index);
+                        }
+
+                        stopWatch.StartSubTime("load_full_matrix", "Loading the MatrixEase full");
+                        var manga = MangaState.LoadManga(myManga, true, -1, new MangaLoadOptions(false), out mangaName);
+                        _perfStats.Add(stopWatch.StopSubTime());
+
+                        Dictionary<string, object> columns = new Dictionary<string, object>();
+                        stopWatch.StartSubTime("load_columndata", "Loading the MatrixEase Columns");
+                        foreach (dynamic col in matrix.Columns)
                         {
                             CheckCacellation();
-                            colData.Add("col_measures", manga.GetMeasureStats(selectedNode, measures.ToArray()));
+
+                            Dictionary<string, object> colData = new Dictionary<string, object>();
+                            int index = (int)col.Value.Index;
+                            stopWatch.StartSubTime("load_column_stats", "Loading the MatrixEase Columns Stats");
+                            colData.Add("col_stats", manga.ReturnColStats(index));
+
+                            double lastHighestPct = 0;
+                            string nodeToMeasure = "";
+                            string nodeForRows = "";
+                            foreach (var node in col.Value.Values)
+                            {
+                                double totalPct = node.TotalPct;
+                                if (totalPct > lastHighestPct)
+                                {
+                                    nodeToMeasure = node.ColumnValue;
+                                    if (totalPct > 40)
+                                        break;
+                                    lastHighestPct = totalPct;
+                                }
+                            }
+                            _perfStats.Add(stopWatch.StopSubTime());
+
+                            var selectedNode = string.Format("{0}@{1}:{2}", nodeToMeasure, col.Key, index);
+                            if (measures.Count > 0)
+                            {
+                                CheckCacellation();
+                                colData.Add("col_measures", manga.GetMeasureStats(selectedNode, measures.ToArray()));
+                            }
+                            /* TODO
+                            GetNodeRows
+                            GetDependencyDiagram
+
+                            filter
+                            bucketize
+                            export
+                            */
+                            columns.Add(col.Key, colData);
                         }
-                        /* TODO
-                        GetNodeRows
-                        GetDependencyDiagram
+                        _perfStats.Add(stopWatch.StopSubTime());
+                        matrixTest.ColumnData = columns;
 
-                        filter
-                        bucketize
-                        export
-                        */
-                        columns.Add(col.Key, colData);
+                        stopWatch.StartSubTime("delete_matrix", "Delete the MatrixEase");
+                        MangaState.DeleteManga(myManga);
+                        _perfStats.Add(stopWatch.StopSubTime());
+
+                        _perfStats.Add(stopWatch.Stop());
+
+                        matrixTest.PerformanceStats = _perfStats;
+
+                        MangaFactory.GetStatus(MatrixEaseIdentifier, mangaGuid.Value);
+
+                        string json = JsonConvert.SerializeObject(matrixTest);
+
+                        string ext = isBaseline ? "base" : DateTime.Now.ToString("yyyyMMddHHmmss");
+                        System.IO.File.WriteAllText(Path.ChangeExtension(Path.Combine(_testsPath, testName), ext), json);
+
+                        status = "Completed";
                     }
-                    _perfStats.Add(stopWatch.StopSubTime());
-                    matrixTest.ColumnData = columns;
-
-                    stopWatch.StartSubTime("delete_matrix", "Delete the MatrixEase");
-                    MangaState.DeleteManga(myManga);
-                    _perfStats.Add(stopWatch.StopSubTime());
-
-                    _perfStats.Add(stopWatch.Stop());
-
-                    matrixTest.PerformanceStats = _perfStats;
-
-                    MangaFactory.GetStatus(MatrixEaseIdentifier, mangaGuid.Value);
-
-                    string json = JsonConvert.SerializeObject(matrixTest);
-
-                    string ext = isBaseline ? "base" : DateTime.Now.ToString("yyyyMMddHHmmss");
-                    System.IO.File.WriteAllText(Path.ChangeExtension(Path.Combine(_testsPath, testName), ext), json);
+                    catch(OperationCanceledException)
+                    {
+                        throw;
+                    }
+                    catch (Exception excpInner)
+                    {
+                        status = "Error";
+                        excp = excpInner.ToString();
+                    }
+                    finally
+                    {
+                        DateTime endTime = DateTime.Now;
+                        _processWorker.ReportProgress(0, string.Format("[{0}] {1} - {2} - [{3}]", endTime, status, row[2], (endTime - startTime)));
+                        if (excp != null)
+                        {
+                            _processWorker.ReportProgress(0, excp);
+                        }
+                    }
                 }
             }
-            catch(Exception excp)
+            catch(Exception excpOuter)
             {
-                _processWorker.ReportProgress(0, excp.ToString());
+                _processWorker.ReportProgress(0, excpOuter.ToString());
             }
         }
 
@@ -333,15 +380,19 @@ namespace MatrixEase.Tester
 
         void _processWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            string message = "";
             try
             {
-                _outputTxt.AppendText(e.UserState as string);
+                message = e.UserState as string;
             }
             catch (Exception excp)
             {
-                _outputTxt.AppendText(excp.ToString());
+                message = excp.ToString();
             }
-            _outputTxt.AppendText("\r\n");
+            //_outputTxt.Text.Insert(0, string.Format("{0}\r\n", message));
+            _outputTxt.SelectionStart = 0;
+            _outputTxt.SelectionLength = 0;
+            _outputTxt.SelectedText = string.Format("{0}\r\n", message);
         }
 
         void _processWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
