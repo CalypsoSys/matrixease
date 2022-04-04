@@ -37,7 +37,8 @@ namespace MatrixEase.Web
         [HttpGet]
         public RedirectResult Get()
         {
-            try { 
+            try 
+            { 
                 return Redirect(new Uri("/index.html", UriKind.Relative).ToString());
             }
             catch (Exception excp)

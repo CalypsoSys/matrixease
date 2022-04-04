@@ -1,4 +1,4 @@
-﻿//#define TEST_LIMITS
+﻿#define TEST_LIMITS
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +19,7 @@ namespace MatrixEase.Manga.Utility
 #if RELEASE || TEST_LIMITS
             if (mangas >= MaxProjects)
             {
+                MyLogger.LogError(null, MaxProjectsMessage);
                 throw new MatrixEaseLicenseException(MaxProjectsMessage);
             }
 #endif
@@ -29,6 +30,7 @@ namespace MatrixEase.Manga.Utility
 #if RELEASE || TEST_LIMITS
             if (cells >= MaxRowsCols)
             {
+                MyLogger.LogError(null, MaxCellsMessage);
                 throw new MatrixEaseLicenseException(MaxCellsMessage);
             }
 #endif

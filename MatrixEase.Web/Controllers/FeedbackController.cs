@@ -134,6 +134,5 @@ namespace MatrixEase.Web.Controllers
 
             return clientInfo;
         }
-
     }
 }

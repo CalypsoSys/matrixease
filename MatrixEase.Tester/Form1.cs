@@ -463,11 +463,21 @@ namespace MatrixEase.Tester
         {
             Task.Run(() =>
             {
-                using (job)
+                try
                 {
-                    job.Process(_tokenSource.Token);
+                    using (job)
+                    {
+                        job.Process(_tokenSource.Token);
+                    }
                 }
-                _jobDone.Set();
+                catch (Exception excp)
+                {
+                    MyLogger.LogError(excp, "Running job");
+                }
+                finally
+                {
+                    _jobDone.Set();
+                }
             });
         }
 

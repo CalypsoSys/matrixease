@@ -12,6 +12,7 @@ namespace MatrixEase.Manga.Processing
 {
     public abstract class MangaFactory : MangaJobFactory
     {
+        private const string _maxWorkersErrorMessage = "Max workers for this user - only 1 job at a time for this license type";
         private static int _maxWorkersPerUser = 1;
         private static volatile object _lockWorkingSets = new object();
         private static Dictionary<string, Dictionary<Guid, MangaInfo>> _workingSets = new Dictionary<string, Dictionary<Guid, MangaInfo>>();
@@ -34,7 +35,10 @@ namespace MatrixEase.Manga.Processing
             lock (_lockWorkingSets)
             {
                 if (_workingSets.ContainsKey(userId) && _workingSets[userId].Count > _maxWorkersPerUser)
-                    throw new Exception("Max workers for this user - only 1 job at a time for this license type");
+                {
+                    MyLogger.LogError(null, _maxWorkersErrorMessage);
+                    throw new Exception(_maxWorkersErrorMessage);
+                }
                 else if (_workingSets.Count == 0)
                 {
                     // Cleanup any old stale data and reset

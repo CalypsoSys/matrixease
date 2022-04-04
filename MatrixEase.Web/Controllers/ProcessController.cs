@@ -11,6 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using MatrixEase.Manga.Utility;
 
 namespace MatrixEase.Web.Controllers
 {
@@ -27,9 +28,16 @@ namespace MatrixEase.Web.Controllers
         {
             Queue.QueueBackgroundWorkItem(async token =>
             {
-                using (job)
+                try
                 {
-                    job.Process(token);
+                    using (job)
+                    {
+                        job.Process(token);
+                    }
+                }
+                catch(Exception excp)
+                {
+                    MyLogger.LogError(excp, "Running job");
                 }
             });
         }

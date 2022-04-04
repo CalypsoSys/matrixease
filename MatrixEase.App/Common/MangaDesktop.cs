@@ -1,5 +1,6 @@
 ﻿using MatrixEase.Manga.Manga;
 using MatrixEase.Manga.Processing;
+using MatrixEase.Manga.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +23,18 @@ namespace Desktop.MatrixEase.Manga.Common
         public static void RunBackroundManagGet(IBackgroundJob job)
         {
             Task.Run(() => {
-                using (job) { job.Process(CancellationToken.None); }
+                try
+                {
+                    using (job)
+                    {
+                        job.Process(CancellationToken.None);
+                    }
                 }
-            );
+                catch(Exception excp)
+                {
+                    MyLogger.LogError(excp, "Running job");
+                }
+            });
         }
     }
 }
