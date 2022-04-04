@@ -1,4 +1,5 @@
-﻿using MatrixEase.Manga.Utility;
+﻿using Fractions;
+using MatrixEase.Manga.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,7 +18,7 @@ namespace MatrixEase.Manga.Manga
         private decimal _minDecimal = decimal.MaxValue;
         private decimal _maxDecimal = decimal.MinValue;
         private decimal _totalDecimal = 0;
-        private BigInteger _totalSqr = 0;
+        private Fraction _totalSqr = 0;
         private UInt64 _totalIntegral = 0;
         private UInt64 _totalFractional = 0;
         //private List<UInt64> _firstSignificance = new List<UInt64>(new UInt64[32]);
@@ -73,7 +74,8 @@ namespace MatrixEase.Manga.Manga
             writer.WriteDecimal(_minDecimal == decimal.MaxValue ? 0 : _minDecimal);
             writer.WriteDecimal(_maxDecimal == decimal.MinValue ? 0 : _maxDecimal);
             writer.WriteDecimal(_totalDecimal);
-            writer.WriteArrayBytes(_totalSqr.ToByteArray());
+            writer.WriteArrayBytes(_totalSqr.Numerator.ToByteArray());
+            writer.WriteArrayBytes(_totalSqr.Denominator.ToByteArray());
             writer.WriteUInt64(_totalIntegral);
             writer.WriteUInt64(_totalFractional);
         }
@@ -84,7 +86,9 @@ namespace MatrixEase.Manga.Manga
             _minDecimal = reader.ReadDecimal();
             _maxDecimal = reader.ReadDecimal();
             _totalDecimal = reader.ReadDecimal();
-            _totalSqr = new BigInteger(reader.ReadArrayBytes());
+            BigInteger numerator = new BigInteger(reader.ReadArrayBytes());
+            BigInteger denominator = new BigInteger(reader.ReadArrayBytes());
+            _totalSqr = new Fraction(numerator, denominator);
             _totalIntegral = reader.ReadUInt64();
             _totalFractional = reader.ReadUInt64();
         }
@@ -100,8 +104,8 @@ namespace MatrixEase.Manga.Manga
                 if (input != 0)
                 {
                     _totalDecimal += input;
-                    var bigInt = new BigInteger(input);
-                    _totalSqr += (bigInt * bigInt);
+                    Fraction fraction = new Fraction(input);
+                    _totalSqr += (fraction * fraction);
 
                     int[] bits = decimal.GetBits(input);
                     UInt64 fractional = (UInt64)((bits[3] >> 16) & 0x7F);
@@ -144,11 +148,11 @@ namespace MatrixEase.Manga.Manga
                 {
                     if (_totalCount != 0 && _totalCount - 1 != 0)
                     { 
-                        BigInteger totalCount = new BigInteger(_totalCount);
-                        BigInteger totalDecimal = new BigInteger(_totalDecimal);
-                        BigInteger one = new BigInteger(1);
-                        double d = (double)(((totalCount * _totalSqr) - (totalDecimal * totalDecimal)) / (totalCount * (totalCount - one)));
-                        return (decimal)Math.Sqrt(d);
+                        Fraction totalCount = new Fraction(_totalCount);
+                        Fraction totalDecimal = new Fraction(_totalDecimal);
+                        Fraction one = new Fraction(1);
+                        Fraction d = (((totalCount * _totalSqr) - (totalDecimal * totalDecimal)) / (totalCount * (totalCount - one)));
+                        return d.Sqrt().ToDecimal();
                     }
                 }
                 catch(Exception excp)
