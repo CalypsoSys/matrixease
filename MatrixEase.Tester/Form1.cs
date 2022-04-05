@@ -250,7 +250,6 @@ namespace MatrixEase.Tester
                         string sheetType = row[0].ToLower();
 
                         _perfStats = new List<MyPerformance>();
-                        dynamic matrixTest = new ExpandoObject();
                         MyStopWatch stopWatch = MyStopWatch.StartNew("total_test_time", "MatrixEase Test Run");
 
                         stopWatch.StartSubTime("init_time", "MatrixEase Initialization");
@@ -284,96 +283,99 @@ namespace MatrixEase.Tester
                             testName = _cleanName.Replace(mangaInfo.OriginalName, "");
                         }
                         _jobDone.WaitOne();
-                        _perfStats.Add(stopWatch.StopSubTime());
-                        CheckCacellation();
-                        matrixTest.ExtraDetails = extraDetails;
 
-                        var myManga = Tuple.Create(MatrixEaseIdentifier, _mangaGuid.Value);
-                        stopWatch.StartSubTime("load_display_matrix", "Loading the MatrixEase for Display");
-                        string mangaName;
-                        var mangaDisplay = MangaState.LoadManga(myManga, true, -1, new MangaLoadOptions(true), out mangaName);
-                        CheckCacellation();
-
-                        var matrixDisplayData = mangaDisplay.ReturnMatrixEase();
-                        CheckCacellation();
-                        _perfStats.Add(stopWatch.StopSubTime());
-
-                        matrixTest.MatrixDisplayData = matrixDisplayData;
-
-                        dynamic matrix = JsonConvert.DeserializeObject<ExpandoObject>(JsonConvert.SerializeObject(matrixDisplayData), new ExpandoObjectConverter());
-
-                        List<int> measures = new List<int>();
-                        foreach (dynamic col in matrix.Columns)
+                        //dynamic matrixTest = new ExpandoObject();
+                        //string json = JsonConvert.SerializeObject(matrixTest);
+                        // matrixTest.Anything = some object 
+                        string ext = isBaseline ? "base" : DateTime.Now.ToString("yyyyMMddHHmmss");
+                        using (var matrixTest = new JsonStreamer(Path.ChangeExtension(Path.Combine(_testsPath, testName), ext)))
                         {
-                            int index = (int)col.Value.Index;
-                            if (col.Value.ColType == "Measure")
-                                measures.Add(index);
-                        }
+                            _perfStats.Add(stopWatch.StopSubTime());
+                            CheckCacellation();
+                            matrixTest.WriteNode("ExtraDetails", extraDetails);
 
-                        stopWatch.StartSubTime("load_full_matrix", "Loading the MatrixEase full");
-                        var manga = MangaState.LoadManga(myManga, true, -1, new MangaLoadOptions(false), out mangaName);
-                        _perfStats.Add(stopWatch.StopSubTime());
-
-                        Dictionary<string, object> columns = new Dictionary<string, object>();
-                        stopWatch.StartSubTime("load_columndata", "Loading the MatrixEase Columns");
-                        foreach (dynamic col in matrix.Columns)
-                        {
+                            var myManga = Tuple.Create(MatrixEaseIdentifier, _mangaGuid.Value);
+                            stopWatch.StartSubTime("load_display_matrix", "Loading the MatrixEase for Display");
+                            string mangaName;
+                            var mangaDisplay = MangaState.LoadManga(myManga, true, -1, new MangaLoadOptions(true), out mangaName);
                             CheckCacellation();
 
-                            Dictionary<string, object> colData = new Dictionary<string, object>();
-                            int index = (int)col.Value.Index;
-                            stopWatch.StartSubTime("load_column_stats", "Loading the MatrixEase Columns Stats");
-                            colData.Add("col_stats", manga.ReturnColStats(index));
-
-                            double lastHighestPct = 0;
-                            string nodeToMeasure = "";
-                            string nodeForRows = "";
-                            foreach (var node in col.Value.Values)
-                            {
-                                double totalPct = node.TotalPct;
-                                if (totalPct > lastHighestPct)
-                                {
-                                    nodeToMeasure = node.ColumnValue;
-                                    if (totalPct > 40)
-                                        break;
-                                    lastHighestPct = totalPct;
-                                }
-                            }
+                            var matrixDisplayData = mangaDisplay.ReturnMatrixEase();
+                            CheckCacellation();
                             _perfStats.Add(stopWatch.StopSubTime());
 
-                            var selectedNode = string.Format("{0}@{1}:{2}", nodeToMeasure, col.Key, index);
-                            if (measures.Count > 0)
+                            matrixTest.WriteNode("MatrixDisplayData", matrixDisplayData);
+
+                            dynamic matrix = JsonConvert.DeserializeObject<ExpandoObject>(JsonConvert.SerializeObject(matrixDisplayData), new ExpandoObjectConverter());
+
+                            List<int> measures = new List<int>();
+                            foreach (dynamic col in matrix.Columns)
+                            {
+                                int index = (int)col.Value.Index;
+                                if (col.Value.ColType == "Measure")
+                                    measures.Add(index);
+                            }
+
+                            stopWatch.StartSubTime("load_full_matrix", "Loading the MatrixEase full");
+                            var manga = MangaState.LoadManga(myManga, true, -1, new MangaLoadOptions(false), out mangaName);
+                            _perfStats.Add(stopWatch.StopSubTime());
+
+                            Dictionary<string, object> columns = new Dictionary<string, object>();
+                            stopWatch.StartSubTime("load_columndata", "Loading the MatrixEase Columns");
+                            foreach (dynamic col in matrix.Columns)
                             {
                                 CheckCacellation();
-                                colData.Add("col_measures", manga.GetMeasureStats(selectedNode, measures.ToArray()));
+
+                                Dictionary<string, object> colData = new Dictionary<string, object>();
+                                int index = (int)col.Value.Index;
+                                stopWatch.StartSubTime("load_column_stats", "Loading the MatrixEase Columns Stats");
+                                colData.Add("col_stats", manga.ReturnColStats(index));
+
+                                double lastHighestPct = 0;
+                                string nodeToMeasure = "";
+                                string nodeForRows = "";
+                                foreach (var node in col.Value.Values)
+                                {
+                                    double totalPct = node.TotalPct;
+                                    if (totalPct > lastHighestPct)
+                                    {
+                                        nodeToMeasure = node.ColumnValue;
+                                        if (totalPct > 40)
+                                            break;
+                                        lastHighestPct = totalPct;
+                                    }
+                                }
+                                _perfStats.Add(stopWatch.StopSubTime());
+
+                                var selectedNode = string.Format("{0}@{1}:{2}", nodeToMeasure, col.Key, index);
+                                if (measures.Count > 0)
+                                {
+                                    CheckCacellation();
+                                    colData.Add("col_measures", manga.GetMeasureStats(selectedNode, measures.ToArray()));
+                                }
+                                /* TODO
+                                GetNodeRows
+                                GetDependencyDiagram
+
+                                filter
+                                bucketize
+                                export
+                                */
+                                columns.Add(col.Key, colData);
                             }
-                            /* TODO
-                            GetNodeRows
-                            GetDependencyDiagram
+                            _perfStats.Add(stopWatch.StopSubTime());
+                            matrixTest.WriteNode("ColumnData", columns);
 
-                            filter
-                            bucketize
-                            export
-                            */
-                            columns.Add(col.Key, colData);
+                            stopWatch.StartSubTime("delete_matrix", "Delete the MatrixEase");
+                            MangaState.DeleteManga(myManga);
+                            _perfStats.Add(stopWatch.StopSubTime());
+
+                            _perfStats.Add(stopWatch.Stop());
+
+                            matrixTest.WriteNode("PerformanceStats", _perfStats);
+
+                            status = "Completed";
                         }
-                        _perfStats.Add(stopWatch.StopSubTime());
-                        matrixTest.ColumnData = columns;
-
-                        stopWatch.StartSubTime("delete_matrix", "Delete the MatrixEase");
-                        MangaState.DeleteManga(myManga);
-                        _perfStats.Add(stopWatch.StopSubTime());
-
-                        _perfStats.Add(stopWatch.Stop());
-
-                        matrixTest.PerformanceStats = _perfStats;
-
-                        string json = JsonConvert.SerializeObject(matrixTest);
-
-                        string ext = isBaseline ? "base" : DateTime.Now.ToString("yyyyMMddHHmmss");
-                        System.IO.File.WriteAllText(Path.ChangeExtension(Path.Combine(_testsPath, testName), ext), json);
-
-                        status = "Completed";
                     }
                     catch(OperationCanceledException)
                     {
