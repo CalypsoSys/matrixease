@@ -13,6 +13,8 @@ namespace MatrixEase.Tester
     {
         private StreamWriter _output;
         private bool _firstOut = true;
+        private bool _inSubNode = false;
+        private bool _nodeFirstOut = true;
         public JsonStreamer(string file)
         {
             _output = new StreamWriter(file);
@@ -22,10 +24,19 @@ namespace MatrixEase.Tester
 #endif
         }
 
-        public void WriteNode(string name, object data)
+        private void WriteComma()
         {
-            if (_firstOut)
-                _firstOut = false;
+            if (_firstOut || (_inSubNode && _nodeFirstOut))
+            {
+                if (_inSubNode)
+                {
+                    _nodeFirstOut = false;
+                }
+                else
+                {
+                    _firstOut = false;
+                }
+            }
             else
             {
                 _output.Write(",");
@@ -33,8 +44,29 @@ namespace MatrixEase.Tester
                 _output.WriteLine();
 #endif
             }
+        }
 
+        public void WriteNode(string name, object data)
+        {
+            WriteComma();
             _output.Write("\"{0}\":{1}", name, JsonConvert.SerializeObject(data));
+        }
+
+        public void StartNode(string name)
+        {
+            WriteComma();
+            _inSubNode = true;
+            _nodeFirstOut = true;
+            _output.Write("\"{0}\":{{", name);
+        }
+
+        public void EndNode()
+        {
+            _inSubNode = false;
+            _output.Write("}");
+#if DEBUG
+            _output.WriteLine();
+#endif
         }
 
         protected override void DisposeManaged()

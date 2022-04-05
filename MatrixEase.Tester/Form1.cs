@@ -320,8 +320,8 @@ namespace MatrixEase.Tester
                             var manga = MangaState.LoadManga(myManga, true, -1, new MangaLoadOptions(false), out mangaName);
                             _perfStats.Add(stopWatch.StopSubTime());
 
-                            Dictionary<string, object> columns = new Dictionary<string, object>();
                             stopWatch.StartSubTime("load_columndata", "Loading the MatrixEase Columns");
+                            matrixTest.StartNode("ColumnData");
                             foreach (dynamic col in matrix.Columns)
                             {
                                 CheckCacellation();
@@ -361,10 +361,10 @@ namespace MatrixEase.Tester
                                 bucketize
                                 export
                                 */
-                                columns.Add(col.Key, colData);
+                                matrixTest.WriteNode(col.Key, colData);
                             }
                             _perfStats.Add(stopWatch.StopSubTime());
-                            matrixTest.WriteNode("ColumnData", columns);
+                            matrixTest.EndNode();
 
                             stopWatch.StartSubTime("delete_matrix", "Delete the MatrixEase");
                             MangaState.DeleteManga(myManga);
