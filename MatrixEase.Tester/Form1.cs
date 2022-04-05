@@ -48,6 +48,7 @@ namespace MatrixEase.Tester
         {
             InitializeComponent();
 
+            MatrixEaseLicense.OverrideLicense();
             MangaState.SetPerformanceLogger(PerformanceLogger);
 
             Initialize();
