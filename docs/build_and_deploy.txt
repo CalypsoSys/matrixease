@@ -53,7 +53,7 @@ Init Docker Image
 02. ./docker_matrixease.sh stop
 03. Update matrixease_static/htdocs/ with all files from www.matrixease.com
 04. Update  matrixease_docs_static/htdocs/ with all files from docs.matrixease.com
-05. cp matrixease_web.tar matrixease_web.tar.lastgood
+05. mv matrixease_web.tar matrixease_web.tar.lastgood
 06. copy matrixease_web.tar to /home/calypso/docker (on deployment machine)
 07. cd matrixease_dotnet
 08. sudo docker-compose down
@@ -67,6 +67,17 @@ Init Docker Image
 15. ./docker_matrixease.sh start
 
 TEST TEST TEST
+Delete C:\Users\Joe\AppData\Roaming\matrixease
+download from site windows and linux
+install windows file, linux file, linux snap
+
+Windows\linux\snap\web load 
+    deploy_test_csv.csv
+    deploy_test_excel97_2003.xls
+    deploy_test_excel_workbook.xlsx
+    deploy_test_google.txt
+    deploy_test_ssv.txt    
+
  sudo docker exec -it  nginx-proxy /bin/bash
  sudo docker exec -it  nginx-proxy-le /bin/bash
  	vi letsencrypt_service_data

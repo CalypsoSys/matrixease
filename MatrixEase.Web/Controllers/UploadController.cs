@@ -53,9 +53,9 @@ namespace MatrixEase.Web.Controllers
                     }
                 }
             }
-            catch (MatrixEaseLicenseException licExcp)
+            catch (MatrixEaseException mExcp)
             {
-                return new { Success = false, Error = licExcp.Message };
+                return new { Success = false, Error = mExcp.Message };
             }
             catch (Exception excp)
             {

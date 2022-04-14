@@ -225,10 +225,48 @@ namespace MatrixEase.Manga.Processing
         private void ProcessSamples(List<IList<object>> samples, DataManga manga)
         {
             int sampleRowIndex = 1;
+            decimal binaryCount = 0;
+            decimal asciiCount = 0;
+            decimal highCount = 0;
+            decimal totalCount = 0;
+            MangaStat colStats = new MangaStat();
             foreach (var sampleRow in samples)
             {
+                foreach (var col in sampleRow)
+                {
+                    string test = col as string;
+                    if (test != null)
+                    {
+                        foreach (char c in test)
+                        {
+                            if (c <= 8)
+                            {
+                                ++binaryCount;
+                            }
+                            else if (c < 127)
+                            {
+                                ++asciiCount;
+                            }
+                            else
+                            {
+                                ++highCount;
+                            }
+                            ++totalCount;
+                        }
+                    }
+                }
+                colStats.AddStat(sampleRow.Count, true);
                 ProcessRow(manga, sampleRowIndex, sampleRow);
                 ++sampleRowIndex;
+            }
+
+            decimal binaryPct = ((binaryCount * 100) / totalCount);
+            decimal asciiPct = ((asciiCount * 100) / totalCount);
+            decimal highPct = ((highCount * 100) / totalCount);
+            if ((colStats.StandardDeviation > 4 && (colStats.StandardDeviation > 7 || binaryPct > 30 || asciiPct < 30 || highPct > 30)) ||
+                (colStats.MaxDecimal - colStats.MinDecimal) > 7)
+            {
+                throw new MatrixEaseException("Cannot determine proper format - binary file and/or matrix has too much column variance");
             }
         }
 
@@ -319,11 +357,11 @@ namespace MatrixEase.Manga.Processing
 
                 _mangaInfo.Status = "Complete";
             }
-            catch (MatrixEaseLicenseException licExcp)
+            catch (MatrixEaseException mExcp)
             {
-                SetStatus(MangaFactoryStatusKey.Failed, licExcp.Message, MangaFactoryStatusState.Failed);
+                SetStatus(MangaFactoryStatusKey.Failed, mExcp.Message, MangaFactoryStatusState.Failed);
                 _mangaInfo.Status = "Failed";
-                _mangaInfo.Message = licExcp.Message;
+                _mangaInfo.Message = mExcp.Message;
             }
             catch (Exception excp)
             {

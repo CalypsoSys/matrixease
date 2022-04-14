@@ -34,7 +34,7 @@ namespace MatrixEase.Manga.Utility
             if (mangas >= MaxProjects)
             {
                 MyLogger.LogError(null, MaxProjectsMessage);
-                throw new MatrixEaseLicenseException(MaxProjectsMessage);
+                throw new MatrixEaseException(MaxProjectsMessage);
             }
 #endif
         }
@@ -49,16 +49,9 @@ namespace MatrixEase.Manga.Utility
             if (cells >= MaxRowsCols)
             {
                 MyLogger.LogError(null, MaxCellsMessage);
-                throw new MatrixEaseLicenseException(MaxCellsMessage);
+                throw new MatrixEaseException(MaxCellsMessage);
             }
 #endif
-        }
-    }
-
-    public class MatrixEaseLicenseException : ApplicationException
-    {
-        public MatrixEaseLicenseException(string message) : base(message)
-        {
         }
     }
 }

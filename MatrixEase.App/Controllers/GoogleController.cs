@@ -63,9 +63,9 @@ namespace MatrixEase.Manga.com
                     return new { Success = true, MatrixId = HttpUtility.UrlEncode(mangaGuid.Value.ToString()), StatusData = MangaFactory.StartingStatus("Google Sheet") };
                 }
             }
-            catch (MatrixEaseLicenseException licExcp)
+            catch (MatrixEaseException mExcp)
             {
-                return new { Success = false, Error = licExcp.Message };
+                return new { Success = false, Error = mExcp.Message };
             }
             catch (Google.GoogleApiException googs)
             {
