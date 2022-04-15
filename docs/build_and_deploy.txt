@@ -3,13 +3,14 @@ Build Windows Desktop App
 01. Delete all C:\CalypsoSystems\MatrixEase\bin
 02. C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin
 03. C:\CalypsoSystems\MatrixEase\MatrixEase.App\obj
-04. Rebuild Solution in release mode
-05. Start window developer cmd prompt
-06. cd C:\CalypsoSystems\MatrixEase\MatrixEase.App
-07. electronize build /target win 
-08. "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe"
-09. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\CalypsoSystems\MatrixEase\www.matrixease.com\download\MatrixEase Setup 1.0.0.exe"
-10. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\transfer\MatrixEase Setup 1.0.0.exe"
+04. Clean the Solution
+05. Rebuild Solution in release mode
+06. Start window developer cmd prompt
+07. cd C:\CalypsoSystems\MatrixEase\MatrixEase.App
+08. electronize build /target win 
+09. "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe"
+10. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\CalypsoSystems\MatrixEase\www.matrixease.com\download\MatrixEase Setup 1.0.0.exe"
+11. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\transfer\MatrixEase Setup 1.0.0.exe"
 
 
 Build Ubuntu Desktop 
