@@ -78,6 +78,8 @@ Windows\linux\snap\web load
     deploy_test_google.txt
     deploy_test_ssv.txt    
 
+Test Google Auth against all
+
  sudo docker exec -it  nginx-proxy /bin/bash
  sudo docker exec -it  nginx-proxy-le /bin/bash
  	vi letsencrypt_service_data
