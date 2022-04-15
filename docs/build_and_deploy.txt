@@ -85,6 +85,7 @@ Windows\linux\snap\web load
     deploy_test_ssv.txt    
 
 Test Google Auth against all
+Test 2 web site concurrent
 
  sudo docker exec -it  nginx-proxy /bin/bash
  sudo docker exec -it  nginx-proxy-le /bin/bash
