@@ -68,7 +68,12 @@ Init Docker Image
 15. ./docker_matrixease.sh start
 
 TEST TEST TEST
+Uninstall windows MatrixEase
 Delete C:\Users\Joe\AppData\Roaming\matrixease
+delete 
+    cd/docker/matrixease_dotnet/mangadata
+    sudo rm -r matrixease/
+
 download from site windows and linux
 install windows file, linux file, linux snap
 
