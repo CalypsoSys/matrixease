@@ -13,7 +13,13 @@ namespace MatrixEase.Manga.Processing
     public abstract class MangaFactory : MangaJobFactory
     {
         private const string _maxWorkersErrorMessage = "Max workers for this user - only 1 job at a time for this license type";
-        private static int _maxWorkersPerUser = 1;
+        private const int _maxWorkersPerUser = 1;
+        private const int _rejectFileStdDeviationFactor = 4;
+        private const int _rejectFileDeviationFactor = 7;
+        private const int _rejectFileCharacterPctFactor = 30;
+        private const int _rejectLowBytes = 8;
+        private const int _rejectHighBytes = 127;
+
         private static volatile object _lockWorkingSets = new object();
         private static Dictionary<string, Dictionary<Guid, MangaInfo>> _workingSets = new Dictionary<string, Dictionary<Guid, MangaInfo>>();
         private string _workSetFile;
@@ -80,13 +86,13 @@ namespace MatrixEase.Manga.Processing
         {
             string overallStat = string.Empty;
             if (rowCount != -1)
-                overallStat = string.Format("{0} of {1} - {2}%", _rowIndex, rowCount, ((_rowIndex * 100) / rowCount));
+                overallStat = string.Format("{0} of {1} - {2}%", _rowIndex, rowCount, MiscHelpers.CalcPercent(_rowIndex, rowCount));
             else if (pctRead != -1)
                 overallStat = string.Format("{0} - {1}%", _rowIndex, pctRead);
             string limitStat = string.Empty;
             if (_mangaInfo.MaxRows != 0)
             {
-                limitStat = string.Format(" Limit Row {0} of {1} - {2}%", _rowIndex, _mangaInfo.MaxRows, ((_rowIndex * 100) / _mangaInfo.MaxRows));
+                limitStat = string.Format(" Limit Row {0} of {1} - {2}%", _rowIndex, _mangaInfo.MaxRows, MiscHelpers.CalcPercent(_rowIndex, _mangaInfo.MaxRows));
             }
             SetStatus(MangaFactoryStatusKey.Processing, string.Format("Processing row {0}{1}", overallStat, limitStat), MangaFactoryStatusState.Running);
         }
@@ -239,11 +245,11 @@ namespace MatrixEase.Manga.Processing
                     {
                         foreach (char c in test)
                         {
-                            if (c <= 8)
+                            if (c <= _rejectLowBytes)
                             {
                                 ++binaryCount;
                             }
-                            else if (c < 127)
+                            else if (c < _rejectHighBytes)
                             {
                                 ++asciiCount;
                             }
@@ -260,11 +266,11 @@ namespace MatrixEase.Manga.Processing
                 ++sampleRowIndex;
             }
 
-            decimal binaryPct = ((binaryCount * 100) / totalCount);
-            decimal asciiPct = ((asciiCount * 100) / totalCount);
-            decimal highPct = ((highCount * 100) / totalCount);
-            if ((colStats.StandardDeviation > 4 && (colStats.StandardDeviation > 7 || binaryPct > 30 || asciiPct < 30 || highPct > 30)) ||
-                (colStats.MaxDecimal - colStats.MinDecimal) > 7)
+            decimal binaryPct = MiscHelpers.CalcPercent(binaryCount, totalCount);
+            decimal asciiPct = MiscHelpers.CalcPercent(asciiCount, totalCount);
+            decimal highPct = MiscHelpers.CalcPercent(highCount, totalCount);
+            if ((colStats.StandardDeviation > _rejectFileStdDeviationFactor && (colStats.StandardDeviation > _rejectFileDeviationFactor || binaryPct > _rejectFileCharacterPctFactor || asciiPct < _rejectFileCharacterPctFactor || highPct > _rejectFileCharacterPctFactor)) ||
+                (colStats.MaxDecimal - colStats.MinDecimal) > _rejectFileDeviationFactor)
             {
                 throw new MatrixEaseException("Cannot determine proper format - binary file and/or matrix has too much column variance");
             }

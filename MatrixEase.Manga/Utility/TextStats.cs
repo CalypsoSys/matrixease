@@ -182,7 +182,7 @@ namespace MatrixEase.Manga.Utility
                     }
                 }
 
-                return ((goodParts * 100) / part.Length) > partGoodPct;
+                return MiscHelpers.CalcPercent(goodParts, part.Length) > partGoodPct;
             }
 
             return false;

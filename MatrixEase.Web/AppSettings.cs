@@ -12,6 +12,8 @@ namespace MatrixEase.Web
 {
     public class AppSettings
     {
+        private const int _defaultMaxConcurrentJobs = 10;
+
         public bool ClearText { get; set; }
         public string FileSaveLocation { get; set; }
         public string GoogleClientId { get; set; }
@@ -23,6 +25,7 @@ namespace MatrixEase.Web
         public string SNMPPassword { get; set; }
         public string EmailApiKey { get; set; }
         public string EmailFrom { get; set; }
+        public int MaxConcurrentJobs { get; set; }
 
         public string GetGoogleClientId()
         {
@@ -53,6 +56,16 @@ namespace MatrixEase.Web
         public string GetEmailFrom()
         {
             return MiscHelpers.Decrypt(EmailFrom, ClearText);
+        }
+
+        public int GetMaxConcurrentJobs()
+        {
+            if ( MaxConcurrentJobs > 0 )
+            {
+                return MaxConcurrentJobs;
+            }
+
+            return _defaultMaxConcurrentJobs;
         }
     }
 }

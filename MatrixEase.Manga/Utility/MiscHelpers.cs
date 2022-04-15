@@ -17,6 +17,23 @@ namespace MatrixEase.Manga.Utility
         // This constant is used to determine the keysize of the encryption algorithm.
         private const int _keysize = 256;
 
+        public static int CalcPercent( int count, int total )
+        {
+            return (int)CalcPercent((decimal)count, (decimal)total);
+        }
+
+        public static long CalcPercent(long count, long total)
+        {
+            return (long)CalcPercent((decimal)count, (decimal)total);
+        }
+
+        public static decimal CalcPercent(decimal count, decimal total)
+        {
+            if (total != 0)
+                return (count * 100) / total;
+            return 0;
+        }
+
         public static int SafeDictionaryCount<T1, T2>( Dictionary<T1, T2> input)
         {
             if ( input != null)

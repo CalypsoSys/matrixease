@@ -51,7 +51,7 @@ namespace MatrixEase.Manga.Utility
         {
             get
             {
-                return _filePos == 0 ? 0 : ((_filePos * 100) / _fileSize);
+                return MiscHelpers.CalcPercent(_filePos, _fileSize);
             }
         }
 
