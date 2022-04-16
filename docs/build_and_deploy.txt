@@ -82,7 +82,13 @@ Windows\linux\snap\web load
     deploy_test_excel97_2003.xls
     deploy_test_excel_workbook.xlsx
     deploy_test_google.txt
-    deploy_test_ssv.txt    
+    deploy_test_ssv.txt   
+    
+    test csv with excelsheet fail
+    test 2 Japense files
+    Apply Filter
+    Apply bucket
+    delete all
 
 Test Google Auth against all
 Test 2 web site concurrent
