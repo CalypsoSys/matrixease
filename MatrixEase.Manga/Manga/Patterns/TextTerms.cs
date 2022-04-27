@@ -292,7 +292,7 @@ namespace MatrixEase.Manga.Manga
                 bucketOptions.Add(TextBuckets.LotsOfWords);
             }
 
-            if (_allDocTermCount.Count > OneWord)
+            if (_allDocTermCount != null && _allDocTermCount.Count > OneWord)
             {
                 bucketOptions.Add(TextBuckets.TermCounts);
             }
