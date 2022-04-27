@@ -74,7 +74,8 @@ var textBuckets = [
     { "value": 11, "text": "Url Domains"},
     { "value": 12, "text": "Url Schemes"},
     { "value": 13, "text": "Common Url Path Terms"},
-    { "value": 14, "text": "Text Length"}
+    { "value": 14, "text": "Text Length" },
+    { "value": 15, "text": "Term Count" }
 ];
 function textAvgTextLength(attr) {
     return "Average Text Length: " + attr.AvgTextLength.toFixed(2);

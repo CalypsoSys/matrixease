@@ -223,6 +223,12 @@ namespace MatrixEase.Manga.Manga
                 textLenghBuckets = _textLengthStat.BuildAverageBasedBuckets(MangaConstants.SmallBucket, "Length", 0);
             }
 
+            List<string> termCountBuckets = null;
+            if (_bucket == TextBuckets.TermCounts)
+            {
+                termCountBuckets = _textTerms.GetTermCountKeys();
+            }
+
             int rowIndex = 0;
             foreach (var row in ReadText())
             {
@@ -246,6 +252,9 @@ namespace MatrixEase.Manga.Manga
                             break;
                         case TextBuckets.LotsOfWords:
                             key = _textTerms.GetTermKey(rowIndex);
+                            break;
+                        case TextBuckets.TermCounts:
+                            key = _textTerms.GetTermCountKey(row, termCountBuckets);
                             break;
                         case TextBuckets.UrlThirdPart:
                         case TextBuckets.UrlSecondPart:

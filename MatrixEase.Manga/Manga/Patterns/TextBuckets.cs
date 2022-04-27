@@ -21,5 +21,6 @@ namespace MatrixEase.Manga.Manga
         UrlScheme = 12,
         UrlPathParts = 13,
         Length = 14,
+        TermCounts = 15
     }
 }

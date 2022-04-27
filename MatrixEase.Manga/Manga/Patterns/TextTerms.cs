@@ -180,16 +180,21 @@ namespace MatrixEase.Manga.Manga
             TextBuckets bucket = TextBuckets.Length;
             if (_allTermsStat.Average != OneWord || _allDocTermCount.Count > OneWord)
             {
-                if (_allTermsStat.Average > CoupleOfWordThreshold || _allDocTermCount.Count < FewWordsThreshold)
-                {
-                    CalculateTermFrequencies(totalRows, status);
-                    bucket = TextBuckets.LotsOfWords;
-                }
-
                 if (_allTermsStat.Average <= LotsOfTermThreshold)
                 {
                     CalculateTermPatterns(status);
                     bucket = TextBuckets.CoupleWords;
+                }
+
+                if (_allDocTermCount.Count > OneWord)
+                {
+                    bucket = TextBuckets.TermCounts;
+                }
+
+                if (_allTermsStat.Average > CoupleOfWordThreshold || _allDocTermCount.Count < FewWordsThreshold)
+                {
+                    CalculateTermFrequencies(totalRows, status);
+                    bucket = TextBuckets.LotsOfWords;
                 }
             }
 
@@ -286,6 +291,11 @@ namespace MatrixEase.Manga.Manga
             {
                 bucketOptions.Add(TextBuckets.LotsOfWords);
             }
+
+            if (_allDocTermCount.Count > OneWord)
+            {
+                bucketOptions.Add(TextBuckets.TermCounts);
+            }
         }
 
         public void ClearTerms()
@@ -325,6 +335,22 @@ namespace MatrixEase.Manga.Manga
                 var key = _termWeights.Where(t => termsInRow.ContainsKey(t.Key) == true).OrderByDescending(t => t.Value).FirstOrDefault();
                 if (key.Key != null)
                     return key.Key;
+            }
+            return MangaConstants.NoKeyWords;
+        }
+
+        public List<string> GetTermCountKeys()
+        {
+            return _allDocTermCount.OrderByDescending(t => t.Value).Select(t => t.Key).Take(MangaConstants.ReasonablBucket).ToList();
+        }
+
+        public string GetTermCountKey(string data, List<string> terms)
+        {
+            string lower = data.ToLower();
+            foreach( string key in terms )
+            {
+                if (lower.Contains(key))
+                    return key;
             }
             return MangaConstants.NoKeyWords;
         }
