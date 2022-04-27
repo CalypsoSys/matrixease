@@ -54,7 +54,7 @@ namespace MatrixEase.Manga.Manga
                     DistinctConsideredTermStats = _distinctConsideredTermsStat.AllStats(false),
                     Limit = MangaConstants.SmallBucket,
                     TermCounts = TopNBuckets(_allDocTermCount, MangaConstants.SmallBucket),
-                    TermWeights = TopNBuckets(_termWeights, MangaConstants.SmallBucket),
+                    TermWeights = BottomNBuckets(_termWeights, MangaConstants.SmallBucket),
                     CalculatedTermPatterns = _termPatterns
                 };
             }

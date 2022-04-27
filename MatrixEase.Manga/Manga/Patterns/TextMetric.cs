@@ -29,7 +29,7 @@ namespace MatrixEase.Manga.Manga
         }
 
         // uggggg
-        protected object TopNBuckets(Dictionary<string, double> counts, int limit)
+        protected object BottomNBuckets(Dictionary<string, double> counts, int limit)
         {
             if (counts != null)
             {
@@ -37,7 +37,7 @@ namespace MatrixEase.Manga.Manga
                 {
                     Count = counts.Count,
                     Total = counts.Sum(c => c.Value),
-                    Sample = counts.OrderByDescending(c => c.Value).Take(limit).Select(c => new { Name = c.Key, Value = c.Value }).ToArray()
+                    Sample = counts.OrderBy(c => c.Value).Take(limit).Select(c => new { Name = c.Key, Value = c.Value }).ToArray()
                 };
             }
 
