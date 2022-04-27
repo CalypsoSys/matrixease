@@ -248,17 +248,30 @@ namespace MatrixEase.Manga.Manga
                 }
             }
 
-            double averageWeight = (totalWeights / countWeights);
-            double weightTest = averageWeight + (averageWeight / 4);
-            int thousanth = totalRows / 1000;
-            double onePercent = totalRows * 1 / 100;
-            double twentyPercent = totalRows * 20 / 100;
+            //double averageWeight = (totalWeights / countWeights);
+            //double weightTest = averageWeight + (averageWeight / 4);
+            //int thousanth = totalRows / 1000;
+            //double onePercent = totalRows * 1 / 100;
+            //double twentyPercent = totalRows * 20 / 100;
             //
-            _termWeights = weights.Where(w => w.Value.Count > onePercent && w.Value.Count < twentyPercent && w.Value.AverageWeigth > weightTest).ToDictionary(k => k.Key, v => v.Value.AverageWeigth);
-            if ( _termWeights.Count < MangaConstants.SmallBucketThreshold )
+            /*
+            _termWeights = weights.Where(w => w.Value.Count > onePercent && w.Value.Count < twentyPercent && w.Value.AverageWeigth > weightTest).OrderByDescending(w => w.Value.Count).Take(MangaConstants.SmallBucket).ToDictionary(k => k.Key, v => v.Value.AverageWeigth);
+            if (_termWeights.Count < MangaConstants.SmallBucketThreshold)
             {
-                _termWeights = weights.Where(w => w.Value.Count < twentyPercent && w.Value.AverageWeigth > weightTest).OrderByDescending(w => w.Value.Count).Take((int )Math.Min(twentyPercent/2, MangaConstants.ReasonablBucket)).ToDictionary(k => k.Key, v => v.Value.AverageWeigth);
-                var b = weights.Where(w => w.Value.Count > (twentyPercent / 2) && w.Value.Count < twentyPercent && w.Value.AverageWeigth > weightTest);
+                _termWeights = weights.Where(w => w.Value.Count < twentyPercent && w.Value.AverageWeigth > weightTest).OrderByDescending(w => w.Value.Count).Take(MangaConstants.SmallBucket).ToDictionary(k => k.Key, v => v.Value.AverageWeigth);
+            }
+            */
+
+            double loop = 0;
+            do
+            {
+                double percentCheck = totalRows * loop / 100;
+                _termWeights = weights.Where(w => w.Value.Count > percentCheck).OrderBy(w => w.Value.AverageWeigth).ToDictionary(k => k.Key, v => v.Value.AverageWeigth);
+                loop += .01;
+            } while (_termWeights.Count > MangaConstants.ReasonablBucket && loop < 100);
+            if (_termWeights.Count > MangaConstants.ReasonablBucket )
+            {
+                _termWeights = _termWeights.OrderBy(v => v.Value).Take(MangaConstants.ReasonablBucket).ToDictionary(k => k.Key, v => v.Value);
             }
         }
 
