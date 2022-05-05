@@ -16,7 +16,8 @@
     "buildVersion": "1.0.0",
     "compression": "maximum",
     "win": {
-      "icon": "../../../Assets/icon.ico"
+      "icon": "../../../Assets/icon.ico",
+      "target":  "msi"
     },
     "linux": {
       "category": "Utility",

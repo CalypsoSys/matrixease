@@ -12,6 +12,20 @@ Build Windows Desktop App
 10. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\CalypsoSystems\MatrixEase\www.matrixease.com\download\MatrixEase Setup 1.0.0.exe"
 11. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\transfer\MatrixEase Setup 1.0.0.exe"
 
+https://www.electron.build/configuration/win.html
+,
+      "certificateFile": "C:\\transfer\\certificate-siging.pfx",
+      "certificatePassword": ""
+
+Invalid package identity name: matrixease (expected: CalypsoSystemsLLC.MatrixEase)
+
+Invalid package family name: matrixease_my3dts62r7fp4 (expected: CalypsoSystemsLLC.MatrixEase_j2zwkkhyr5kka)
+
+Invalid package publisher name: CN=ms (expected: CN=E3DD5A81-1463-4EC9-929E-BD7C2A198449)
+
+10.0.18362.1
+
+allowElevation 
 
 Build Ubuntu Desktop 
 =====================
