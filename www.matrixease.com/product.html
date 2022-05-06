@@ -100,7 +100,7 @@
                         <li>Email support</li>
                         <li>Help center access</li>
                     </ul>
-                    <a href="download/MatrixEase Setup 1.0.0.exe" download class="btn btn-lg btn-block btn-primary" role="button">Download</a>
+                    <a href="" class="btn btn-lg btn-block btn-primary" role="button" data-toggle="modal" data-target="#windowsInstall">Install</a>
                 </div>
             </div>
             <div class="card mb-4 box-shadow">
@@ -115,7 +115,7 @@
                         <li>Email support</li>
                         <li>Help center access</li>
                     </ul>
-                    <a href="" class="btn btn-lg btn-block btn-primary" role="button"  data-toggle="modal" data-target="#ubuntuInstall">Install</a>
+                    <a href="" class="btn btn-lg btn-block btn-primary" role="button" data-toggle="modal" data-target="#ubuntuInstall">Install</a>
                 </div>
             </div>
         </div>
@@ -272,6 +272,34 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="windowsInstall" tabindex="-1" role="dialog" aria-labelledby="windowsInstallLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="windowsInstallLabel">Install MatrixEase on Windows</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-auto">
+                    <div>
+                        <a href="download/MatrixEase 1.0.0.msi" download style="all: revert;">Download MSI Installer</a>
+                    </div>
+                    <div class="p-3">or</div>
+                    <div>
+                        <a href="download/MatrixEase Setup 1.0.0.exe" download style="all: revert;">Download NSIS Installer</a>
+                    </div>
+                    <div class="p-1"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
   <!-- <script src="js/jquery-3.3.1.js"></script> -->
   <script src="js/jquery-2.2.3.min.js"></script>

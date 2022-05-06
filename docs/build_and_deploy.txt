@@ -8,9 +8,14 @@ Build Windows Desktop App
 06. Start window developer cmd prompt
 07. cd C:\CalypsoSystems\MatrixEase\MatrixEase.App
 08. electronize build /target win 
-09. "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe"
-10. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\CalypsoSystems\MatrixEase\www.matrixease.com\download\MatrixEase Setup 1.0.0.exe"
-11. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\transfer\MatrixEase Setup 1.0.0.exe"
+09. "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase 1.0.0.msi"
+10. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase 1.0.0.msi" "C:\CalypsoSystems\MatrixEase\www.matrixease.com\download\MatrixEase 1.0.0.msi"
+11. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase 1.0.0.msi" "C:\transfer\MatrixEase 1.0.0.msi"
+12. remove MSI from config
+13. electronize build /target win 
+14. "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe"
+15. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\CalypsoSystems\MatrixEase\www.matrixease.com\download\MatrixEase Setup 1.0.0.exe"
+16. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\transfer\MatrixEase Setup 1.0.0.exe"
 
 https://www.electron.build/configuration/win.html
 ,
