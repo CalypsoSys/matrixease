@@ -69,11 +69,11 @@ namespace MatrixEase.Manga.com
             }
             catch (Google.GoogleApiException googs)
             {
-                MyLogger.LogError(googs, "Error API googs clearing cookies");
+                SimpleLogger.LogError(googs, "Error API googs clearing cookies");
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error accessing googs sheet {0} {1}", sheet_id, range);
+                SimpleLogger.LogError(excp, "Error accessing googs sheet {0} {1}", sheet_id, range);
             }
 
             return new { Success = false };

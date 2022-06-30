@@ -386,7 +386,7 @@ namespace MatrixEase.Tester
                     {
                         status = "Error";
                         excp = excpInner.ToString();
-                        MyLogger.LogError(excpInner, name);
+                        SimpleLogger.LogError(excpInner, name);
                     }
                     finally
                     {
@@ -407,7 +407,7 @@ namespace MatrixEase.Tester
             catch(Exception excpOuter)
             {
                 _processWorker.ReportProgress(0, excpOuter.ToString());
-                MyLogger.LogError(excpOuter, "Outer");
+                SimpleLogger.LogError(excpOuter, "Outer");
             }
         }
 
@@ -475,7 +475,7 @@ namespace MatrixEase.Tester
                 }
                 catch (Exception excp)
                 {
-                    MyLogger.LogError(excp, "Running job");
+                    SimpleLogger.LogError(excp, "Running job");
                 }
                 finally
                 {

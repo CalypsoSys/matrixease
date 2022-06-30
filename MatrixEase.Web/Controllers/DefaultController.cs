@@ -43,7 +43,7 @@ namespace MatrixEase.Web
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error home page");
+                SimpleLogger.LogError(excp, "Error home page");
                 throw;
             }
         }
@@ -57,7 +57,7 @@ namespace MatrixEase.Web
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error debug ID");
+                SimpleLogger.LogError(excp, "Error debug ID");
                 throw;
             }
         }
@@ -71,7 +71,7 @@ namespace MatrixEase.Web
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error ID");
+                SimpleLogger.LogError(excp, "Error ID");
                 throw;
             }
         }
@@ -89,7 +89,7 @@ namespace MatrixEase.Web
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error DOC ID");
+                SimpleLogger.LogError(excp, "Error DOC ID");
                 throw;
             }
         }
@@ -108,7 +108,7 @@ namespace MatrixEase.Web
             }
             catch(Exception excp)
             {
-                MyLogger.LogError(excp, "Error getting access token");
+                SimpleLogger.LogError(excp, "Error getting access token");
             }
             return new { Success = false, AccessToken = "" };
         }
@@ -132,7 +132,7 @@ namespace MatrixEase.Web
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error getting captcha");
+                SimpleLogger.LogError(excp, "Error getting captcha");
             }
             return new { num1 = 0, num2 = 0 };
         }
@@ -204,7 +204,7 @@ namespace MatrixEase.Web
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error sending email code {0}", email_to_address);
+                SimpleLogger.LogError(excp, "Error sending email code {0}", email_to_address);
             }
 
             return new { Success = status };
@@ -249,7 +249,7 @@ namespace MatrixEase.Web
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error validating email code for {0}", email_to_address);
+                SimpleLogger.LogError(excp, "Error validating email code for {0}", email_to_address);
             }
 
             return new { Success = status };
@@ -303,7 +303,7 @@ namespace MatrixEase.Web
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error getting my mangas");
+                SimpleLogger.LogError(excp, "Error getting my mangas");
             }
 
             return new { Success = false };

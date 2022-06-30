@@ -32,7 +32,7 @@ namespace Desktop.MatrixEase.Manga.Common
                 }
                 catch(Exception excp)
                 {
-                    MyLogger.LogError(excp, "Running job");
+                    SimpleLogger.LogError(excp, "Running job");
                 }
             });
         }

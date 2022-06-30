@@ -45,7 +45,7 @@ namespace MatrixEase.Manga.com.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error uploading sheet {0}", sheet_type);
+                SimpleLogger.LogError(excp, "Error uploading sheet {0}", sheet_type);
             }
 
             return new { Success = false };

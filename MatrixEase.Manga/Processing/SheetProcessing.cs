@@ -56,7 +56,7 @@ namespace MatrixEase.Manga.Processing
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error processing googs sheet {0} {1}", spreadSheetId, spreadSheetRange);
+                SimpleLogger.LogError(excp, "Error processing googs sheet {0} {1}", spreadSheetId, spreadSheetRange);
             }
 
             return null;

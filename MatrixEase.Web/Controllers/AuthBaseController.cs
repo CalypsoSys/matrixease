@@ -129,7 +129,7 @@ namespace MatrixEase.Web
                 }
                 catch(Exception excp)
                 {
-                    MyLogger.LogError(excp, "Error decoding auth 1");
+                    SimpleLogger.LogError(excp, "Error decoding auth 1");
                 }
                 Response.Cookies.Delete("authenticated-accepted-1");
             }
@@ -194,7 +194,7 @@ namespace MatrixEase.Web
             }
             catch(Exception excp)
             {
-                MyLogger.LogError(excp, "Error encoding MatrixEase ID");
+                SimpleLogger.LogError(excp, "Error encoding MatrixEase ID");
                 throw;
             }
         }

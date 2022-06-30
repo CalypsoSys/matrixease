@@ -48,7 +48,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error home page");
+                SimpleLogger.LogError(excp, "Error home page");
                 throw;
             }
         }
@@ -62,7 +62,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error debug ID");
+                SimpleLogger.LogError(excp, "Error debug ID");
                 throw;
             }
         }
@@ -76,7 +76,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error ID");
+                SimpleLogger.LogError(excp, "Error ID");
                 throw;
             }
         }
@@ -89,7 +89,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error DOC ID");
+                SimpleLogger.LogError(excp, "Error DOC ID");
                 throw;
             }
         }
@@ -171,7 +171,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error getting my mangas");
+                SimpleLogger.LogError(excp, "Error getting my mangas");
             }
 
             return new { Success = false };

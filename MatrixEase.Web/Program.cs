@@ -21,7 +21,7 @@ namespace MatrixEase.Web
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error loading anything");
+                SimpleLogger.LogError(excp, "Error loading anything");
             }
         }
 

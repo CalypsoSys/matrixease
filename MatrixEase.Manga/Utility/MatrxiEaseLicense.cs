@@ -33,7 +33,7 @@ namespace MatrixEase.Manga.Utility
 #if RELEASE || TEST_LIMITS
             if (mangas >= MaxProjects)
             {
-                MyLogger.LogError(null, MaxProjectsMessage);
+                SimpleLogger.LogError(null, MaxProjectsMessage);
                 throw new MatrixEaseException(MaxProjectsMessage);
             }
 #endif
@@ -48,7 +48,7 @@ namespace MatrixEase.Manga.Utility
 #if RELEASE || TEST_LIMITS
             if (cells >= MaxRowsCols)
             {
-                MyLogger.LogError(null, MaxCellsMessage);
+                SimpleLogger.LogError(null, MaxCellsMessage);
                 throw new MatrixEaseException(MaxCellsMessage);
             }
 #endif

@@ -51,7 +51,7 @@ namespace MatrixEase.Web
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error login to googs");
+                SimpleLogger.LogError(excp, "Error login to googs");
                 ClearCookies();
                 return Redirect(new Uri("/no_access.html", UriKind.Relative).ToString());
             }
@@ -71,7 +71,7 @@ namespace MatrixEase.Web
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error checking googs access");
+                SimpleLogger.LogError(excp, "Error checking googs access");
             }
             return new { Success = false };
         }
@@ -88,7 +88,7 @@ namespace MatrixEase.Web
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error in manual googs login");
+                SimpleLogger.LogError(excp, "Error in manual googs login");
             }
             return Redirect(new Uri("/no_access.html", UriKind.Relative).ToString());
         }
@@ -130,12 +130,12 @@ namespace MatrixEase.Web
             }
             catch (Google.GoogleApiException googs)
             {
-                MyLogger.LogError(googs, "Error API googs clearing cookies");
+                SimpleLogger.LogError(googs, "Error API googs clearing cookies");
                 ClearCookies();
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error accessing googs sheet {0} {1}", sheet_id, range);
+                SimpleLogger.LogError(excp, "Error accessing googs sheet {0} {1}", sheet_id, range);
                 ClearCookies();
             }
 

@@ -45,7 +45,7 @@ namespace MatrixEase.Web.Controllers
             }
             catch(Exception excp)
             {
-                MyLogger.LogError(excp, "Error googs login");
+                SimpleLogger.LogError(excp, "Error googs login");
                 throw;
             }
         }

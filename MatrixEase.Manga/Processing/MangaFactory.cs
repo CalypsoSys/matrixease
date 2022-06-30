@@ -42,7 +42,7 @@ namespace MatrixEase.Manga.Processing
             {
                 if (_workingSets.ContainsKey(userId) && _workingSets[userId].Count > _maxWorkersPerUser)
                 {
-                    MyLogger.LogError(null, _maxWorkersErrorMessage);
+                    SimpleLogger.LogError(null, _maxWorkersErrorMessage);
                     throw new Exception(_maxWorkersErrorMessage);
                 }
                 else if (_workingSets.Count == 0)
@@ -374,7 +374,7 @@ namespace MatrixEase.Manga.Processing
                 SetStatus(MangaFactoryStatusKey.Failed, "An known error has occured", MangaFactoryStatusState.Failed);
                 _mangaInfo.Status = "Failed";
                 _mangaInfo.Message = "An known error has occured";
-                MyLogger.LogError(excp, "Error adding MatrixEase");
+                SimpleLogger.LogError(excp, "Error adding MatrixEase");
             }
 
             if (_mangaInfo.Status != "Complete" && manga != null)

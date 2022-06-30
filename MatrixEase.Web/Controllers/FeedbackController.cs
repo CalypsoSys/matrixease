@@ -112,7 +112,7 @@ namespace MatrixEase.Web.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Error sending feedback");
+                SimpleLogger.LogError(excp, "Error sending feedback");
                 return Ok(new { success = false, message = "Failed sending feedback, please try again" });
             }
         }

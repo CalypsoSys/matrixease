@@ -157,7 +157,7 @@ namespace MatrixEase.Manga.Manga
                 }
                 catch(Exception excp)
                 {
-                    MyLogger.LogError(excp, "Error calculating std dev");
+                    SimpleLogger.LogError(excp, "Error calculating std dev");
                 }
                 return 0;
             }

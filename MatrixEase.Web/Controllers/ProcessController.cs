@@ -37,7 +37,7 @@ namespace MatrixEase.Web.Controllers
                 }
                 catch(Exception excp)
                 {
-                    MyLogger.LogError(excp, "Running job");
+                    SimpleLogger.LogError(excp, "Running job");
                 }
             });
         }

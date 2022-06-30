@@ -18,7 +18,7 @@ namespace MatrixEase.Manga.Utility
             }
             catch(Exception excp)
             {
-                MyLogger.LogError(excp, "Error deleting file {0}", filePath);
+                SimpleLogger.LogError(excp, "Error deleting file {0}", filePath);
             }
         }
         public static List<MyPerformance> FolderSizes(string folderPath)

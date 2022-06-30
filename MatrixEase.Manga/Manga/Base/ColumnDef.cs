@@ -314,7 +314,7 @@ namespace MatrixEase.Manga.Manga
             }
             catch(Exception excp)
             {
-                MyLogger.LogError(excp, "Error adding data to MatrixEase {0} {1}", row, data);
+                SimpleLogger.LogError(excp, "Error adding data to MatrixEase {0} {1}", row, data);
             }
         }
 

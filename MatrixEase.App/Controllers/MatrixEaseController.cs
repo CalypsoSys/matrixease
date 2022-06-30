@@ -36,7 +36,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "Getting MatrixEase {0} {1}", matrixease_id, mxes_id);
+                SimpleLogger.LogError(excp, "Getting MatrixEase {0} {1}", matrixease_id, mxes_id);
                 throw;
             }
         }
@@ -50,7 +50,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "MatrixEase Status {0} {1}", matrixease_id, status_key);
+                SimpleLogger.LogError(excp, "MatrixEase Status {0} {1}", matrixease_id, status_key);
             }
             return new { Success = false };
         }
@@ -64,7 +64,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "MatrixEase Pickup {0} {1}", matrixease_id, mxes_id);
+                SimpleLogger.LogError(excp, "MatrixEase Pickup {0} {1}", matrixease_id, mxes_id);
             }
 
             return new { Success = false };
@@ -81,7 +81,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "MatrixEase Filter {0} {1} {2}", matrixease_id, mxes_id, selection_expression);
+                SimpleLogger.LogError(excp, "MatrixEase Filter {0} {1} {2}", matrixease_id, mxes_id, selection_expression);
             }
 
             return new { Success = false };
@@ -103,7 +103,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "MatrixEase update {0} {1}", matrixease_id, mxes_id);
+                SimpleLogger.LogError(excp, "MatrixEase update {0} {1}", matrixease_id, mxes_id);
             }
 
             return new { Success = false };
@@ -120,7 +120,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "MatrixEase bucket {0} {1} {2} {3} {4} {5} {6}", matrixease_id, mxes_id, column_name, column_index, bucketized, bucket_size, bucket_mod);
+                SimpleLogger.LogError(excp, "MatrixEase bucket {0} {1} {2} {3} {4} {5} {6}", matrixease_id, mxes_id, column_name, column_index, bucketized, bucket_size, bucket_mod);
             }
 
             return new { Success = false };
@@ -135,7 +135,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "MatrixEase delete {0} {1}", matrixease_id, mxes_id);
+                SimpleLogger.LogError(excp, "MatrixEase delete {0} {1}", matrixease_id, mxes_id);
             }
 
             return new { Success = false };
@@ -169,7 +169,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "MatrixEase export {0} {1}", matrixease_id, mxes_id);
+                SimpleLogger.LogError(excp, "MatrixEase export {0} {1}", matrixease_id, mxes_id);
             }
         }
 
@@ -184,7 +184,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "MatrixEase col stats {0} {1} {2} {3}", matrixease_id, mxes_id, column_name, column_index);
+                SimpleLogger.LogError(excp, "MatrixEase col stats {0} {1} {2} {3}", matrixease_id, mxes_id, column_name, column_index);
             }
 
             return new { Success = false };
@@ -202,7 +202,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "MatrixEase col measures {0} {1} {2} {3}", matrixease_id, mxes_id, col_index, selected_node);
+                SimpleLogger.LogError(excp, "MatrixEase col measures {0} {1} {2} {3}", matrixease_id, mxes_id, col_index, selected_node);
             }
 
             return new { Success = false };
@@ -232,7 +232,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "MatrixEase chart data {0} {1} {2} {3}", matrixease_id, mxes_id, chart_type, col_dimension_indexes);
+                SimpleLogger.LogError(excp, "MatrixEase chart data {0} {1} {2} {3}", matrixease_id, mxes_id, chart_type, col_dimension_indexes);
             }
 
             return new { Success = false };
@@ -248,7 +248,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "MatrixEase node rows {0} {1} {2} {3}", matrixease_id, mxes_id, col_index, selected_node);
+                SimpleLogger.LogError(excp, "MatrixEase node rows {0} {1} {2} {3}", matrixease_id, mxes_id, col_index, selected_node);
             }
 
             return new { Success = false };
@@ -264,7 +264,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "MatrixEase dup nodes {0} {1} {2} {3}", matrixease_id, mxes_id, col_index, selected_node);
+                SimpleLogger.LogError(excp, "MatrixEase dup nodes {0} {1} {2} {3}", matrixease_id, mxes_id, col_index, selected_node);
             }
 
             return new { Success = false };
@@ -280,7 +280,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
             catch (Exception excp)
             {
-                MyLogger.LogError(excp, "MatrixEase dep diagram {0} {1} {2} {3}", matrixease_id, mxes_id, col_index, selected_node);
+                SimpleLogger.LogError(excp, "MatrixEase dep diagram {0} {1} {2} {3}", matrixease_id, mxes_id, col_index, selected_node);
             }
 
             return new { Success = false };
