@@ -88,22 +88,29 @@ namespace MatrixEase.Manga.Manga
         {
             object obj = null;
             _indexStream.Seek(sizeof(long) * row, SeekOrigin.Begin);
-            long position = _indexReader.ReadInt64();
-            if (position != -1)
+            try
             {
-                _dataStream.Seek(position, SeekOrigin.Begin);
-                obj = ReadData();
-                if (forCSV)
+                long position = _indexReader.ReadInt64();
+                if (position != -1)
                 {
-                    if (obj == null)
-                        return string.Empty;
-                    else if (_rawType == DataType.Numeric)
-                        return obj.ToString();
-                    else if (_rawType == DataType.Date)
-                        return ((DateTime)obj).ToString("yyyy-MM-dd HH:mm:ss");
-                    else if (_rawType == DataType.Text)
-                        return string.Format("\"{0}\"", obj.ToString().Replace("\"", "\"\""));
+                    _dataStream.Seek(position, SeekOrigin.Begin);
+                    obj = ReadData();
+                    if (forCSV)
+                    {
+                        if (obj == null)
+                            return string.Empty;
+                        else if (_rawType == DataType.Numeric)
+                            return obj.ToString();
+                        else if (_rawType == DataType.Date)
+                            return ((DateTime)obj).ToString("yyyy-MM-dd HH:mm:ss");
+                        else if (_rawType == DataType.Text)
+                            return string.Format("\"{0}\"", obj.ToString().Replace("\"", "\"\""));
+                    }
                 }
+            }
+            catch(Exception excp)
+            {
+                SimpleLogger.LogError(excp, "MatrixEase read fow {0} {1}", row, _rawType);
             }
             return obj;
         }
