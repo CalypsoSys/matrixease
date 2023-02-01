@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{7EE35D03-3F45-435B-9980-7C22AA7D22E0}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,8 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelReader", "ExcelReader\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}"
 	ProjectSection(SolutionItems) = preProject
-		docker\docker_matrixease.sh = docker\docker_matrixease.sh
 		Dockerfile = Dockerfile
+		docker\docker_matrixease.sh = docker\docker_matrixease.sh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nginx-proxy", "nginx-proxy", "{7A915214-7A2B-4BD0-B45F-C3990BEC926B}"
@@ -37,7 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nginx-proxy", "nginx-proxy"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "docs.matrixease.com", "docs.matrixease.com\", "{143F71D8-FD19-4D3C-B75B-7F490BB16B30}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_62649"
 		Debug.AspNetCompiler.PhysicalPath = "docs.matrixease.com\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62649\"
@@ -58,7 +58,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "docs.matrixease.com", "docs
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "www.matrixease.com", "www.matrixease.com\", "{8D35FFD4-8F9F-4CE1-9EBB-1A11CA42CD82}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_62753"
 		Debug.AspNetCompiler.PhysicalPath = "www.matrixease.com\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62753\"
@@ -114,7 +114,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixEase.Manga", "MatrixE
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "static.matrixease.wwwroot", "static.matrixease.wwwroot\", "{DB8BEFC0-FCC1-476D-820C-3B973EB66A06}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_54024"
 		Debug.AspNetCompiler.PhysicalPath = "static.matrixease.wwwroot\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54024\"
@@ -157,7 +157,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mangadata", "mangadata", "{
 		docker\matrixease_dotnet\mangadata\placeholder.txt = docker\matrixease_dotnet\mangadata\placeholder.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixEase.Tester", "MatrixEase.Tester\MatrixEase.Tester.csproj", "{B4A9842A-1A0B-488F-B5F3-BB62D1DE80D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixEase.Tester", "MatrixEase.Tester\MatrixEase.Tester.csproj", "{B4A9842A-1A0B-488F-B5F3-BB62D1DE80D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

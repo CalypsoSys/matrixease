@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Description>MatrixEase Data Manga and Visualization</Description>
     <Company>Calypso Systems, LLC</Company>
     <AssemblyName>MatrixEase.Manga</AssemblyName>
@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fractions" Version="7.1.0" />
-    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.56.0.2623" />
+    <PackageReference Include="Fractions" Version="7.2.1" />
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.59.0.2909" />
   </ItemGroup>
 
   <ItemGroup>
