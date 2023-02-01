@@ -12,7 +12,8 @@ namespace MatrixEase.Manga.Utility
 {
     public static class GoogsAuth
     {
-        public const string GoogsJson = @"{'installed': {'client_id': '#PARAM1#','project_id':'matrixease','auth_uri': 'https://accounts.google.com/o/oauth2/auth','token_uri':'https://oauth2.googleapis.com/token','auth_provider_x509_cert_url':'https://www.googleapis.com/oauth2/v1/certs','client_secret':'#PARAM2#','redirect_uris':['urn:ietf:wg:oauth:2.0:oob','http://localhost']}}";
+        //public const string GoogsJson = @"{'installed': {'client_id': '#PARAM1#','project_id':'matrixease','auth_uri': 'https://accounts.google.com/o/oauth2/auth','token_uri':'https://oauth2.googleapis.com/token','auth_provider_x509_cert_url':'https://www.googleapis.com/oauth2/v1/certs','client_secret':'#PARAM2#','redirect_uris':['urn:ietf:wg:oauth:2.0:oob','http://localhost']}}";
+        public const string GoogsJson = @"{'installed': {'client_id': '#PARAM1#','project_id':'matrixease','auth_uri': 'https://accounts.google.com/o/oauth2/auth','token_uri':'https://oauth2.googleapis.com/token','auth_provider_x509_cert_url':'https://www.googleapis.com/oauth2/v1/certs','client_secret':'#PARAM2#','redirect_uris':['http://localhost']}}";
 
         public static UserCredential AuthenticateLocal(string googleClientId, string googleClientSecret)
         {

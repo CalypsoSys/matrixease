@@ -242,8 +242,13 @@ namespace MatrixEase.Manga.Utility
                             using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
                             {
                                 byte[] plainTextBytes = new byte[cipherTextBytes.Length];
-                                int decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
-                                return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
+                                int decryptedByteCount;
+                                List<byte> thisBytes = new List<byte>();
+                                while ((decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length)) != 0)
+                                {
+                                    thisBytes.AddRange(plainTextBytes.Take(decryptedByteCount));
+                                }
+                                return Encoding.UTF8.GetString(thisBytes.ToArray(), 0, thisBytes.Count);
                             }
                         }
                     }
