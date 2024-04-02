@@ -15,6 +15,7 @@ namespace MatrixEase.Tester
         [STAThread]
         static void Main()
         {
+            Tester.TestStuff.Test();
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

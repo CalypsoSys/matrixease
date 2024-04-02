@@ -29,385 +29,411 @@ namespace MatrixEase.Tester
         /// </summary>
         private void InitializeComponent()
         {
-            this._testsLst = new System.Windows.Forms.ListView();
-            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
-            this.label1 = new System.Windows.Forms.Label();
-            this._typeCmb = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this._sepTxt = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this._spec1Txt = new System.Windows.Forms.TextBox();
-            this._spec2Txt = new System.Windows.Forms.TextBox();
-            this._browseBtn = new System.Windows.Forms.Button();
-            this._openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this._addBtn = new System.Windows.Forms.Button();
-            this._saveBtn = new System.Windows.Forms.Button();
-            this._runBtn = new System.Windows.Forms.Button();
-            this._baseLineChk = new System.Windows.Forms.CheckBox();
-            this._canelBtn = new System.Windows.Forms.Button();
-            this._tabCtrl = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this._outputTxt = new System.Windows.Forms.RichTextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this._outputPathTxt = new System.Windows.Forms.TextBox();
-            this._browseOutputBtn = new System.Windows.Forms.Button();
-            this._folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this._toggleChk = new System.Windows.Forms.CheckBox();
-            this._statusStrip = new System.Windows.Forms.StatusStrip();
-            this._toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.label6 = new System.Windows.Forms.Label();
-            this._maxRowsTxt = new System.Windows.Forms.TextBox();
-            this._tabCtrl.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this._statusStrip.SuspendLayout();
-            this.SuspendLayout();
+            _testsLst = new System.Windows.Forms.ListView();
+            columnHeader1 = new System.Windows.Forms.ColumnHeader();
+            columnHeader2 = new System.Windows.Forms.ColumnHeader();
+            columnHeader3 = new System.Windows.Forms.ColumnHeader();
+            columnHeader4 = new System.Windows.Forms.ColumnHeader();
+            label1 = new System.Windows.Forms.Label();
+            _typeCmb = new System.Windows.Forms.ComboBox();
+            label2 = new System.Windows.Forms.Label();
+            _sepTxt = new System.Windows.Forms.TextBox();
+            label3 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
+            _spec1Txt = new System.Windows.Forms.TextBox();
+            _spec2Txt = new System.Windows.Forms.TextBox();
+            _browseBtn = new System.Windows.Forms.Button();
+            _openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            _addBtn = new System.Windows.Forms.Button();
+            _saveBtn = new System.Windows.Forms.Button();
+            _runBtn = new System.Windows.Forms.Button();
+            _baseLineChk = new System.Windows.Forms.CheckBox();
+            _canelBtn = new System.Windows.Forms.Button();
+            _tabCtrl = new System.Windows.Forms.TabControl();
+            tabPage1 = new System.Windows.Forms.TabPage();
+            tabPage2 = new System.Windows.Forms.TabPage();
+            _outputTxt = new System.Windows.Forms.RichTextBox();
+            label5 = new System.Windows.Forms.Label();
+            _outputPathTxt = new System.Windows.Forms.TextBox();
+            _browseOutputBtn = new System.Windows.Forms.Button();
+            _folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            _toggleChk = new System.Windows.Forms.CheckBox();
+            _statusStrip = new System.Windows.Forms.StatusStrip();
+            _toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            label6 = new System.Windows.Forms.Label();
+            _maxRowsTxt = new System.Windows.Forms.TextBox();
+            _testBtn = new System.Windows.Forms.Button();
+            _tabCtrl.SuspendLayout();
+            tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
+            _statusStrip.SuspendLayout();
+            SuspendLayout();
             // 
             // _testsLst
             // 
-            this._testsLst.CheckBoxes = true;
-            this._testsLst.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4});
-            this._testsLst.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._testsLst.HideSelection = false;
-            this._testsLst.Location = new System.Drawing.Point(3, 3);
-            this._testsLst.Name = "_testsLst";
-            this._testsLst.Size = new System.Drawing.Size(960, 469);
-            this._testsLst.TabIndex = 0;
-            this._testsLst.UseCompatibleStateImageBehavior = false;
-            this._testsLst.View = System.Windows.Forms.View.Details;
+            _testsLst.CheckBoxes = true;
+            _testsLst.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4 });
+            _testsLst.Dock = System.Windows.Forms.DockStyle.Fill;
+            _testsLst.Location = new System.Drawing.Point(4, 4);
+            _testsLst.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _testsLst.Name = "_testsLst";
+            _testsLst.Size = new System.Drawing.Size(1202, 589);
+            _testsLst.TabIndex = 0;
+            _testsLst.UseCompatibleStateImageBehavior = false;
+            _testsLst.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Name = "columnHeader1";
-            this.columnHeader1.Text = "Type";
-            this.columnHeader1.Width = 100;
+            columnHeader1.Name = "columnHeader1";
+            columnHeader1.Text = "Type";
+            columnHeader1.Width = 100;
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Name = "columnHeader2";
-            this.columnHeader2.Text = "Sep";
+            columnHeader2.Name = "columnHeader2";
+            columnHeader2.Text = "Sep";
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Name = "columnHeader3";
-            this.columnHeader3.Text = "Spec1";
-            this.columnHeader3.Width = 400;
+            columnHeader3.Name = "columnHeader3";
+            columnHeader3.Text = "Spec1";
+            columnHeader3.Width = 400;
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Name = "columnHeader4";
-            this.columnHeader4.Text = "Spec2";
-            this.columnHeader4.Width = 200;
+            columnHeader4.Name = "columnHeader4";
+            columnHeader4.Text = "Spec2";
+            columnHeader4.Width = 200;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 71);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 20);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Type";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(24, 89);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(49, 25);
+            label1.TabIndex = 1;
+            label1.Text = "Type";
             // 
             // _typeCmb
             // 
-            this._typeCmb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._typeCmb.FormattingEnabled = true;
-            this._typeCmb.Items.AddRange(new object[] {
-            "CSV",
-            "Excel",
-            "Google"});
-            this._typeCmb.Location = new System.Drawing.Point(61, 67);
-            this._typeCmb.Name = "_typeCmb";
-            this._typeCmb.Size = new System.Drawing.Size(151, 28);
-            this._typeCmb.TabIndex = 2;
+            _typeCmb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            _typeCmb.FormattingEnabled = true;
+            _typeCmb.Items.AddRange(new object[] { "CSV", "Excel", "Google" });
+            _typeCmb.Location = new System.Drawing.Point(76, 84);
+            _typeCmb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _typeCmb.Name = "_typeCmb";
+            _typeCmb.Size = new System.Drawing.Size(188, 33);
+            _typeCmb.TabIndex = 2;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 122);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 20);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Sep";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(24, 152);
+            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(42, 25);
+            label2.TabIndex = 3;
+            label2.Text = "Sep";
             // 
             // _sepTxt
             // 
-            this._sepTxt.Location = new System.Drawing.Point(59, 119);
-            this._sepTxt.Name = "_sepTxt";
-            this._sepTxt.Size = new System.Drawing.Size(153, 27);
-            this._sepTxt.TabIndex = 4;
+            _sepTxt.Location = new System.Drawing.Point(74, 149);
+            _sepTxt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _sepTxt.Name = "_sepTxt";
+            _sepTxt.Size = new System.Drawing.Size(190, 31);
+            _sepTxt.TabIndex = 4;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(235, 71);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(49, 20);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Spec1";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(294, 89);
+            label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(60, 25);
+            label3.TabIndex = 5;
+            label3.Text = "Spec1";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(235, 122);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 20);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Spec2";
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(294, 152);
+            label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(60, 25);
+            label4.TabIndex = 6;
+            label4.Text = "Spec2";
             // 
             // _spec1Txt
             // 
-            this._spec1Txt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._spec1Txt.Location = new System.Drawing.Point(290, 68);
-            this._spec1Txt.Name = "_spec1Txt";
-            this._spec1Txt.Size = new System.Drawing.Size(572, 27);
-            this._spec1Txt.TabIndex = 7;
+            _spec1Txt.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            _spec1Txt.Location = new System.Drawing.Point(362, 85);
+            _spec1Txt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _spec1Txt.Name = "_spec1Txt";
+            _spec1Txt.Size = new System.Drawing.Size(714, 31);
+            _spec1Txt.TabIndex = 7;
             // 
             // _spec2Txt
             // 
-            this._spec2Txt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._spec2Txt.Location = new System.Drawing.Point(290, 119);
-            this._spec2Txt.Name = "_spec2Txt";
-            this._spec2Txt.Size = new System.Drawing.Size(572, 27);
-            this._spec2Txt.TabIndex = 8;
+            _spec2Txt.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            _spec2Txt.Location = new System.Drawing.Point(362, 149);
+            _spec2Txt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _spec2Txt.Name = "_spec2Txt";
+            _spec2Txt.Size = new System.Drawing.Size(714, 31);
+            _spec2Txt.TabIndex = 8;
             // 
             // _browseBtn
             // 
-            this._browseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._browseBtn.Location = new System.Drawing.Point(894, 67);
-            this._browseBtn.Name = "_browseBtn";
-            this._browseBtn.Size = new System.Drawing.Size(94, 29);
-            this._browseBtn.TabIndex = 9;
-            this._browseBtn.Text = "Browse...";
-            this._browseBtn.UseVisualStyleBackColor = true;
-            this._browseBtn.Click += new System.EventHandler(this._browseBtn_Click);
+            _browseBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            _browseBtn.Location = new System.Drawing.Point(1118, 84);
+            _browseBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _browseBtn.Name = "_browseBtn";
+            _browseBtn.Size = new System.Drawing.Size(118, 36);
+            _browseBtn.TabIndex = 9;
+            _browseBtn.Text = "Browse...";
+            _browseBtn.UseVisualStyleBackColor = true;
+            _browseBtn.Click += _browseBtn_Click;
             // 
             // _openFileDialog
             // 
-            this._openFileDialog.FileName = "openFileDialog1";
+            _openFileDialog.FileName = "openFileDialog1";
             // 
             // _addBtn
             // 
-            this._addBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._addBtn.Location = new System.Drawing.Point(894, 118);
-            this._addBtn.Name = "_addBtn";
-            this._addBtn.Size = new System.Drawing.Size(94, 29);
-            this._addBtn.TabIndex = 10;
-            this._addBtn.Text = "Add";
-            this._addBtn.UseVisualStyleBackColor = true;
-            this._addBtn.Click += new System.EventHandler(this._addBtn_Click);
+            _addBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            _addBtn.Location = new System.Drawing.Point(1118, 148);
+            _addBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _addBtn.Name = "_addBtn";
+            _addBtn.Size = new System.Drawing.Size(118, 36);
+            _addBtn.TabIndex = 10;
+            _addBtn.Text = "Add";
+            _addBtn.UseVisualStyleBackColor = true;
+            _addBtn.Click += _addBtn_Click;
             // 
             // _saveBtn
             // 
-            this._saveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._saveBtn.Location = new System.Drawing.Point(17, 669);
-            this._saveBtn.Name = "_saveBtn";
-            this._saveBtn.Size = new System.Drawing.Size(94, 29);
-            this._saveBtn.TabIndex = 11;
-            this._saveBtn.Text = "Save";
-            this._saveBtn.UseVisualStyleBackColor = true;
-            this._saveBtn.Click += new System.EventHandler(this._saveBtn_Click);
+            _saveBtn.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            _saveBtn.Location = new System.Drawing.Point(21, 836);
+            _saveBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _saveBtn.Name = "_saveBtn";
+            _saveBtn.Size = new System.Drawing.Size(118, 36);
+            _saveBtn.TabIndex = 11;
+            _saveBtn.Text = "Save";
+            _saveBtn.UseVisualStyleBackColor = true;
+            _saveBtn.Click += _saveBtn_Click;
             // 
             // _runBtn
             // 
-            this._runBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._runBtn.Location = new System.Drawing.Point(897, 669);
-            this._runBtn.Name = "_runBtn";
-            this._runBtn.Size = new System.Drawing.Size(94, 29);
-            this._runBtn.TabIndex = 12;
-            this._runBtn.Text = "Run";
-            this._runBtn.UseVisualStyleBackColor = true;
-            this._runBtn.Click += new System.EventHandler(this._runBtn_Click);
+            _runBtn.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            _runBtn.Location = new System.Drawing.Point(1121, 836);
+            _runBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _runBtn.Name = "_runBtn";
+            _runBtn.Size = new System.Drawing.Size(118, 36);
+            _runBtn.TabIndex = 12;
+            _runBtn.Text = "Run";
+            _runBtn.UseVisualStyleBackColor = true;
+            _runBtn.Click += _runBtn_Click;
             // 
             // _baseLineChk
             // 
-            this._baseLineChk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._baseLineChk.AutoSize = true;
-            this._baseLineChk.Location = new System.Drawing.Point(122, 671);
-            this._baseLineChk.Name = "_baseLineChk";
-            this._baseLineChk.Size = new System.Drawing.Size(86, 24);
-            this._baseLineChk.TabIndex = 13;
-            this._baseLineChk.Text = "Baseline";
-            this._baseLineChk.UseVisualStyleBackColor = true;
+            _baseLineChk.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            _baseLineChk.AutoSize = true;
+            _baseLineChk.Location = new System.Drawing.Point(152, 840);
+            _baseLineChk.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _baseLineChk.Name = "_baseLineChk";
+            _baseLineChk.Size = new System.Drawing.Size(101, 29);
+            _baseLineChk.TabIndex = 13;
+            _baseLineChk.Text = "Baseline";
+            _baseLineChk.UseVisualStyleBackColor = true;
             // 
             // _canelBtn
             // 
-            this._canelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._canelBtn.Location = new System.Drawing.Point(793, 669);
-            this._canelBtn.Name = "_canelBtn";
-            this._canelBtn.Size = new System.Drawing.Size(94, 29);
-            this._canelBtn.TabIndex = 14;
-            this._canelBtn.Text = "Cancel...";
-            this._canelBtn.UseVisualStyleBackColor = true;
-            this._canelBtn.Click += new System.EventHandler(this._canelBtn_Click);
+            _canelBtn.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            _canelBtn.Location = new System.Drawing.Point(991, 836);
+            _canelBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _canelBtn.Name = "_canelBtn";
+            _canelBtn.Size = new System.Drawing.Size(118, 36);
+            _canelBtn.TabIndex = 14;
+            _canelBtn.Text = "Cancel...";
+            _canelBtn.UseVisualStyleBackColor = true;
+            _canelBtn.Click += _canelBtn_Click;
             // 
             // _tabCtrl
             // 
-            this._tabCtrl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._tabCtrl.Controls.Add(this.tabPage1);
-            this._tabCtrl.Controls.Add(this.tabPage2);
-            this._tabCtrl.Location = new System.Drawing.Point(17, 155);
-            this._tabCtrl.Name = "_tabCtrl";
-            this._tabCtrl.SelectedIndex = 0;
-            this._tabCtrl.Size = new System.Drawing.Size(974, 508);
-            this._tabCtrl.TabIndex = 15;
+            _tabCtrl.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            _tabCtrl.Controls.Add(tabPage1);
+            _tabCtrl.Controls.Add(tabPage2);
+            _tabCtrl.Location = new System.Drawing.Point(21, 194);
+            _tabCtrl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _tabCtrl.Name = "_tabCtrl";
+            _tabCtrl.SelectedIndex = 0;
+            _tabCtrl.Size = new System.Drawing.Size(1218, 635);
+            _tabCtrl.TabIndex = 15;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this._testsLst);
-            this.tabPage1.Location = new System.Drawing.Point(4, 29);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(966, 475);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Input";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            tabPage1.Controls.Add(_testsLst);
+            tabPage1.Location = new System.Drawing.Point(4, 34);
+            tabPage1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            tabPage1.Size = new System.Drawing.Size(1210, 597);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "Input";
+            tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this._outputTxt);
-            this.tabPage2.Location = new System.Drawing.Point(4, 29);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(966, 475);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Output";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            tabPage2.Controls.Add(_outputTxt);
+            tabPage2.Location = new System.Drawing.Point(4, 34);
+            tabPage2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            tabPage2.Size = new System.Drawing.Size(1210, 597);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "Output";
+            tabPage2.UseVisualStyleBackColor = true;
             // 
             // _outputTxt
             // 
-            this._outputTxt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._outputTxt.Location = new System.Drawing.Point(3, 3);
-            this._outputTxt.Name = "_outputTxt";
-            this._outputTxt.ReadOnly = true;
-            this._outputTxt.Size = new System.Drawing.Size(960, 469);
-            this._outputTxt.TabIndex = 0;
-            this._outputTxt.Text = "";
+            _outputTxt.Dock = System.Windows.Forms.DockStyle.Fill;
+            _outputTxt.Location = new System.Drawing.Point(4, 4);
+            _outputTxt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _outputTxt.Name = "_outputTxt";
+            _outputTxt.ReadOnly = true;
+            _outputTxt.Size = new System.Drawing.Size(1202, 589);
+            _outputTxt.TabIndex = 0;
+            _outputTxt.Text = "";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 19);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(55, 20);
-            this.label5.TabIndex = 16;
-            this.label5.Text = "Output";
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(10, 24);
+            label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(69, 25);
+            label5.TabIndex = 16;
+            label5.Text = "Output";
             // 
             // _outputPathTxt
             // 
-            this._outputPathTxt.Location = new System.Drawing.Point(65, 18);
-            this._outputPathTxt.Name = "_outputPathTxt";
-            this._outputPathTxt.Size = new System.Drawing.Size(592, 27);
-            this._outputPathTxt.TabIndex = 17;
+            _outputPathTxt.Location = new System.Drawing.Point(81, 22);
+            _outputPathTxt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _outputPathTxt.Name = "_outputPathTxt";
+            _outputPathTxt.Size = new System.Drawing.Size(739, 31);
+            _outputPathTxt.TabIndex = 17;
             // 
             // _browseOutputBtn
             // 
-            this._browseOutputBtn.Location = new System.Drawing.Point(688, 16);
-            this._browseOutputBtn.Name = "_browseOutputBtn";
-            this._browseOutputBtn.Size = new System.Drawing.Size(94, 29);
-            this._browseOutputBtn.TabIndex = 18;
-            this._browseOutputBtn.Text = "Browse...";
-            this._browseOutputBtn.UseVisualStyleBackColor = true;
-            this._browseOutputBtn.Click += new System.EventHandler(this._browseOutputBtn_Click);
+            _browseOutputBtn.Location = new System.Drawing.Point(860, 20);
+            _browseOutputBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _browseOutputBtn.Name = "_browseOutputBtn";
+            _browseOutputBtn.Size = new System.Drawing.Size(118, 36);
+            _browseOutputBtn.TabIndex = 18;
+            _browseOutputBtn.Text = "Browse...";
+            _browseOutputBtn.UseVisualStyleBackColor = true;
+            _browseOutputBtn.Click += _browseOutputBtn_Click;
             // 
             // _toggleChk
             // 
-            this._toggleChk.AutoSize = true;
-            this._toggleChk.Checked = true;
-            this._toggleChk.CheckState = System.Windows.Forms.CheckState.Checked;
-            this._toggleChk.Location = new System.Drawing.Point(150, 154);
-            this._toggleChk.Name = "_toggleChk";
-            this._toggleChk.Size = new System.Drawing.Size(77, 24);
-            this._toggleChk.TabIndex = 1;
-            this._toggleChk.Text = "Toggle";
-            this._toggleChk.UseVisualStyleBackColor = true;
-            this._toggleChk.CheckedChanged += new System.EventHandler(this._toggleChk_CheckedChanged);
+            _toggleChk.AutoSize = true;
+            _toggleChk.Checked = true;
+            _toggleChk.CheckState = System.Windows.Forms.CheckState.Checked;
+            _toggleChk.Location = new System.Drawing.Point(188, 192);
+            _toggleChk.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _toggleChk.Name = "_toggleChk";
+            _toggleChk.Size = new System.Drawing.Size(91, 29);
+            _toggleChk.TabIndex = 1;
+            _toggleChk.Text = "Toggle";
+            _toggleChk.UseVisualStyleBackColor = true;
+            _toggleChk.CheckedChanged += _toggleChk_CheckedChanged;
             // 
             // _statusStrip
             // 
-            this._statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this._statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._toolStripStatusLabel});
-            this._statusStrip.Location = new System.Drawing.Point(0, 703);
-            this._statusStrip.Name = "_statusStrip";
-            this._statusStrip.Size = new System.Drawing.Size(1007, 23);
-            this._statusStrip.TabIndex = 19;
-            this._statusStrip.Text = "statusStrip1";
+            _statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            _statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { _toolStripStatusLabel });
+            _statusStrip.Location = new System.Drawing.Point(0, 876);
+            _statusStrip.Name = "_statusStrip";
+            _statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 18, 0);
+            _statusStrip.Size = new System.Drawing.Size(1259, 32);
+            _statusStrip.TabIndex = 19;
+            _statusStrip.Text = "statusStrip1";
             // 
             // _toolStripStatusLabel
             // 
-            this._toolStripStatusLabel.Name = "_toolStripStatusLabel";
-            this._toolStripStatusLabel.Size = new System.Drawing.Size(43, 17);
-            this._toolStripStatusLabel.Text = "Status";
+            _toolStripStatusLabel.Name = "_toolStripStatusLabel";
+            _toolStripStatusLabel.Size = new System.Drawing.Size(60, 25);
+            _toolStripStatusLabel.Text = "Status";
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(231, 156);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(76, 20);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Max Rows";
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(289, 195);
+            label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(92, 25);
+            label6.TabIndex = 1;
+            label6.Text = "Max Rows";
             // 
             // _maxRowsTxt
             // 
-            this._maxRowsTxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._maxRowsTxt.Location = new System.Drawing.Point(314, 153);
-            this._maxRowsTxt.Name = "_maxRowsTxt";
-            this._maxRowsTxt.Size = new System.Drawing.Size(120, 27);
-            this._maxRowsTxt.TabIndex = 7;
+            _maxRowsTxt.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            _maxRowsTxt.Location = new System.Drawing.Point(392, 191);
+            _maxRowsTxt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            _maxRowsTxt.Name = "_maxRowsTxt";
+            _maxRowsTxt.Size = new System.Drawing.Size(149, 31);
+            _maxRowsTxt.TabIndex = 7;
+            // 
+            // _testBtn
+            // 
+            _testBtn.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            _testBtn.Location = new System.Drawing.Point(860, 835);
+            _testBtn.Margin = new System.Windows.Forms.Padding(4);
+            _testBtn.Name = "_testBtn";
+            _testBtn.Size = new System.Drawing.Size(118, 36);
+            _testBtn.TabIndex = 20;
+            _testBtn.Text = "Test";
+            _testBtn.UseVisualStyleBackColor = true;
+            _testBtn.Click += _testBtn_Click;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1007, 726);
-            this.Controls.Add(this._maxRowsTxt);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this._statusStrip);
-            this.Controls.Add(this._toggleChk);
-            this.Controls.Add(this._browseOutputBtn);
-            this.Controls.Add(this._outputPathTxt);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this._tabCtrl);
-            this.Controls.Add(this._canelBtn);
-            this.Controls.Add(this._baseLineChk);
-            this.Controls.Add(this._runBtn);
-            this.Controls.Add(this._saveBtn);
-            this.Controls.Add(this._addBtn);
-            this.Controls.Add(this._browseBtn);
-            this.Controls.Add(this._spec2Txt);
-            this.Controls.Add(this._spec1Txt);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this._sepTxt);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this._typeCmb);
-            this.Controls.Add(this.label1);
-            this.Name = "Form1";
-            this.Text = "MatrixEase Tester";
-            this._tabCtrl.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this._statusStrip.ResumeLayout(false);
-            this._statusStrip.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(1259, 908);
+            Controls.Add(_testBtn);
+            Controls.Add(_maxRowsTxt);
+            Controls.Add(label6);
+            Controls.Add(_statusStrip);
+            Controls.Add(_toggleChk);
+            Controls.Add(_browseOutputBtn);
+            Controls.Add(_outputPathTxt);
+            Controls.Add(label5);
+            Controls.Add(_tabCtrl);
+            Controls.Add(_canelBtn);
+            Controls.Add(_baseLineChk);
+            Controls.Add(_runBtn);
+            Controls.Add(_saveBtn);
+            Controls.Add(_addBtn);
+            Controls.Add(_browseBtn);
+            Controls.Add(_spec2Txt);
+            Controls.Add(_spec1Txt);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(_sepTxt);
+            Controls.Add(label2);
+            Controls.Add(_typeCmb);
+            Controls.Add(label1);
+            Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            Name = "Form1";
+            Text = "MatrixEase Tester";
+            _tabCtrl.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabPage2.ResumeLayout(false);
+            _statusStrip.ResumeLayout(false);
+            _statusStrip.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -445,6 +471,7 @@ namespace MatrixEase.Tester
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox _maxRowsTxt;
         private System.Windows.Forms.ToolStripStatusLabel _toolStripStatusLabel;
+        private System.Windows.Forms.Button _testBtn;
     }
 }
 

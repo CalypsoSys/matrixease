@@ -81,7 +81,7 @@ namespace MatrixEase.Tester
                         }
                     }
                 }
-                catch 
+                catch
                 {
                     _toolStripStatusLabel.Text = "Status";
                 }
@@ -161,7 +161,7 @@ namespace MatrixEase.Tester
         {
             using (StreamWriter spec = new StreamWriter(_specFile))
             {
-                foreach(ListViewItem item in _testsLst.Items)
+                foreach (ListViewItem item in _testsLst.Items)
                 {
                     List<string> parts = new List<string>();
                     foreach (ListViewSubItem cell in item.SubItems)
@@ -378,7 +378,7 @@ namespace MatrixEase.Tester
                             status = "Completed";
                         }
                     }
-                    catch(OperationCanceledException)
+                    catch (OperationCanceledException)
                     {
                         throw;
                     }
@@ -404,7 +404,7 @@ namespace MatrixEase.Tester
                     }
                 }
             }
-            catch(Exception excpOuter)
+            catch (Exception excpOuter)
             {
                 _processWorker.ReportProgress(0, excpOuter.ToString());
                 SimpleLogger.LogError(excpOuter, "Outer");
@@ -487,6 +487,11 @@ namespace MatrixEase.Tester
         private static void PerformanceLogger(string mangaName, MyPerformance perf)
         {
             _perfStats.Add(perf);
+        }
+
+        private void _testBtn_Click(object sender, EventArgs e)
+        {
+            TestStuff.Test();
         }
     }
 }

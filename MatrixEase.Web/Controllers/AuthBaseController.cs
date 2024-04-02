@@ -166,7 +166,7 @@ namespace MatrixEase.Web
                 byte[] initVectorBytes = tup.Item2;
                 List<byte> plainBytes = new List<byte>();
                 plainBytes.AddRange(mangaGuid.ToByteArray());
-                plainBytes.AddRange(Encoding.UTF8.GetBytes(userFolder));
+                plainBytes.AddRange(Encoding.ASCII.GetBytes(userFolder));
 
                 byte[] plainTextBytes = plainBytes.ToArray();
 
@@ -217,6 +217,7 @@ namespace MatrixEase.Web
                         {
                             using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
                             {
+                                /*
                                 byte[] guidBytes = new byte[16];
                                 int guidByteCount = cryptoStream.Read(guidBytes, 0, 16);
                                 Guid mangaGuid = new Guid(guidBytes);
@@ -224,6 +225,19 @@ namespace MatrixEase.Web
                                 byte[] userFolderBytes = new byte[cipherTextBytes.Length-16];
                                 int userFolderByteCount = cryptoStream.Read(userFolderBytes, 0, userFolderBytes.Length);
                                 string userFolder = Encoding.UTF8.GetString(userFolderBytes, 0, userFolderByteCount);
+                                */
+
+                                byte[] plainTextBytes = new byte[cipherTextBytes.Length];
+                                int decryptedByteCount;
+                                List<byte> thisBytes = new List<byte>();
+                                while ((decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length)) != 0)
+                                {
+                                    thisBytes.AddRange(plainTextBytes.Take(decryptedByteCount));
+                                }
+
+                                Guid mangaGuid = new Guid(thisBytes.Take(16).ToArray());
+
+                                string userFolder = Encoding.ASCII.GetString(thisBytes.Skip(16).ToArray(), 0, thisBytes.Count-16);
 
                                 return Tuple.Create(userFolder, mangaGuid); 
                             }
