@@ -165,9 +165,9 @@ namespace MatrixEase.Web
                                 using (BinaryWriter pending = new BinaryWriter(pendingStream))
                                 {
 
-                                    pending.Write(MiscHelpers.Encrypt(email_to_address.ToLower(), code));
+                                    pending.Write(MiscHelpers.Encrypt(email_to_address.ToLower()));
                                     pending.Write(code);
-                                    pending.Write(MiscHelpers.Encrypt(MiscHelpers.HashEmail(email_to_address, false), code));
+                                    pending.Write(MiscHelpers.Encrypt(MiscHelpers.HashEmail(email_to_address, false)));
                                 }
                             }
                         }
@@ -175,23 +175,23 @@ namespace MatrixEase.Web
                         var plainTextContent = "Here's your email validation code. To complete the process, either enter or copy and paste the six digits of the code into the MatrixEase access page and click \"Validate Code\" to continue. That's it!";
                         if (_options.Value.UseSNMP)
                         {
-                            var client = new SmtpClient(_options.Value.GetSNMPServer(), _options.Value.SNMPPort);
+                            var client = new SmtpClient(_options.Value.SNMPServer, _options.Value.SNMPPort);
                             client.UseDefaultCredentials = false;
-                            client.Credentials = new NetworkCredential(_options.Value.GetSNMPAddress(), _options.Value.GetSNMPPassword());
+                            client.Credentials = new NetworkCredential(_options.Value.SNMPAddress, _options.Value.SNMPPassword);
                             client.EnableSsl = false;
                             client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-                            MailMessage message = new MailMessage(_options.Value.GetSNMPAddress(), email_to_address);
+                            MailMessage message = new MailMessage(_options.Value.SNMPAddress, email_to_address);
                             message.Subject = "MatrixEase Validation Code";
                             message.Body = plainTextContent;
                             message.IsBodyHtml = false;
-                            message.Bcc.Add(_options.Value.GetSNMPAddress());
+                            message.Bcc.Add(_options.Value.SNMPAddress);
                             client.Send(message);
                         }
                         else
                         {
-                            var client = new SendGridClient(_options.Value.GetEmailApiKey());
-                            var from = new EmailAddress(_options.Value.GetEmailFrom());
+                            var client = new SendGridClient(_options.Value.EmailApiKey);
+                            var from = new EmailAddress(_options.Value.EmailFrom);
                             var to = new EmailAddress(email_to_address);
                             var msg = MailHelper.CreateSingleEmail(from, to, "MatrixEase Validation Code", string.Format("{0}\r\n\r\n{1}\r\n\r\nBest Regards,\r\nThe MatrixEase Team", plainTextContent, code), null);
 
@@ -228,9 +228,9 @@ namespace MatrixEase.Web
                             {
                                 using (BinaryReader pending = new BinaryReader(pendingStream))
                                 {
-                                    string emailAddress = MiscHelpers.Decrypt(pending.ReadString(), emailed_code);
+                                    string emailAddress = MiscHelpers.Decrypt(pending.ReadString(), false);
                                     string code = pending.ReadString();
-                                    string emailAddressHash = MiscHelpers.Decrypt(pending.ReadString(), emailed_code);
+                                    string emailAddressHash = MiscHelpers.Decrypt(pending.ReadString(), false);
                                     if (emailAddress.ToLower() == email_to_address.ToLower() && code == emailed_code && emailAddressHash == MiscHelpers.HashEmail(email_to_address, false))
                                     {
                                         CookieOptions option = new CookieOptions();

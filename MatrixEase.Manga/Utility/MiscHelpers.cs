@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,9 +13,6 @@ namespace MatrixEase.Manga.Utility
 {
     public static class MiscHelpers
     {
-        // This constant is used to determine the keysize of the encryption algorithm.
-        private const int _keysize = 256;
-
         public static int CalcPercent( int count, int total )
         {
             return (int)CalcPercent((decimal)count, (decimal)total);
@@ -154,56 +150,14 @@ namespace MatrixEase.Manga.Utility
             return color.ToString();
         }
 
-        private static Tuple<string, byte[]> GetAppHash()
-        {
-            string myCode = "9owZPLZ0mu6x8FECb/JnEf470qlpH4ouPMCwMCVGX+XpeUDDjag4hK0vJ9q3ZnYc";
-            string companyDesc = Assembly.GetExecutingAssembly().GetCustomAttributes<AssemblyDescriptionAttribute>().First().Description;
-            byte[] salt = new UnicodeEncoding().GetBytes(Assembly.GetExecutingAssembly().GetCustomAttributes<AssemblyCompanyAttribute>().First().Company.Substring(0, 8));
-
-            string passPhrase = Decrypt(myCode, companyDesc, salt);
-            return Tuple.Create(passPhrase, salt);
-        }
-
         public static string Encrypt(string cipherText)
         {
-            var tup = GetAppHash();
-
-            return Encrypt(cipherText, tup.Item1, tup.Item2);
+            return SecretProtector.ProtectString(cipherText, "MatrixEase.String");
         }
 
         public static string Encrypt(string cipherText, string passPhrase)
         {
-            var tup = GetAppHash();
-
-            return Encrypt(cipherText, passPhrase, tup.Item2);
-        }
-
-        private static string Encrypt(string cipherText, string passPhrase, byte[] initVectorBytes)
-        {
-            var tup = GetAppHash();
-            byte[] plainTextBytes = Encoding.UTF8.GetBytes(cipherText);
-
-            using (PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null))
-            {
-                byte[] keyBytes = password.GetBytes(_keysize / 8);
-                using (RijndaelManaged symmetricKey = new RijndaelManaged())
-                {
-                    symmetricKey.Mode = CipherMode.CBC;
-                    using (ICryptoTransform encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes))
-                    {
-                        using (MemoryStream memoryStream = new MemoryStream())
-                        {
-                            using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
-                            {
-                                cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
-                                cryptoStream.FlushFinalBlock();
-                                byte[] cipherTextBytes = memoryStream.ToArray();
-                                return Convert.ToBase64String(cipherTextBytes);
-                            }
-                        }
-                    }
-                }
-            }
+            return SecretProtector.ProtectString(cipherText, $"MatrixEase.String.{passPhrase}");
         }
 
         public static string Decrypt(string cipherText, bool clear)
@@ -213,47 +167,12 @@ namespace MatrixEase.Manga.Utility
                 return cipherText;
             }
 
-            var tup = GetAppHash();
-
-            return Decrypt(cipherText, tup.Item1, tup.Item2);
+            return SecretProtector.UnprotectString(cipherText, "MatrixEase.String");
         }
 
         public static string Decrypt(string cipherText, string passPhrase)
         {
-            var tup = GetAppHash();
-
-            return Decrypt(cipherText, passPhrase, tup.Item2);
-        }
-
-        public static string Decrypt(string cipherText, string passPhrase, byte[] initVectorBytes)
-        {
-            byte[] cipherTextBytes = Convert.FromBase64String(cipherText);
-
-            using (PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null))
-            {
-                byte[] keyBytes = password.GetBytes(_keysize / 8);
-                using (RijndaelManaged symmetricKey = new RijndaelManaged())
-                {
-                    symmetricKey.Mode = CipherMode.CBC;
-                    using (ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes))
-                    {
-                        using (MemoryStream memoryStream = new MemoryStream(cipherTextBytes))
-                        {
-                            using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
-                            {
-                                byte[] plainTextBytes = new byte[cipherTextBytes.Length];
-                                int decryptedByteCount;
-                                List<byte> thisBytes = new List<byte>();
-                                while ((decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length)) != 0)
-                                {
-                                    thisBytes.AddRange(plainTextBytes.Take(decryptedByteCount));
-                                }
-                                return Encoding.UTF8.GetString(thisBytes.ToArray(), 0, thisBytes.Count);
-                            }
-                        }
-                    }
-                }
-            }
+            return SecretProtector.UnprotectString(cipherText, $"MatrixEase.String.{passPhrase}");
         }
     }
 }

@@ -11,7 +11,7 @@ Usage:
   matrixease-tester spec add --spec <file> --type <csv|excel|google> --name <name> [options]
   matrixease-tester run --spec <file> --output <dir> [--only <name1,name2>] [--max-rows <n>]
   matrixease-tester baseline --spec <file> --output <dir> [--only <name1,name2>] [--max-rows <n>]
-  matrixease-tester crypto roundtrip --user-folder <id> --manga-guid <guid>
+  matrixease-tester crypto roundtrip --protection-key <secret> --user-folder <id> --manga-guid <guid>
 
 Spec add options:
   CSV/Excel:

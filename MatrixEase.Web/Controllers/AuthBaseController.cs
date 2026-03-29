@@ -6,20 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MatrixEase.Web
 {
     public class AuthBaseController : ControllerBase
     {
-        private const int _keysize = 256;
-        private const string _seesionKey = "mangaed";
+        private const string MatrixIdPurpose = "MatrixEase.MatrixId";
 
         protected void CheckMatrixEaseId( string matrixEaseIdIn, bool update)
         {
@@ -137,60 +132,14 @@ namespace MatrixEase.Web
             throw new Exception("Access Denied");
         }
 
-        private Tuple<string, byte[]> GetAppHash()
-        {
-            byte[] salt = new ASCIIEncoding().GetBytes(Assembly.GetEntryAssembly().GetCustomAttributes<AssemblyCompanyAttribute>().First().Company.Substring(0, 16));
-
-            string sessionGuid;
-            if (Request.Cookies.TryGetValue(_seesionKey, out sessionGuid) == false)
-            {
-                sessionGuid = Guid.NewGuid().ToString();
-            }
-            else
-            {
-                sessionGuid = Request.Cookies[_seesionKey];
-                Response.Cookies.Delete(_seesionKey);
-            }
-            CookieOptions option = new CookieOptions();
-            option.Expires = DateTime.Now.AddHours(1);
-            Response.Cookies.Append(_seesionKey, sessionGuid, option);
-
-            return Tuple.Create(sessionGuid, salt);
-        }
-
         protected string Encode(string userFolder, Guid mangaGuid)
         {
             try
             {
-                var tup = GetAppHash();
-                byte[] initVectorBytes = tup.Item2;
                 List<byte> plainBytes = new List<byte>();
                 plainBytes.AddRange(mangaGuid.ToByteArray());
-                plainBytes.AddRange(Encoding.ASCII.GetBytes(userFolder));
-
-                byte[] plainTextBytes = plainBytes.ToArray();
-
-                using (PasswordDeriveBytes password = new PasswordDeriveBytes(tup.Item1, null))
-                {
-                    byte[] keyBytes = password.GetBytes(_keysize / 8);
-                    using (RijndaelManaged symmetricKey = new RijndaelManaged())
-                    {
-                        symmetricKey.Mode = CipherMode.CBC;
-                        using (ICryptoTransform encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes))
-                        {
-                            using (MemoryStream memoryStream = new MemoryStream())
-                            {
-                                using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
-                                {
-                                    cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
-                                    cryptoStream.FlushFinalBlock();
-                                    byte[] cipherTextBytes = memoryStream.ToArray();
-                                    return Convert.ToBase64String(cipherTextBytes);
-                                }
-                            }
-                        }
-                    }
-                }
+                plainBytes.AddRange(Encoding.UTF8.GetBytes(userFolder));
+                return SecretProtector.Protect(plainBytes.ToArray(), MatrixIdPurpose);
             }
             catch(Exception excp)
             {
@@ -201,50 +150,10 @@ namespace MatrixEase.Web
 
         protected Tuple<string, Guid> Decrypt(string mxesId)
         {
-            var tup = GetAppHash();
-            byte[] initVectorBytes = tup.Item2;
-            byte[] cipherTextBytes = Convert.FromBase64String(mxesId);
-
-            using (PasswordDeriveBytes password = new PasswordDeriveBytes(tup.Item1, null))
-            {
-                byte[] keyBytes = password.GetBytes(_keysize / 8);
-                using (RijndaelManaged symmetricKey = new RijndaelManaged())
-                {
-                    symmetricKey.Mode = CipherMode.CBC;
-                    using (ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes))
-                    {
-                        using (MemoryStream memoryStream = new MemoryStream(cipherTextBytes))
-                        {
-                            using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
-                            {
-                                /*
-                                byte[] guidBytes = new byte[16];
-                                int guidByteCount = cryptoStream.Read(guidBytes, 0, 16);
-                                Guid mangaGuid = new Guid(guidBytes);
-
-                                byte[] userFolderBytes = new byte[cipherTextBytes.Length-16];
-                                int userFolderByteCount = cryptoStream.Read(userFolderBytes, 0, userFolderBytes.Length);
-                                string userFolder = Encoding.UTF8.GetString(userFolderBytes, 0, userFolderByteCount);
-                                */
-
-                                byte[] plainTextBytes = new byte[cipherTextBytes.Length];
-                                int decryptedByteCount;
-                                List<byte> thisBytes = new List<byte>();
-                                while ((decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length)) != 0)
-                                {
-                                    thisBytes.AddRange(plainTextBytes.Take(decryptedByteCount));
-                                }
-
-                                Guid mangaGuid = new Guid(thisBytes.Take(16).ToArray());
-
-                                string userFolder = Encoding.ASCII.GetString(thisBytes.Skip(16).ToArray(), 0, thisBytes.Count-16);
-
-                                return Tuple.Create(userFolder, mangaGuid); 
-                            }
-                        }
-                    }
-                }
-            }
+            byte[] plainTextBytes = SecretProtector.Unprotect(mxesId, MatrixIdPurpose);
+            Guid mangaGuid = new Guid(plainTextBytes.Take(16).ToArray());
+            string userFolder = Encoding.UTF8.GetString(plainTextBytes.Skip(16).ToArray());
+            return Tuple.Create(userFolder, mangaGuid);
         }
     }
 }

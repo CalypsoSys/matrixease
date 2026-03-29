@@ -83,23 +83,23 @@ namespace MatrixEase.Web.Controllers
 
                     if (_options.Value.UseSNMP)
                     {
-                        var client = new SmtpClient(_options.Value.GetSNMPServer(), _options.Value.SNMPPort);
+                        var client = new SmtpClient(_options.Value.SNMPServer, _options.Value.SNMPPort);
                         client.UseDefaultCredentials = false;
-                        client.Credentials = new NetworkCredential(_options.Value.GetSNMPAddress(), _options.Value.GetSNMPPassword());
+                        client.Credentials = new NetworkCredential(_options.Value.SNMPAddress, _options.Value.SNMPPassword);
                         client.EnableSsl = false;
                         client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-                        MailMessage message = new MailMessage(_options.Value.GetSNMPAddress(), "feedback@matrixease.com");
+                        MailMessage message = new MailMessage(_options.Value.SNMPAddress, "feedback@matrixease.com");
                         message.Subject = subject;
                         message.Body = messageBody;
                         message.IsBodyHtml = true;
-                        message.Bcc.Add(_options.Value.GetSNMPAddress());
+                        message.Bcc.Add(_options.Value.SNMPAddress);
                         client.Send(message);
                     }
                     else
                     {
-                        var client = new SendGridClient(_options.Value.GetEmailApiKey());
-                        var from = new EmailAddress(_options.Value.GetEmailFrom());
+                        var client = new SendGridClient(_options.Value.EmailApiKey);
+                        var from = new EmailAddress(_options.Value.EmailFrom);
                         var to = new EmailAddress("feedback@matrixease.com");
                         var msg = MailHelper.CreateSingleEmail(from, to, subject, messageBody, null);
 

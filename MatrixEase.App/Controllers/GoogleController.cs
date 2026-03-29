@@ -56,7 +56,7 @@ namespace MatrixEase.Manga.com
 
                 MangaInfo mangaInfo = new MangaInfo("", manga_name, header_row, header_rows, max_rows, ignore_blank_rows, ignore_text_case, trim_leading_whitespace, trim_trailing_whitespace, ignore_cols, "google", new Dictionary<string, string> { { MangaConstants.SheetID, sheet_id }, { MangaConstants.SheetRange, range } });
 
-                UserCredential credential = GoogsAuth.AuthenticateLocal(_options.Value.GetGoogleClientId(), _options.Value.GetGoogleClientSecret());
+                UserCredential credential = GoogsAuth.AuthenticateLocal(_options.Value.GoogleClientId);
                 Guid? mangaGuid = SheetProcessing.ProcessSheet(credential, MangaDesktop.UserId, mangaInfo, MangaDesktop.RunBackroundManagGet);
                 if (mangaGuid != null)
                 {

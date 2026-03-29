@@ -18,7 +18,7 @@ namespace MatrixEase.Web.Tasks
         {
             TaskQueue = taskQueue;
             _logger = loggerFactory.CreateLogger<QueuedHostedService>();
-            _signals = new SemaphoreSlim(options.Value.GetMaxConcurrentJobs());
+            _signals = new SemaphoreSlim(options.Value.MaxConcurrentJobs);
         }
 
         public IBackgroundTaskQueue TaskQueue { get; }

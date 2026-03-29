@@ -1,6 +1,6 @@
 using System.Globalization;
-using System.Security.Cryptography;
 using System.Text;
+using MatrixEase.Manga.Utility;
 using Newtonsoft.Json;
 
 namespace MatrixEase.Tester;
@@ -97,11 +97,13 @@ public sealed class RunCommand : CliCommand
 
 public sealed class CryptoRoundTripCommand : CliCommand
 {
+    public string ProtectionKey { get; init; }
     public string UserFolder { get; init; }
     public Guid MangaGuid { get; init; }
 
     public override async Task<int> ExecuteAsync(TextWriter stdout, TextWriter stderr, CancellationToken cancellationToken)
     {
+        SecretProtector.Configure(ProtectionKey);
         var encoded = MatrixIdCrypto.Encode(UserFolder, MangaGuid);
         var decoded = MatrixIdCrypto.Decode(encoded);
 
@@ -114,72 +116,22 @@ public sealed class CryptoRoundTripCommand : CliCommand
 
 public static class MatrixIdCrypto
 {
-    private const int KeySize = 256;
-    private static readonly string SessionGuid = Guid.NewGuid().ToString();
+    private const string MatrixIdPurpose = "MatrixEase.MatrixId";
 
     public static string Encode(string userFolder, Guid mangaGuid)
     {
-        var appHash = GetAppHash();
-        byte[] initVectorBytes = appHash.Item2;
         List<byte> plainBytes = new List<byte>();
         plainBytes.AddRange(mangaGuid.ToByteArray());
         plainBytes.AddRange(Encoding.UTF8.GetBytes(userFolder));
-
-        using (PasswordDeriveBytes password = new PasswordDeriveBytes(appHash.Item1, null))
-        {
-            byte[] keyBytes = password.GetBytes(KeySize / 8);
-            using (RijndaelManaged symmetricKey = new RijndaelManaged())
-            {
-                symmetricKey.Mode = CipherMode.CBC;
-                using (ICryptoTransform encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes))
-                {
-                    using (MemoryStream memoryStream = new MemoryStream())
-                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
-                    {
-                        byte[] plainTextBytes = plainBytes.ToArray();
-                        cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
-                        cryptoStream.FlushFinalBlock();
-                        return Convert.ToBase64String(memoryStream.ToArray());
-                    }
-                }
-            }
-        }
+        return SecretProtector.Protect(plainBytes.ToArray(), MatrixIdPurpose);
     }
 
     public static Tuple<string, Guid> Decode(string mxesId)
     {
-        var appHash = GetAppHash();
-        byte[] initVectorBytes = appHash.Item2;
-        byte[] cipherTextBytes = Convert.FromBase64String(mxesId);
-
-        using (PasswordDeriveBytes password = new PasswordDeriveBytes(appHash.Item1, null))
-        {
-            byte[] keyBytes = password.GetBytes(KeySize / 8);
-            using (RijndaelManaged symmetricKey = new RijndaelManaged())
-            {
-                symmetricKey.Mode = CipherMode.CBC;
-                using (ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes))
-                using (MemoryStream memoryStream = new MemoryStream(cipherTextBytes))
-                using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
-                {
-                    byte[] guidBytes = new byte[16];
-                    cryptoStream.Read(guidBytes, 0, 16);
-                    Guid mangaGuid = new Guid(guidBytes);
-
-                    byte[] userFolderBytes = new byte[cipherTextBytes.Length - 16];
-                    int userFolderByteCount = cryptoStream.Read(userFolderBytes, 0, userFolderBytes.Length);
-                    string userFolder = Encoding.UTF8.GetString(userFolderBytes, 0, userFolderByteCount);
-
-                    return Tuple.Create(userFolder, mangaGuid);
-                }
-            }
-        }
-    }
-
-    private static Tuple<string, byte[]> GetAppHash()
-    {
-        byte[] salt = new ASCIIEncoding().GetBytes("Calypso Systems,");
-        return Tuple.Create(SessionGuid, salt);
+        byte[] plainTextBytes = SecretProtector.Unprotect(mxesId, MatrixIdPurpose);
+        Guid mangaGuid = new Guid(plainTextBytes.Take(16).ToArray());
+        string userFolder = Encoding.UTF8.GetString(plainTextBytes.Skip(16).ToArray());
+        return Tuple.Create(userFolder, mangaGuid);
     }
 }
 
@@ -258,6 +210,7 @@ public static class CliParser
 
         return new CryptoRoundTripCommand
         {
+            ProtectionKey = RequireOption(args, "--protection-key"),
             UserFolder = RequireOption(args, "--user-folder"),
             MangaGuid = Guid.Parse(RequireOption(args, "--manga-guid")),
         };

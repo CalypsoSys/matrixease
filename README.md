@@ -95,6 +95,7 @@ Set local development values like this:
 
 ```bash
 dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:FileSaveLocation" "/tmp/matrixease-web"
+dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:ProtectionKey" "replace-with-a-long-random-secret"
 dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:GoogleClientId" "your-google-client-id"
 dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:GoogleClientSecret" "your-google-client-secret"
 dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:EmailApiKey" "your-sendgrid-api-key"
@@ -107,13 +108,13 @@ dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SNMPPassword" "
 
 ```bash
 dotnet user-secrets --project MatrixEase.App set "MatrixEase:App:GoogleClientId" "your-google-client-id"
-dotnet user-secrets --project MatrixEase.App set "MatrixEase:App:GoogleClientSecret" "your-google-client-secret"
 ```
 
 Equivalent environment variables:
 
 ```bash
 export MatrixEase__Web__FileSaveLocation=/tmp/matrixease-web
+export MatrixEase__Web__ProtectionKey=replace-with-a-long-random-secret
 export MatrixEase__Web__GoogleClientId=your-google-client-id
 export MatrixEase__Web__GoogleClientSecret=your-google-client-secret
 export MatrixEase__Web__EmailApiKey=your-sendgrid-api-key
@@ -123,12 +124,13 @@ export MatrixEase__Web__SNMPPort=25
 export MatrixEase__Web__SNMPAddress=smtp-user@example.com
 export MatrixEase__Web__SNMPPassword=your-smtp-password
 export MatrixEase__App__GoogleClientId=your-google-client-id
-export MatrixEase__App__GoogleClientSecret=your-google-client-secret
 ```
+
+`MatrixEase:Web:ProtectionKey` secures MatrixEase cookies and other protected values. Treat it like an application secret and set a long random value through user-secrets or deployment-time environment variables.
 
 ### Desktop Google Auth Note
 
-`MatrixEase.App` currently uses the local installed-app Google OAuth flow in `MatrixEase.Manga/Utility/GoogsAuth.cs`, which means the desktop app still expects both `GoogleClientId` and `GoogleClientSecret`. That secret should not be committed. A stronger long-term design is to move the desktop flow to a public-client or backend-assisted OAuth model so the packaged app no longer depends on a secret.
+`MatrixEase.App` now uses the installed-app Google OAuth flow with a desktop-safe client configuration, so it only needs `GoogleClientId`. `MatrixEase.Web` still runs server-side OAuth and keeps using both `GoogleClientId` and `GoogleClientSecret`.
 
 ---
 

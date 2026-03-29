@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using MatrixEase.Manga.Utility;
 using MatrixEase.Web.Tasks;
 using MatrixEase.Manga.Manga.Serialization;
 using Microsoft.AspNetCore.Authentication;
@@ -17,10 +18,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Serialization;
 
 namespace MatrixEase.Web
 {
@@ -36,11 +33,16 @@ namespace MatrixEase.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<AppSettings>(Configuration.GetSection("MatrixEase:Web"));
-            var serviceProvider = services.BuildServiceProvider();
-            var opt = serviceProvider.GetRequiredService<IOptions<AppSettings>>().Value;
+            AppSettings settings = Configuration.GetSection("MatrixEase:Web").Get<AppSettings>();
+            if (settings == null)
+            {
+                throw new InvalidOperationException("Missing MatrixEase:Web configuration.");
+            }
 
-            MangaRoot.SetRootFolder(opt.FileSaveLocation);
+            SecretProtector.Configure(settings.ProtectionKey);
+            services.Configure<AppSettings>(Configuration.GetSection("MatrixEase:Web"));
+
+            MangaRoot.SetRootFolder(settings.FileSaveLocation);
 
             services.AddCors(); // Make sure you call this previous to AddMvc
 
@@ -54,8 +56,8 @@ namespace MatrixEase.Web
                 .AddCookie(IdentityConstants.ExternalScheme)
                 .AddGoogle(o =>
                 {
-                    o.ClientId = opt.GetGoogleClientId();
-                    o.ClientSecret = opt.GetGoogleClientSecret();
+                    o.ClientId = settings.GoogleClientId;
+                    o.ClientSecret = settings.GoogleClientSecret;
                     o.Scope.Add("https://www.googleapis.com/auth/spreadsheets.readonly");
                     o.SaveTokens = true;
 

@@ -14,6 +14,7 @@ public class ConfigurationBindingTests
             .AddInMemoryCollection(new Dictionary<string, string>
             {
                 ["MatrixEase:Web:FileSaveLocation"] = "/tmp/matrixease-web",
+                ["MatrixEase:Web:ProtectionKey"] = "test-protection-key",
                 ["MatrixEase:Web:GoogleClientId"] = "web-client-id",
                 ["MatrixEase:Web:MaxConcurrentJobs"] = "12",
             })
@@ -26,6 +27,7 @@ public class ConfigurationBindingTests
         var options = provider.GetRequiredService<IOptions<MatrixEase.Web.AppSettings>>().Value;
 
         Assert.Equal("/tmp/matrixease-web", options.FileSaveLocation);
+        Assert.Equal("test-protection-key", options.ProtectionKey);
         Assert.Equal("web-client-id", options.GoogleClientId);
         Assert.Equal(12, options.MaxConcurrentJobs);
     }
@@ -37,7 +39,6 @@ public class ConfigurationBindingTests
             .AddInMemoryCollection(new Dictionary<string, string>
             {
                 ["MatrixEase:App:GoogleClientId"] = "desktop-client-id",
-                ["MatrixEase:App:GoogleClientSecret"] = "desktop-client-secret",
             })
             .Build();
 
@@ -48,6 +49,5 @@ public class ConfigurationBindingTests
         var options = provider.GetRequiredService<IOptions<Desktop.MatrixEase.Manga.AppSettings>>().Value;
 
         Assert.Equal("desktop-client-id", options.GoogleClientId);
-        Assert.Equal("desktop-client-secret", options.GoogleClientSecret);
     }
 }
