@@ -1,99 +1,957 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->  
 <head>
-  <title>MatrixEase Components</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Component guide for MatrixEase.">
-  <link rel="icon" href="matrixease.png">
-  <link rel="stylesheet" href="site.css">
-</head>
-<body>
-  <header class="docs-header">
-    <div class="docs-shell">
-      <a class="brand" href="index.html">
-        <img src="assets/images/matrixeaselogo_pink.png" alt="MatrixEase Documentation">
-      </a>
-      <nav class="docs-nav" aria-label="Documentation">
-        <a href="index.html">Docs Home</a>
-        <a href="quick.html">Quick Start</a>
-        <a href="faqs.html">FAQs</a>
-        <a href="videos.html">Videos</a>
-      </nav>
-    </div>
-  </header>
+    <title>MatrixEase Documentation</title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="description" content="See data the way you think about it - An Innovative Visualization and Analysis Tool for large matrix data.." />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">  
+    <link rel="icon" href="matrixease.png">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">   
+    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="assets/plugins/prism/prism.css">
+    <link rel="stylesheet" href="assets/plugins/lightbox/dist/ekko-lightbox.min.css">
+    <link rel="stylesheet" href="assets/plugins/elegant_font/css/style.css">
 
-  <main class="docs-shell">
-    <section class="hero">
-      <div class="hero-panel">
-        <span class="eyebrow">Components</span>
-        <h1>Understand the main screens before diving into a large dataset.</h1>
-        <p>The interface is centered around a few predictable areas: project setup, source loading, matrix exploration, and metrics.</p>
-      </div>
-    </section>
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="assets/css/styles.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JNFZ1WY8H"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-    <section class="section docs-grid">
-      <div>
-        <article class="article" id="dashboard">
-          <h2>Dashboard</h2>
-          <p>The dashboard is where new projects are created and saved work is reopened. It also holds the source definition for the data you want to analyze.</p>
-          <div class="shot">
-            <img src="assets/images/dashboard/matrixease_dashboard_full.png" alt="MatrixEase dashboard">
-          </div>
-        </article>
+      gtag('config', 'G-3JNFZ1WY8H');
+    </script></head> 
 
-        <article class="article" id="load-source">
-          <h2>Load Source</h2>
-          <p>MatrixEase supports two main source models:</p>
-          <ul>
-            <li>File-based loading for CSV and Excel.</li>
-            <li>Google Sheet loading using a sheet identifier and range.</li>
-          </ul>
-          <div class="card-grid">
-            <div class="shot">
-              <img src="assets/images/dashboard/matrixease_load_source_file.png" alt="Load source from file">
-            </div>
-            <div class="shot">
-              <img src="assets/images/dashboard/matrixease_load_source_google.png" alt="Load source from Google Sheet">
-            </div>
-          </div>
-        </article>
+<body class="body-pink">
+    <div class="page-wrapper">
+        <!-- ******Header****** -->
+        <header id="header" class="header">
+            <div class="container">
+                <div class="branding">
+                    <h1 class="logo">
+                        <a href="index.html">
+                            <img src="assets/images/matrixeaselogo_pink.png" width="200" />
+                            <!--
+                            <span aria-hidden="true" class="icon_documents_alt icon"></span>
+                            <span class="text-highlight">Inc</span><span class="text-bold">Trak</span>
+                            -->
+                        </a>
+                    </h1>
+                </div><!--//branding-->
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active">Components</li>
+                    <li style="float: right;">
+                        <div style="float: right;">
+                            <a href="https://www.matrixease.com/index.html#about" target="_blank">About</a> |
+                            <a href="https://my.matrixease.com" target="_blank">My MatrixEase</a> |
+                            <a href="https://blog.matrixease.com" target="_blank">Blog</a> |
+                            <a href="https://support.matrixease.com" target="_blank">Support</a>
+                        </div>
+                    </li>
+                </ol>
+            </div><!--//container-->
+        </header><!--//header-->
+        <div class="doc-wrapper">
+            <div class="container">
+                <div id="doc-header" class="doc-header text-center">
+                    <h1 class="doc-title"><span aria-hidden="true" class="icon icon_puzzle_alt"></span> Components</h1>
+                </div><!--//doc-header-->
+                <div class="doc-body">
+                    <div class="doc-content">
+                        <div class="content-inner">
+                            
+                            <section id="dashboard-components" class="doc-section">
+                                <h2 class="section-title">Dashboard Components</h2>
+                                <div id="dashboard" class="section-block">
+                                    <h3 class="block-title">Dashboard Overview</h3>
+                                    <p>This is the main launching pad to create a new or load a saved MatrixEase project.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Dashboard</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/dashboard/matrixease_dashboard_full.png" data-title="Dashboard Overview" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/matrixease_dashboard_full.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/dashboard/matrixease_dashboard_full.png" data-title="Dashboard Overview" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ol>
+                                                    <li>Saved Project - load a previously saved MatrixEase project</li>
+                                                    <li>Project Options - set the options for a new project</li>
+                                                    <li>Load Source - Define the location of the the source matrix data</li>
+                                                </ol>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
 
-        <article class="article" id="matrix">
-          <h2>Matrix View</h2>
-          <p>After import, the matrix view becomes the main workspace. This is where categories, counts, and intersections are reviewed.</p>
-          <div class="shot">
-            <img src="assets/images/components/matrixease_overview.png" alt="Matrix view overview">
-          </div>
-        </article>
+                                <div id="saved-projects" class="section-block">
+                                    <h3 class="block-title">Saved Projects</h3>
+                                    <p>The shows the list of saved project that you have created.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Saved Projects List</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/dashboard/matrixease_saved_projects.png" data-title="Saved Projects" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/matrixease_saved_projects.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/dashboard/matrixease_saved_projects.png" data-title="Saved Projects" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ol>
+                                                    <li>MatrixEase Name - the name of the saved project</li>
+                                                    <li>Source - the file name or Google sheet name of the source matrix</li>
+                                                    <li>Type - the type of the source amtrix data (csv, Excel, Google, etc.)</li>
+                                                    <li>Limit - the number of rows considered from the source matrix (All or a number)</li>
+                                                    <li>Rows - the actual number of rows in the matrix</li>
+                                                    <li>Status - the current status of the project (Complete and Running if still being processed)</li>
+                                                    <li>Created - the date and time that the project was created</li>
+                                                </ol>
+                                             </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
 
-        <article class="article" id="filtering">
-          <h2>Filtering and metrics</h2>
-          <p>Filtering narrows the data by category while metrics reveal column-level and relationship-level details. This is the fastest way to move from raw rows to useful patterns.</p>
-          <div class="shot">
-            <img src="assets/images/components/matrixease_data_stats.png" alt="Metrics and data statistics view">
-          </div>
-        </article>
-      </div>
+                                <div id="project_options" class="section-block">
+                                    <h3 class="block-title">Project Options</h3>
+                                    <p>The Project Options section allows you customize how the matrix data is loaded into a new project.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>New project options settings</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/dashboard/matrixease_project_options.png" data-title="New project options settings" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/matrixease_project_options.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/dashboard/matrixease_project_options.png" data-title="New project options settings" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ol>
+                                                    <li>MatrixEase Name - the name to be saved for the new project</li>
+                                                    <li>
+                                                        Ignore Columns - is list of columns (in CSV format) to not include from the source matrix
+                                                        <ul>
+                                                            <li>Column Indexes - the 1 based index list of columns to ignore. ex: 2, 5, 6 would ignore columns A, E and F in a tradiional spreadsheet</li>
+                                                            <li>Column Names - the "named" columns to ignore. These are derived from the names in your spreadsheet or if auto-generated COL_1, COL_2...COL_N</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        Data Rules
+                                                        <ul>
+                                                            <li>Ignore blank rows - if a row of matrix data has no values, ignore the entire row</li>
+                                                            <li>Ignore Text Case - treat all textual data as lowercase for grouping and analysis. (details of actual case will be preserved)</li>
+                                                            <li>Trim Leading Whitespace - for textual data remove all leading white space characters</li>
+                                                            <li>Trim Trailing Whitespace - for textual data remove all trailing white space characters</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>Header on Row - the one based index of the first row to consider as a header in the matrix data (must be 1 or greater)</li>
+                                                    <li>Header Rows - the number of rows from the "Header on Row" to consider when forming column names. If zero a column name will be generated (COL_1, COL_2...COL_N</li>
+                                                    <li>Stop After n Rows - the number of data rows to process in the matrix. A zero indicates all data is to be consumed.</li>
+                                                </ol>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+                                <div id="load-source" class="section-block">
+                                    <h3 class="block-title">Load Source</h3>
+                                    <p>The Load Source section allows you specify the input for the matrix data.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Load Source - File Based</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/dashboard/matrixease_load_source_file.png" data-title="Load from File" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/matrixease_load_source_file.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/dashboard/matrixease_load_source_file.png" data-title="Load from File" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ol>
+                                                    <li>
+                                                        File Type
+                                                        <ul>
+                                                            <li>
+                                                                csv - a comma separated values text file
+                                                                <ul>
+                                                                    <li>Separator - choose the "c" in the csv type</li>
+                                                                    <li>
+                                                                        Options - Comma(","), Tab("\t"), Space(" "), Pipe("|"), Colon(":"), Semicolon(";")
+                                                                    </li>
+                                                                </ul>
+                                                            </li>                                                            </li>
+                                                            <li>
+                                                                Excel (xls, xlxs, etc.) - a Microsoft Excel file
+                                                                <ul>
+                                                                    <li>xlsx & xlsb - OpenXml - 2007 and newer</li>
+                                                                    <li>
+                                                                        xls - BIFF - 97-98, 2000-2004, XP, 2.0 to 5.0, 95
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>Choose File - press this button to choose a local file to upload for processing</li>
+                                                    <li>Status Bar - shows file upload progress</li>
+                                                    <li>Upload/Process File - press this button to create a new MatrixEase project from the uploaded file</li>
+                                                </ol>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Load Source - Google Sheet Based</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/dashboard/matrixease_load_source_google.png" data-title="Load from Google" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/matrixease_load_source_google.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/dashboard/matrixease_load_source_google.png" data-title="Load from Google" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ol>
+                                                    <li>Sheet ID - The ID of the Google Sheet to load (see below on how to determine this value)</li>
+                                                    <li>Sheet Range - the name of the Sheet and range of cells to to load (see below on how to determine this the sheet name)</li>
+                                                    <li>Process Google Sheet - press this button to create a new MatrixEase project from the Google Sheet</li>
+                                                </ol>
+                                                <div class="screenshot-holder">
+                                                    <a href="assets/images/dashboard/matrixease_google_sheet.png" data-title="Google ID & Sheet Name" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/matrixease_google_sheet.png" alt="screenshot" /></a>
+                                                    <a class="mask" href="assets/images/dashboard/matrixease_google_sheet.png" data-title="Google ID & Sheet Name" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                </div>
+                                                <ol>
+                                                    <li>Sheet ID - this is the Google Sheet ID</li>
+                                                    <li>Sheet Name - this is the Goole Sheet Name</li>
+                                                </ol>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
 
-      <aside>
-        <div class="toc">
-          <h3>Sections</h3>
-          <ul>
-            <li><a href="#dashboard">Dashboard</a></li>
-            <li><a href="#load-source">Load source</a></li>
-            <li><a href="#matrix">Matrix view</a></li>
-            <li><a href="#filtering">Filtering and metrics</a></li>
-          </ul>
-        </div>
-      </aside>
-    </section>
-  </main>
+                                <div id="load-progress" class="section-block">
+                                    <h3 class="block-title">Load Progress</h3>
+                                    <p>Shows the status of loading and analyzing your matrix data.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Progress stages</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/dashboard/matrixease_load_status_03.png" data-title="Full load progress" data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/matrixease_load_status_03.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/dashboard/matrixease_load_status_03.png" data-title="Full load progress" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ol>
+                                                    <li>Key - the named stage in the load process</li>
+                                                    <li>Started - the date and time the load process started</li>
+                                                    <li>Elapsed - the current updated elapsed time for this stage</li>
+                                                    <li>Description - what is currently happening during this stage</li>
+                                                    <li>Status - the status of this stage in processing - Started, Running, Complete, Failed</li>
+                                                    <li>PreProcess - this stage is uploading or retreiving the matrix data from the source system</li>
+                                                    <li>Queued - this stage shows that the item is currently queued and pending execution</li>
+                                                    <li>Processing - this stage shows the raw read of the matrix data</li>
+                                                    <li>Analysis - this stage shows the status of the analysis of the data</li>
+                                                    <li>Saving - this stage shows the progress on saving a optimized MatrixEase project</li>
+                                                </ol>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/dashboard/matrixease_load_status_01.png" data-title="Loading rows..." data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/matrixease_load_status_01.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/dashboard/matrixease_load_status_01.png" data-title="Loading rows..." data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ol>
+                                                    <li>Processing - status update on loading the matrix by row and percentage complete.</li>
+                                                </ol>
+                                            </p>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/dashboard/matrixease_load_status_02.png" data-title="Analyzing matrix..." data-toggle="lightbox"><img class="img-responsive" src="assets/images/dashboard/matrixease_load_status_02.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/dashboard/matrixease_load_status_02.png" data-title="Analyzing matrix..." data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ol>
+                                                    <li>Analyzing - status update on analysis of data for categorization, metrics and visualization.</li>
+                                                </ol>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
 
-  <footer class="docs-footer">
-    <div class="docs-shell">
-      <p>&copy; Calypso Systems, LLC. MatrixEase documentation.</p>
-    </div>
-  </footer>
+                            </section><!--//doc-section-->
+
+
+
+                            <section id="matrixease-components" class="doc-section">
+                                <h2 class="section-title">MatrixEase Components</h2>
+                                <div id="matrixease-overview" class="section-block">
+                                    <h3 class="block-title">Overview</h3>
+                                    <p>Show a overall picture of the MatrixEase interface and the functionality of each component </p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Main MatrixEase Interface</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_overview.png" data-title="Overview" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_overview.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_overview.png" data-title="Overview" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ol>
+                                                    <li>Title - The name of this saved MatrixEase</li>
+                                                    <li>Dataset Statistics - statsitics for the entire matrix</li>
+                                                    <li>Column Statistics - statistics for the current column</li>
+                                                    <li>Column Measures - measures for the current column</li>
+                                                    <li>Data Statistics - statistics for the current cell</li>
+                                                    <li>Show Current Filter - show/hide the Filter Expression Dialog Box(see 17)</li>
+                                                    <li>Selections - display sidebar for MatrixEase display options</li>
+                                                    <li>Delete - remove this entire saved MatrixEase project</li>
+                                                    <li>Quick Chart/Report - create a chart or report based on discovered dimensions and measures </li>
+                                                    <li>Export Selected as CSV - create a CSV export file of the currently selectect data</li>
+                                                    <li>Home - return to the dashboard (home screen)</li>
+                                                    <li>Column Name - the name of the column in the matrix</li>
+                                                    <li>Column Action - a menu of actions on a column basis</li>
+                                                    <li>Cell Action - a menu of actions on a cell basis</li>
+                                                    <li>Cell Data - the name of the cell category and selection measures</li>
+                                                    <li>Cell Visualized - color coded to visually show significance of current selection</li>
+                                                    <li>Filter Expression - the currently applied filter to the matrix</li>
+                                                    <li>Click Filter - click in any cell to change the filter criteria, action based on Selections(see 7)</li>
+                                                </ol>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+
+                                <div id="matrixease-cell-vis" class="section-block">
+                                    <h3 class="block-title">Cell Visualization</h3>
+                                    <p>Shows how each column cell is group and classified to represent it's relationship to other column cells.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Saved Projects List</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_cell_data.png" data-title="Cell Visualization" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_cell_data.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_cell_data.png" data-title="Cell Visualization" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                The above image show the same three rows of data with the same filter applied, but with a different visualization percentage scheme applied. The fill on each cell conveys the percentage of total on the whole.
+                                                <ol>
+                                                    <li>Percent of Total and of Selected - This show the total percent of the rows for this cell (group) in green and currently selected percent of the rows in red. </li>
+                                                    <li>Percent of Total - This shows the percent of the total rows for this filtered cell (group) in red.</li>
+                                                    <li>Percent of Selected - This shows the percentage of the total filtered rows for this filtered cell (group) in red.</li>
+                                                </ol>
+                                                For example in the above data for the column "manufacturer" and the cell "ford"
+                                                <ol>
+                                                    <li>The "ford" model accounts for 17.39% of all the rows with "ford" in this column compared to the total number of rows.</li>
+                                                    <li>The "ford" model accounts for 5.09% of the filter rows with "ford" in this column compared to the total number of rows.</li>
+                                                    <li>The "ford" model accounts for 16.52% of the filter rows with "ford" in this column compared to the total number of filtered rows.</li>
+                                                </ol>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+
+                                <div id="matrixease-filtering" class="section-block">
+                                    <h3 class="block-title">Filtering</h3>
+                                    <p>Shows how set filters on the data based on boolean logic as you interact with cells visually.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Saved Projects List</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_filters.png" data-title="Filters" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_filters.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_filters.png" data-title="Filters" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                The above image show the various ways to filter and options.
+                                                <ol>
+                                                    <li>
+                                                        Left Click Cell Selection - the selections sidebar allow you to choose the left click action on cells
+                                                        <ul>
+                                                            <li>Overwrite Selection - replaces the current filter with a filter for only the selected cell</li>
+                                                            <li>OR Selections - adds to the current filter with a filter with selected cell as a OR condition</li>
+                                                            <li>AND Selections - adds to the current filter with a filter with selected cell as a AND condition</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        Right Click Cell Selection - right click in any cell to choose to add the selection as different types
+                                                        <ul>
+                                                            <li>ONLY this Cell - replaces the current filter with a filter for only the selected cell</li>
+                                                            <li>OR this Cell - adds to the current filter with a filter with selected cell as a OR condition</li>
+                                                            <li>AND this Cell - adds to the current filter with a filter with selected cell as a AND condition</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>Pending Filter Change - this will be flashing if the filter in the Filter Expression dialog is changed from what is displayed as the selection (i.e. it has not been applied)</li>
+                                                    <li>
+                                                        Filter Expression
+                                                        <ul>
+                                                            <li>Expression Block - show the current filter, you can edit this manually to add complex filters (and, or, not groups, etc.)</li>
+                                                            <li>Clear - clears the current filter expression</li>
+                                                            <li>Restore - remove the current pending filter (see flashing notification) and restor the active expression</li>
+                                                            <li>Group Current - treat the current expression a group (add parenthesis) new operations will be addative after the group</li>
+                                                            <li>NOT Current - reverse the logic in the current expression to exclude items in the filter expression</li>
+                                                            <li>Close - hide the Filter Expression dialog</li>
+                                                            <li>Apply Filter - Apply the current viewed filter to the MatrixEase project</li>
+                                                        </ul>
+                                                    </li>
+                                                </ol>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+
+                                <div id="matrixease-quick-statistics" class="section-block">
+                                    <h3 class="block-title">Quick Statistics</h3>
+                                    <p>A quick view of matrix statistics on the whole, column and cell level. Will auto-update as you hover over columns and cells.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Dataset Statistics</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_ds_stats.png" data-title="Dataset Statistics" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_ds_stats.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_ds_stats.png" data-title="Dataset Statistics" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ul>
+                                                    <li>Total Rows - the total number of rows in the matrix</li>
+                                                    <li>Selected Rows - the current number of rows in the MatrixEase with the currently applied filter</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div>
+                                                <h6>Column Statistics</h6>
+                                                <div class="screenshot-holder">
+                                                    <a href="assets/images/components/matrixease_col_stats.png" data-title="Column Statistics" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_col_stats.png" alt="screenshot" /></a>
+                                                    <a class="mask" href="assets/images/components/matrixease_col_stats.png" data-title="Column Statistics" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                </div>
+                                                <p>
+                                                    Will update as you hover over different columns
+                                                    <ul>
+                                                        <li>Column - the name of the active column</li>
+                                                        <li>Type - is this column a Measure or Dimension</li>
+                                                        <li>Data Type - does this column contain a Numbers, Date/Times or Text</li>
+                                                        <li>Empty Values - the number of empty values in this column</li>
+                                                        <li>Selectivity - the overall uniqueness of data in this column (0 to 100 - the higher the number the moer unique values)</li>
+                                                    </ul>
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <h6>Data Statistics</h6>
+                                                <div class="screenshot-holder">
+                                                    <a href="assets/images/components/matrixease_data_stats.png" data-title="Data Statistics" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_data_stats.png" alt="screenshot" /></a>
+                                                    <a class="mask" href="assets/images/components/matrixease_data_stats.png" data-title="Data Statistics" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                                </div>
+                                                <p>
+                                                    Will update as you hover over different cells
+                                                    <ul>
+                                                        <li>Value - the named valued of the cell (the grouped catgeory name or range if numberic or date/time)</li>
+                                                        <li>Percent of Total - the percent of the total rows for the rows in the cell</li>
+                                                        <li>Selected Percent of Total - the percent of the total rows for the filtered rows in the cell</li>
+                                                        <li>Percent of Selected - the percent of the filtered rows for the filtered rows in the cell</li>
+                                                        <li>Rows - the total number of rows represented by this cell</li>
+                                                        <li>Selected Rows - the number of rows represented by this cell with the current filter applied</li>
+                                                    </ul>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Column Measures</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_col_measures.png" data-title="Column Measures" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_col_measures.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_col_measures.png" data-title="Column Measures" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                Will update as you hover over different columns
+                                                <ul>
+                                                    <li>Group by - will show the number of categories (buckets) and the type of category applied. Native infers raw format was used for grouping.</li>
+                                                    <li>Distinct Values - the total number of distinct values in this column</li>
+                                                    <li>
+                                                        For Numbers
+                                                        <ul>
+                                                            <li>Average - the calculated average of all the numbers in the column</li>
+                                                            <li>Smallest - the smallest number of all the numbers in the column</li>
+                                                            <li>Largest - the largest number of all the numbers in the column</li>
+                                                            <li>Standard Deviation - the calculated standard deviation of all the numbers in the column</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        For Text
+                                                        <ul>
+                                                            <li>Average Text Length - the calculated average text length of all the data in the column</li>
+                                                            <li>Average Number of Terms - the calculated average number of terms (separated by white space) of all the data in the column</li>
+                                                            <li>Column is URL - specifies that all the data in the column is a URL</li>
+                                                            <li>Short Test Length - the shortest text length of all the data in the column</li>
+                                                            <li>Longest Test Length - the longest text length of all the data in the column</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        For Date/Time
+                                                        <ul>
+                                                            <li>Earliest - the earliest date/time of all the data in the column</li>
+                                                            <li>Latest - the latest date/time of all the data in the column</li>
+                                                            <li>Average - the average date/time of all the data in the column</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+
+                                <div id="matrixease-selections" class="section-block">
+                                    <h3 class="block-title">Selections</h3>
+                                    <p>Apply different filters and actions to the MatrixEase project</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Selection slide-out</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_selections.png" data-title="Selections" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_selections.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_selections.png" data-title="Selections" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ol>
+                                                    <li>Apply Selections - apply the currently configured items in the slide-out to the MatrixEase project</li>
+                                                    <li>Only show items that are - this allows you to show only the cells that are within the defined range of the percentage of total</li>
+                                                    <li>
+                                                        Show Cell fill as
+                                                        <ul>
+                                                            <li>Percent of Total - color the cell in red as a percentage of the total</li>
+                                                            <li>Percent of Total and of Selected - color the cell in green as a percentage of the total and color the cell in red as the percentage of the selected filter</li>
+                                                            <li>Percent of Selected - color the cell in red as the percentage of the selected filter</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        Left Click Selection Action - if you left click in a cell apply the filter as
+                                                        <ul>
+                                                            <li>Overwite Selection - replace the entire filter with a filter of this cell</li>
+                                                            <li>OR Selections - add to the current filter a OR of this cell</li>
+                                                            <li>AND Selections - add to the current filter a AND of this cell</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        Columns
+                                                        <ul>
+                                                            <li>Order Ascending - order the columns by percentage in ascending order (smallest to largest)</li>
+                                                            <li>Hidden Column - hide the marked column from the display</li>
+                                                        </ul>
+                                                    </li>
+                                                </ol>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+
+                                <div id="matrixease-col-actions" class="section-block">
+                                    <h3 class="block-title">Column Actions</h3>
+                                    <p>Use column actions by right clicking on a column header.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Column Header Menu</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_col_actions.png" data-title="Column Header Menu" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_col_actions.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_col_actions.png" data-title="Column Header Menu" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                Show the available actions on the column.
+                                                <ul>
+                                                    <li>Column Settings - Show/Change the current catgeorization</li>
+                                                    <li>Column Stats - Show the metrics for the column</li>
+                                                    <li>Column Stats - Show a quick report on the makeup of the column data</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div>
+
+                                <div id="matrixease-col-settings" class="section-block">
+                                    <h3 class="block-title">Column Setttings</h3>
+                                    <p>Use column settings to see general metrics on the column and manually change the categorization mechanism.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Text Settings</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_col_settings_text.png" data-title="Text Settings" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_col_settings_text.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_col_settings_text.png" data-title="Text Settings" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ul>
+                                                    <li>Top secton shows metrics on the column (see Column Statistics and Measures above) </li>
+                                                    <li>For text the 2nd secion will also conatin counts of different catgeorizations mechanisms</li>
+                                                    <li>
+                                                        Bucketed - if check the column has been categorized - you can force or change categorization
+                                                        <ul>
+                                                            <li>Natural - use the raw data for cell groups</li>
+                                                            <li>One Letter Prefixes - use the first character of the text for cell groups</li>
+                                                            <li>Two Letter Prefixes - use the first two characters of the text for cell groups</li>
+                                                            <li>Three Letter Prefixes - use the first three characters of the text for cell groups</li>
+                                                            <li>Four Letters Prefixes - use the first four characters of the text for cell groups</li>
+                                                            <li>Word Patterns - determine available word patterns for cell groups</li>
+                                                            <li>Most Significant Terms - analyze the terms in all the text using TF-IDF for cell groups</li>
+                                                            <li>"Text Length - use the average length of text for cell groups</li>
+                                                            <li>"Url Schemes - use the URL Scheme cell groups (http, https, ftp, etc.)</li>
+                                                            <li>"Url Domains - use the URL domain for cell groups</li>
+                                                            <li>"First Url Path - use the 1st part of the URL (after domain) for cell groups</li>
+                                                            <li>Second Url Path - use the 2nd part of the URL (after domain) for cell groups</li>
+                                                            <li>Third Url Path - use the 3rd part of the URL (after domain) for cell groups</li>
+                                                            <li>"Common Url Path Terms</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Number Settings</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_col_settings_number.png" data-title="Number Settings" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_col_settings_number.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_col_settings_number.png" data-title="Number Settings" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ul>
+                                                    <li>Top secton shows metrics on the column (see Column Statistics and Measures above) </li>
+                                                    <li>For numbers the 2nd secion will also conatin counts of different catgeorizations mechanisms</li>
+                                                    <li>
+                                                        Bucketed - if check the column has been categorized - you can force or change categorization
+                                                        <ul>
+                                                            <li>Ranges - uses the number entered in the "Bucket Modifier" field as as a range to group numbers from lowest to highest for cell grouping</li>
+                                                            <li>Max average/outlier buckets - uses the average and standard diviation of all values and the number entered in the "Bucket Modifier" field as the number of categories to create bucks for cell grouping. Any item that all out of the standard grouping will be put in high and low outlier groups. </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Date/Time Settings</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_col_settings_datetime.png" data-title="Date/Time Settings" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_col_settings_datetime.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_col_settings_datetime.png" data-title="Date/Time Settings" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ul>
+                                                    <li>Top secton shows metrics on the column (see Column Statistics and Measures above) </li>
+                                                    <li>For date/time the 2nd secion will also conatin counts of different catgeorizations mechanisms</li>
+                                                    <li>
+                                                        Bucketed - if check the column has been categorized - you can force or change categorization
+                                                        <ul>
+                                                            <li>Milli-Second buckets - from earliest to latest break the date/time into milli-second cell groups</li>
+                                                            <li>1 Second buckets - from earliest to latest break the date/time into one second cell groups</li>
+                                                            <li>1 Minute buckets - from earliest to latest break the date/time into one minute cell groups</li>
+                                                            <li>1 Hour buckets - from earliest to latest break the date/time into one hour cell groups</li>
+                                                            <li>1 Day buckets - from earliest to latest break the date/time into one day cell groups</li>
+                                                            <li>1 Week buckets - from earliest to latest break the date/time into one week cell groups</li>
+                                                            <li>1 Month buckets - from earliest to latest break the date/time into one month cell groups</li>
+                                                            <li>1 Year buckets - from earliest to latest break the date/time into one year cell groups</li>
+                                                            <li>1 Decade buckets - from earliest to latest break the date/time into one decade cell groups</li>
+                                                            <li>1 Century buckets - from earliest to latest break the date/time into one year cell groups</li>
+                                                            <li>Months of the Year - break the date/time inot each month of the year for cell groups</li>
+                                                            <li>Days of the Week - break the date/time into each day of the week for cell groups</li>
+                                                            <li>Hours of the Day - break the date/time into each hour of the day for cell groups</li>
+                                                            <li>Minutes of the Hour - break the date/time into each minute of the hour for cell groups</li>
+                                                            <li>Seconds of the Minute - break the date/time into each second of the minute for cell groups</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+
+                                <div id="matrixease-col-stats" class="section-block">
+                                    <h3 class="block-title">Column Stats</h3>
+                                    <p>Use column stats to see detailed statistics and metrics on the columns data.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Text Stats 1</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_col_stats_text1.png" data-title="Text Stats 1" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_col_stats_text1.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_col_stats_text1.png" data-title="Text Stats 1" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ul>
+                                                    <li>Header - shows metrics for text columns</li>
+                                                    <li>Unique - the total nuber of unique values</li>
+                                                    <li>Sample Size - the maximum size of unique values considered</li>
+                                                    <li>Text Length - shows statistics for the length of text</li>
+                                                    <li>One Character Prefixes - shows the top one character prefixes and counts for each</li>
+                                                    <li>Two Character Prefixes - shows the top two character prefixes and counts for each</li>
+                                                    <li>Three Character Prefixes - shows the top three character prefixes and counts for each</li>
+                                                    <li>Four Character Prefixes - shows the top four character prefixes and counts for each</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Text Stats 2</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_col_stats_text2.pngg" data-title="Test Stats 2" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_col_stats_text2.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_col_stats_text2.png" data-title="Test Stats 2" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ul>
+                                                    <li>Unique - the total nuber of unique values</li>
+                                                    <li>Sample Size - the maximum size of unique values considered</li>
+                                                    <li>All Term Stats - statistics on terms used per cell across all rows</li>
+                                                    <li>Distinct Term Stats - statistics on the distinct terms used per cell across all rows</li>
+                                                    <li>All Considered Terms Stats - statistics on terms used per cell across all rows removing common(stop) words</li>
+                                                    <li>Distinct Considered Terms Stats - statistics on the distinct terms used per cell across all rows removing common(stop) words</li>
+                                                    <li>Term Counts - the top terms in the document and the occurance count</li>
+                                                    <li>Term Weights - the ranking by TK-IDF (Term Frequency — Inverse Document Frequency) terms in the document</li>
+                                                    <li>Calculated Term Patterns - the list of possible term patterns</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Number Stats</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_col_stats_number.png" data-title="Number Stats" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_col_stats_number.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_col_stats_number.png" data-title="Number Stats" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ul>
+                                                    <li>Header - shows metrics for numeric columns</li>
+                                                    <li>Numeric Stats - the numeric metrics on the column across all rows but exluding null or empty values</li>
+                                                    <li>Numeric Stats with null/empty values - the numeric metrics on the column across all rows but treating null and empty values as zero</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Date/Time Stats</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_col_stats_datetime.pngg" data-title="Date/Time Stats" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_col_stats_datetime.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_col_stats_datetime.png" data-title="Date/Time Stats" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ul>
+                                                    <li>Header - shows metrics for date/time columns</li>
+                                                    <li>Date Stats - the date/time metrics on the column across all rows (exluding null or empty values)</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+
+                                <div id="matrixease-col-report" class="section-block">
+                                    <h3 class="block-title">Column Report</h3>
+                                    <p>Show a matrix report on the data and categorization in this column.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Text Stats 1</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_col_report.png" data-title="Column Report" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_col_report.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_col_report.png" data-title="Column Report" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ul>
+                                                    <li>Value - The raw value or catgeory value for this cell in the column</li>
+                                                    <li>Percent of Total - the percentage of rows of this value in the column</li>
+                                                    <li>Sel Pct Of Total - the percentage of the filtered rows of this value in the column as it relates to the total rows</li>
+                                                    <li>Pct of Sel - the percentage of the filtered rows of this value in the column as it relates to the filtered rows</li>
+                                                    <li>Rows - the number of rows where this raw value or catgeory value occurs</li>
+                                                    <li>Selected Rows - the number of filtered rows where this raw value or catgeory value occurs</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+
+                                <div id="matrixease-cell-actions" class="section-block">
+                                    <h3 class="block-title">Cell Actions</h3>
+                                    <p>Use cell actions by right clicking in a cell.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Cell Actions</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_cell_actions.png" data-title="Cell Actions" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_cell_actions.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_cell_actions.png" data-title="Cell Actions" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ul>
+                                                    <li>ONLY this Cell - apply this cell as the new filter for the MatrixEase (replaces all other filter criterial)</li>
+                                                    <li>AND this Cell - apply a boolean AND with this cell to the current filter criteria</li>
+                                                    <li>OR this Cell - apply a boolean OR with this cell to the current filter criteria</li>
+                                                    <li>Show Raw Keys for this Cell - if selected "Ignore Text Case" this will show all raw case sensitive fields for this cell</li>
+                                                    <li>Show Measures for this Cell - select and show metrics for measures as they relate to this cell</li>
+                                                    <li>Show rows for this cell - show the selected rows for his cell</li>
+                                                    <li>Dependency Diagram for this cell - show how this particluar cell relates to other columns cells in terms of overlapping rows</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                    <div class="row">
+                                        <div id="matrixease-cell-rawkeys" class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Show Raw Keys for this Cell </h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_cell_dups.png" data-title="Raw Keys" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_cell_dups.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_cell_dups.png" data-title="Raw Keys" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                This will display any case sensative duplictaes that were found during discovery if you choose to "Ignore Text Case"
+                                            </p>
+                                        </div>
+                                        <div id="matrixease-cell-measures" class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Show Measures for this Cell</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_cell_measures.png" data-title="Cell Measures" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_cell_measures.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_cell_measures.png" data-title="Cell Measures" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                For any measure in the result matrix data you can view the statistics for that measure as they relate to this cell.
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                    <div id="matrixease-cell-rows" class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Show rows for this cell</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_cell_rows.png" data-title="Cell Rows" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_cell_rows.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_cell_rows.png" data-title="Cell Rows" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                This will display all the related rows in the matrix for this cell
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Cannot show rows for this cell</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_cell_rows_error.png" data-title="Cell Rows Limit" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_cell_rows_error.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_cell_rows_error.png" data-title="Cell Rows Limit" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                You can only show the raw data for a single cell, if the number of rows related to that cell and less than 10,000
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                    <div id="matrixease-cell-dep" class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Dependency Diagram for this cell</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_cell_dependencies.png" data-title="Dependency Diagram" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_cell_dependencies.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_cell_dependencies.png" data-title="Dependency Diagram" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                This will display a chord diagram of the rows in this cell and how they relate to a selected columns cells. This allows
+                                                you to visually inspect significant relationships between cells across columns. Select different columns from the drop-down to
+                                                chnage the selected view. Hover over individual "chords" to focus in on that relationship
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Dependency Diagram selection</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_cell_seldep.png" data-title="Dependency Diagram" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_cell_seldep.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_cell_seldep.png" data-title="Dependency Diagram" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                Demonstraints hover over ations to show number of overlapping rows and highlight teh "chord" for this selection.
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+
+                                <div id="matrixease-quick-chart-report" class="section-block">
+                                    <h3 class="block-title">Quick Chart or Report</h3>
+                                    <p>Create charts and report based off of dimensions vs. metrics (average, total) or count of a dimension.</p>
+                                    <div id="matrixease-quick-report" class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Quick Chart/Report Setup</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_quick_chart_report.png" data-title="Quick Chart/Report" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_quick_chart_report.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_quick_chart_report.png" data-title="Quick Chart/Report" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                <ul>
+                                                    <li>Open in new tab - Open the rendered chart or report in a new browser tab</li>
+                                                    <li>Dimension - pick the dimension you wnat to create a chart or report against</li>
+                                                    <li>Measure - pick the measures (total or average) or the count fo dimension to chart/report against the selected dimension</li>
+                                                    <li>Type - pick the type of display to render - report or chart (line, bar, </li>
+                                                    <li>Use filtered results - use the currently filtered results or the entire set of data</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Quick Chart</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_quick_chart.png" data-title="Quick Chart" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_quick_chart.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_quick_chart.png" data-title="Quick Chart" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                Demonstrates the creation of a line chart showing average price and odometer reading for each manufacturer
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <h6>Quick Report</h6>
+                                            <div class="screenshot-holder">
+                                                <a href="assets/images/components/matrixease_quick_report.png" data-title="Quick Report" data-toggle="lightbox"><img class="img-responsive" src="assets/images/components/matrixease_quick_report.png" alt="screenshot" /></a>
+                                                <a class="mask" href="assets/images/components/matrixease_quick_report.png" data-title="Quick Report" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                                            </div>
+                                            <p>
+                                                Demonstrates the creation of a report for each  manufacturer showing average price and odometer reading.<br />
+                                                (Type a keyword... - lets you search the report for values)
+                                            </p>
+                                        </div>
+                                    </div><!--//row-->
+                                </div><!--//section-block-->
+
+                            </section><!--//doc-section-->
+
+                        </div><!--//content-inner-->
+                    </div><!--//doc-content-->
+                    <div class="doc-sidebar">
+                        <nav id="doc-nav">
+                            <ul id="doc-menu" class="nav doc-menu hidden-xs" data-spy="affix">
+                                <li>
+                                    <a class="scrollto" href="#dashboard-components">Dashboard Components</a>
+                                    <ul class="nav doc-sub-menu">
+                                        <li><a class="scrollto" href="#dashboard">Dashboard</a></li>
+                                        <li><a class="scrollto" href="#saved-projects">Saved Projects</a></li>
+                                        <li><a class="scrollto" href="#project_options">Project Options</a></li>
+                                        <li><a class="scrollto" href="#load-source">Load Source</a></li>
+                                        <li><a class="scrollto" href="#load-progress">Load Progresss</a></li>
+                                    </ul><!--//nav-->
+                                </li>
+                                <li>
+                                    <a class="scrollto" href="#matrixease-components">MatrixEase Components</a>
+                                    <ul class="nav doc-sub-menu">
+                                        <li><a class="scrollto" href="#matrixease-overview">Overview</a></li>
+                                        <li><a class="scrollto" href="#matrixease-cell-vis">Cell Visualization</a></li>
+                                        <li><a class="scrollto" href="#matrixease-filtering">Filtering</a></li>
+                                        <li><a class="scrollto" href="#matrixease-quick-statistics">Quick Statistics</a></li>
+                                        <li><a class="scrollto" href="#matrixease-selections">Selections</a></li>
+                                        <li><a class="scrollto" href="#matrixease-col-actions">Column Actions</a></li>
+                                        <li><a class="scrollto" href="#matrixease-col-settings">Column Settings</a></li>
+                                        <li><a class="scrollto" href="#matrixease-col-stats">Column Stats</a></li>
+                                        <li><a class="scrollto" href="#matrixease-col-report">Column Report</a></li>
+                                        <li><a class="scrollto" href="#matrixease-cell-actions">Cell Actions</a></li>
+                                        <li><a class="scrollto" href="#matrixease-quick-chart-report">Quick Chart or Report</a></li>
+                                    </ul><!--//nav-->
+                                </li>
+                            </ul><!--//doc-menu-->
+                        </nav>
+                    </div><!--//doc-sidebar-->
+                </div><!--//doc-body-->              
+            </div><!--//container-->
+        </div><!--//doc-wrapper-->
+        
+    </div><!--//page-wrapper-->
+    
+    <footer id="footer" class="footer text-center">
+        <div class="container">
+            <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can check out other license options via our website: themes.3rdwavemedia.com */-->
+            <small class="copyright">Calypso Systems, LLC - MatrixEase</small>
+            
+        </div><!--//container-->
+    </footer><!--//footer-->
+    
+     
+    <!-- Main Javascript -->          
+    <script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/prism/prism.js"></script>    
+    <script type="text/javascript" src="assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>  
+    <script type="text/javascript" src="assets/plugins/lightbox/dist/ekko-lightbox.min.js"></script>                                                                 
+    <script type="text/javascript" src="assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="assets/js/main.js"></script>
+    
 </body>
-</html>
+</html> 
+
