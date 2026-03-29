@@ -20,8 +20,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{BD267196-C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web_blaster", "web_blaster\web_blaster.csproj", "{0CA966D2-8604-460D-ABEA-2169C749CF5C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelReader", "ExcelReader\ExcelReader.csproj", "{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{CBFF5AEC-021A-4F6D-A094-EFA5577C9E06}"
 	ProjectSection(SolutionItems) = preProject
 		Dockerfile = Dockerfile
@@ -159,6 +157,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mangadata", "mangadata", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixEase.Tester", "MatrixEase.Tester\MatrixEase.Tester.csproj", "{B4A9842A-1A0B-488F-B5F3-BB62D1DE80D5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixEase.Tester.Tests", "MatrixEase.Tester.Tests\MatrixEase.Tester.Tests.csproj", "{5A80D25A-C6BE-4994-85F9-69C2F15028D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -169,10 +169,6 @@ Global
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CA966D2-8604-460D-ABEA-2169C749CF5C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45FA9590-6E3E-4DEB-A730-ECE88A5565C6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{143F71D8-FD19-4D3C-B75B-7F490BB16B30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{143F71D8-FD19-4D3C-B75B-7F490BB16B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{143F71D8-FD19-4D3C-B75B-7F490BB16B30}.Release|Any CPU.ActiveCfg = Debug|Any CPU
@@ -201,6 +197,10 @@ Global
 		{B4A9842A-1A0B-488F-B5F3-BB62D1DE80D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4A9842A-1A0B-488F-B5F3-BB62D1DE80D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4A9842A-1A0B-488F-B5F3-BB62D1DE80D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A80D25A-C6BE-4994-85F9-69C2F15028D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A80D25A-C6BE-4994-85F9-69C2F15028D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A80D25A-C6BE-4994-85F9-69C2F15028D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A80D25A-C6BE-4994-85F9-69C2F15028D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

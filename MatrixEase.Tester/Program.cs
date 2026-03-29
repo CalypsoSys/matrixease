@@ -1,25 +1,31 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Text;
+using MatrixEase.Manga.Utility;
 
-namespace MatrixEase.Tester
+namespace MatrixEase.Tester;
+
+public static class Program
 {
-    static class Program
+    public static async Task<int> Main(string[] args)
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        MatrixEaseLicense.OverrideLicense();
+
+        try
         {
-            Tester.TestStuff.Test();
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            var command = CliParser.Parse(args);
+            return await command.ExecuteAsync(Console.Out, Console.Error, CancellationToken.None);
+        }
+        catch (CliUsageException excp)
+        {
+            await Console.Error.WriteLineAsync(excp.Message);
+            await Console.Error.WriteLineAsync();
+            await Console.Error.WriteLineAsync(CliHelp.Text);
+            return 2;
+        }
+        catch (Exception excp)
+        {
+            await Console.Error.WriteLineAsync(excp.ToString());
+            return 1;
         }
     }
 }

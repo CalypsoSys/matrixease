@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-`MatrixEase.sln` is the top-level solution. Core application code lives in `MatrixEase.App/` (Electron-hosted desktop app), `MatrixEase.Web/` (ASP.NET Core web app), and `MatrixEase.Manga/` (shared matrix-processing library). `ExcelReader/` and `web_blaster/` are supporting projects. Manual test utilities live in `MatrixEase.Tester/`. Static marketing and documentation sites are under `www.matrixease.com/`, `docs.matrixease.com/`, and `static.matrixease.wwwroot/`. Deployment scripts and container configs are in `docker/`, `config/`, and `docs/`.
+`MatrixEase.sln` is the top-level solution. Core application code lives in `MatrixEase.App/` (Electron-hosted desktop app), `MatrixEase.Web/` (ASP.NET Core web app), and `MatrixEase.Manga/` (shared matrix-processing library). `web_blaster/` is a supporting project, Excel parsing comes from the `ExcelDataReader` NuGet package, and the CLI test harness lives in `MatrixEase.Tester/` with unit tests in `MatrixEase.Tester.Tests/`. Static marketing and documentation sites are under `www.matrixease.com/`, `docs.matrixease.com/`, and `static.matrixease.wwwroot/`. Deployment scripts and container configs are in `docker/`, `config/`, and `docs/`.
 
 ## Build, Test, and Development Commands
 Use scoped `dotnet` commands instead of building the whole solution with the modern SDK.
@@ -19,7 +19,7 @@ Use scoped `dotnet` commands instead of building the whole solution with the mod
 Follow existing C# conventions: 4-space indentation, braces on new lines, `PascalCase` for types and public members, `camelCase` for locals/parameters, and leading-underscore private fields such as `_data`. Keep controllers in `Controllers/`, reusable helpers in `Utility/` or `Common/`, and match filenames to primary class names. Preserve existing static-site naming and folder layout when editing HTML/CSS/JS assets.
 
 ## Testing Guidelines
-There is no formal xUnit/NUnit test suite in this repo. Use `MatrixEase.Tester/` for manual verification and run targeted smoke tests against the app or web project after changes. When touching upload, parsing, or deployment paths, note the sample deployment files referenced in `docs/build_and_deploy.txt`.
+`MatrixEase.Tester.Tests/` contains xUnit coverage for the CLI parser and spec storage. Use `dotnet test MatrixEase.Tester.Tests/MatrixEase.Tester.Tests.csproj` for those tests, and use `MatrixEase.Tester/` for CLI-based integration checks. When touching upload, parsing, or deployment paths, note the sample deployment files referenced in `docs/build_and_deploy.txt`.
 
 ## Commit & Pull Request Guidelines
 Recent history uses short, imperative, lower-case commit subjects such as `fix encryption` and `Create README.md`. Keep commits focused and descriptive. PRs should include a concise summary, affected projects, manual test notes, configuration or deployment impact, and screenshots for UI or static-site changes.
