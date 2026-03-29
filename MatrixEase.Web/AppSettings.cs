@@ -1,20 +1,9 @@
-﻿using MatrixEase.Manga.Utility;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace MatrixEase.Web
 {
     public class AppSettings
     {
         private const int _defaultMaxConcurrentJobs = 10;
 
-        public bool ClearText { get; set; }
         public string FileSaveLocation { get; set; }
         public string GoogleClientId { get; set; }
         public string GoogleClientSecret { get; set; }
@@ -29,33 +18,33 @@ namespace MatrixEase.Web
 
         public string GetGoogleClientId()
         {
-            return MiscHelpers.Decrypt(GoogleClientId, ClearText);
+            return GoogleClientId;
         }
 
         public string GetGoogleClientSecret()
         {
-            return MiscHelpers.Decrypt(GoogleClientSecret, ClearText);
+            return GoogleClientSecret;
         }
         public string GetSNMPServer()
         {
-            return MiscHelpers.Decrypt(SNMPServer, ClearText);
+            return SNMPServer;
         }
         public string GetSNMPAddress()
         {
-            return MiscHelpers.Decrypt(SNMPAddress, ClearText);
+            return SNMPAddress;
         }
         public string GetSNMPPassword()
         {
-            return MiscHelpers.Decrypt(SNMPPassword, ClearText);
+            return SNMPPassword;
         }
         public string GetEmailApiKey()
         {
-            return MiscHelpers.Decrypt(EmailApiKey, ClearText);
+            return EmailApiKey;
         }
 
         public string GetEmailFrom()
         {
-            return MiscHelpers.Decrypt(EmailFrom, ClearText);
+            return EmailFrom;
         }
 
         public int GetMaxConcurrentJobs()

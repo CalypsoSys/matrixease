@@ -5,12 +5,14 @@
     <Authors>Joe Schmitt</Authors>
     <Description>MatrixEase Data Manga and Visualization</Description>
     <AssemblyName>MatrixEase.App</AssemblyName>
+    <UserSecretsId>matrixease-app-cae3f5d2-f7fb-4dda-b328-063e2c4d7a1b</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ElectronNET.API" Version="13.5.1" />
     <PackageReference Include="Google.Apis.Auth" Version="1.59.0" />
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.59.0.2909" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.5" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MatrixEase.Manga\MatrixEase.Manga.csproj" />
@@ -35,6 +37,6 @@
     </None>
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="$(ProjectDir)..\bin\web_blaster.exe $(OS) $(ConfigurationName) $(ProjectDir)..\static.matrixease.wwwroot $(ProjectDir)wwwroot noGoogleTracking" />
+    <Exec Command="dotnet &quot;$(ProjectDir)..\bin\web_blaster.dll&quot; $(OS) $(ConfigurationName) &quot;$(ProjectDir)..\static.matrixease.wwwroot&quot; &quot;$(ProjectDir)wwwroot&quot; noGoogleTracking" />
   </Target>
 </Project>

@@ -26,8 +26,8 @@
     </Content>
   </ItemGroup>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(OS)' == 'Windows_NT'">
-    <Exec Command="$(ProjectDir)..\bin\web_blaster.exe $(OS) $(ConfigurationName) $(ProjectDir)..\static.matrixease.wwwroot $(ProjectDir)wwwroot googs" />
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="dotnet &quot;$(ProjectDir)..\bin\web_blaster.dll&quot; $(OS) $(ConfigurationName) &quot;$(ProjectDir)..\static.matrixease.wwwroot&quot; &quot;$(ProjectDir)wwwroot&quot; googs" />
   </Target>
 
 

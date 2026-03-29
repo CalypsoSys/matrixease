@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build MatrixEase.Web",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/MatrixEase.Web/MatrixEase.Web.csproj",
+        "--configuration",
+        "Debug"
+      ],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

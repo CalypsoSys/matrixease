@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MatrixEase.Tester\MatrixEase.Tester.csproj" />
+    <ProjectReference Include="..\MatrixEase.App\MatrixEase.App.csproj" />
+    <ProjectReference Include="..\MatrixEase.Web\MatrixEase.Web.csproj" />
   </ItemGroup>
 
 </Project>

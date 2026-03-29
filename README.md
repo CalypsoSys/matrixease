@@ -77,3 +77,63 @@ Users can navigate across:
 
 ---
 
+## Configuration & Setup
+
+Use `appsettings_sample.json` as a template only. Keep real secrets out of tracked config files.
+
+Recommended storage:
+
+- `dotnet user-secrets` for local development secrets
+- environment variables for CI, deployment, and machine-specific overrides
+- committed JSON only for non-secret defaults and examples
+
+### Local Secrets
+
+`MatrixEase.Web` supports user-secrets, and `MatrixEase.App` now does as well.
+
+Set local development values like this:
+
+```bash
+dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:FileSaveLocation" "/tmp/matrixease-web"
+dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:GoogleClientId" "your-google-client-id"
+dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:GoogleClientSecret" "your-google-client-secret"
+dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:EmailApiKey" "your-sendgrid-api-key"
+dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:EmailFrom" "feedback@example.com"
+dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SNMPServer" "smtp.example.com"
+dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SNMPPort" "25"
+dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SNMPAddress" "smtp-user@example.com"
+dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SNMPPassword" "your-smtp-password"
+```
+
+```bash
+dotnet user-secrets --project MatrixEase.App set "MatrixEase:App:GoogleClientId" "your-google-client-id"
+dotnet user-secrets --project MatrixEase.App set "MatrixEase:App:GoogleClientSecret" "your-google-client-secret"
+```
+
+Equivalent environment variables:
+
+```bash
+export MatrixEase__Web__FileSaveLocation=/tmp/matrixease-web
+export MatrixEase__Web__GoogleClientId=your-google-client-id
+export MatrixEase__Web__GoogleClientSecret=your-google-client-secret
+export MatrixEase__Web__EmailApiKey=your-sendgrid-api-key
+export MatrixEase__Web__EmailFrom=feedback@example.com
+export MatrixEase__Web__SNMPServer=smtp.example.com
+export MatrixEase__Web__SNMPPort=25
+export MatrixEase__Web__SNMPAddress=smtp-user@example.com
+export MatrixEase__Web__SNMPPassword=your-smtp-password
+export MatrixEase__App__GoogleClientId=your-google-client-id
+export MatrixEase__App__GoogleClientSecret=your-google-client-secret
+```
+
+### Desktop Google Auth Note
+
+`MatrixEase.App` currently uses the local installed-app Google OAuth flow in `MatrixEase.Manga/Utility/GoogsAuth.cs`, which means the desktop app still expects both `GoogleClientId` and `GoogleClientSecret`. That secret should not be committed. A stronger long-term design is to move the desktop flow to a public-client or backend-assisted OAuth model so the packaged app no longer depends on a secret.
+
+---
+
+## Development
+
+Use the VS Code launch configuration or run projects directly with `dotnet run`.
+
+---
