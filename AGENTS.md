@@ -1,10 +1,10 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-`MatrixEase.sln` is the top-level solution. Core application code lives in `MatrixEase.App/` (Electron-hosted desktop app), `MatrixEase.Web/` (ASP.NET Core web app), and `MatrixEase.Manga/` (shared matrix-processing library). `web_blaster/` is a supporting project, Excel parsing comes from the `ExcelDataReader` NuGet package, and the CLI test harness lives in `MatrixEase.Tester/` with unit tests in `MatrixEase.Tester.Tests/`. Static marketing and documentation sites are under `www.matrixease.com/`, `docs.matrixease.com/`, and `static.matrixease.wwwroot/`. Deployment scripts and container configs are in `docker/`, `config/`, and `docs/`.
+Core application code lives in `MatrixEase.App/` (Electron-hosted desktop app), `MatrixEase.Web/` (ASP.NET Core web app), and `MatrixEase.Manga/` (shared matrix-processing library). `web_blaster/` is a supporting project, Excel parsing comes from the `ExcelDataReader` NuGet package, and the CLI test harness lives in `MatrixEase.Tester/` with unit tests in `MatrixEase.Tester.Tests/`. Static marketing and documentation sites are under `www.matrixease.com/`, `docs.matrixease.com/`, and `static.matrixease.wwwroot/`. Deployment scripts and container configs are in `docker/`, `config/`, and `docs/`.
 
 ## Build, Test, and Development Commands
-Use scoped `dotnet` commands instead of building the whole solution with the modern SDK.
+Use scoped `dotnet` commands from the repo root.
 
 - `dotnet build MatrixEase.App/MatrixEase.App.csproj --configuration Debug`: build the desktop app.
 - `dotnet build MatrixEase.Web/MatrixEase.Web.csproj --configuration Debug`: build the web app.
@@ -12,8 +12,6 @@ Use scoped `dotnet` commands instead of building the whole solution with the mod
 - `dotnet run --project MatrixEase.Web/MatrixEase.Web.csproj`: run the web app locally.
 - `dotnet run --project MatrixEase.App/MatrixEase.App.csproj`: run the desktop app host.
 - `docker-compose -f docker/matrixease_dotnet/docker-compose.yml up -d`: start the packaged .NET deployment stack.
-
-`dotnet build MatrixEase.sln` currently fails on the legacy website projects (`docs.matrixease.com`, `www.matrixease.com`) because they require the .NET Framework ASP.NET compiler.
 
 ## Coding Style & Naming Conventions
 Follow existing C# conventions: 4-space indentation, braces on new lines, `PascalCase` for types and public members, `camelCase` for locals/parameters, and leading-underscore private fields such as `_data`. Keep controllers in `Controllers/`, reusable helpers in `Utility/` or `Common/`, and match filenames to primary class names. Preserve existing static-site naming and folder layout when editing HTML/CSS/JS assets.
