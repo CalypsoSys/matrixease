@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-Core application code lives in `MatrixEase.App/` (Electron-hosted desktop app), `MatrixEase.Web/` (ASP.NET Core web app), and `MatrixEase.Manga/` (shared matrix-processing library). `web_blaster/` is a supporting project, Excel parsing comes from the `ExcelDataReader` NuGet package, and the CLI test harness lives in `MatrixEase.Tester/` with unit tests in `MatrixEase.Tester.Tests/`. Static marketing and documentation sites are under `www.matrixease.com/`, `docs.matrixease.com/`, and `static.matrixease.wwwroot/`. Deployment scripts and container configs are in `docker/`, `config/`, and `docs/`.
+Core application code lives in `MatrixEase.App/` (Electron-hosted desktop app), `MatrixEase.Web/` (ASP.NET Core web app), and `MatrixEase.Manga/` (shared matrix-processing library). `web_blaster/` is a supporting project, Excel parsing comes from the `ExcelDataReader` NuGet package, and the CLI test harness lives in `MatrixEase.Tester/` with unit tests in `MatrixEase.Tester.Tests/`. Static marketing and documentation sites are under `www.matrixease.com/`, `docs.matrixease.com/`, and `static.matrixease.wwwroot/`. Deployment scripts and container configs for the dynamic stack are in `docker/`, `config/`, and `docs/`.
 
 ## Build, Test, and Development Commands
 Use scoped `dotnet` commands from the repo root.
@@ -12,9 +12,10 @@ Use scoped `dotnet` commands from the repo root.
 - `dotnet run --project MatrixEase.Web/MatrixEase.Web.csproj`: run the web app locally.
 - `dotnet run --project MatrixEase.App/MatrixEase.App.csproj`: run the desktop app host.
 - `docker-compose -f docker/matrixease_dotnet/docker-compose.yml up -d`: start the packaged .NET deployment stack.
+- Static sites in `www.matrixease.com/` and `docs.matrixease.com/` are plain HTML/CSS roots intended for direct static hosting such as Cloudflare Pages.
 
 ## Coding Style & Naming Conventions
-Follow existing C# conventions: 4-space indentation, braces on new lines, `PascalCase` for types and public members, `camelCase` for locals/parameters, and leading-underscore private fields such as `_data`. Keep controllers in `Controllers/`, reusable helpers in `Utility/` or `Common/`, and match filenames to primary class names. Preserve existing static-site naming and folder layout when editing HTML/CSS/JS assets.
+Follow existing C# conventions: 4-space indentation, braces on new lines, `PascalCase` for types and public members, `camelCase` for locals/parameters, and leading-underscore private fields such as `_data`. Keep controllers in `Controllers/`, reusable helpers in `Utility/` or `Common/`, and match filenames to primary class names. For the static sites, prefer plain HTML/CSS with relative links and avoid adding framework or server-specific dependencies unless the repo already requires them.
 
 ## Testing Guidelines
 `MatrixEase.Tester.Tests/` contains xUnit coverage for the CLI parser and spec storage. Use `dotnet test MatrixEase.Tester.Tests/MatrixEase.Tester.Tests.csproj` for those tests, and use `MatrixEase.Tester/` for CLI-based integration checks. When touching upload, parsing, or deployment paths, note the sample deployment files referenced in `docs/build_and_deploy.txt`.

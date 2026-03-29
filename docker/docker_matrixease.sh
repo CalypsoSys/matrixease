@@ -15,18 +15,8 @@ echo "matrixease_blog_wp $OP"
 sudo docker-compose $OP
 echo ""
 
-cd ~/docker/matrixease_docs_static
-echo "vi matrixease_docs_static $OP"
-sudo docker-compose $OP
-echo ""
-
 cd ~/docker/matrixease_dotnet
 echo "matrixease_dotnet $OP"
-sudo docker-compose $OP
-echo ""
-
-cd ~/docker/matrixease_static
-echo "matrixease_static $OP"
 sudo docker-compose $OP
 echo ""
 
@@ -36,4 +26,3 @@ sudo docker-compose $OP
 echo ""
 
 cd ~/docker
-

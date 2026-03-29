@@ -62,29 +62,34 @@ Build Docker Image
 06. ~/dotnet/MatrixEase/bin/web_blaster Ubuntu Release ~/dotnet/MatrixEase/static.matrixease.wwwroot ~/dotnet/MatrixEase/MatrixEase.Web/wwwroot googs
 07. sudo docker build -t matrixease_web .
 08. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
-11. sudo docker save matrixease_web > ~/matrixease_web.tar
-12. copy ~/matrixease_web.tar to <artifact-staging-path>
-15. from windows copy "<artifact-staging-path>\matrixease_web.tar" "<repo-root>\www.matrixease.com\download\matrixease_web.tar"
+09. sudo docker save matrixease_web > ~/matrixease_web.tar
+10. copy ~/matrixease_web.tar to <artifact-staging-path>
+
+
+Deploy Static Sites
+===================
+01. Treat www.matrixease.com and docs.matrixease.com as plain static site roots.
+02. Publish each directory directly with Cloudflare Pages or equivalent static hosting.
+03. No Docker image or container deployment is required for those two sites.
+04. Keep links relative inside each site and avoid server-specific config files.
 
 
 Init Docker Image
 =================
 01. cd ~/docker
 02. ./docker_matrixease.sh stop
-03. Update  matrixease_docs_static/htdocs/ with all files from docs.matrixease.com
-04. Update matrixease_static/htdocs/ with all files from www.matrixease.com
-05. mv matrixease_web.tar matrixease_web.tar.lastgood
-06. copy matrixease_web.tar to <deploy-user-home>/docker (on deployment machine)
-07. cd matrixease_dotnet
-08. sudo docker-compose down
-08. cd ..
-09. sudo docker load <  matrixease_web.tar
-10. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
-11. cd matrixease_dotnet
-12. sudo docker-compose up -d
-13. sudo docker-compose stop
-14. cd ..
-15. ./docker_matrixease.sh start
+03. mv matrixease_web.tar matrixease_web.tar.lastgood
+04. copy matrixease_web.tar to <deploy-user-home>/docker (on deployment machine)
+05. cd matrixease_dotnet
+06. sudo docker-compose down
+07. cd ..
+08. sudo docker load < matrixease_web.tar
+09. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
+10. cd matrixease_dotnet
+11. sudo docker-compose up -d
+12. sudo docker-compose stop
+13. cd ..
+14. ./docker_matrixease.sh start
 
 TEST TEST TEST
 Uninstall windows MatrixEase

@@ -1,329 +1,167 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>MatrixEase</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta name="description" content="See data the way you think about it - An Innovative Visualization and Analysis Tool for large matrix data.." />
-    <link rel="icon" href="matrixease.png">
-    <link rel="stylesheet" href="css/bootstrap.css" />
-    <link rel="stylesheet" href="css/ionicons.min.css" />
-    <link rel="stylesheet" href="css/all.css">
-    <link rel="stylesheet" href="css/animate.css">
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="css/queries.css">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JNFZ1WY8H"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-3JNFZ1WY8H');
-    </script>
+  <title>MatrixEase</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MatrixEase helps teams load spreadsheet and matrix data, categorize it automatically, and explore relationships faster.">
+  <link rel="icon" href="matrixease.png">
+  <link rel="stylesheet" href="style.css">
 </head>
-  <body>
-    <header data-scroll-index="0" id="home">
-      <div class="addsticky">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="#"><img class="logo" src="/img/matrixeaselogo_white.png" alt=""/></a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          
-          <i class="ion-android-menu text-center svg2"></i>
-        </button>
-        <div
-          class="collapse navbar-collapse justify-content-end"
-          id="navbarNav"
-        >
-            <ul class="navbar-nav ">
-                <li class="nav-item">
-                    <a data-scroll-nav="0" class="nav-link" href="#home"><span id="must">Home</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="product.html">Get MatrixEase</a>
-                </li>
-                <li class="nav-item">
-                    <a data-scroll-nav="1" class="nav-link" href="#about">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://docs.matrixease.com" target="_blank">Documentation</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://support.matrixease.com" target="_blank">Support</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://blog.matrixease.com" target="_blank">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a data-scroll-nav="3" class="nav-link" href="#contact">Contact Us</a>
-                </li>
-            </ul>
-        </div>
+<body>
+  <header class="site-header">
+    <div class="site-shell">
+      <a class="brand" href="index.html">
+        <img src="img/matrixeaselogo_white.png" alt="MatrixEase">
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="product.html">Get MatrixEase</a>
+        <a href="https://docs.matrixease.com/">Documentation</a>
+        <a href="https://support.matrixease.com/">Support</a>
+        <a href="https://blog.matrixease.com/">Blog</a>
+        <a href="#contact">Contact</a>
       </nav>
     </div>
+  </header>
 
-      <div class="con con-head">
-          <h1 class="display-3 wow slideInLeft" data-wow-delay=".3s">Welcome to MatrixEase</h1>
-          <p class="lead wow fadeIn" data-wow-offset="10" data-wow-duration="2s" data-wow-delay=".5s">
-              See data the way you think about it - An Innovative Visualization and Analysis Tool for large matrix data
-          </p>
-          <p class="fadeIn wow" data-wow-duration="2s" data-wow-delay="1s">
-              Automatic Visualization and Categorization of matrix data allowing a you to interactively recognize important relationships and filter data to further identify meaningful insights.
-          </p>
-          <p class="fadeIn wow" data-wow-duration="3s" data-wow-delay="2s">
-              Take control of your spreadsheets today!
-          </p>
-          <p class="fadeIn wow" data-wow-duration="3s" data-wow-delay="3s">
-              Available via a shared public web site, a Ubuntu or Windows Desktop application, a Docker container or as a component you can add to your existing web server (nginx, apache, IIS, etc.)
-          </p>
-          <p class="lead">
-              <a href="product.html" target="_blank"><button class="btn wow btn-lg mt-4 fadeIn" data-wow-delay="2.3s">Get MatrixEase Now</button></a>
-          </p>
-      </div>
-
-      
-      <div class="row stan con mt-5 wow slideInUp" data-wow-duration="2s" data-wow-delay="1s">
-        <div class="col-md-4 text-center p-3">
-          <img width="60px" class="svg mb-4 mt-3" src="./img/iconfinder_2672443_diagram_intersection_subset_venn_icon.svg" alt="" />
-          <h4 class="about-head">Automatic Categorization</h4>
-          <p class="paragraph">
-              Automatically categorizes column data in large matrix datasets into manageable buckets of data.
-          </p>
+  <section class="hero">
+    <div class="site-shell">
+      <div class="hero-copy">
+        <h1>Welcome to MatrixEase</h1>
+        <p>See data the way you think about it. MatrixEase is an innovative visualization and analysis tool for large matrix data.</p>
+        <p>Automatic visualization and categorization let you recognize important relationships quickly and filter data to identify meaningful insights.</p>
+        <p>Take control of your spreadsheets today.</p>
+        <div class="hero-actions">
+          <a class="button" href="product.html">Get MatrixEase Now</a>
+          <a class="button-secondary" href="https://docs.matrixease.com/quick.html">Documentation</a>
         </div>
-        <div class="col-md-4 text-center p-3">
-          <img width="60px" class="svg mb-4 trophy mt-4" src="./img/iconfinder_5159892_find_look_mind_search_thinking_icon.svg" alt="" />
-            <h4 class="about-head">Visualize Data</h4>
-            <p class="paragraph">
-                By selecting categories for inclusion or exclusion the user will be able to visually identify the significance of relationships between categories.
-            </p>
-        </div>
-        <div class="col-md-4 text-center p-3">
-            <img width="60px" class="svg mb-4 trophy mt-4" src="./img/iconfinder_2790403_analysis_analytics_analyze_chart_data_icon.svg" alt="" />
-          <h4 class="about-head mt-1">
-              Analyze Complex Matrix Data
-          </h4>
-          <p class="paragraph">
-              Easily see metrics on any column or individual categorized bucket and the relationships is has with other buckets.
-          </p>
+        <div class="meta-links">
+          <a href="https://my.matrixease.com/">Hosted Workspace</a>
+          <a href="https://support.matrixease.com/">Support</a>
         </div>
       </div>
-    
-    </header>
+      <div class="hero-feature-strip">
+        <article class="hero-feature">
+          <img src="img/iconfinder_2672443_diagram_intersection_subset_venn_icon.svg" alt="">
+          <h4>Automatic Categorization</h4>
+          <p>Automatically categorizes column data in large matrix datasets into manageable buckets.</p>
+        </article>
+        <article class="hero-feature">
+          <img src="img/iconfinder_5159892_find_look_mind_search_thinking_icon.svg" alt="">
+          <h4>Visualize Data</h4>
+          <p>Select categories for inclusion or exclusion to isolate the relationships that matter.</p>
+        </article>
+        <article class="hero-feature">
+          <img src="img/iconfinder_2790403_analysis_analytics_analyze_chart_data_icon.svg" alt="">
+          <h4>Analyze Complex Data</h4>
+          <p>See metrics on any column or categorized bucket and the relationships it has with others.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
-   
-
-    <section class="aboutUs container text-center" id="about" data-scroll-index="1">
-      <p class="header-com mt-4">A LITTLE</p>
-      <h3>About Us</h3>
-
-      <h2 class="display-4 wow slideInUp" data-wow-duration="1s" data-wow-delay=".5s">
-          Our mission is to provide a novel method for allowing humans to visually consume very large matrix data sets and dynamically interact with them to easily identify significant data relationships and detailed metrics.
-      </h2>
-
-      <p class="paragraph con wow slideInUp" data-wow-delay=".8s">
-          The categorization of text, numeric, date and time elements into easily consumable groups allows the user to be able to visually consume large quantities of data in a compressed/categorized format. The visualization of data also supports visual filtering of the result set to allow further identification of significant data relationships. The system reads in matrix data from your defined source and then automatically categorizes the data into human consumable groups. The system then displays the resultant data to the user in a format that is easily understandable and further allows the user to take action on the data to either further filter or see detailed metrics on the data. The system visually displays the data and categorizations to allow the user to identify significant data relationships.
-
-      </p>
+  <main class="site-shell">
+    <section class="section">
+      <div class="section-heading">
+        <span class="eyebrow">A Little</span>
+        <h2>About Us</h2>
+      </div>
+      <p class="about-intro">Our mission is to provide a novel method for allowing humans to visually consume very large matrix data sets and dynamically interact with them to easily identify significant data relationships and detailed metrics.</p>
     </section>
 
-      <div class="con">
-        <!-- first step -->
-        <div class="row">
-          <div class="col-lg-6 step mb-5">
-            <div class="img mr-5">
-              
-              <img class="dash wow slideInLeft" data-wow-delay=".2s" src="./img/undraw_finance_0bdk.svg" alt="dashboard 1" />
-            </div>
-          </div>
-          <div class="col-lg-6 mt-5 pl-5 wow slideInRight">
-            <div class="display-1 float-left ml-2 ">01</div>
-            <h4>
-                Make the Unmanageable, Manageable
-            </h4>
-            <p class="paragraph">
-                By presenting your matrix data in a simple, easily consumable and interactive format, you ensure that you can make the strongest
-                decisions and have the maximum impact on data analysis. MatrixEase offers a unique approach and interface for
-                investigating data, providing you  with the analytics, metrics and information that you need to operate at your best.
-            </p>
-            
-          </div>
+    <section class="section">
+      <div class="split-grid">
+        <div>
+          <img src="img/undraw_finance_0bdk.svg" alt="MatrixEase illustration">
         </div>
-
-        <!-- second step -->
-        <div class="row">
-          <div class="col-lg-6 step mt-5 wow slideInLeft">
-              <div class="display-1 float-right mr-5 step-2">02</div>
-              <h4>
-                Advanced Data Analytics for a Low Subscription Price or Free
-                </h4>
-              <p class="paragraph">
-                  Here at MatrixEase we know what it’s like to build something meaningful from the ground up. That is why we support all our clients
-                  with the lowest possible price for our subscription service, and only start to charge you on extremely large matrixes or a significant
-                  number of users accessing the system.
-              </p>
-              </div>
-          
-          <div class="col-lg-6 mt-5 pl-5 wow slideInRight">
-              <div class="img mr-5">
-                <img class="dash" src="./img/undraw_revenue_3osh.svg" alt="dashboard 1" />
-                </div>
-            
-        </div>
-      </div>
-
-        <div class="con text-center">
-            <a href="product.html" target="_blank"><button type="submit" class="btn">Get MatrixEase</button></a>
-            <a href="https://docs.matrixease.com" target="_blank"><button type="submit" class="btn">Documentation</button></a>
-            <a href="https://support.matrixease.com" target="_blank"><button type="submit" class="btn">Support</button></a>
-            <a href="https://blog.matrixease.com" target="_blank"><button type="submit" class="btn">Blog</button></a>
-        </div>
-
-        <!-- section why-us  -->
-    <section class="why-us mt-5">
-      <div class="con">
-        <div class="row">
-            <div class="col-sm-6 mt-5">
-                <p class="header-com mt-4 dam">A FEW REASONS</p>
-                <h3 class="why-us_header">Why you should try us</h3>
-                <div class="list">
-                    <i class="fa fa-check-circle svg1"></i>
-                    <h3 class="why-us_con">Visually consume very large matrix data sets</h3>
-                </div>
-                <div class="list">
-                    <i class="fa fa-check-circle svg1"></i>
-                    <h3 class="why-us_con">Automatic data categorization</h3>
-                </div>
-                <div class="list">
-                    <i class="fa fa-check-circle svg1"></i>
-                    <h3 class="why-us_con">Dynamically interact with data to easily identify significant relationships</h3>
-                </div>
-                <div class="list">
-                    <i class="fa fa-check-circle svg1"></i>
-                    <h3 class="why-us_con">Detailed metrics at every level</h3>
-                </div>
-                <div class="list">
-                    <i class="fa fa-check-circle svg1"></i>
-                    <h3 class="why-us_con">Integrated Charting and Reporting</h3>
-                </div>
-                <div class="list">
-                    <i class="fa fa-check-circle svg1"></i>
-                    <h3 class="why-us_con">Easy to Use</h3>
-                </div>
-            </div>
-          </div>
-      </div>
-      <div class="laptop wow slideInUp" data-wow-delay=".5s" >
-        <img class="lap" width="1000px" src="./img/laptop.png" alt="">
-      </div>
-      <div class="phone wow slideInUp" data-scroll-index="3" data-wow-delay=".7s">
-        <img class="phon" width="500px" src="./img/mobile.png" alt="">
+        <article class="step-copy">
+          <div class="step-number">01</div>
+          <h3>Make the Unmanageable, Manageable</h3>
+          <p>By presenting your matrix data in a simple, easily consumable and interactive format, you can make stronger decisions and have more impact on data analysis. MatrixEase offers a unique interface for investigating data and surfacing the analytics, metrics, and relationships that matter.</p>
+        </article>
       </div>
     </section>
 
-    <section class="contact" id="contact" >
-      <div class="con">
-        <div class="text-center">
-            <p class="header-com mt-4">WANT TO LEARN MORE</p>
-            <h3><a id="contact-us">Contact Us</a></h3>
-          </div>
-          <form id="learn_more_id">
-              <div class="form-row mt-5">
-                <div class="form-group col-md-6">
-                  
-                  <input type="text" class="form-control" id="NAME_ID" placeholder="Name">
-                </div>
-                <div class="form-group col-md-6">
-                 
-                  <input type="email" class="form-control" id="EMAIL_ADDRESS_ID" placeholder="Email">
-                </div>
-              </div>
-              <div class="form-group">
-                
-                <input type="text" class="form-control" id="SUBJECT_ID" placeholder="Subject">
-              </div>
-              <div class="form-group">
-                  
-                  <textarea class="form-control" name="" id="MESSAGE_ID" cols="20" rows="5" placeholder="Enter Your Message"></textarea>
-                </div>
-              
-              <button type="submit" class="btn float-right">Submit</button>
-            </form>
+    <section class="section">
+      <div class="split-grid">
+        <article class="step-copy">
+          <div class="step-number">02</div>
+          <h3>Advanced Data Analytics for a Low Subscription Price or Free</h3>
+          <p>MatrixEase is designed to support smaller teams while still scaling up to larger matrices and broader usage. Start quickly in the hosted workspace, or move to desktop and enterprise options as your workflow grows.</p>
+        </article>
+        <div>
+          <img src="img/undraw_revenue_3osh.svg" alt="MatrixEase illustration">
         </div>
-
-      <div class="container mt-5">
-          <div class="row text-center addr">
-              <div class="col-lg-4 add">
-                  <div class="icon">
-                      <i class="ion-ios-telephone icon-big"></i>
-                  </div>
-                  <div class="cont ml-5">
-                      <p class="paragraph2">
-                          <a href="tel:+1-203-848-7851" style="color: #007bff;">+1-203-848-7851</a>
-                      </p>
-                  </div>
-              </div>
-
-              <div class="col-lg-4 add mb-3">
-                  <div class="icon">
-                      <i class="ion-ios-email icon-big"></i>
-                  </div>
-                  <div class="cont ml-5">
-                      <p class="paragraph2"><a href="mailto:feedback@matrixease.com" style="color: #007bff;">feedback@matrixease.com</a></p>
-                  </div>
-              </div>
-
-              <div class="col-lg-4 add">
-                  <div class="icon">
-                      <i class="ion-ios-home icon-big"></i>
-                  </div>
-                  <div class="cont ml-5">
-
-                      <p class="paragraph2">
-                          Branford, CT 06405
-                      </p>
-                  </div>
-              </div>
-
-          </div>
-          <div class="row text-center addr">
-              <div class="col-sm-12">
-                  <a target="_blank" href="https://twitter.com/BobCalypso"><svg class="svg-icon" width="26" height="26" aria-hidden="true" role="img" focusable="false" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M22.23,5.924c-0.736,0.326-1.527,0.547-2.357,0.646c0.847-0.508,1.498-1.312,1.804-2.27 c-0.793,0.47-1.671,0.812-2.606,0.996C18.324,4.498,17.257,4,16.077,4c-2.266,0-4.103,1.837-4.103,4.103 c0,0.322,0.036,0.635,0.106,0.935C8.67,8.867,5.647,7.234,3.623,4.751C3.27,5.357,3.067,6.062,3.067,6.814 c0,1.424,0.724,2.679,1.825,3.415c-0.673-0.021-1.305-0.206-1.859-0.513c0,0.017,0,0.034,0,0.052c0,1.988,1.414,3.647,3.292,4.023 c-0.344,0.094-0.707,0.144-1.081,0.144c-0.264,0-0.521-0.026-0.772-0.074c0.522,1.63,2.038,2.816,3.833,2.85 c-1.404,1.1-3.174,1.756-5.096,1.756c-0.331,0-0.658-0.019-0.979-0.057c1.816,1.164,3.973,1.843,6.29,1.843 c7.547,0,11.675-6.252,11.675-11.675c0-0.178-0.004-0.355-0.012-0.531C20.985,7.47,21.68,6.747,22.23,5.924z"></path></svg></a>
-                  <a target="_blank" href="https://www.youtube.com/channel/UCS6i_Y-HPPCeXUICKuF5UmA"><svg class="svg-icon" width="26" height="26" aria-hidden="true" role="img" focusable="false" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M21.8,8.001c0,0-0.195-1.378-0.795-1.985c-0.76-0.797-1.613-0.801-2.004-0.847c-2.799-0.202-6.997-0.202-6.997-0.202 h-0.009c0,0-4.198,0-6.997,0.202C4.608,5.216,3.756,5.22,2.995,6.016C2.395,6.623,2.2,8.001,2.2,8.001S2,9.62,2,11.238v1.517 c0,1.618,0.2,3.237,0.2,3.237s0.195,1.378,0.795,1.985c0.761,0.797,1.76,0.771,2.205,0.855c1.6,0.153,6.8,0.201,6.8,0.201 s4.203-0.006,7.001-0.209c0.391-0.047,1.243-0.051,2.004-0.847c0.6-0.607,0.795-1.985,0.795-1.985s0.2-1.618,0.2-3.237v-1.517 C22,9.62,21.8,8.001,21.8,8.001z M9.935,14.594l-0.001-5.62l5.404,2.82L9.935,14.594z"></path></svg></a>
-                  <a target="_blank" href="https://www.facebook.com/matrixease/"><svg class="svg-icon" width="26" height="26" aria-hidden="true" role="img" focusable="false" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M20.007,3H3.993C3.445,3,3,3.445,3,3.993v16.013C3,20.555,3.445,21,3.993,21h8.621v-6.971h-2.346v-2.717h2.346V9.31 c0-2.325,1.42-3.591,3.494-3.591c0.993,0,1.847,0.074,2.096,0.107v2.43l-1.438,0.001c-1.128,0-1.346,0.536-1.346,1.323v1.734h2.69 l-0.35,2.717h-2.34V21h4.587C20.555,21,21,20.555,21,20.007V3.993C21,3.445,20.555,3,20.007,3z"></path></svg></a>
-                  <a target="_blank" href="https://www.linkedin.com/company/matrixease"><svg class="svg-icon" width="26" height="26" aria-hidden="true" role="img" focusable="false" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M19.7,3H4.3C3.582,3,3,3.582,3,4.3v15.4C3,20.418,3.582,21,4.3,21h15.4c0.718,0,1.3-0.582,1.3-1.3V4.3 C21,3.582,20.418,3,19.7,3z M8.339,18.338H5.667v-8.59h2.672V18.338z M7.004,8.574c-0.857,0-1.549-0.694-1.549-1.548 c0-0.855,0.691-1.548,1.549-1.548c0.854,0,1.547,0.694,1.547,1.548C8.551,7.881,7.858,8.574,7.004,8.574z M18.339,18.338h-2.669 v-4.177c0-0.996-0.017-2.278-1.387-2.278c-1.389,0-1.601,1.086-1.601,2.206v4.249h-2.667v-8.59h2.559v1.174h0.037 c0.356-0.675,1.227-1.387,2.526-1.387c2.703,0,3.203,1.779,3.203,4.092V18.338z"></path></svg></a>
-              </div>
-          </div>
       </div>
     </section>
 
-    <footer class="footer text-center mt-5">
-        <p class="footCon">&copy; 2019. All Rights Reserved Calypso Systems, LLC. - MatrixEase</p>
-        <div class="row text-center addr">
-            <div class="col-sm-12">
-                <a target="_blank" href="privacypolicy.html"><span style="margin-right: 3px"> &#183; Privacy Policy </span></a>
-                <a target="_blank" href="termsandconditions.html"><span style="margin-left: 3px">&#183; Terms and Conditions</span></a>
-            </div>
+    <section class="section">
+      <div class="cta-band">
+        <div class="cta-links">
+          <a class="button" href="product.html">Get MatrixEase</a>
+          <a class="button" href="https://docs.matrixease.com/">Documentation</a>
+          <a class="button" href="https://support.matrixease.com/">Support</a>
+          <a class="button" href="https://blog.matrixease.com/">Blog</a>
         </div>
-    </footer>
+      </div>
+    </section>
 
-  </body>
-  <!-- <script src="js/jquery-3.3.1.js"></script> -->
-  <script src="js/jquery-2.2.3.min.js"></script>
-  <script src="js/popper.js"></script>
-  <script src="js/fontawesome.js"></script>
-  <script src="js/jquery.waypoints.min.js"></script>
-  <script src="js/scrollit.js"></script>
-  <script src="js/waypoint.js"></script>
-  <script src="js/bootstrap.js"></script>
-  <script src="js/wow.min.js"></script>
-  <script src="js/script.js"></script>
+    <section class="section">
+      <div class="section-heading">
+        <span class="eyebrow">A Few Reasons</span>
+        <h2>Why you should try us</h2>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="icon-badge"><img src="img/iconfinder_2672443_diagram_intersection_subset_venn_icon.svg" alt=""></div>
+          <h4>Visually consume very large matrix data sets</h4>
+          <p>Work with dense spreadsheet data without staying trapped in raw rows and columns.</p>
+        </article>
+        <article class="feature-card">
+          <div class="icon-badge"><img src="img/iconfinder_5159892_find_look_mind_search_thinking_icon.svg" alt=""></div>
+          <h4>Automatic data categorization</h4>
+          <p>Bucket values automatically so the structure of the dataset becomes readable sooner.</p>
+        </article>
+        <article class="feature-card">
+          <div class="icon-badge"><img src="img/iconfinder_2790403_analysis_analytics_analyze_chart_data_icon.svg" alt=""></div>
+          <h4>Detailed metrics at every level</h4>
+          <p>Review matrix, column, and category-level data relationships in one workflow.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="contact-banner" id="contact">
+        <span class="eyebrow">Contact</span>
+        <h2>Need support, licensing help, or product guidance?</h2>
+        <p>Use the support center for product questions, or contact the team directly for larger deployment and sales conversations.</p>
+        <div class="contact-grid">
+          <article class="contact-card">
+            <h4>Support</h4>
+            <p><a href="https://support.matrixease.com/">support.matrixease.com</a></p>
+          </article>
+          <article class="contact-card">
+            <h4>Email</h4>
+            <p><a href="mailto:feedback@matrixease.com">feedback@matrixease.com</a></p>
+          </article>
+          <article class="contact-card">
+            <h4>Sales</h4>
+            <p><a href="mailto:quote@matrixease.com">quote@matrixease.com</a></p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-shell">
+      <p class="muted">&copy; Calypso Systems, LLC. MatrixEase.</p>
+      <div class="meta-links">
+        <a href="termsandconditions.html">Terms</a>
+        <a href="privacypolicy.html">Privacy</a>
+      </div>
+    </div>
+  </footer>
+</body>
 </html>
