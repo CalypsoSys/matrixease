@@ -14,18 +14,18 @@ electronize in dev CentOS
 
 	-no-sandbox
 
-	data ==> C:\Users\Joe\AppData\Roaming\matrixease\matrixease.app
-	cd C:\CalypsoSystems\MatrixEase\MatrixEase.App
+	data ==> <user-profile>\AppData\Roaming\matrixease\matrixease.app
+	cd <repo-root>\MatrixEase.App
 	electronize start
 
 	electronize build /target win 
-	"C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe"
-	copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\CalypsoSystems\MatrixEase\matrixease.com\download\MatrixEase Setup 1.0.0.exe"
-	copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\transfer\MatrixEase Setup 1.0.0.exe"
+	"<signtool-path>" sign /t http://timestamp.comodoca.com/authenticode /f "<signing-cert-path>" /p "<signing-password-from-secure-store>" /a "<repo-root>\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe"
+	copy "<repo-root>\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "<repo-root>\matrixease.com\download\MatrixEase Setup 1.0.0.exe"
+	copy "<repo-root>\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "<artifact-staging-path>\MatrixEase Setup 1.0.0.exe"
 
-	C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe
-	C:\Users\Joe\AppData\Local\Programs\mxes-alyzer\resources\bin\wwwroot
-	C:\Users\Joe\AppData\Roaming\matrixease
+	<repo-root>\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe
+	<user-profile>\AppData\Local\Programs\mxes-alyzer\resources\bin\wwwroot
+	<user-profile>\AppData\Roaming\matrixease
 
 
 	electronize build /target osx
@@ -50,14 +50,14 @@ Ubuntu Server Install
 	sudo systemctl start matrixease-com.service
 	sudo systemctl status matrixease-com.service
 
-	cd C:\CalypsoSystems\MatrixEase\matrixease.web
+	cd <repo-root>\matrixease.web
 	dotnet publish --configuration Release
-	C:\CalypsoSystems\MatrixEase\matrixease.web\bin\Release\net5.0\publish\
+	<repo-root>\matrixease.web\bin\Release\net5.0\publish\
 
 	sudo mkdir /var/www/mangadata
 	sudo chown www-data:www-data /var/www/mangadata
 
-	edit	"FileSaveLocation": "C:\\CalypsoSystems\\mangadata",
+	edit	"FileSaveLocation": "<local-data-path>",
 			"FileSaveLocation": "/var/www/mangadata",
 
 Ubuntu UI Testing (clone server image)
@@ -124,22 +124,22 @@ cd MatrixEase.App
 sudo rm -r obj/
 sudo rm -r bin/
 electronize build /target linux
-cp /home/calypsosys/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap ~/.
+cp <repo-root>/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap ~/.
 
 snapcraft login
-snapcraft upload --release=beta /home/calypsosys/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
-copy to c:\transfer
-copy to C:\CalypsoSystems\MatrixEase\matrixease.com\download
+snapcraft upload --release=beta <repo-root>/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
+copy to <artifact-staging-path>
+copy to <repo-root>\matrixease.com\download
 
-sudo snap install --dangerous /home/calypsosys/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
+sudo snap install --dangerous <repo-root>/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
 ==> sudo snap install matrixease_1.0.0_amd64.snap
 snap remove matrixease
 
-/home/calypsosys/snap/matrixease/x1/.config/matrixease
+<user-home>/snap/matrixease/x1/.config/matrixease
 /snap/matrixease/x1/resources/bin/wwwroot/
 
 snapcraft login
-snapcraft upload --release=beta /home/calypsosys/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
+snapcraft upload --release=beta <repo-root>/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
 
 sudo snap install matrixease
 
@@ -163,4 +163,3 @@ Docker Install Ubuntu
 
 sudo sh -c "echo 'truncate -s 0 /var/lib/docker/containers/*/*-json.log' > /etc/cron.daily/clear_docker_logs"
 sudo chmod +x /etc/cron.daily/clear_docker_logs
-

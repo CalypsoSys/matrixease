@@ -7,10 +7,10 @@ services:
         - db_data:/var/lib/mysql
      restart: always
      environment:
-        MYSQL_ROOT_PASSWORD: BMhqXbk5PbxGbqjykcbK
+        MYSQL_ROOT_PASSWORD: ${MATRIXEASE_SUPPORT_WP_MYSQL_ROOT_PASSWORD}
         MYSQL_DATABASE: wordpress
         MYSQL_USER: wordpress
-        MYSQL_PASSWORD: gWOweNag07oB70nD3kD7
+        MYSQL_PASSWORD: ${MATRIXEASE_SUPPORT_WP_MYSQL_PASSWORD}
      container_name: matrixease-support-wp-db
 
    wordpress:
@@ -26,10 +26,10 @@ services:
      environment:
         VIRTUAL_HOST: support.matrixease.com
         LETSENCRYPT_HOST: support.matrixease.com
-        LETSENCRYPT_EMAIL: calypsosystemsllc@gmail.com
+        LETSENCRYPT_EMAIL: ${MATRIXEASE_LETSENCRYPT_EMAIL}
         WORDPRESS_DB_HOST: db_node_matrixease_support_wp:3306
         WORDPRESS_DB_USER: wordpress
-        WORDPRESS_DB_PASSWORD: gWOweNag07oB70nD3kD7
+        WORDPRESS_DB_PASSWORD: ${MATRIXEASE_SUPPORT_WP_MYSQL_PASSWORD}
      container_name: matrixease-support-wp
 volumes:
   db_data:
@@ -38,4 +38,3 @@ networks:
   default:
     external:
       name: nginx-proxy
-

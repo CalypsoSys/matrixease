@@ -12,12 +12,11 @@ services:
     environment:
       VIRTUAL_HOST: my.matrixease.com
       LETSENCRYPT_HOST: my.matrixease.com
-      LETSENCRYPT_EMAIL: calypsosystemsllc@gmail.com
+      LETSENCRYPT_EMAIL: ${MATRIXEASE_LETSENCRYPT_EMAIL}
     container_name: matrixease-web
 
 networks:
   default:
     external:
       name: nginx-proxy
-
 

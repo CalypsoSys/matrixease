@@ -1,25 +1,25 @@
 Build Windows Desktop App
 =========================
-01. Delete all C:\CalypsoSystems\MatrixEase\bin
-02. C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin
-03. C:\CalypsoSystems\MatrixEase\MatrixEase.App\obj
+01. Delete all <repo-root>\bin
+02. <repo-root>\MatrixEase.App\bin
+03. <repo-root>\MatrixEase.App\obj
 04. Clean the Solution
 05. Rebuild Solution in release mode
 06. Start window developer cmd prompt
-07. cd C:\CalypsoSystems\MatrixEase\MatrixEase.App
+07. cd <repo-root>\MatrixEase.App
 08. electronize build /target win 
-09. "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase 1.0.0.msi"
-10. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase 1.0.0.msi" "C:\CalypsoSystems\MatrixEase\www.matrixease.com\download\MatrixEase 1.0.0.msi"
-11. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase 1.0.0.msi" "C:\transfer\MatrixEase 1.0.0.msi"
+09. "<signtool-path>" sign /t http://timestamp.comodoca.com/authenticode /f "<signing-cert-path>" /p "<signing-password-from-secure-store>" /a "<repo-root>\MatrixEase.App\bin\Desktop\MatrixEase 1.0.0.msi"
+10. copy "<repo-root>\MatrixEase.App\bin\Desktop\MatrixEase 1.0.0.msi" "<repo-root>\www.matrixease.com\download\MatrixEase 1.0.0.msi"
+11. copy "<repo-root>\MatrixEase.App\bin\Desktop\MatrixEase 1.0.0.msi" "<artifact-staging-path>\MatrixEase 1.0.0.msi"
 12. remove MSI from config
 13. electronize build /target win 
-14. "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"  sign /t http://timestamp.comodoca.com/authenticode /f "C:\transfer\certificate-siging.pfx" /p Password_from_SSL2Buy_KeePass /a "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe"
-15. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\CalypsoSystems\MatrixEase\www.matrixease.com\download\MatrixEase Setup 1.0.0.exe"
-16. copy "C:\CalypsoSystems\MatrixEase\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "C:\transfer\MatrixEase Setup 1.0.0.exe"
+14. "<signtool-path>" sign /t http://timestamp.comodoca.com/authenticode /f "<signing-cert-path>" /p "<signing-password-from-secure-store>" /a "<repo-root>\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe"
+15. copy "<repo-root>\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "<repo-root>\www.matrixease.com\download\MatrixEase Setup 1.0.0.exe"
+16. copy "<repo-root>\MatrixEase.App\bin\Desktop\MatrixEase Setup 1.0.0.exe" "<artifact-staging-path>\MatrixEase Setup 1.0.0.exe"
 
 https://www.electron.build/configuration/win.html
 ,
-      "certificateFile": "C:\\transfer\\certificate-siging.pfx",
+      "certificateFile": "<signing-cert-path>",
       "certificatePassword": ""
 
 Invalid package identity name: matrixease (expected: CalypsoSystemsLLC.MatrixEase)
@@ -49,7 +49,7 @@ Build Ubuntu Desktop
 13. snapcraft login
 14. snapcraft upload --release=beta ~/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
 15. copy ~/matrixease_1.0.0_amd64.snap to c:\transfer
-16. from windows copy "C:\transfer\matrixease_1.0.0_amd64.snap" "C:\CalypsoSystems\MatrixEase\www.matrixease.com\download\matrixease_1.0.0_amd64.snap"
+16. from windows copy "<artifact-staging-path>\matrixease_1.0.0_amd64.snap" "<repo-root>\www.matrixease.com\download\matrixease_1.0.0_amd64.snap"
 
 
 Build Docker Image
@@ -63,8 +63,8 @@ Build Docker Image
 07. sudo docker build -t matrixease_web .
 08. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
 11. sudo docker save matrixease_web > ~/matrixease_web.tar
-12. copy ~/matrixease_web.tar to c:\transfer
-15. from windows copy "C:\transfer\matrixease_web.tar" "C:\CalypsoSystems\MatrixEase\www.matrixease.com\download\matrixease_web.tar"
+12. copy ~/matrixease_web.tar to <artifact-staging-path>
+15. from windows copy "<artifact-staging-path>\matrixease_web.tar" "<repo-root>\www.matrixease.com\download\matrixease_web.tar"
 
 
 Init Docker Image
@@ -74,7 +74,7 @@ Init Docker Image
 03. Update  matrixease_docs_static/htdocs/ with all files from docs.matrixease.com
 04. Update matrixease_static/htdocs/ with all files from www.matrixease.com
 05. mv matrixease_web.tar matrixease_web.tar.lastgood
-06. copy matrixease_web.tar to /home/calypso/docker (on deployment machine)
+06. copy matrixease_web.tar to <deploy-user-home>/docker (on deployment machine)
 07. cd matrixease_dotnet
 08. sudo docker-compose down
 08. cd ..
@@ -88,7 +88,7 @@ Init Docker Image
 
 TEST TEST TEST
 Uninstall windows MatrixEase
-Delete C:\Users\Joe\AppData\Roaming\matrixease
+Delete <user-profile>\AppData\Roaming\matrixease
 delete 
     cd/docker/matrixease_dotnet/mangadata
     sudo rm -r matrixease/

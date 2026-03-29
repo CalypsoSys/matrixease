@@ -8,9 +8,8 @@ namespace ExcelReader
     class Program
     {
         private const int Mod = 100000;
-        private static string TestFileXls = @"C:\Users\Joe\Downloads\vehicles.csv\vehicles_xls.xls";
-        //private static string TestFileXls = @"C:\Users\Joe\Downloads\vehicles.csv\simple_test_xls.xls";
-        private static string TestFileXlsx = @"C:\Users\Joe\Downloads\vehicles.csv\vehicles_xlsx.xlsx";
+        private static string TestFileXls = Path.Combine("sample-data", "vehicles_xls.xls");
+        private static string TestFileXlsx = Path.Combine("sample-data", "vehicles_xlsx.xlsx");
 
         static void Main(string[] args)
         {
