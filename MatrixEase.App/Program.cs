@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using ElectronNET.API.Entities;
 using MatrixEase.Manga.Manga.Serialization;
@@ -15,11 +16,15 @@ namespace Desktop.MatrixEase.Manga
     {
         private static readonly Dictionary<string, object> _data = new Dictionary<string, object>();
 
+        [SupportedOSPlatform("linux")]
+        [SupportedOSPlatform("windows")]
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
         }
 
+        [SupportedOSPlatform("linux")]
+        [SupportedOSPlatform("windows")]
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
@@ -28,6 +33,8 @@ namespace Desktop.MatrixEase.Manga
                     webBuilder.UseStartup<Startup>();
                 });
 
+        [SupportedOSPlatform("linux")]
+        [SupportedOSPlatform("windows")]
         public static async Task ElectronAppReady()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("WSL_DISTRO_NAME")))
@@ -60,10 +67,10 @@ namespace Desktop.MatrixEase.Manga
             browserWindow.RemoveMenu();
 #endif
 
-            Electron.IpcMain.On("open_window", args =>
+            await Electron.IpcMain.On("open_window", args =>
             {
                 var jsonArgs = args as Newtonsoft.Json.Linq.JArray;
-                Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
+                _ = Electron.WindowManager.CreateWindowAsync(new BrowserWindowOptions
                 {
                     AutoHideMenuBar = true,
                     Icon = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets\\icon.ico"),
@@ -77,7 +84,7 @@ namespace Desktop.MatrixEase.Manga
                 _data.Add(jsonArgs[1].ToString(), jsonArgs[2]);
             });
 
-            Electron.IpcMain.On("opened_window", args =>
+            await Electron.IpcMain.On("opened_window", args =>
             {
                 string id = args as string;
                 if (_data.ContainsKey(id))

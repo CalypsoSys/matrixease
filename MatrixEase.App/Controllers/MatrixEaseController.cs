@@ -147,8 +147,8 @@ namespace Desktop.MatrixEase.Manga.Controllers
             try
             { 
                 this.Response.StatusCode = 200;
-                this.Response.Headers.Add(HeaderNames.ContentDisposition, "attachment; filename=\"mxes_manga.csv\"");
-                this.Response.Headers.Add(HeaderNames.ContentType, "application/octet-stream");
+                this.Response.Headers[HeaderNames.ContentDisposition] = "attachment; filename=\"mxes_manga.csv\"";
+                this.Response.Headers[HeaderNames.ContentType] = "application/octet-stream";
                 var outputStream = this.Response.Body;
 
                 var manga = MangaState.LoadManga(MangaDesktop.MatrixId(mxes_id), true, -1, new MangaLoadOptions(false));
