@@ -1,0 +1,24 @@
+{
+  "compression": "maximum",
+  "directories": {
+    "buildResources": "Assets"
+  },
+  "win": {
+    "icon": "Assets/icon.ico",
+    "target": "msi"
+  },
+  "linux": {
+    "category": "Utility",
+    "icon": "Assets/matrixease.png"
+  },
+  "files": [
+    {
+      "from": "./ElectronHostHook/node_modules",
+      "to": "ElectronHostHook/node_modules",
+      "filter": [
+        "**/*"
+      ]
+    },
+    "**/*"
+  ]
+}

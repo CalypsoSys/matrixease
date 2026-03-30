@@ -22,7 +22,7 @@
       "name": "MatrixEase.App (Electron)",
       "type": "node-terminal",
       "request": "launch",
-      "command": "electronize start /project-path MatrixEase.App"
+      "command": "dotnet run --project MatrixEase.App/MatrixEase.App.csproj"
     }
   ]
 }
