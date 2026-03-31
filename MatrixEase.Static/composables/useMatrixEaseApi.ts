@@ -93,6 +93,29 @@ export type MatrixEaseViewerResponse = {
   MangaData: MatrixEasePayload
 }
 
+export type MatrixEaseColumnStatsResponse = {
+  Success: boolean
+  ColStats?: Record<string, any>
+}
+
+export type MatrixEaseReportResponse = {
+  Success: boolean
+  ReportData?: {
+    columns: string[]
+    data: Array<Array<string | number | boolean | null>>
+  }
+}
+
+export type MatrixEaseDuplicatesResponse = {
+  Success: boolean
+  DuplicateEntries?: string[]
+}
+
+export type MatrixEaseDependencyResponse = {
+  Success: boolean
+  DependencyDiagram?: Record<string, any>
+}
+
 export type UploadSheetRequest = {
   matrixEaseId: string
   file: File
@@ -230,6 +253,73 @@ export function useMatrixEaseApi()
       }
     })
 
+  const bucketizeColumn = (matrixEaseId: string, mxesId: string, request: {
+    columnName: string
+    columnIndex: number
+    bucketized: boolean
+    bucketSize: number
+    bucketMod: number
+  }) =>
+    $fetch<MatrixEaseJobStartResponse>(apiUrl('/api/matrixease/bucketize'), {
+      credentials: 'include',
+      query: {
+        matrixease_id: matrixEaseId,
+        mxes_id: mxesId,
+        column_name: request.columnName,
+        column_index: request.columnIndex,
+        bucketized: request.bucketized,
+        bucket_size: request.bucketSize,
+        bucket_mod: request.bucketMod
+      }
+    })
+
+  const getDetailedColumnStats = (matrixEaseId: string, mxesId: string, columnName: string, columnIndex: number) =>
+    $fetch<MatrixEaseColumnStatsResponse>(apiUrl('/api/matrixease/detailed_col_stats'), {
+      credentials: 'include',
+      query: {
+        matrixease_id: matrixEaseId,
+        mxes_id: mxesId,
+        column_name: columnName,
+        column_index: columnIndex
+      }
+    })
+
+  const getNodeRows = (matrixEaseId: string, mxesId: string, columnIndex: number, selectedNode: string) =>
+    $fetch<MatrixEaseReportResponse>(apiUrl('/api/matrixease/get_node_rows'), {
+      credentials: 'include',
+      query: {
+        matrixease_id: matrixEaseId,
+        mxes_id: mxesId,
+        col_index: columnIndex,
+        selected_node: selectedNode,
+        filtered: true
+      }
+    })
+
+  const getDuplicateEntries = (matrixEaseId: string, mxesId: string, columnIndex: number, selectedNode: string) =>
+    $fetch<MatrixEaseDuplicatesResponse>(apiUrl('/api/matrixease/get_duplicate_entries'), {
+      credentials: 'include',
+      query: {
+        matrixease_id: matrixEaseId,
+        mxes_id: mxesId,
+        col_index: columnIndex,
+        selected_node: selectedNode,
+        filtered: true
+      }
+    })
+
+  const getDependencyDiagram = (matrixEaseId: string, mxesId: string, columnIndex: number, selectedNode: string) =>
+    $fetch<MatrixEaseDependencyResponse>(apiUrl('/api/matrixease/get_dependency_diagram'), {
+      credentials: 'include',
+      query: {
+        matrixease_id: matrixEaseId,
+        mxes_id: mxesId,
+        col_index: columnIndex,
+        selected_node: selectedNode,
+        filtered: true
+      }
+    })
+
   const uploadSheet = async (request: UploadSheetRequest, onProgress?: (value: number) => void) =>
   {
     const formData = new FormData()
@@ -310,6 +400,11 @@ export function useMatrixEaseApi()
     getPickupStatus,
     applyFilter,
     updateSettings,
+    bucketizeColumn,
+    getDetailedColumnStats,
+    getNodeRows,
+    getDuplicateEntries,
+    getDependencyDiagram,
     uploadSheet,
     submitGoogleSheet
   }

@@ -15,6 +15,11 @@ const selectedValueKey = ref<string | null>(null)
 const pendingExpression = ref('')
 const applyingFilter = ref(false)
 const refreshingSettings = ref(false)
+const runningColumnAction = ref(false)
+const columnStats = ref<Record<string, any> | null>(null)
+const rowReport = ref<{ title: string, columns: string[], data: Array<Array<any>> } | null>(null)
+const duplicateEntries = ref<string[] | null>(null)
+const dependencyDiagram = ref<Record<string, any> | null>(null)
 
 const settings = reactive({
   showLowEqual: true,
@@ -25,6 +30,12 @@ const settings = reactive({
   selectOperation: 'overwrite_selection',
   colAscending: false,
   hideColumns: [] as boolean[]
+})
+
+const bucketForm = reactive({
+  bucketized: false,
+  bucketSize: 0,
+  bucketMod: 0
 })
 
 const columnEntries = computed(() =>
@@ -73,6 +84,15 @@ const selectedNode = computed(() =>
   }
 
   return selectedColumn.value.Values.find(value => value.ColumnValue === selectedValueKey.value) ?? null
+})
+
+const selectedNodeToken = computed(() =>
+{
+  if (!selectedColumn.value || !selectedNode.value) {
+    return ''
+  }
+
+  return `${selectedNode.value.ColumnValue}@${selectedColumn.value.name}:${selectedColumn.value.Index}`
 })
 
 const matrixColumnStyle = computed(() => ({
@@ -135,6 +155,11 @@ const syncSettingsFromPayload = () =>
   settings.colAscending = payload.value.ColAscending
   settings.hideColumns = [...payload.value.HideColumns]
   pendingExpression.value = payload.value.SelectionExpression ?? ''
+  if (selectedColumn.value) {
+    bucketForm.bucketized = selectedColumn.value.Bucketized
+    bucketForm.bucketSize = selectedColumn.value.CurBucketSize
+    bucketForm.bucketMod = selectedColumn.value.CurBucketMod
+  }
 }
 
 const loadViewer = async () =>
@@ -163,6 +188,12 @@ const selectValue = (columnName: string, value: MatrixEaseColumnValue) =>
 {
   selectedColumnName.value = columnName
   selectedValueKey.value = value.ColumnValue
+  const column = visibleColumns.value.find(item => item.name === columnName)
+  if (column) {
+    bucketForm.bucketized = column.Bucketized
+    bucketForm.bucketSize = column.CurBucketSize
+    bucketForm.bucketMod = column.CurBucketMod
+  }
 }
 
 const appendSelection = (mode?: string) =>
@@ -257,6 +288,174 @@ const saveSettings = async () =>
   } finally {
     refreshingSettings.value = false
   }
+}
+
+const runColumnAction = async (action: () => Promise<void>) =>
+{
+  runningColumnAction.value = true
+  errorMessage.value = ''
+  successMessage.value = ''
+
+  try {
+    await action()
+  } catch (error) {
+    errorMessage.value = error instanceof Error ? error.message : 'Viewer action failed.'
+  } finally {
+    runningColumnAction.value = false
+  }
+}
+
+const refreshMatrixFromPickup = async (pickupKey: string) =>
+{
+  if (!session.matrixEaseId.value) {
+    return
+  }
+
+  const mxesId = String(route.params.mxesId ?? '')
+  for (let attempt = 0; attempt < 120; attempt += 1) {
+    const pickup = await api.getPickupStatus(session.matrixEaseId.value, mxesId, pickupKey)
+    if (!pickup.Success) {
+      throw new Error(pickup.Message ?? 'Failed while waiting for matrix update.')
+    }
+
+    if (pickup.Complete && pickup.Results) {
+      payload.value = pickup.Results
+      syncSettingsFromPayload()
+      return
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 1000))
+  }
+
+  throw new Error('Timed out waiting for updated matrix results.')
+}
+
+const applyBucketSettings = async () =>
+{
+  if (!selectedColumn.value || !session.matrixEaseId.value) {
+    return
+  }
+
+  await runColumnAction(async () =>
+  {
+    const mxesId = String(route.params.mxesId ?? '')
+    const result = await api.bucketizeColumn(session.matrixEaseId.value, mxesId, {
+      columnName: selectedColumn.value.name,
+      columnIndex: selectedColumn.value.Index,
+      bucketized: bucketForm.bucketized,
+      bucketSize: bucketForm.bucketSize,
+      bucketMod: bucketForm.bucketMod
+    })
+
+    if (!result.Success || !result.PickupKey) {
+      throw new Error(result.Error ?? 'Bucketize request failed.')
+    }
+
+    busyMessage.value = 'Rebucketing column and waiting for matrix refresh.'
+    await refreshMatrixFromPickup(result.PickupKey)
+    busyMessage.value = ''
+    successMessage.value = `Updated bucket settings for ${selectedColumn.value?.name}.`
+  })
+}
+
+const loadColumnStats = async () =>
+{
+  if (!selectedColumn.value || !session.matrixEaseId.value) {
+    return
+  }
+
+  await runColumnAction(async () =>
+  {
+    const mxesId = String(route.params.mxesId ?? '')
+    const response = await api.getDetailedColumnStats(session.matrixEaseId.value, mxesId, selectedColumn.value.name, selectedColumn.value.Index)
+    if (!response.Success || !response.ColStats) {
+      throw new Error('Failed to load column statistics.')
+    }
+
+    columnStats.value = response.ColStats
+  })
+}
+
+const openColumnReport = () =>
+{
+  if (!selectedColumn.value) {
+    return
+  }
+
+  rowReport.value = {
+    title: `Column ${selectedColumn.value.name} report`,
+    columns: ['Value', 'Percent of Total', 'Sel Pct of Total', 'Pct of Sel', 'Rows', 'Selected Rows'],
+    data: selectedColumn.value.Values.map(value => [
+      value.ColumnValue,
+      value.TotalPct,
+      value.SelectAllPct,
+      value.SelectRelPct,
+      value.TotalValues,
+      value.SelectedValues
+    ])
+  }
+}
+
+const loadNodeRows = async () =>
+{
+  if (!selectedColumn.value || !selectedNodeToken.value || !session.matrixEaseId.value) {
+    return
+  }
+
+  await runColumnAction(async () =>
+  {
+    if ((selectedNode.value?.SelectedValues ?? 0) > 10000) {
+      throw new Error('Too many rows for quick view. Export the selection instead.')
+    }
+
+    const mxesId = String(route.params.mxesId ?? '')
+    const response = await api.getNodeRows(session.matrixEaseId.value, mxesId, selectedColumn.value.Index, selectedNodeToken.value)
+    if (!response.Success || !response.ReportData) {
+      throw new Error('Failed to load rows for the selected value.')
+    }
+
+    rowReport.value = {
+      title: `${selectedColumn.value.name} rows`,
+      columns: response.ReportData.columns,
+      data: response.ReportData.data
+    }
+  })
+}
+
+const loadDuplicateEntries = async () =>
+{
+  if (!selectedColumn.value || !selectedNodeToken.value || !session.matrixEaseId.value) {
+    return
+  }
+
+  await runColumnAction(async () =>
+  {
+    const mxesId = String(route.params.mxesId ?? '')
+    const response = await api.getDuplicateEntries(session.matrixEaseId.value, mxesId, selectedColumn.value.Index, selectedNodeToken.value)
+    if (!response.Success || !response.DuplicateEntries) {
+      throw new Error('Failed to load duplicate entries.')
+    }
+
+    duplicateEntries.value = response.DuplicateEntries
+  })
+}
+
+const loadDependencyDiagram = async () =>
+{
+  if (!selectedColumn.value || !selectedNodeToken.value || !session.matrixEaseId.value) {
+    return
+  }
+
+  await runColumnAction(async () =>
+  {
+    const mxesId = String(route.params.mxesId ?? '')
+    const response = await api.getDependencyDiagram(session.matrixEaseId.value, mxesId, selectedColumn.value.Index, selectedNodeToken.value)
+    if (!response.Success || !response.DependencyDiagram) {
+      throw new Error('Failed to load dependency diagram data.')
+    }
+
+    dependencyDiagram.value = response.DependencyDiagram
+  })
 }
 
 onMounted(async () =>
@@ -389,6 +588,55 @@ onMounted(async () =>
                   Reload Matrix
                 </UButton>
               </div>
+
+              <div v-if="selectedColumn" class="space-y-3 rounded-2xl bg-slate-50 p-4">
+                <div>
+                  <p class="text-sm text-slate-500">Selected column</p>
+                  <p class="font-medium text-slate-900">{{ selectedColumn.name }} • {{ selectedColumn.DataType }}</p>
+                </div>
+
+                <div class="flex flex-wrap gap-3">
+                  <UButton color="neutral" variant="outline" :loading="runningColumnAction" @click="loadColumnStats">
+                    Column Stats
+                  </UButton>
+                  <UButton color="neutral" variant="outline" @click="openColumnReport">
+                    Column Report
+                  </UButton>
+                </div>
+
+                <div class="grid gap-3 md:grid-cols-2">
+                  <UCheckbox v-model="bucketForm.bucketized" label="Bucketized" />
+                  <UFormField label="Bucket type">
+                    <UInput v-model.number="bucketForm.bucketSize" type="number" />
+                  </UFormField>
+                  <UFormField label="Bucket modifier">
+                    <UInput v-model.number="bucketForm.bucketMod" type="number" step="any" />
+                  </UFormField>
+                </div>
+
+                <UButton color="primary" :loading="runningColumnAction" @click="applyBucketSettings">
+                  Apply Bucket Settings
+                </UButton>
+              </div>
+
+              <div v-if="selectedNode" class="space-y-3 rounded-2xl bg-slate-50 p-4">
+                <div>
+                  <p class="text-sm text-slate-500">Selected value</p>
+                  <p class="font-medium text-slate-900">{{ selectedNode.ColumnValue || '(empty)' }}</p>
+                </div>
+
+                <div class="flex flex-wrap gap-3">
+                  <UButton color="neutral" variant="outline" :loading="runningColumnAction" @click="loadNodeRows">
+                    Node Rows
+                  </UButton>
+                  <UButton color="neutral" variant="outline" :loading="runningColumnAction" @click="loadDuplicateEntries">
+                    Duplicate Entries
+                  </UButton>
+                  <UButton color="neutral" variant="outline" :loading="runningColumnAction" @click="loadDependencyDiagram">
+                    Dependency Data
+                  </UButton>
+                </div>
+              </div>
             </div>
           </UCard>
 
@@ -460,6 +708,79 @@ onMounted(async () =>
         </div>
 
         <section class="space-y-4">
+          <UCard
+            v-if="columnStats"
+            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
+          >
+            <template #header>
+              <div class="flex items-center justify-between gap-3">
+                <h2 class="text-lg font-semibold text-slate-950">Column Statistics</h2>
+                <UButton color="neutral" variant="ghost" @click="columnStats = null">Close</UButton>
+              </div>
+            </template>
+            <pre class="overflow-x-auto rounded-xl bg-slate-950 p-4 text-xs text-teal-200">{{ JSON.stringify(columnStats, null, 2) }}</pre>
+          </UCard>
+
+          <UCard
+            v-if="rowReport"
+            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
+          >
+            <template #header>
+              <div class="flex items-center justify-between gap-3">
+                <h2 class="text-lg font-semibold text-slate-950">{{ rowReport.title }}</h2>
+                <UButton color="neutral" variant="ghost" @click="rowReport = null">Close</UButton>
+              </div>
+            </template>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-slate-200 text-sm">
+                <thead class="bg-slate-50 text-left text-slate-500">
+                  <tr>
+                    <th v-for="column in rowReport.columns" :key="column" class="px-4 py-3 font-medium">{{ column }}</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr v-for="(row, rowIndex) in rowReport.data" :key="rowIndex" class="bg-white/70">
+                    <td v-for="(value, valueIndex) in row" :key="valueIndex" class="px-4 py-3 text-slate-700">{{ value }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </UCard>
+
+          <UCard
+            v-if="duplicateEntries"
+            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
+          >
+            <template #header>
+              <div class="flex items-center justify-between gap-3">
+                <h2 class="text-lg font-semibold text-slate-950">Duplicate Entries</h2>
+                <UButton color="neutral" variant="ghost" @click="duplicateEntries = null">Close</UButton>
+              </div>
+            </template>
+            <ul class="grid gap-2 md:grid-cols-2">
+              <li
+                v-for="entry in duplicateEntries"
+                :key="entry"
+                class="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700"
+              >
+                {{ entry }}
+              </li>
+            </ul>
+          </UCard>
+
+          <UCard
+            v-if="dependencyDiagram"
+            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
+          >
+            <template #header>
+              <div class="flex items-center justify-between gap-3">
+                <h2 class="text-lg font-semibold text-slate-950">Dependency Data</h2>
+                <UButton color="neutral" variant="ghost" @click="dependencyDiagram = null">Close</UButton>
+              </div>
+            </template>
+            <pre class="overflow-x-auto rounded-xl bg-slate-950 p-4 text-xs text-teal-200">{{ JSON.stringify(dependencyDiagram, null, 2) }}</pre>
+          </UCard>
+
           <div class="overflow-x-auto rounded-[2rem] border border-white/70 bg-white/60 p-4 shadow-xl shadow-slate-200/50 backdrop-blur">
             <div class="grid min-w-max gap-4" :style="matrixColumnStyle">
               <UCard
