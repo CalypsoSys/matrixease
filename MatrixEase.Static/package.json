@@ -1,0 +1,24 @@
+{
+  "name": "@matrixease/static",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "dev:web": "cross-env NUXT_PUBLIC_MATRIXEASE_PLATFORM=web NUXT_PUBLIC_MATRIXEASE_API_BASE=https://api.matrixease.com NUXT_PUBLIC_MATRIXEASE_DOCS_BASE=https://docs.matrixease.com NUXT_PUBLIC_MATRIXEASE_MARKETING_BASE=https://www.matrixease.com nuxt dev",
+    "dev:electron": "cross-env NUXT_PUBLIC_MATRIXEASE_PLATFORM=electron NUXT_PUBLIC_MATRIXEASE_API_BASE=http://127.0.0.1:51266 NUXT_PUBLIC_MATRIXEASE_DOCS_BASE=https://docs.matrixease.com NUXT_PUBLIC_MATRIXEASE_MARKETING_BASE=https://www.matrixease.com NUXT_PUBLIC_MATRIXEASE_EMBEDDED_API=true nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "generate:web": "cross-env NUXT_PUBLIC_MATRIXEASE_PLATFORM=web NUXT_PUBLIC_MATRIXEASE_API_BASE=https://api.matrixease.com NUXT_PUBLIC_MATRIXEASE_DOCS_BASE=https://docs.matrixease.com NUXT_PUBLIC_MATRIXEASE_MARKETING_BASE=https://www.matrixease.com nuxt generate",
+    "generate:electron": "cross-env NUXT_PUBLIC_MATRIXEASE_PLATFORM=electron NUXT_PUBLIC_MATRIXEASE_API_BASE=http://127.0.0.1:51266 NUXT_PUBLIC_MATRIXEASE_DOCS_BASE=https://docs.matrixease.com NUXT_PUBLIC_MATRIXEASE_MARKETING_BASE=https://www.matrixease.com NUXT_PUBLIC_MATRIXEASE_EMBEDDED_API=true nuxt generate"
+  },
+  "dependencies": {
+    "@nuxt/ui": "latest",
+    "nuxt": "latest",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "cross-env": "latest",
+    "typescript": "latest",
+    "vue-tsc": "latest"
+  }
+}

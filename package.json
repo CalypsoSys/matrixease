@@ -1,0 +1,15 @@
+{
+  "name": "matrixease",
+  "private": true,
+  "workspaces": [
+    "MatrixEase.Static"
+  ],
+  "scripts": {
+    "frontend:dev": "npm --prefix MatrixEase.Static run dev",
+    "frontend:dev:web": "npm --prefix MatrixEase.Static run dev:web",
+    "frontend:dev:electron": "npm --prefix MatrixEase.Static run dev:electron",
+    "frontend:build": "npm --prefix MatrixEase.Static run build",
+    "frontend:generate:web": "npm --prefix MatrixEase.Static run generate:web",
+    "frontend:generate:electron": "npm --prefix MatrixEase.Static run generate:electron"
+  }
+}

@@ -32,9 +32,6 @@
     <Content Include="Assets\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\javascript\overrides.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\icon.ico">
@@ -50,7 +47,4 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="dotnet &quot;$(ProjectDir)..\bin\web_blaster.dll&quot; $(OS) $(ConfigurationName) &quot;$(ProjectDir)..\static.matrixease.wwwroot&quot; &quot;$(ProjectDir)wwwroot&quot; noGoogleTracking" />
-  </Target>
 </Project>

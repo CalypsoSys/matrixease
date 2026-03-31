@@ -218,6 +218,18 @@ FakesAssemblies/
 *.GhostDoc.xml
 
 # Node.js Tools for Visual Studio
+/.nuxt/
+/.output/
+/.nitro/
+/.vite/
+dist/
+coverage/
+
+MatrixEase.Static/.nuxt/
+MatrixEase.Static/.output/
+MatrixEase.Static/.nitro/
+MatrixEase.Static/.vite/
+MatrixEase.Static/dist/
 .ntvs_analysis.dat
 
 # Visual Studio 6 build log

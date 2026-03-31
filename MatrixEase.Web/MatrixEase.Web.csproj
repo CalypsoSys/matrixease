@@ -20,15 +20,4 @@
     <ProjectReference Include="..\MatrixEase.Manga\MatrixEase.Manga.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="wwwroot\javascript\overrides.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="dotnet &quot;$(ProjectDir)..\bin\web_blaster.dll&quot; $(OS) $(ConfigurationName) &quot;$(ProjectDir)..\static.matrixease.wwwroot&quot; &quot;$(ProjectDir)wwwroot&quot; googs" />
-  </Target>
-
-
 </Project>
