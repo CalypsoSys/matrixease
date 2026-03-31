@@ -10,6 +10,7 @@ export type SessionBootstrap = {
 export type MatrixEaseCatalogEntry = {
   Name: string
   Url: string
+  ViewerPath?: string
   Original: string
   Type: string
   Created: string
@@ -34,6 +35,61 @@ export type MatrixEaseJobStartResponse = {
   MatrixId?: string
   PickupKey?: string
   StatusData?: unknown
+}
+
+export type MatrixEaseStatusResponse = {
+  Success: boolean
+  Complete?: boolean
+  Message?: string
+  StatusData?: Record<string, unknown>
+}
+
+export type MatrixEaseColumnValue = {
+  ColumnValue: string
+  Duplicates: number
+  TotalPct: number
+  SelectAllPct: number
+  SelectRelPct: number
+  TotalValues: number
+  SelectedValues: number
+}
+
+export type MatrixEaseColumn = {
+  Index: number
+  ColType: string
+  DataType: string
+  NullEmpty: number
+  Selectivity: number
+  DistinctValues: number
+  Bucketized: boolean
+  OnlyBuckets: boolean
+  CurBucketSize: number
+  MinBucketSize: number
+  CurBucketMod: number
+  MinBucketMod: number
+  AllowedBuckets: string[]
+  Attributes: Record<string, unknown> | null
+  Values: MatrixEaseColumnValue[]
+}
+
+export type MatrixEasePayload = {
+  TotalRows: number
+  SelectedRows: number
+  Columns: Record<string, MatrixEaseColumn>
+  ShowLowEqual: boolean
+  ShowLowBound: number
+  ShowHighEqual: boolean
+  ShowHighBound: number
+  ShowPercentage: string
+  SelectOperation: string
+  SelectionExpression: string | null
+  ColAscending: boolean
+  HideColumns: boolean[]
+}
+
+export type MatrixEaseViewerResponse = {
+  MangaName: string
+  MangaData: MatrixEasePayload
 }
 
 export type UploadSheetRequest = {
@@ -106,6 +162,24 @@ export function useMatrixEaseApi()
       credentials: 'include',
       query: {
         matrixease_id: matrixEaseId
+      }
+    })
+
+  const getMangaStatus = (matrixEaseId: string, statusKey: string) =>
+    $fetch<MatrixEaseStatusResponse>(apiUrl('/api/matrixease/manga_status'), {
+      credentials: 'include',
+      query: {
+        matrixease_id: matrixEaseId,
+        status_key: statusKey
+      }
+    })
+
+  const getManga = (matrixEaseId: string, mxesId: string) =>
+    $fetch<MatrixEaseViewerResponse>(apiUrl('/api/matrixease'), {
+      credentials: 'include',
+      query: {
+        matrixease_id: matrixEaseId,
+        mxes_id: mxesId
       }
     })
 
@@ -184,6 +258,8 @@ export function useMatrixEaseApi()
     validateCatalogAccess,
     getMyMangas,
     checkGoogleLogin,
+    getMangaStatus,
+    getManga,
     uploadSheet,
     submitGoogleSheet
   }

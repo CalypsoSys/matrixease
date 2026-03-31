@@ -12,6 +12,7 @@ const uploadProgress = ref(0)
 const projects = ref<MatrixEaseCatalogEntry[]>([])
 const statusMessage = ref('')
 const errorMessage = ref('')
+const activeJobStatus = ref<Record<string, unknown> | null>(null)
 
 const form = reactive({
   mangaName: '',
@@ -78,6 +79,37 @@ const loadProjects = async () =>
   } finally {
     loadingProjects.value = false
   }
+}
+
+const navigateToViewer = async (mxesId: string) =>
+{
+  await navigateTo(`/viewer/${encodeURIComponent(mxesId)}`)
+}
+
+const trackMatrixJob = async (matrixId: string) =>
+{
+  if (!session.matrixEaseId.value) {
+    return
+  }
+
+  for (let attempt = 0; attempt < 120; attempt += 1) {
+    const response = await api.getMangaStatus(session.matrixEaseId.value, matrixId)
+
+    if (!response.Success) {
+      throw new Error(response.Message ?? 'Matrix job status failed.')
+    }
+
+    if (response.Complete) {
+      await loadProjects()
+      await navigateToViewer(matrixId)
+      return
+    }
+
+    activeJobStatus.value = response.StatusData ?? null
+    await new Promise(resolve => setTimeout(resolve, 1000))
+  }
+
+  throw new Error('Timed out waiting for MatrixEase processing to finish.')
 }
 
 const initialize = async () =>
@@ -148,8 +180,8 @@ const submitUpload = async () =>
     })
 
     if (response.Success) {
-      statusMessage.value = 'Upload accepted. Background processing status polling is the next migration slice.'
-      await loadProjects()
+      statusMessage.value = 'Upload accepted. Waiting for processing to complete.'
+      await trackMatrixJob(response.MatrixId ?? '')
       return
     }
 
@@ -195,8 +227,8 @@ const submitGoogleSheet = async () =>
     })
 
     if (response.Success) {
-      statusMessage.value = 'Google Sheet processing started. Status polling is still being migrated.'
-      await loadProjects()
+      statusMessage.value = 'Google Sheet import accepted. Waiting for processing to complete.'
+      await trackMatrixJob(response.MatrixId ?? '')
       return
     }
 
@@ -306,6 +338,15 @@ onMounted(async () =>
         variant="soft"
         :description="statusMessage"
       />
+      <UCard
+        v-if="activeJobStatus"
+        class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
+      >
+        <template #header>
+          <h2 class="text-lg font-semibold text-slate-950">Background Status</h2>
+        </template>
+        <pre class="overflow-x-auto rounded-xl bg-slate-950 p-4 text-xs text-teal-200">{{ JSON.stringify(activeJobStatus, null, 2) }}</pre>
+      </UCard>
 
       <section class="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
         <UCard class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur">
@@ -344,7 +385,14 @@ onMounted(async () =>
               <tbody class="divide-y divide-slate-100">
                 <tr v-for="project in projects" :key="`${project.Name}-${project.Created}`" class="bg-white/70">
                   <td class="px-4 py-3 font-medium text-slate-900">
-                    <a class="text-teal-700 hover:text-teal-900" :href="project.Url">{{ project.Name }}</a>
+                    <NuxtLink
+                      v-if="project.ViewerPath && project.ViewerPath !== '#'"
+                      class="text-teal-700 hover:text-teal-900"
+                      :to="project.ViewerPath"
+                    >
+                      {{ project.Name }}
+                    </NuxtLink>
+                    <span v-else>{{ project.Name }}</span>
                   </td>
                   <td class="px-4 py-3 text-slate-600">{{ project.Original }}</td>
                   <td class="px-4 py-3 text-slate-600">{{ project.Type }}</td>

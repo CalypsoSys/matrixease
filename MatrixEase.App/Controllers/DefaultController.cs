@@ -178,6 +178,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
                     {
                         Name = manga.MangaName,
                         Url = new Uri(string.Format("/matrixease.html?matrixease_id={0}&mxes_id={1}", HttpUtility.UrlEncode(matrixease_id), HttpUtility.UrlEncode(manga.ManagGuid.ToString())), UriKind.Relative).ToString(),
+                        ViewerPath = new Uri(string.Format("/viewer/{0}", HttpUtility.UrlEncode(manga.ManagGuid.ToString())), UriKind.Relative).ToString(),
                         Original = manga.OriginalName,
                         Type = manga.SheetType,
                         Created = manga.Created,
@@ -195,6 +196,7 @@ namespace Desktop.MatrixEase.Manga.Controllers
                         {
                             Name = manga.MangaName,
                             Url = "#",
+                            ViewerPath = "#",
                             Original = manga.OriginalName,
                             Type = manga.SheetType,
                             Created = manga.Created,

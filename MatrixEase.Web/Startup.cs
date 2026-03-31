@@ -93,9 +93,12 @@ namespace MatrixEase.Web
 
             app.UseCors(
                 options => options.WithOrigins("https://my.matrixease.com", "https://matrixease.com", 
-                                                "https://www.matrixease.com", "https://localhost:44340")
+                                                "https://www.matrixease.com", "https://localhost:44340",
+                                                "http://127.0.0.1:3000", "http://localhost:3000",
+                                                "http://127.0.0.1:3001", "http://localhost:3001")
                             .AllowAnyMethod()
                             .AllowAnyHeader()
+                            .AllowCredentials()
             );
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -103,7 +106,10 @@ namespace MatrixEase.Web
                 ForwardedHeaders = ForwardedHeaders.XForwardedProto
             });
 
-            app.UseHttpsRedirection();
+            if (env.IsDevelopment() == false)
+            {
+                app.UseHttpsRedirection();
+            }
             app.UseRouting();
 
             app.UseAuthentication();

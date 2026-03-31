@@ -12,9 +12,11 @@ using MatrixEase.Manga.Processing;
 using MatrixEase.Manga.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SendGrid;
@@ -27,11 +29,13 @@ namespace MatrixEase.Web
     {
         private readonly IOptions<AppSettings> _options;
         private readonly ILogger<DefaultController> _logger;
+        private readonly IWebHostEnvironment _environment;
 
-        public DefaultController(IOptions<AppSettings> options, ILogger<DefaultController> logger)
+        public DefaultController(IOptions<AppSettings> options, ILogger<DefaultController> logger, IWebHostEnvironment environment)
         {
             _options = options;
             _logger = logger;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -86,6 +90,7 @@ namespace MatrixEase.Web
         {
             try
             {
+                EnsureDevelopmentAccess();
                 var matrixeaseId = IssueMatrixEaseId();
                 var cookiesAccepted = Request.Cookies.TryGetValue("cookies-accepted-1", out string cookieValue) && cookieValue == "acceptedxxx";
                 var identities = GetMyIdentities(false);
@@ -107,6 +112,29 @@ namespace MatrixEase.Web
             }
 
             return new { Success = false };
+        }
+
+        private void EnsureDevelopmentAccess()
+        {
+            if (_environment.IsDevelopment() == false)
+            {
+                return;
+            }
+
+            if (Request.Cookies.ContainsKey("authenticated-accepted-1"))
+            {
+                return;
+            }
+
+            const string devEmail = "dev@matrixease.local";
+            string devEmailHash = MiscHelpers.HashEmail(devEmail, false);
+
+            CookieOptions option = new CookieOptions();
+            option.Expires = DateTime.Now.AddHours(8);
+            Response.Cookies.Append("cookies-accepted-1", "acceptedxxx", option);
+            Response.Cookies.Append("MxesEmailClaimId", MiscHelpers.Encrypt(devEmailHash), option);
+
+            SetAccess(devEmailHash, devEmail, MangaAuthType.Email);
         }
 
         private string MatrixEaseId()
@@ -339,6 +367,7 @@ namespace MatrixEase.Web
                         var mxesId = Encode(userId, manga.ManagGuid);
                         mangas.Add(new {Name= manga.MangaName, 
                             Url= new Uri(string.Format("/matrixease.html?matrixease_id={0}&mxes_id={1}", HttpUtility.UrlEncode(matrixease_id), HttpUtility.UrlEncode(mxesId)), UriKind.Relative).ToString(),
+                            ViewerPath = new Uri(string.Format("/viewer/{0}", HttpUtility.UrlEncode(mxesId)), UriKind.Relative).ToString(),
                             Original = manga.OriginalName, Type = manga.SheetType, Created =manga.Created, MaxRows = manga.MaxRows,
                             TotalRows = manga.TotalRows, Status = manga.Status});
                         loadedMangas.Add(manga.ManagGuid);
@@ -351,6 +380,7 @@ namespace MatrixEase.Web
                             {
                                 Name = manga.MangaName,
                                 Url = "#",
+                                ViewerPath = "#",
                                 Original = manga.OriginalName,
                                 Type = manga.SheetType,
                                 Created = manga.Created,
