@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 
 namespace MatrixEase.Web
@@ -117,15 +116,6 @@ namespace MatrixEase.Web
 
             });
 
-#if DEBUG
-            app.UseStaticFiles();
-#else
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(
-                    AppDomain.CurrentDomain.BaseDirectory, "wwwroot")),
-            });
-#endif
         }
     }
 }

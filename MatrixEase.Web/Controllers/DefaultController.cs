@@ -35,11 +35,16 @@ namespace MatrixEase.Web
         }
 
         [HttpGet]
-        public RedirectResult Get()
+        public IActionResult Get()
         {
             try 
             { 
-                return Redirect(new Uri("/index.html", UriKind.Relative).ToString());
+                return Ok(new
+                {
+                    Service = "MatrixEase API",
+                    Frontend = "Run MatrixEase.Static separately for the shared web UI.",
+                    Platform = "web"
+                });
             }
             catch (Exception excp)
             {

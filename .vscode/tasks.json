@@ -28,13 +28,13 @@
     {
       "label": "build MatrixEase.Static",
       "type": "shell",
-      "command": "npm --prefix MatrixEase.Static run generate:web",
+      "command": "npm --prefix \"${workspaceFolder}/MatrixEase.Static\" run generate:web",
       "problemMatcher": []
     },
     {
       "label": "dev MatrixEase.Static (Web)",
       "type": "shell",
-      "command": "npm --prefix MatrixEase.Static run dev:web",
+      "command": "npm --prefix \"${workspaceFolder}/MatrixEase.Static\" run dev:web",
       "isBackground": true,
       "problemMatcher": {
         "owner": "custom",
@@ -51,7 +51,7 @@
     {
       "label": "dev MatrixEase.Static (Electron)",
       "type": "shell",
-      "command": "npm --prefix MatrixEase.Static run dev:electron",
+      "command": "npm --prefix \"${workspaceFolder}/MatrixEase.Static\" run dev:electron",
       "isBackground": true,
       "problemMatcher": {
         "owner": "custom",

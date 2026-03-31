@@ -21,29 +21,25 @@
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "https://localhost:5001;http://localhost:5000"
-      },
-      "serverReadyAction": {
-        "action": "openExternally",
-        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
       }
     },
     {
       "name": "MatrixEase.Static (Web)",
       "type": "node-terminal",
       "request": "launch",
-      "command": "npm --prefix MatrixEase.Static run dev:web"
+      "command": "npm --prefix \"${workspaceFolder}/MatrixEase.Static\" run dev:web -- --open"
     },
     {
       "name": "MatrixEase.Static (Electron)",
       "type": "node-terminal",
       "request": "launch",
-      "command": "npm --prefix MatrixEase.Static run dev:electron"
+      "command": "npm --prefix \"${workspaceFolder}/MatrixEase.Static\" run dev:electron"
     },
     {
       "name": "MatrixEase.App (Electron)",
       "type": "node-terminal",
       "request": "launch",
-      "command": "dotnet run --project MatrixEase.App/MatrixEase.App.csproj"
+      "command": "dotnet run --project \"${workspaceFolder}/MatrixEase.App/MatrixEase.App.csproj\""
     }
   ]
 }
