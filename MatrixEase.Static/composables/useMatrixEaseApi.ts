@@ -42,6 +42,7 @@ export type MatrixEaseStatusResponse = {
   Complete?: boolean
   Message?: string
   StatusData?: Record<string, unknown>
+  Results?: MatrixEasePayload
 }
 
 export type MatrixEaseColumnValue = {
@@ -183,6 +184,52 @@ export function useMatrixEaseApi()
       }
     })
 
+  const getPickupStatus = (matrixEaseId: string, mxesId: string, pickupKey: string) =>
+    $fetch<MatrixEaseStatusResponse>(apiUrl('/api/matrixease/manga_pickup_status'), {
+      credentials: 'include',
+      query: {
+        matrixease_id: matrixEaseId,
+        mxes_id: mxesId,
+        pickup_key: pickupKey
+      }
+    })
+
+  const applyFilter = (matrixEaseId: string, mxesId: string, selectionExpression: string) =>
+    $fetch<MatrixEaseJobStartResponse>(apiUrl('/api/matrixease/filter'), {
+      credentials: 'include',
+      query: {
+        matrixease_id: matrixEaseId,
+        mxes_id: mxesId,
+        selection_expression: selectionExpression
+      }
+    })
+
+  const updateSettings = (matrixEaseId: string, mxesId: string, settings: {
+    showLowEqual: boolean
+    showLowBound: number
+    showHighEqual: boolean
+    showHighBound: number
+    selectOperation: string
+    showPercentage: string
+    colAscending: boolean
+    hideColumns: boolean[]
+  }) =>
+    $fetch<{ Success: boolean }>(apiUrl('/api/matrixease/update_settings'), {
+      credentials: 'include',
+      query: {
+        matrixease_id: matrixEaseId,
+        mxes_id: mxesId,
+        show_low_equal: settings.showLowEqual,
+        show_low_bound: settings.showLowBound,
+        show_high_equal: settings.showHighEqual,
+        show_high_bound: settings.showHighBound,
+        select_operation: settings.selectOperation,
+        show_percentage: settings.showPercentage,
+        col_ascending: settings.colAscending,
+        hide_columns: settings.hideColumns.join(',')
+      }
+    })
+
   const uploadSheet = async (request: UploadSheetRequest, onProgress?: (value: number) => void) =>
   {
     const formData = new FormData()
@@ -260,6 +307,9 @@ export function useMatrixEaseApi()
     checkGoogleLogin,
     getMangaStatus,
     getManga,
+    getPickupStatus,
+    applyFilter,
+    updateSettings,
     uploadSheet,
     submitGoogleSheet
   }

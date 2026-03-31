@@ -5,8 +5,27 @@ const session = useMatrixEaseSession()
 
 const loading = ref(true)
 const errorMessage = ref('')
+const successMessage = ref('')
+const busyMessage = ref('')
 const mangaName = ref('')
 const payload = ref<MatrixEasePayload | null>(null)
+const showingSettings = ref(false)
+const selectedColumnName = ref<string | null>(null)
+const selectedValueKey = ref<string | null>(null)
+const pendingExpression = ref('')
+const applyingFilter = ref(false)
+const refreshingSettings = ref(false)
+
+const settings = reactive({
+  showLowEqual: true,
+  showLowBound: 0,
+  showHighEqual: true,
+  showHighBound: 100,
+  showPercentage: 'pct_tot_sel',
+  selectOperation: 'overwrite_selection',
+  colAscending: false,
+  hideColumns: [] as boolean[]
+})
 
 const columnEntries = computed(() =>
 {
@@ -31,7 +50,92 @@ const visibleColumns = computed(() =>
   return columnEntries.value.filter(column => payload.value?.HideColumns[column.Index] !== true)
 })
 
-const topValues = (column: MatrixEaseColumn) => column.Values.slice(0, 12)
+const topValues = (column: MatrixEaseColumn) =>
+{
+  return column.Values
+    .filter(value => showValue(value.SelectRelPct))
+    .slice(0, 18)
+}
+
+const selectedColumn = computed(() =>
+{
+  if (!selectedColumnName.value) {
+    return null
+  }
+
+  return visibleColumns.value.find(column => column.name === selectedColumnName.value) ?? null
+})
+
+const selectedNode = computed(() =>
+{
+  if (!selectedColumn.value || !selectedValueKey.value) {
+    return null
+  }
+
+  return selectedColumn.value.Values.find(value => value.ColumnValue === selectedValueKey.value) ?? null
+})
+
+const matrixColumnStyle = computed(() => ({
+  gridTemplateColumns: `repeat(${Math.max(visibleColumns.value.length, 1)}, minmax(18rem, 1fr))`
+}))
+
+const selectionSummary = computed(() =>
+{
+  if (!selectedColumn.value || !selectedNode.value) {
+    return 'Select a value to inspect it and build filters.'
+  }
+
+  return `${selectedNode.value.ColumnValue || '(empty)'} @ ${selectedColumn.value.name}`
+})
+
+const showValue = (selectRelPct: number) =>
+{
+  if (selectRelPct > settings.showLowBound && selectRelPct <= settings.showHighBound) {
+    return true
+  }
+
+  if (settings.showLowEqual && selectRelPct === settings.showLowBound) {
+    return true
+  }
+
+  if (settings.showHighEqual && selectRelPct === settings.showHighBound) {
+    return true
+  }
+
+  return false
+}
+
+const barWidth = (value: MatrixEaseColumnValue) =>
+{
+  const metric = settings.showPercentage === 'pct_of_sel' ? value.SelectRelPct : value.SelectAllPct
+  return `${Math.max(4, Math.min(metric, 100))}%`
+}
+
+const percentageLabel = (value: MatrixEaseColumnValue) =>
+{
+  if (settings.showPercentage === 'pct_of_sel') {
+    return `Selected ${value.SelectRelPct.toFixed(2)}%`
+  }
+
+  return `Selected total ${value.SelectAllPct.toFixed(2)}%`
+}
+
+const syncSettingsFromPayload = () =>
+{
+  if (!payload.value) {
+    return
+  }
+
+  settings.showLowEqual = payload.value.ShowLowEqual
+  settings.showLowBound = payload.value.ShowLowBound
+  settings.showHighEqual = payload.value.ShowHighEqual
+  settings.showHighBound = payload.value.ShowHighBound
+  settings.showPercentage = payload.value.ShowPercentage
+  settings.selectOperation = payload.value.SelectOperation
+  settings.colAscending = payload.value.ColAscending
+  settings.hideColumns = [...payload.value.HideColumns]
+  pendingExpression.value = payload.value.SelectionExpression ?? ''
+}
 
 const loadViewer = async () =>
 {
@@ -47,10 +151,111 @@ const loadViewer = async () =>
     const response = await api.getManga(session.matrixEaseId.value, mxesId)
     mangaName.value = response.MangaName
     payload.value = response.MangaData
+    syncSettingsFromPayload()
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : 'Failed to load MatrixEase viewer.'
   } finally {
     loading.value = false
+  }
+}
+
+const selectValue = (columnName: string, value: MatrixEaseColumnValue) =>
+{
+  selectedColumnName.value = columnName
+  selectedValueKey.value = value.ColumnValue
+}
+
+const appendSelection = (mode?: string) =>
+{
+  if (!selectedColumn.value || !selectedNode.value) {
+    errorMessage.value = 'Select a value before building a filter.'
+    return
+  }
+
+  const expression = `"${selectedNode.value.ColumnValue}@${selectedColumn.value.name}:${selectedColumn.value.Index}"`
+  const operation = mode ?? settings.selectOperation
+
+  if (pendingExpression.value && (operation === 'or_selection' || operation === 'and_selections')) {
+    const operator = operation === 'or_selection' ? ' OR ' : ' AND '
+    pendingExpression.value = `${pendingExpression.value}${operator}${expression}`
+  } else {
+    pendingExpression.value = expression
+  }
+}
+
+const clearExpression = () =>
+{
+  pendingExpression.value = ''
+}
+
+const applyCurrentFilter = async () =>
+{
+  if (!session.matrixEaseId.value) {
+    return
+  }
+
+  applyingFilter.value = true
+  errorMessage.value = ''
+  successMessage.value = ''
+  busyMessage.value = 'Applying filter and waiting for the matrix to refresh.'
+
+  try {
+    const mxesId = String(route.params.mxesId ?? '')
+    const result = await api.applyFilter(session.matrixEaseId.value, mxesId, pendingExpression.value)
+    if (!result.Success || !result.PickupKey) {
+      throw new Error(result.Error ?? 'Failed to start filter update.')
+    }
+
+    for (let attempt = 0; attempt < 120; attempt += 1) {
+      const pickup = await api.getPickupStatus(session.matrixEaseId.value, mxesId, result.PickupKey)
+      if (!pickup.Success) {
+        throw new Error(pickup.Message ?? 'Failed while waiting for filtered results.')
+      }
+
+      if (pickup.Complete && pickup.Results) {
+        payload.value = pickup.Results
+        syncSettingsFromPayload()
+        successMessage.value = 'Matrix filter updated.'
+        busyMessage.value = ''
+        return
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 1000))
+    }
+
+    throw new Error('Timed out waiting for filter results.')
+  } catch (error) {
+    busyMessage.value = ''
+    errorMessage.value = error instanceof Error ? error.message : 'Failed to apply filter.'
+  } finally {
+    applyingFilter.value = false
+  }
+}
+
+const saveSettings = async () =>
+{
+  if (!session.matrixEaseId.value) {
+    return
+  }
+
+  refreshingSettings.value = true
+  errorMessage.value = ''
+  successMessage.value = ''
+
+  try {
+    const mxesId = String(route.params.mxesId ?? '')
+    const response = await api.updateSettings(session.matrixEaseId.value, mxesId, settings)
+    if (!response.Success) {
+      throw new Error('Failed to save viewer settings.')
+    }
+
+    await loadViewer()
+    successMessage.value = 'Viewer settings updated.'
+    showingSettings.value = false
+  } catch (error) {
+    errorMessage.value = error instanceof Error ? error.message : 'Failed to save settings.'
+  } finally {
+    refreshingSettings.value = false
   }
 }
 
@@ -122,12 +327,189 @@ onMounted(async () =>
         variant="soft"
         :description="errorMessage"
       />
+      <UAlert
+        v-if="successMessage"
+        color="success"
+        variant="soft"
+        :description="successMessage"
+      />
+      <UAlert
+        v-if="busyMessage"
+        color="info"
+        variant="soft"
+        :description="busyMessage"
+      />
 
       <div v-if="loading" class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         <USkeleton v-for="index in 6" :key="index" class="h-44 w-full" />
       </div>
 
-      <section v-else class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <section v-else class="grid gap-6 xl:grid-cols-[0.95fr_1.55fr]">
+        <div class="space-y-6">
+          <UCard class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur">
+            <template #header>
+              <div class="flex items-center justify-between gap-3">
+                <h2 class="text-lg font-semibold text-slate-950">Selection</h2>
+                <UButton color="neutral" variant="outline" @click="showingSettings = !showingSettings">
+                  {{ showingSettings ? 'Close Settings' : 'Viewer Settings' }}
+                </UButton>
+              </div>
+            </template>
+
+            <div class="space-y-4">
+              <div class="rounded-2xl bg-slate-50 p-4">
+                <p class="text-sm text-slate-500">Current focus</p>
+                <p class="mt-1 font-medium text-slate-900">{{ selectionSummary }}</p>
+              </div>
+
+              <UFormField label="Pending expression">
+                <UTextarea v-model="pendingExpression" :rows="4" autoresize />
+              </UFormField>
+
+              <div class="flex flex-wrap gap-3">
+                <UButton color="primary" @click="appendSelection('overwrite_selection')">
+                  Set Selection
+                </UButton>
+                <UButton color="neutral" variant="outline" @click="appendSelection('and_selections')">
+                  And
+                </UButton>
+                <UButton color="neutral" variant="outline" @click="appendSelection('or_selection')">
+                  Or
+                </UButton>
+                <UButton color="neutral" variant="ghost" @click="clearExpression">
+                  Clear
+                </UButton>
+              </div>
+
+              <div class="flex flex-wrap gap-3">
+                <UButton color="primary" :loading="applyingFilter" @click="applyCurrentFilter">
+                  Apply Filter
+                </UButton>
+                <UButton color="neutral" variant="outline" @click="loadViewer">
+                  Reload Matrix
+                </UButton>
+              </div>
+            </div>
+          </UCard>
+
+          <UCard
+            v-if="showingSettings"
+            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
+          >
+            <template #header>
+              <h2 class="text-lg font-semibold text-slate-950">Viewer Settings</h2>
+            </template>
+
+            <div class="space-y-5">
+              <div class="grid gap-4 md:grid-cols-2">
+                <UFormField label="Low bound">
+                  <UInput v-model.number="settings.showLowBound" type="number" />
+                </UFormField>
+                <UFormField label="High bound">
+                  <UInput v-model.number="settings.showHighBound" type="number" />
+                </UFormField>
+                <UFormField label="Percent mode">
+                  <USelect
+                    v-model="settings.showPercentage"
+                    :items="[
+                      { label: 'Selected total %', value: 'pct_tot_sel' },
+                      { label: 'Selected only %', value: 'pct_of_sel' }
+                    ]"
+                    option-attribute="label"
+                    value-attribute="value"
+                  />
+                </UFormField>
+                <UFormField label="Selection mode">
+                  <USelect
+                    v-model="settings.selectOperation"
+                    :items="[
+                      { label: 'Overwrite', value: 'overwrite_selection' },
+                      { label: 'And', value: 'and_selections' },
+                      { label: 'Or', value: 'or_selection' }
+                    ]"
+                    option-attribute="label"
+                    value-attribute="value"
+                  />
+                </UFormField>
+              </div>
+
+              <div class="grid gap-3 md:grid-cols-2">
+                <UCheckbox v-model="settings.showLowEqual" label="Include low bound" />
+                <UCheckbox v-model="settings.showHighEqual" label="Include high bound" />
+                <UCheckbox v-model="settings.colAscending" label="Sort columns ascending by value count" />
+              </div>
+
+              <div class="space-y-3">
+                <h3 class="text-sm font-medium text-slate-700">Visible columns</h3>
+                <div class="grid gap-2 md:grid-cols-2">
+                  <UCheckbox
+                    v-for="column in columnEntries"
+                    :key="column.name"
+                    :model-value="settings.hideColumns[column.Index] !== true"
+                    :label="column.name"
+                    @update:model-value="value => settings.hideColumns[column.Index] = !value"
+                  />
+                </div>
+              </div>
+
+              <UButton color="primary" :loading="refreshingSettings" @click="saveSettings">
+                Save Settings
+              </UButton>
+            </div>
+          </UCard>
+        </div>
+
+        <section class="space-y-4">
+          <div class="overflow-x-auto rounded-[2rem] border border-white/70 bg-white/60 p-4 shadow-xl shadow-slate-200/50 backdrop-blur">
+            <div class="grid min-w-max gap-4" :style="matrixColumnStyle">
+              <UCard
+                v-for="column in visibleColumns"
+                :key="column.name"
+                class="h-full border-slate-200/80 bg-white/80 shadow-md"
+              >
+                <template #header>
+                  <div class="space-y-1">
+                    <div class="flex items-center justify-between gap-3">
+                      <h2 class="text-base font-semibold text-slate-950">{{ column.name }}</h2>
+                      <UBadge color="neutral" variant="subtle">{{ column.DataType }}</UBadge>
+                    </div>
+                    <p class="text-xs text-slate-500">
+                      {{ column.ColType }} • {{ column.DistinctValues }} distinct
+                    </p>
+                  </div>
+                </template>
+
+                <div class="space-y-3">
+                  <button
+                    v-for="value in topValues(column)"
+                    :key="`${column.name}-${value.ColumnValue}`"
+                    type="button"
+                    class="block w-full rounded-2xl border p-3 text-left transition"
+                    :class="selectedColumnName === column.name && selectedValueKey === value.ColumnValue
+                      ? 'border-teal-500 bg-teal-50 shadow'
+                      : 'border-slate-200 bg-slate-50 hover:border-teal-300 hover:bg-white'"
+                    @click="selectValue(column.name, value)"
+                  >
+                    <div class="mb-2 flex items-start justify-between gap-3">
+                      <p class="min-w-0 flex-1 break-words font-medium text-slate-900">{{ value.ColumnValue || '(empty)' }}</p>
+                      <UBadge color="primary" variant="soft">{{ value.SelectedValues }}</UBadge>
+                    </div>
+                    <div class="h-2 overflow-hidden rounded-full bg-slate-200">
+                      <div class="h-full rounded-full bg-teal-500" :style="{ width: barWidth(value) }" />
+                    </div>
+                    <div class="mt-2 flex items-center justify-between gap-3 text-xs text-slate-500">
+                      <span>{{ percentageLabel(value) }}</span>
+                      <span>Total {{ value.TotalPct.toFixed(2) }}%</span>
+                    </div>
+                  </button>
+                </div>
+              </UCard>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section v-if="false" class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         <UCard
           v-for="column in visibleColumns"
           :key="column.name"
