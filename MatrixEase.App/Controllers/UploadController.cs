@@ -50,5 +50,13 @@ namespace MatrixEase.Manga.com.Controllers
 
             return new { Success = false };
         }
+
+        [HttpPost("/api/uploads/file")]
+        [DisableRequestSizeLimit]
+        [RequestFormLimits(MultipartBodyLengthLimit = 4294967295)]
+        public object PostFormDataApi([FromForm] string matrixease_id, [FromForm] IFormFile file, [FromForm] string manga_name, [FromForm] int header_row, [FromForm] int header_rows, [FromForm] int max_rows, [FromForm] bool ignore_blank_rows, [FromForm] bool ignore_text_case, [FromForm] bool trim_leading_whitespace, [FromForm] bool trim_trailing_whitespace, [FromForm] string ignore_cols, [FromForm] string sheet_type, [FromForm] string csv_separator, [FromForm] string csv_quote, [FromForm] string csv_escape, [FromForm] string csv_null, [FromForm] string csv_eol)
+        {
+            return PostFormData(matrixease_id, file, manga_name, header_row, header_rows, max_rows, ignore_blank_rows, ignore_text_case, trim_leading_whitespace, trim_trailing_whitespace, ignore_cols, sheet_type, csv_separator, csv_quote, csv_escape, csv_null, csv_eol);
+        }
     }
 }

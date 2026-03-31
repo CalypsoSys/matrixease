@@ -1,5 +1,14 @@
 {
   "version": "0.2.0",
+  "compounds": [
+    {
+      "name": "MatrixEase.Web + Frontend",
+      "configurations": [
+        "MatrixEase.Web",
+        "MatrixEase.Static (Web)"
+      ]
+    }
+  ],
   "configurations": [
     {
       "name": "MatrixEase.Web",
@@ -17,6 +26,18 @@
         "action": "openExternally",
         "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
       }
+    },
+    {
+      "name": "MatrixEase.Static (Web)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm --prefix MatrixEase.Static run dev:web"
+    },
+    {
+      "name": "MatrixEase.Static (Electron)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm --prefix MatrixEase.Static run dev:electron"
     },
     {
       "name": "MatrixEase.App (Electron)",

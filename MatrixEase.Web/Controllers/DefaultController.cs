@@ -76,15 +76,39 @@ namespace MatrixEase.Web
             }
         }
 
+        [HttpGet("/api/session/bootstrap")]
+        public object Bootstrap()
+        {
+            try
+            {
+                var matrixeaseId = IssueMatrixEaseId();
+                var cookiesAccepted = Request.Cookies.TryGetValue("cookies-accepted-1", out string cookieValue) && cookieValue == "acceptedxxx";
+                var identities = GetMyIdentities(false);
+                var hasAccessCookie = Request.Cookies.ContainsKey("authenticated-accepted-1");
+
+                return new
+                {
+                    Success = true,
+                    MatrixEaseId = matrixeaseId,
+                    CookiesAccepted = cookiesAccepted,
+                    HasCatalogAccess = hasAccessCookie,
+                    GoogleSignedIn = string.IsNullOrWhiteSpace(identities.GoogleId) == false,
+                    HasEmailIdentity = string.IsNullOrWhiteSpace(identities.EmailId) == false
+                };
+            }
+            catch (Exception excp)
+            {
+                SimpleLogger.LogError(excp, "Error building session bootstrap");
+            }
+
+            return new { Success = false };
+        }
+
         private string MatrixEaseId()
         {
             try 
             { 
-                CookieOptions option = new CookieOptions();
-                option.Expires = DateTime.Now.AddMinutes(30);
-                string matrixease_id = MiscHelpers.Encrypt(Guid.NewGuid().ToString());
-                Response.Cookies.Append("authenticated-accepted-3", matrixease_id, option);
-
+                string matrixease_id = IssueMatrixEaseId();
                 return string.Format("document.write('<form><input type=\"hidden\" id=\"matrixease_id\" name=\"matrixease_id\" value=\"{0}\"/></form>');", matrixease_id);
             }
             catch (Exception excp)
@@ -92,6 +116,16 @@ namespace MatrixEase.Web
                 SimpleLogger.LogError(excp, "Error DOC ID");
                 throw;
             }
+        }
+
+        private string IssueMatrixEaseId()
+        {
+            CookieOptions option = new CookieOptions();
+            option.Expires = DateTime.Now.AddMinutes(30);
+            string matrixeaseId = MiscHelpers.Encrypt(Guid.NewGuid().ToString());
+            Response.Cookies.Append("authenticated-accepted-3", matrixeaseId, option);
+
+            return matrixeaseId;
         }
 
         [HttpGet("get_access")]
@@ -111,6 +145,12 @@ namespace MatrixEase.Web
                 SimpleLogger.LogError(excp, "Error getting access token");
             }
             return new { Success = false, AccessToken = "" };
+        }
+
+        [HttpGet("/api/session/access")]
+        public object GetAccessTokenApi(string matrixease_id, string access_token)
+        {
+            return GetAccessToken(matrixease_id, access_token);
         }
 
         [HttpGet("captcha")]
@@ -135,6 +175,12 @@ namespace MatrixEase.Web
                 SimpleLogger.LogError(excp, "Error getting captcha");
             }
             return new { num1 = 0, num2 = 0 };
+        }
+
+        [HttpGet("/api/session/captcha")]
+        public object CaptchaApi(string matrixease_id)
+        {
+            return Captcha(matrixease_id);
         }
 
         //curl https://localhost:44340/send_email_code/?email_to_address=bob
@@ -210,6 +256,12 @@ namespace MatrixEase.Web
             return new { Success = status };
         }
 
+        [HttpGet("/api/session/send_email_code")]
+        public object SendEmailCodeApi(string matrixease_id, string email_to_address, string result)
+        {
+            return SendEmailCode(matrixease_id, email_to_address, result);
+        }
+
         [HttpGet("validate_email_code")]
         public object ValidateEmailCode(string matrixease_id, string email_to_address, string emailed_code)
         {
@@ -253,6 +305,12 @@ namespace MatrixEase.Web
             }
 
             return new { Success = status };
+        }
+
+        [HttpGet("/api/session/validate_email_code")]
+        public object ValidateEmailCodeApi(string matrixease_id, string email_to_address, string emailed_code)
+        {
+            return ValidateEmailCode(matrixease_id, email_to_address, emailed_code);
         }
 
         [HttpGet("my_mangas")]
@@ -307,6 +365,12 @@ namespace MatrixEase.Web
             }
 
             return new { Success = false };
+        }
+
+        [HttpGet("/api/session/my_mangas")]
+        public object MyMangasApi(string matrixease_id)
+        {
+            return MyMangas(matrixease_id);
         }
     }
 }

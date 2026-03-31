@@ -81,6 +81,20 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
         }
 
+        [HttpGet("/api/session/bootstrap")]
+        public object Bootstrap()
+        {
+            return new
+            {
+                Success = true,
+                MatrixEaseId = MangaDesktop.AccessTokenAll,
+                CookiesAccepted = Request.Cookies.TryGetValue("cookies-accepted-1", out string cookieValue) && cookieValue == "acceptedxxx",
+                HasCatalogAccess = true,
+                GoogleSignedIn = true,
+                HasEmailIdentity = false
+            };
+        }
+
         private string MatrixEaseId()
         {
             try
@@ -107,10 +121,22 @@ namespace Desktop.MatrixEase.Manga.Controllers
             return new { Success = false, AccessToken = "" };
         }
 
+        [HttpGet("/api/session/access")]
+        public object GetAccessTokenApi(string matrixease_id, string access_token)
+        {
+            return GetAccessToken(matrixease_id, access_token);
+        }
+
         [HttpGet("captcha")]
         public object Captcha(string matrixease_id)
         {
             return new { num1 = 0, num2 = 0 };
+        }
+
+        [HttpGet("/api/session/captcha")]
+        public object CaptchaApi(string matrixease_id)
+        {
+            return Captcha(matrixease_id);
         }
 
         [HttpGet("send_email_code")]
@@ -119,10 +145,22 @@ namespace Desktop.MatrixEase.Manga.Controllers
             return new { Success = false };
         }
 
+        [HttpGet("/api/session/send_email_code")]
+        public object SendEmailCodeApi(string matrixease_id, string email_to_address, string result)
+        {
+            return SendEmailCode(matrixease_id, email_to_address, result);
+        }
+
         [HttpGet("validate_email_code")]
         public object ValidateEmailCode(string matrixease_id, string email_to_address, string emailed_code)
         {
             return new { Success = false };
+        }
+
+        [HttpGet("/api/session/validate_email_code")]
+        public object ValidateEmailCodeApi(string matrixease_id, string email_to_address, string emailed_code)
+        {
+            return ValidateEmailCode(matrixease_id, email_to_address, emailed_code);
         }
 
         [HttpGet("my_mangas")]
@@ -175,6 +213,12 @@ namespace Desktop.MatrixEase.Manga.Controllers
             }
 
             return new { Success = false };
+        }
+
+        [HttpGet("/api/session/my_mangas")]
+        public object MyMangasApi(string matrixease_id)
+        {
+            return MyMangas(matrixease_id);
         }
     }
 }

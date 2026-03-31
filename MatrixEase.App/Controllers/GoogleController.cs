@@ -41,6 +41,12 @@ namespace MatrixEase.Manga.com
             return new { Success =true };
         }
 
+        [HttpGet("/api/google/check_login")]
+        public object CheckLoginApi(string matrixease_id)
+        {
+            return CheckLogin(matrixease_id);
+        }
+
         [HttpGet("manual_login")]
         public RedirectResult ManualLogin(string matrixease_id)
         {
@@ -77,6 +83,12 @@ namespace MatrixEase.Manga.com
             }
 
             return new { Success = false };
+        }
+
+        [HttpGet("/api/google/sheet")]
+        public object GetApi(string matrixease_id, string manga_name, int header_row, int header_rows, int max_rows, bool ignore_blank_rows, bool ignore_text_case, bool trim_leading_whitespace, bool trim_trailing_whitespace, string ignore_cols, string sheet_id, string range)
+        {
+            return Get(matrixease_id, manga_name, header_row, header_rows, max_rows, ignore_blank_rows, ignore_text_case, trim_leading_whitespace, trim_trailing_whitespace, ignore_cols, sheet_id, range);
         }
     }
 }

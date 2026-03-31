@@ -230,6 +230,7 @@ MatrixEase.Static/.output/
 MatrixEase.Static/.nitro/
 MatrixEase.Static/.vite/
 MatrixEase.Static/dist/
+MatrixEase.Static/dist
 .ntvs_analysis.dat
 
 # Visual Studio 6 build log

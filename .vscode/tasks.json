@@ -12,6 +12,58 @@
         "Debug"
       ],
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build MatrixEase.App",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/MatrixEase.App/MatrixEase.App.csproj",
+        "--configuration",
+        "Debug"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build MatrixEase.Static",
+      "type": "shell",
+      "command": "npm --prefix MatrixEase.Static run generate:web",
+      "problemMatcher": []
+    },
+    {
+      "label": "dev MatrixEase.Static (Web)",
+      "type": "shell",
+      "command": "npm --prefix MatrixEase.Static run dev:web",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "custom",
+        "pattern": {
+          "regexp": "."
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*Nuxt.*",
+          "endsPattern": ".*Local:.*"
+        }
+      }
+    },
+    {
+      "label": "dev MatrixEase.Static (Electron)",
+      "type": "shell",
+      "command": "npm --prefix MatrixEase.Static run dev:electron",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "custom",
+        "pattern": {
+          "regexp": "."
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*Nuxt.*",
+          "endsPattern": ".*Local:.*"
+        }
+      }
     }
   ]
 }
