@@ -10,6 +10,7 @@ const busyMessage = ref('')
 const mangaName = ref('')
 const payload = ref<MatrixEasePayload | null>(null)
 const showingSettings = ref(false)
+const sidebarCollapsed = ref(false)
 const selectedColumnName = ref<string | null>(null)
 const selectedValueKey = ref<string | null>(null)
 const pendingExpression = ref('')
@@ -185,8 +186,14 @@ const svgHeight = computed(() =>
   return svgConfig.headerHeight + 24 + maxRenderedRows.value * (svgConfig.nodeHeight + svgConfig.nodeGap) + 24
 })
 
+const rowsSvgHeight = computed(() =>
+{
+  return 24 + maxRenderedRows.value * (svgConfig.nodeHeight + svgConfig.nodeGap) + 24
+})
+
 const svgXForColumn = (visualIndex: number) => visualIndex * (svgConfig.columnWidth + svgConfig.columnGap)
 const svgYForValue = (valueIndex: number) => svgConfig.headerHeight + 20 + valueIndex * (svgConfig.nodeHeight + svgConfig.nodeGap)
+const rowsSvgYForValue = (valueIndex: number) => 20 + valueIndex * (svgConfig.nodeHeight + svgConfig.nodeGap)
 
 const percentageLabel = (value: MatrixEaseColumnValue) =>
 {
@@ -603,8 +610,8 @@ onMounted(async () =>
 </script>
 
 <template>
-  <main class="h-screen overflow-hidden bg-slate-100 text-slate-900">
-    <div class="grid h-full grid-rows-[auto_auto_minmax(0,1fr)]">
+  <main class="min-h-screen bg-slate-100 text-slate-900">
+    <div class="grid min-h-screen grid-rows-[auto_auto_1fr]">
       <header class="border-b border-slate-200 bg-white">
         <div class="grid gap-3 px-3 py-2 xl:grid-cols-[minmax(0,1.6fr)_minmax(24rem,1fr)]">
           <div class="flex min-w-0 items-center gap-3">
@@ -651,19 +658,48 @@ onMounted(async () =>
         <USkeleton v-for="index in 6" :key="index" class="h-40 w-full" />
       </div>
 
-      <section v-else class="grid min-h-0 grid-cols-[22rem_minmax(0,1fr)]">
-        <aside class="grid min-h-0 grid-rows-[auto_minmax(0,1fr)] border-r border-slate-200 bg-white">
+      <section
+        v-else
+        class="grid items-start"
+        :style="{ gridTemplateColumns: sidebarCollapsed ? '3.75rem minmax(0,1fr)' : '22rem minmax(0,1fr)' }"
+      >
+        <aside class="sticky top-0 grid h-[calc(100vh-6.75rem)] grid-rows-[auto_minmax(0,1fr)] border-r border-slate-200 bg-white">
           <div class="flex items-center justify-between border-b border-slate-200 px-3 py-2">
             <div>
-              <h2 class="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">Inspector</h2>
-              <p class="text-xs text-slate-500">{{ selectionSummary }}</p>
+              <h2 class="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">{{ sidebarCollapsed ? 'Tools' : 'Inspector' }}</h2>
+              <p v-if="!sidebarCollapsed" class="text-xs text-slate-500">{{ selectionSummary }}</p>
             </div>
-            <UButton color="neutral" variant="outline" size="xs" @click="showingSettings = !showingSettings">
-              {{ showingSettings ? 'Hide Settings' : 'Settings' }}
+            <div class="flex items-center gap-2">
+              <UButton
+                v-if="!sidebarCollapsed"
+                color="neutral"
+                variant="outline"
+                size="xs"
+                @click="showingSettings = !showingSettings"
+              >
+                {{ showingSettings ? 'Hide Settings' : 'Settings' }}
+              </UButton>
+              <UButton
+                color="neutral"
+                variant="ghost"
+                size="xs"
+                @click="sidebarCollapsed = !sidebarCollapsed"
+              >
+                {{ sidebarCollapsed ? '>' : '<' }}
+              </UButton>
+            </div>
+          </div>
+
+          <div v-if="sidebarCollapsed" class="flex flex-col items-center gap-3 overflow-y-auto px-2 py-3">
+            <UButton color="neutral" variant="outline" size="xs" @click="sidebarCollapsed = false">
+              Open
+            </UButton>
+            <UButton color="primary" variant="soft" size="xs" @click="showingSettings = !showingSettings">
+              Set
             </UButton>
           </div>
 
-          <div class="space-y-3 overflow-y-auto px-3 py-3">
+          <div v-else class="space-y-3 overflow-y-auto px-3 py-3">
             <section class="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
               <div class="grid gap-2">
                 <div class="grid grid-cols-2 gap-2 text-xs">
@@ -915,76 +951,91 @@ onMounted(async () =>
           </div>
         </aside>
 
-        <section class="grid min-h-0 grid-rows-[minmax(0,1fr)_auto] bg-slate-100">
-          <div class="grid min-h-0 grid-rows-[auto_minmax(0,1fr)]">
-            <div class="flex items-center justify-between border-b border-slate-200 bg-white px-3 py-2">
-              <div>
-                <h2 class="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">Matrix Surface</h2>
-                <p class="text-xs text-slate-500">SVG workspace tuned for larger datasets and lower DOM overhead.</p>
-              </div>
-              <div class="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-slate-200 bg-slate-200 text-[11px]">
-                <div class="bg-slate-50 px-2 py-1 text-slate-600">{{ visibleColumns.length }} cols</div>
-                <div class="bg-slate-50 px-2 py-1 text-slate-600">{{ maxRenderedRows }} rows/col</div>
-              </div>
-            </div>
-
-            <div class="min-h-0 overflow-auto bg-slate-200 p-3">
-              <div class="min-h-full min-w-full overflow-x-auto rounded-xl border border-slate-300 bg-white">
-                <svg
-                  class="block"
-                  :width="svgWidth"
-                  :height="svgHeight"
-                  role="img"
-                  aria-label="MatrixEase SVG viewer"
-                >
-                  <g
-                    v-for="column in svgColumns"
-                    :key="column.name"
-                    :transform="`translate(${svgXForColumn(column.visualIndex)},0)`"
+        <section class="grid grid-rows-[auto] bg-slate-100">
+          <div class="max-h-[70vh] overflow-auto bg-slate-200 p-3">
+            <div class="w-max min-w-full">
+              <div class="sticky top-0 z-10 border-b border-slate-200 bg-slate-200 pb-0 pt-0">
+                <div class="flex items-center justify-between gap-3 rounded-t-xl border border-b-0 border-slate-300 bg-white px-3 py-2">
+                  <div class="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-slate-200 bg-slate-200 text-[11px]">
+                    <div class="bg-slate-50 px-2 py-1 text-slate-600">{{ visibleColumns.length }} cols</div>
+                    <div class="bg-slate-50 px-2 py-1 text-slate-600">{{ maxRenderedRows }} rows/col</div>
+                  </div>
+                </div>
+                <div class="inline-block rounded-t-xl border-x border-t border-slate-300 bg-white">
+                  <svg
+                    class="block"
+                    :width="svgWidth"
+                    :height="svgConfig.headerHeight + 8"
+                    role="img"
+                    aria-label="MatrixEase SVG column headers"
                   >
-                    <rect x="0" y="0" :width="svgConfig.columnWidth" :height="svgConfig.headerHeight" rx="10" fill="#f8fafc" stroke="#cbd5e1" />
-                    <text x="14" y="18" fill="#0f172a" font-size="14" font-weight="700">
-                      {{ trimSvgText(column.name, 24) }}
-                    </text>
-                    <text x="14" y="33" fill="#64748b" font-size="10">
-                      {{ trimSvgText(`${column.ColType} • ${column.DataType} • ${column.DistinctValues} distinct`, 34) }}
-                    </text>
-
                     <g
-                      v-for="(value, valueIndex) in column.renderValues"
-                      :key="`${column.name}-${value.ColumnValue}`"
-                      class="cursor-pointer"
-                      @click="selectValue(column.name, value)"
+                      v-for="column in svgColumns"
+                      :key="`header-${column.name}`"
+                      :transform="`translate(${svgXForColumn(column.visualIndex)},0)`"
                     >
-                      <rect
-                        x="0"
-                        :y="svgYForValue(valueIndex)"
-                        :width="svgConfig.columnWidth"
-                        :height="svgConfig.nodeHeight"
-                        rx="10"
-                        :fill="selectedColumnName === column.name && selectedValueKey === value.ColumnValue ? '#ccfbf1' : '#ffffff'"
-                        :stroke="selectedColumnName === column.name && selectedValueKey === value.ColumnValue ? '#14b8a6' : '#cbd5e1'"
-                        stroke-width="1.5"
-                      />
-                      <rect x="10" :y="svgYForValue(valueIndex) + 38" :width="svgTotalBarWidth(value)" height="9" rx="4" fill="#bbf7d0" />
-                      <rect x="10" :y="svgYForValue(valueIndex) + 38" :width="svgBarWidth(value)" height="9" rx="4" fill="#14b8a6" />
-                      <text x="14" :y="svgYForValue(valueIndex) + 18" fill="#0f172a" font-size="12" font-weight="600">
-                        {{ trimSvgText(value.ColumnValue || '(empty)', 28) }}
+                      <rect x="0" y="0" :width="svgConfig.columnWidth" :height="svgConfig.headerHeight" rx="10" fill="#f8fafc" stroke="#cbd5e1" />
+                      <text x="14" y="18" fill="#0f172a" font-size="14" font-weight="700">
+                        {{ trimSvgText(column.name, 24) }}
                       </text>
-                      <text x="14" :y="svgYForValue(valueIndex) + 31" fill="#64748b" font-size="10">
-                        {{ trimSvgText(percentageLabel(value), 32) }}
-                      </text>
-                      <text x="14" :y="svgYForValue(valueIndex) + 58" fill="#64748b" font-size="10">
-                        {{ trimSvgText(`Total ${value.TotalPct.toFixed(2)}% • Rows ${value.SelectedValues}`, 34) }}
+                      <text x="14" y="33" fill="#64748b" font-size="10">
+                        {{ trimSvgText(`${column.ColType} • ${column.DataType} • ${column.DistinctValues} distinct`, 34) }}
                       </text>
                     </g>
-                  </g>
-                </svg>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="pt-0">
+                <div class="inline-block rounded-b-xl border border-t-0 border-slate-300 bg-white">
+                  <svg
+                    class="block"
+                    :width="svgWidth"
+                    :height="rowsSvgHeight"
+                    role="img"
+                    aria-label="MatrixEase SVG rows"
+                  >
+                    <g
+                      v-for="column in svgColumns"
+                      :key="`rows-${column.name}`"
+                      :transform="`translate(${svgXForColumn(column.visualIndex)},0)`"
+                    >
+                      <g
+                        v-for="(value, valueIndex) in column.renderValues"
+                        :key="`${column.name}-${value.ColumnValue}`"
+                        class="cursor-pointer"
+                        @click="selectValue(column.name, value)"
+                      >
+                        <rect
+                          x="0"
+                          :y="rowsSvgYForValue(valueIndex)"
+                          :width="svgConfig.columnWidth"
+                          :height="svgConfig.nodeHeight"
+                          rx="10"
+                          :fill="selectedColumnName === column.name && selectedValueKey === value.ColumnValue ? '#ccfbf1' : '#ffffff'"
+                          :stroke="selectedColumnName === column.name && selectedValueKey === value.ColumnValue ? '#14b8a6' : '#cbd5e1'"
+                          stroke-width="1.5"
+                        />
+                        <rect x="10" :y="rowsSvgYForValue(valueIndex) + 38" :width="svgTotalBarWidth(value)" height="9" rx="4" fill="#bbf7d0" />
+                        <rect x="10" :y="rowsSvgYForValue(valueIndex) + 38" :width="svgBarWidth(value)" height="9" rx="4" fill="#14b8a6" />
+                        <text x="14" :y="rowsSvgYForValue(valueIndex) + 18" fill="#0f172a" font-size="12" font-weight="600">
+                          {{ trimSvgText(value.ColumnValue || '(empty)', 28) }}
+                        </text>
+                        <text x="14" :y="rowsSvgYForValue(valueIndex) + 31" fill="#64748b" font-size="10">
+                          {{ trimSvgText(percentageLabel(value), 32) }}
+                        </text>
+                        <text x="14" :y="rowsSvgYForValue(valueIndex) + 58" fill="#64748b" font-size="10">
+                          {{ trimSvgText(`Total ${value.TotalPct.toFixed(2)}% • Rows ${value.SelectedValues}`, 34) }}
+                        </text>
+                      </g>
+                    </g>
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="max-h-[38vh] overflow-auto border-t border-slate-200 bg-white">
+          <div class="border-t border-slate-200 bg-white">
             <div class="grid gap-3 p-3 xl:grid-cols-2">
               <div v-if="columnStats" class="overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
                 <div class="flex items-center justify-between border-b border-slate-200 px-3 py-2">
@@ -1128,6 +1179,7 @@ onMounted(async () =>
               </div>
             </div>
           </div>
+
         </section>
       </section>
     </div>
