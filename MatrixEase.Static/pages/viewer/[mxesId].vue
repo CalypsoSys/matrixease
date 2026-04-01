@@ -55,6 +55,14 @@ const chartPanel = reactive({
   countIndexes: [] as number[]
 })
 
+const svgConfig = {
+  columnWidth: 280,
+  columnGap: 20,
+  headerHeight: 42,
+  nodeHeight: 68,
+  nodeGap: 10
+}
+
 const columnEntries = computed(() =>
 {
   if (!payload.value) {
@@ -78,13 +86,6 @@ const visibleColumns = computed(() =>
   return columnEntries.value.filter(column => payload.value?.HideColumns[column.Index] !== true)
 })
 
-const topValues = (column: MatrixEaseColumn) =>
-{
-  return column.Values
-    .filter(value => showValue(value.SelectRelPct))
-    .slice(0, 18)
-}
-
 const selectedColumn = computed(() =>
 {
   if (!selectedColumnName.value) {
@@ -103,6 +104,24 @@ const selectedNode = computed(() =>
   return selectedColumn.value.Values.find(value => value.ColumnValue === selectedValueKey.value) ?? null
 })
 
+const selectedNodeToken = computed(() =>
+{
+  if (!selectedColumn.value || !selectedNode.value) {
+    return ''
+  }
+
+  return `${selectedNode.value.ColumnValue}@${selectedColumn.value.name}:${selectedColumn.value.Index}`
+})
+
+const selectionSummary = computed(() =>
+{
+  if (!selectedColumn.value || !selectedNode.value) {
+    return 'Select a value to inspect it and build filters.'
+  }
+
+  return `${selectedNode.value.ColumnValue || '(empty)'} @ ${selectedColumn.value.name}`
+})
+
 const measureColumns = computed(() =>
 {
   return visibleColumns.value
@@ -115,28 +134,6 @@ const dimensionColumns = computed(() =>
   return visibleColumns.value
     .filter(column => column.ColType !== 'Measure' || column.DistinctValues <= 100)
     .map(column => ({ name: column.name, index: column.Index }))
-})
-
-const selectedNodeToken = computed(() =>
-{
-  if (!selectedColumn.value || !selectedNode.value) {
-    return ''
-  }
-
-  return `${selectedNode.value.ColumnValue}@${selectedColumn.value.name}:${selectedColumn.value.Index}`
-})
-
-const matrixColumnStyle = computed(() => ({
-  gridTemplateColumns: `repeat(${Math.max(visibleColumns.value.length, 1)}, minmax(18rem, 1fr))`
-}))
-
-const selectionSummary = computed(() =>
-{
-  if (!selectedColumn.value || !selectedNode.value) {
-    return 'Select a value to inspect it and build filters.'
-  }
-
-  return `${selectedNode.value.ColumnValue || '(empty)'} @ ${selectedColumn.value.name}`
 })
 
 const showValue = (selectRelPct: number) =>
@@ -156,11 +153,40 @@ const showValue = (selectRelPct: number) =>
   return false
 }
 
-const barWidth = (value: MatrixEaseColumnValue) =>
+const renderedValuesForColumn = (column: MatrixEaseColumn) =>
 {
-  const metric = settings.showPercentage === 'pct_of_sel' ? value.SelectRelPct : value.SelectAllPct
-  return `${Math.max(4, Math.min(metric, 100))}%`
+  return column.Values
+    .filter(value => showValue(value.SelectRelPct))
+    .slice(0, 24)
 }
+
+const svgColumns = computed(() =>
+{
+  return visibleColumns.value.map((column, visualIndex) => ({
+    ...column,
+    visualIndex,
+    renderValues: renderedValuesForColumn(column)
+  }))
+})
+
+const maxRenderedRows = computed(() =>
+{
+  return Math.max(1, ...svgColumns.value.map(column => column.renderValues.length))
+})
+
+const svgWidth = computed(() =>
+{
+  const count = Math.max(svgColumns.value.length, 1)
+  return count * svgConfig.columnWidth + Math.max(count - 1, 0) * svgConfig.columnGap + 24
+})
+
+const svgHeight = computed(() =>
+{
+  return svgConfig.headerHeight + 24 + maxRenderedRows.value * (svgConfig.nodeHeight + svgConfig.nodeGap) + 24
+})
+
+const svgXForColumn = (visualIndex: number) => visualIndex * (svgConfig.columnWidth + svgConfig.columnGap)
+const svgYForValue = (valueIndex: number) => svgConfig.headerHeight + 20 + valueIndex * (svgConfig.nodeHeight + svgConfig.nodeGap)
 
 const percentageLabel = (value: MatrixEaseColumnValue) =>
 {
@@ -169,6 +195,26 @@ const percentageLabel = (value: MatrixEaseColumnValue) =>
   }
 
   return `Selected total ${value.SelectAllPct.toFixed(2)}%`
+}
+
+const svgBarWidth = (value: MatrixEaseColumnValue) =>
+{
+  const metric = settings.showPercentage === 'pct_of_sel' ? value.SelectRelPct : value.SelectAllPct
+  return Math.max(10, Math.min(svgConfig.columnWidth - 20, ((svgConfig.columnWidth - 20) * metric) / 100))
+}
+
+const svgTotalBarWidth = (value: MatrixEaseColumnValue) =>
+{
+  return Math.max(10, Math.min(svgConfig.columnWidth - 20, ((svgConfig.columnWidth - 20) * value.TotalPct) / 100))
+}
+
+const trimSvgText = (value: string, maxLength: number) =>
+{
+  if (value.length <= maxLength) {
+    return value
+  }
+
+  return `${value.slice(0, Math.max(0, maxLength - 1))}…`
 }
 
 const syncSettingsFromPayload = () =>
@@ -186,6 +232,7 @@ const syncSettingsFromPayload = () =>
   settings.colAscending = payload.value.ColAscending
   settings.hideColumns = [...payload.value.HideColumns]
   pendingExpression.value = payload.value.SelectionExpression ?? ''
+
   if (selectedColumn.value) {
     bucketForm.bucketized = selectedColumn.value.Bucketized
     bucketForm.bucketSize = selectedColumn.value.CurBucketSize
@@ -219,6 +266,7 @@ const selectValue = (columnName: string, value: MatrixEaseColumnValue) =>
 {
   selectedColumnName.value = columnName
   selectedValueKey.value = value.ColumnValue
+
   const column = visibleColumns.value.find(item => item.name === columnName)
   if (column) {
     bucketForm.bucketized = column.Bucketized
@@ -238,8 +286,7 @@ const appendSelection = (mode?: string) =>
   const operation = mode ?? settings.selectOperation
 
   if (pendingExpression.value && (operation === 'or_selection' || operation === 'and_selections')) {
-    const operator = operation === 'or_selection' ? ' OR ' : ' AND '
-    pendingExpression.value = `${pendingExpression.value}${operator}${expression}`
+    pendingExpression.value = `${pendingExpression.value}${operation === 'or_selection' ? ' OR ' : ' AND '}${expression}`
   } else {
     pendingExpression.value = expression
   }
@@ -248,6 +295,31 @@ const appendSelection = (mode?: string) =>
 const clearExpression = () =>
 {
   pendingExpression.value = ''
+}
+
+const refreshMatrixFromPickup = async (pickupKey: string) =>
+{
+  if (!session.matrixEaseId.value) {
+    return
+  }
+
+  const mxesId = String(route.params.mxesId ?? '')
+  for (let attempt = 0; attempt < 120; attempt += 1) {
+    const pickup = await api.getPickupStatus(session.matrixEaseId.value, mxesId, pickupKey)
+    if (!pickup.Success) {
+      throw new Error(pickup.Message ?? 'Failed while waiting for matrix update.')
+    }
+
+    if (pickup.Complete && pickup.Results) {
+      payload.value = pickup.Results
+      syncSettingsFromPayload()
+      return
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 1000))
+  }
+
+  throw new Error('Timed out waiting for updated matrix results.')
 }
 
 const applyCurrentFilter = async () =>
@@ -268,24 +340,9 @@ const applyCurrentFilter = async () =>
       throw new Error(result.Error ?? 'Failed to start filter update.')
     }
 
-    for (let attempt = 0; attempt < 120; attempt += 1) {
-      const pickup = await api.getPickupStatus(session.matrixEaseId.value, mxesId, result.PickupKey)
-      if (!pickup.Success) {
-        throw new Error(pickup.Message ?? 'Failed while waiting for filtered results.')
-      }
-
-      if (pickup.Complete && pickup.Results) {
-        payload.value = pickup.Results
-        syncSettingsFromPayload()
-        successMessage.value = 'Matrix filter updated.'
-        busyMessage.value = ''
-        return
-      }
-
-      await new Promise(resolve => setTimeout(resolve, 1000))
-    }
-
-    throw new Error('Timed out waiting for filter results.')
+    await refreshMatrixFromPickup(result.PickupKey)
+    successMessage.value = 'Matrix filter updated.'
+    busyMessage.value = ''
   } catch (error) {
     busyMessage.value = ''
     errorMessage.value = error instanceof Error ? error.message : 'Failed to apply filter.'
@@ -323,13 +380,12 @@ const saveSettings = async () =>
 
 const toggleIndexSelection = (list: number[], index: number) =>
 {
-  const matchIndex = list.indexOf(index)
-  if (matchIndex >= 0) {
-    list.splice(matchIndex, 1)
-    return
+  const existingIndex = list.indexOf(index)
+  if (existingIndex >= 0) {
+    list.splice(existingIndex, 1)
+  } else {
+    list.push(index)
   }
-
-  list.push(index)
 }
 
 const runColumnAction = async (action: () => Promise<void>) =>
@@ -345,31 +401,6 @@ const runColumnAction = async (action: () => Promise<void>) =>
   } finally {
     runningColumnAction.value = false
   }
-}
-
-const refreshMatrixFromPickup = async (pickupKey: string) =>
-{
-  if (!session.matrixEaseId.value) {
-    return
-  }
-
-  const mxesId = String(route.params.mxesId ?? '')
-  for (let attempt = 0; attempt < 120; attempt += 1) {
-    const pickup = await api.getPickupStatus(session.matrixEaseId.value, mxesId, pickupKey)
-    if (!pickup.Success) {
-      throw new Error(pickup.Message ?? 'Failed while waiting for matrix update.')
-    }
-
-    if (pickup.Complete && pickup.Results) {
-      payload.value = pickup.Results
-      syncSettingsFromPayload()
-      return
-    }
-
-    await new Promise(resolve => setTimeout(resolve, 1000))
-  }
-
-  throw new Error('Timed out waiting for updated matrix results.')
 }
 
 const applyBucketSettings = async () =>
@@ -572,278 +603,261 @@ onMounted(async () =>
 </script>
 
 <template>
-  <main class="min-h-screen text-slate-900">
-    <div class="mx-auto flex min-h-screen max-w-7xl flex-col gap-8 px-4 py-6 sm:px-6 lg:px-8">
-      <section class="overflow-hidden rounded-[2rem] border border-white/70 bg-white/80 shadow-2xl shadow-slate-300/40 backdrop-blur">
-        <div class="grid gap-6 p-8 lg:grid-cols-[1.2fr_0.8fr] lg:p-10">
-          <div class="space-y-4">
-            <UBadge color="primary" variant="soft" size="lg">
-              Matrix Viewer
-            </UBadge>
-            <h1 class="text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
-              {{ mangaName || 'Loading MatrixEase' }}
-            </h1>
-            <p class="max-w-2xl text-base leading-7 text-slate-600">
-              This is the first Nuxt-based viewer route. It loads the saved matrix payload and renders a readable column/value summary while the legacy SVG-heavy interactions are still being migrated.
-            </p>
-            <div class="flex flex-wrap gap-3">
-              <UButton color="primary" to="/">
-                Back Home
-              </UButton>
+  <main class="h-screen overflow-hidden bg-slate-100 text-slate-900">
+    <div class="grid h-full grid-rows-[auto_auto_minmax(0,1fr)]">
+      <header class="border-b border-slate-200 bg-white">
+        <div class="grid gap-3 px-3 py-2 xl:grid-cols-[minmax(0,1.6fr)_minmax(24rem,1fr)]">
+          <div class="flex min-w-0 items-center gap-3">
+            <UButton color="primary" variant="soft" size="sm" to="/">
+              Home
+            </UButton>
+            <UBadge color="primary" variant="soft">Matrix Viewer</UBadge>
+            <div class="min-w-0">
+              <p class="text-[11px] font-medium uppercase tracking-[0.22em] text-slate-500">Shared Nuxt Workspace</p>
+              <h1 class="truncate text-lg font-semibold text-slate-950">
+                {{ mangaName || 'Loading MatrixEase' }}
+              </h1>
             </div>
           </div>
 
-          <UCard class="border-slate-200/80 bg-slate-950 text-white">
-            <template #header>
-              <h2 class="text-sm font-medium uppercase tracking-[0.3em] text-teal-200">Summary</h2>
-            </template>
-            <div v-if="payload" class="grid gap-4 text-sm">
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <p class="text-slate-400">Total rows</p>
-                  <p class="text-2xl font-semibold text-white">{{ payload.TotalRows.toLocaleString() }}</p>
-                </div>
-                <div>
-                  <p class="text-slate-400">Selected rows</p>
-                  <p class="text-2xl font-semibold text-white">{{ payload.SelectedRows.toLocaleString() }}</p>
-                </div>
-              </div>
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <p class="text-slate-400">Columns</p>
-                  <p class="text-xl font-semibold text-white">{{ visibleColumns.length }}</p>
-                </div>
-                <div>
-                  <p class="text-slate-400">Selection mode</p>
-                  <p class="font-medium text-white">{{ payload.SelectOperation }}</p>
-                </div>
-              </div>
-              <div>
-                <p class="text-slate-400">Current expression</p>
-                <p class="font-medium text-white">{{ payload.SelectionExpression || 'None' }}</p>
-              </div>
+          <div v-if="payload" class="grid grid-cols-4 gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-200 text-sm">
+            <div class="bg-slate-50 px-3 py-2">
+              <p class="text-[10px] uppercase tracking-[0.18em] text-slate-500">Rows</p>
+              <p class="font-semibold text-slate-950">{{ payload.TotalRows.toLocaleString() }}</p>
             </div>
-          </UCard>
+            <div class="bg-slate-50 px-3 py-2">
+              <p class="text-[10px] uppercase tracking-[0.18em] text-slate-500">Selected</p>
+              <p class="font-semibold text-slate-950">{{ payload.SelectedRows.toLocaleString() }}</p>
+            </div>
+            <div class="bg-slate-50 px-3 py-2">
+              <p class="text-[10px] uppercase tracking-[0.18em] text-slate-500">Visible</p>
+              <p class="font-semibold text-slate-950">{{ visibleColumns.length }}</p>
+            </div>
+            <div class="bg-slate-50 px-3 py-2">
+              <p class="text-[10px] uppercase tracking-[0.18em] text-slate-500">Mode</p>
+              <p class="truncate font-semibold text-slate-950">{{ payload.SelectOperation }}</p>
+            </div>
+          </div>
         </div>
-      </section>
+      </header>
 
-      <UAlert
-        v-if="errorMessage"
-        color="error"
-        variant="soft"
-        :description="errorMessage"
-      />
-      <UAlert
-        v-if="successMessage"
-        color="success"
-        variant="soft"
-        :description="successMessage"
-      />
-      <UAlert
-        v-if="busyMessage"
-        color="info"
-        variant="soft"
-        :description="busyMessage"
-      />
-
-      <div v-if="loading" class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <USkeleton v-for="index in 6" :key="index" class="h-44 w-full" />
+      <div class="space-y-2 border-b border-slate-200 bg-slate-100 px-3 py-2">
+        <UAlert v-if="errorMessage" color="error" variant="soft" :description="errorMessage" />
+        <UAlert v-if="successMessage" color="success" variant="soft" :description="successMessage" />
+        <UAlert v-if="busyMessage" color="info" variant="soft" :description="busyMessage" />
       </div>
 
-      <section v-else class="grid gap-6 xl:grid-cols-[0.95fr_1.55fr]">
-        <div class="space-y-6">
-          <UCard class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur">
-            <template #header>
-              <div class="flex items-center justify-between gap-3">
-                <h2 class="text-lg font-semibold text-slate-950">Selection</h2>
-                <UButton color="neutral" variant="outline" @click="showingSettings = !showingSettings">
-                  {{ showingSettings ? 'Close Settings' : 'Viewer Settings' }}
-                </UButton>
+      <div v-if="loading" class="grid gap-3 overflow-auto px-3 py-3 md:grid-cols-2 xl:grid-cols-3">
+        <USkeleton v-for="index in 6" :key="index" class="h-40 w-full" />
+      </div>
+
+      <section v-else class="grid min-h-0 grid-cols-[22rem_minmax(0,1fr)]">
+        <aside class="grid min-h-0 grid-rows-[auto_minmax(0,1fr)] border-r border-slate-200 bg-white">
+          <div class="flex items-center justify-between border-b border-slate-200 px-3 py-2">
+            <div>
+              <h2 class="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">Inspector</h2>
+              <p class="text-xs text-slate-500">{{ selectionSummary }}</p>
+            </div>
+            <UButton color="neutral" variant="outline" size="xs" @click="showingSettings = !showingSettings">
+              {{ showingSettings ? 'Hide Settings' : 'Settings' }}
+            </UButton>
+          </div>
+
+          <div class="space-y-3 overflow-y-auto px-3 py-3">
+            <section class="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
+              <div class="grid gap-2">
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                  <div class="rounded-lg border border-slate-200 bg-white px-2 py-2">
+                    <p class="uppercase tracking-[0.16em] text-slate-500">Focus</p>
+                    <p class="mt-1 font-medium text-slate-900">{{ selectedNode?.ColumnValue || '(none)' }}</p>
+                  </div>
+                  <div class="rounded-lg border border-slate-200 bg-white px-2 py-2">
+                    <p class="uppercase tracking-[0.16em] text-slate-500">Column</p>
+                    <p class="mt-1 truncate font-medium text-slate-900">{{ selectedColumn?.name || '(none)' }}</p>
+                  </div>
+                </div>
+
+                <UFormField label="Selection expression">
+                  <UTextarea v-model="pendingExpression" :rows="4" autoresize />
+                </UFormField>
+
+                <div class="grid grid-cols-2 gap-2">
+                  <UButton color="primary" size="sm" @click="appendSelection('overwrite_selection')">
+                    Set
+                  </UButton>
+                  <UButton color="neutral" variant="outline" size="sm" @click="clearExpression">
+                    Clear
+                  </UButton>
+                  <UButton color="neutral" variant="outline" size="sm" @click="appendSelection('and_selections')">
+                    And
+                  </UButton>
+                  <UButton color="neutral" variant="outline" size="sm" @click="appendSelection('or_selection')">
+                    Or
+                  </UButton>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                  <UButton color="primary" size="sm" :loading="applyingFilter" @click="applyCurrentFilter">
+                    Apply Filter
+                  </UButton>
+                  <UButton color="neutral" variant="outline" size="sm" @click="loadViewer">
+                    Reload
+                  </UButton>
+                </div>
               </div>
-            </template>
+            </section>
 
-            <div class="space-y-4">
-              <div class="rounded-2xl bg-slate-50 p-4">
-                <p class="text-sm text-slate-500">Current focus</p>
-                <p class="mt-1 font-medium text-slate-900">{{ selectionSummary }}</p>
-              </div>
-
-              <UFormField label="Pending expression">
-                <UTextarea v-model="pendingExpression" :rows="4" autoresize />
-              </UFormField>
-
-              <div class="flex flex-wrap gap-3">
-                <UButton color="primary" @click="appendSelection('overwrite_selection')">
-                  Set Selection
-                </UButton>
-                <UButton color="neutral" variant="outline" @click="appendSelection('and_selections')">
-                  And
-                </UButton>
-                <UButton color="neutral" variant="outline" @click="appendSelection('or_selection')">
-                  Or
-                </UButton>
-                <UButton color="neutral" variant="ghost" @click="clearExpression">
-                  Clear
-                </UButton>
-              </div>
-
-              <div class="flex flex-wrap gap-3">
-                <UButton color="primary" :loading="applyingFilter" @click="applyCurrentFilter">
-                  Apply Filter
-                </UButton>
-                <UButton color="neutral" variant="outline" @click="loadViewer">
-                  Reload Matrix
-                </UButton>
-              </div>
-
-              <div v-if="selectedColumn" class="space-y-3 rounded-2xl bg-slate-50 p-4">
+            <section v-if="selectedColumn" class="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
+              <div class="flex items-start justify-between gap-3">
                 <div>
-                  <p class="text-sm text-slate-500">Selected column</p>
-                  <p class="font-medium text-slate-900">{{ selectedColumn.name }} • {{ selectedColumn.DataType }}</p>
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">Column Tools</p>
+                  <p class="font-medium text-slate-900">{{ selectedColumn.name }}</p>
+                  <p class="text-xs text-slate-500">{{ selectedColumn.ColType }} • {{ selectedColumn.DataType }}</p>
                 </div>
+              </div>
 
-                <div class="flex flex-wrap gap-3">
-                  <UButton color="neutral" variant="outline" :loading="runningColumnAction" @click="loadColumnStats">
-                    Column Stats
-                  </UButton>
-                  <UButton color="neutral" variant="outline" @click="openColumnReport">
-                    Column Report
-                  </UButton>
-                </div>
-
-                <div class="grid gap-3 md:grid-cols-2">
-                  <UCheckbox v-model="bucketForm.bucketized" label="Bucketized" />
-                  <UFormField label="Bucket type">
-                    <UInput v-model.number="bucketForm.bucketSize" type="number" />
-                  </UFormField>
-                  <UFormField label="Bucket modifier">
-                    <UInput v-model.number="bucketForm.bucketMod" type="number" step="any" />
-                  </UFormField>
-                </div>
-
-                <UButton color="primary" :loading="runningColumnAction" @click="applyBucketSettings">
-                  Apply Bucket Settings
+              <div class="grid grid-cols-2 gap-2">
+                <UButton color="neutral" variant="outline" size="sm" :loading="runningColumnAction" @click="loadColumnStats">
+                  Stats
+                </UButton>
+                <UButton color="neutral" variant="outline" size="sm" @click="openColumnReport">
+                  Report
                 </UButton>
               </div>
 
-              <div v-if="selectedNode" class="space-y-3 rounded-2xl bg-slate-50 p-4">
-                <div>
-                  <p class="text-sm text-slate-500">Selected value</p>
-                  <p class="font-medium text-slate-900">{{ selectedNode.ColumnValue || '(empty)' }}</p>
-                </div>
-
-                <div class="flex flex-wrap gap-3">
-                  <UButton color="neutral" variant="outline" :loading="runningColumnAction" @click="loadNodeRows">
-                    Node Rows
-                  </UButton>
-                  <UButton color="neutral" variant="outline" :loading="runningColumnAction" @click="loadDuplicateEntries">
-                    Duplicate Entries
-                  </UButton>
-                  <UButton color="neutral" variant="outline" :loading="runningColumnAction" @click="loadDependencyDiagram">
-                    Dependency Data
-                  </UButton>
-                </div>
+              <div class="grid gap-2">
+                <UCheckbox v-model="bucketForm.bucketized" label="Bucketized" />
+                <UFormField label="Bucket size">
+                  <UInput v-model.number="bucketForm.bucketSize" type="number" />
+                </UFormField>
+                <UFormField label="Bucket modifier">
+                  <UInput v-model.number="bucketForm.bucketMod" type="number" step="any" />
+                </UFormField>
               </div>
 
-              <div v-if="selectedNode && measureColumns.length > 0" class="space-y-3 rounded-2xl bg-slate-50 p-4">
-                <div>
-                  <p class="text-sm text-slate-500">Measures for selected value</p>
-                  <p class="font-medium text-slate-900">Choose measure columns and compute aggregates.</p>
-                </div>
-                <UCheckbox v-model="measuresPanel.filtered" label="Use filtered results" />
-                <div class="grid gap-2 md:grid-cols-2">
+              <UButton color="primary" size="sm" :loading="runningColumnAction" @click="applyBucketSettings">
+                Apply Bucket Settings
+              </UButton>
+            </section>
+
+            <section v-if="selectedNode" class="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
+              <div>
+                <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">Value Tools</p>
+                <p class="font-medium text-slate-900">{{ selectedNode.ColumnValue || '(empty)' }}</p>
+                <p class="text-xs text-slate-500">{{ percentageLabel(selectedNode) }}</p>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <UButton color="neutral" variant="outline" size="sm" :loading="runningColumnAction" @click="loadNodeRows">
+                  Rows
+                </UButton>
+                <UButton color="neutral" variant="outline" size="sm" :loading="runningColumnAction" @click="loadDuplicateEntries">
+                  Duplicates
+                </UButton>
+                <UButton color="neutral" variant="outline" size="sm" :loading="runningColumnAction" @click="loadDependencyDiagram">
+                  Dependency
+                </UButton>
+              </div>
+            </section>
+
+            <section v-if="selectedNode && measureColumns.length > 0" class="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
+              <div>
+                <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">Measures</p>
+                <p class="text-xs text-slate-500">Compute aggregates for the selected node.</p>
+              </div>
+
+              <UCheckbox v-model="measuresPanel.filtered" label="Use filtered results" />
+
+              <div class="grid gap-2">
+                <UCheckbox
+                  v-for="column in measureColumns"
+                  :key="column.index"
+                  :model-value="measuresPanel.selectedIndexes.includes(column.index)"
+                  :label="column.name"
+                  @update:model-value="() => toggleIndexSelection(measuresPanel.selectedIndexes, column.index)"
+                />
+              </div>
+
+              <UButton color="primary" size="sm" :loading="runningColumnAction" @click="loadMeasures">
+                Load Measures
+              </UButton>
+            </section>
+
+            <section class="space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
+              <div>
+                <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">Quick Charts</p>
+                <p class="text-xs text-slate-500">Run report or chart queries without leaving the viewer.</p>
+              </div>
+
+              <div class="grid gap-2">
+                <UFormField label="Dimension">
+                  <USelect
+                    v-model="chartPanel.dimensionIndex"
+                    :items="dimensionColumns.map(column => ({ label: column.name, value: column.index }))"
+                    option-attribute="label"
+                    value-attribute="value"
+                  />
+                </UFormField>
+                <UFormField label="Mode">
+                  <USelect
+                    v-model="chartPanel.chartType"
+                    :items="[
+                      { label: 'Report', value: 'report' },
+                      { label: 'Bar', value: 'bar' },
+                      { label: 'Line', value: 'line' },
+                      { label: 'Radar', value: 'radar' },
+                      { label: 'Polar Area', value: 'polarArea' }
+                    ]"
+                    option-attribute="label"
+                    value-attribute="value"
+                  />
+                </UFormField>
+              </div>
+
+              <UCheckbox v-model="chartPanel.filtered" label="Use filtered results" />
+
+              <div class="grid gap-3">
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">Totals</p>
                   <UCheckbox
                     v-for="column in measureColumns"
-                    :key="column.index"
-                    :model-value="measuresPanel.selectedIndexes.includes(column.index)"
+                    :key="`tot-${column.index}`"
+                    :model-value="chartPanel.totalIndexes.includes(column.index)"
                     :label="column.name"
-                    @update:model-value="() => toggleIndexSelection(measuresPanel.selectedIndexes, column.index)"
+                    @update:model-value="() => toggleIndexSelection(chartPanel.totalIndexes, column.index)"
                   />
                 </div>
-                <UButton color="primary" :loading="runningColumnAction" @click="loadMeasures">
-                  Load Measures
-                </UButton>
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">Averages</p>
+                  <UCheckbox
+                    v-for="column in measureColumns"
+                    :key="`avg-${column.index}`"
+                    :model-value="chartPanel.averageIndexes.includes(column.index)"
+                    :label="column.name"
+                    @update:model-value="() => toggleIndexSelection(chartPanel.averageIndexes, column.index)"
+                  />
+                </div>
+                <div class="space-y-1">
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">Counts</p>
+                  <UCheckbox
+                    v-for="column in dimensionColumns"
+                    :key="`cnt-${column.index}`"
+                    :model-value="chartPanel.countIndexes.includes(column.index)"
+                    :label="column.name"
+                    @update:model-value="() => toggleIndexSelection(chartPanel.countIndexes, column.index)"
+                  />
+                </div>
               </div>
 
-              <div class="space-y-3 rounded-2xl bg-slate-50 p-4">
-                <div>
-                  <p class="text-sm text-slate-500">Quick chart / report</p>
-                  <p class="font-medium text-slate-900">Use matrix columns directly without leaving the viewer.</p>
-                </div>
-                <div class="grid gap-3 md:grid-cols-2">
-                  <UFormField label="Dimension">
-                    <USelect
-                      v-model="chartPanel.dimensionIndex"
-                      :items="dimensionColumns.map(column => ({ label: column.name, value: column.index }))"
-                      option-attribute="label"
-                      value-attribute="value"
-                    />
-                  </UFormField>
-                  <UFormField label="Mode">
-                    <USelect
-                      v-model="chartPanel.chartType"
-                      :items="[
-                        { label: 'Report', value: 'report' },
-                        { label: 'Bar', value: 'bar' },
-                        { label: 'Line', value: 'line' },
-                        { label: 'Radar', value: 'radar' },
-                        { label: 'Polar Area', value: 'polarArea' }
-                      ]"
-                      option-attribute="label"
-                      value-attribute="value"
-                    />
-                  </UFormField>
-                </div>
-                <UCheckbox v-model="chartPanel.filtered" label="Use filtered results" />
-                <div class="grid gap-3 md:grid-cols-3">
-                  <div class="space-y-2">
-                    <p class="text-sm font-medium text-slate-700">Total</p>
-                    <UCheckbox
-                      v-for="column in measureColumns"
-                      :key="`tot-${column.index}`"
-                      :model-value="chartPanel.totalIndexes.includes(column.index)"
-                      :label="column.name"
-                      @update:model-value="() => toggleIndexSelection(chartPanel.totalIndexes, column.index)"
-                    />
-                  </div>
-                  <div class="space-y-2">
-                    <p class="text-sm font-medium text-slate-700">Average</p>
-                    <UCheckbox
-                      v-for="column in measureColumns"
-                      :key="`avg-${column.index}`"
-                      :model-value="chartPanel.averageIndexes.includes(column.index)"
-                      :label="column.name"
-                      @update:model-value="() => toggleIndexSelection(chartPanel.averageIndexes, column.index)"
-                    />
-                  </div>
-                  <div class="space-y-2">
-                    <p class="text-sm font-medium text-slate-700">Count</p>
-                    <UCheckbox
-                      v-for="column in dimensionColumns"
-                      :key="`cnt-${column.index}`"
-                      :model-value="chartPanel.countIndexes.includes(column.index)"
-                      :label="column.name"
-                      @update:model-value="() => toggleIndexSelection(chartPanel.countIndexes, column.index)"
-                    />
-                  </div>
-                </div>
-                <UButton color="primary" :loading="runningColumnAction" @click="loadQuickChartOrReport">
-                  Load Chart / Report
-                </UButton>
-              </div>
-            </div>
-          </UCard>
+              <UButton color="primary" size="sm" :loading="runningColumnAction" @click="loadQuickChartOrReport">
+                Load Chart / Report
+              </UButton>
+            </section>
 
-          <UCard
-            v-if="showingSettings"
-            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
-          >
-            <template #header>
-              <h2 class="text-lg font-semibold text-slate-950">Viewer Settings</h2>
-            </template>
+            <section v-if="showingSettings" class="space-y-4 rounded-xl border border-slate-200 bg-slate-50 p-3">
+              <h2 class="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">Viewer Settings</h2>
 
-            <div class="space-y-5">
-              <div class="grid gap-4 md:grid-cols-2">
+              <div class="grid gap-3">
                 <UFormField label="Low bound">
                   <UInput v-model.number="settings.showLowBound" type="number" />
                 </UFormField>
@@ -875,15 +889,15 @@ onMounted(async () =>
                 </UFormField>
               </div>
 
-              <div class="grid gap-3 md:grid-cols-2">
+              <div class="grid gap-2">
                 <UCheckbox v-model="settings.showLowEqual" label="Include low bound" />
                 <UCheckbox v-model="settings.showHighEqual" label="Include high bound" />
-                <UCheckbox v-model="settings.colAscending" label="Sort columns ascending by value count" />
+                <UCheckbox v-model="settings.colAscending" label="Sort ascending by count" />
               </div>
 
-              <div class="space-y-3">
-                <h3 class="text-sm font-medium text-slate-700">Visible columns</h3>
-                <div class="grid gap-2 md:grid-cols-2">
+              <div class="space-y-2">
+                <h3 class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">Visible columns</h3>
+                <div class="grid gap-2">
                   <UCheckbox
                     v-for="column in columnEntries"
                     :key="column.name"
@@ -894,289 +908,227 @@ onMounted(async () =>
                 </div>
               </div>
 
-              <UButton color="primary" :loading="refreshingSettings" @click="saveSettings">
+              <UButton color="primary" size="sm" :loading="refreshingSettings" @click="saveSettings">
                 Save Settings
               </UButton>
+            </section>
+          </div>
+        </aside>
+
+        <section class="grid min-h-0 grid-rows-[minmax(0,1fr)_auto] bg-slate-100">
+          <div class="grid min-h-0 grid-rows-[auto_minmax(0,1fr)]">
+            <div class="flex items-center justify-between border-b border-slate-200 bg-white px-3 py-2">
+              <div>
+                <h2 class="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">Matrix Surface</h2>
+                <p class="text-xs text-slate-500">SVG workspace tuned for larger datasets and lower DOM overhead.</p>
+              </div>
+              <div class="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-slate-200 bg-slate-200 text-[11px]">
+                <div class="bg-slate-50 px-2 py-1 text-slate-600">{{ visibleColumns.length }} cols</div>
+                <div class="bg-slate-50 px-2 py-1 text-slate-600">{{ maxRenderedRows }} rows/col</div>
+              </div>
             </div>
-          </UCard>
-        </div>
 
-        <section class="space-y-4">
-          <UCard
-            v-if="columnStats"
-            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
-          >
-            <template #header>
-              <div class="flex items-center justify-between gap-3">
-                <h2 class="text-lg font-semibold text-slate-950">Column Statistics</h2>
-                <UButton color="neutral" variant="ghost" @click="columnStats = null">Close</UButton>
-              </div>
-            </template>
-            <pre class="overflow-x-auto rounded-xl bg-slate-950 p-4 text-xs text-teal-200">{{ JSON.stringify(columnStats, null, 2) }}</pre>
-          </UCard>
-
-          <UCard
-            v-if="rowReport"
-            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
-          >
-            <template #header>
-              <div class="flex items-center justify-between gap-3">
-                <h2 class="text-lg font-semibold text-slate-950">{{ rowReport.title }}</h2>
-                <UButton color="neutral" variant="ghost" @click="rowReport = null">Close</UButton>
-              </div>
-            </template>
-            <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-slate-200 text-sm">
-                <thead class="bg-slate-50 text-left text-slate-500">
-                  <tr>
-                    <th v-for="column in rowReport.columns" :key="column" class="px-4 py-3 font-medium">{{ column }}</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                  <tr v-for="(row, rowIndex) in rowReport.data" :key="rowIndex" class="bg-white/70">
-                    <td v-for="(value, valueIndex) in row" :key="valueIndex" class="px-4 py-3 text-slate-700">{{ value }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </UCard>
-
-          <UCard
-            v-if="duplicateEntries"
-            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
-          >
-            <template #header>
-              <div class="flex items-center justify-between gap-3">
-                <h2 class="text-lg font-semibold text-slate-950">Duplicate Entries</h2>
-                <UButton color="neutral" variant="ghost" @click="duplicateEntries = null">Close</UButton>
-              </div>
-            </template>
-            <ul class="grid gap-2 md:grid-cols-2">
-              <li
-                v-for="entry in duplicateEntries"
-                :key="entry"
-                class="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700"
-              >
-                {{ entry }}
-              </li>
-            </ul>
-          </UCard>
-
-          <UCard
-            v-if="dependencyDiagram"
-            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
-          >
-            <template #header>
-              <div class="flex items-center justify-between gap-3">
-                <h2 class="text-lg font-semibold text-slate-950">Dependency Data</h2>
-                <UButton color="neutral" variant="ghost" @click="dependencyDiagram = null">Close</UButton>
-              </div>
-            </template>
-            <pre class="overflow-x-auto rounded-xl bg-slate-950 p-4 text-xs text-teal-200">{{ JSON.stringify(dependencyDiagram, null, 2) }}</pre>
-          </UCard>
-
-          <UCard
-            v-if="measureStats"
-            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
-          >
-            <template #header>
-              <div class="flex items-center justify-between gap-3">
-                <h2 class="text-lg font-semibold text-slate-950">Measure Statistics</h2>
-                <UButton color="neutral" variant="ghost" @click="measureStats = null">Close</UButton>
-              </div>
-            </template>
-            <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-slate-200 text-sm">
-                <thead class="bg-slate-50 text-left text-slate-500">
-                  <tr>
-                    <th class="px-4 py-3 font-medium">Measure</th>
-                    <th class="px-4 py-3 font-medium">Count</th>
-                    <th class="px-4 py-3 font-medium">Total</th>
-                    <th class="px-4 py-3 font-medium">Average</th>
-                    <th class="px-4 py-3 font-medium">Min</th>
-                    <th class="px-4 py-3 font-medium">Max</th>
-                    <th class="px-4 py-3 font-medium">Range</th>
-                    <th class="px-4 py-3 font-medium">Std Dev</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                  <tr v-for="(stats, name) in measureStats" :key="name" class="bg-white/70">
-                    <td class="px-4 py-3 font-medium text-slate-900">{{ name }}</td>
-                    <td class="px-4 py-3 text-slate-700">{{ stats.Count }}</td>
-                    <td class="px-4 py-3 text-slate-700">{{ stats.Total }}</td>
-                    <td class="px-4 py-3 text-slate-700">{{ stats.Average }}</td>
-                    <td class="px-4 py-3 text-slate-700">{{ stats.Min }}</td>
-                    <td class="px-4 py-3 text-slate-700">{{ stats.Max }}</td>
-                    <td class="px-4 py-3 text-slate-700">{{ stats.Range }}</td>
-                    <td class="px-4 py-3 text-slate-700">{{ stats.StandardDeviation }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </UCard>
-
-          <UCard
-            v-if="quickReport"
-            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
-          >
-            <template #header>
-              <div class="flex items-center justify-between gap-3">
-                <h2 class="text-lg font-semibold text-slate-950">Quick Report</h2>
-                <UButton color="neutral" variant="ghost" @click="quickReport = null">Close</UButton>
-              </div>
-            </template>
-            <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-slate-200 text-sm">
-                <thead class="bg-slate-50 text-left text-slate-500">
-                  <tr>
-                    <th v-for="column in quickReport.columns" :key="column" class="px-4 py-3 font-medium">{{ column }}</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                  <tr v-for="(row, rowIndex) in quickReport.data" :key="rowIndex" class="bg-white/70">
-                    <td v-for="(value, valueIndex) in row" :key="valueIndex" class="px-4 py-3 text-slate-700">{{ value }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </UCard>
-
-          <UCard
-            v-if="quickChartData"
-            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
-          >
-            <template #header>
-              <div class="flex items-center justify-between gap-3">
-                <h2 class="text-lg font-semibold text-slate-950">Quick Chart Data</h2>
-                <UButton color="neutral" variant="ghost" @click="quickChartData = null">Close</UButton>
-              </div>
-            </template>
-            <div class="space-y-6">
-              <div
-                v-for="dataset in quickChartData.datasets"
-                :key="dataset.label"
-                class="space-y-3"
-              >
-                <h3 class="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">{{ dataset.label }}</h3>
-                <div class="space-y-2">
-                  <div
-                    v-for="(label, index) in quickChartData.labels"
-                    :key="`${dataset.label}-${label}`"
-                    class="grid grid-cols-[minmax(10rem,16rem)_1fr_auto] items-center gap-3"
+            <div class="min-h-0 overflow-auto bg-slate-200 p-3">
+              <div class="min-h-full min-w-full overflow-x-auto rounded-xl border border-slate-300 bg-white">
+                <svg
+                  class="block"
+                  :width="svgWidth"
+                  :height="svgHeight"
+                  role="img"
+                  aria-label="MatrixEase SVG viewer"
+                >
+                  <g
+                    v-for="column in svgColumns"
+                    :key="column.name"
+                    :transform="`translate(${svgXForColumn(column.visualIndex)},0)`"
                   >
-                    <span class="truncate text-sm text-slate-700">{{ label }}</span>
-                    <div class="h-3 overflow-hidden rounded-full bg-slate-200">
-                      <div
-                        class="h-full rounded-full bg-teal-500"
-                        :style="{ width: `${Math.min(100, Math.max(2, Number(dataset.data[index] || 0)))}%` }"
+                    <rect x="0" y="0" :width="svgConfig.columnWidth" :height="svgConfig.headerHeight" rx="10" fill="#f8fafc" stroke="#cbd5e1" />
+                    <text x="14" y="18" fill="#0f172a" font-size="14" font-weight="700">
+                      {{ trimSvgText(column.name, 24) }}
+                    </text>
+                    <text x="14" y="33" fill="#64748b" font-size="10">
+                      {{ trimSvgText(`${column.ColType} • ${column.DataType} • ${column.DistinctValues} distinct`, 34) }}
+                    </text>
+
+                    <g
+                      v-for="(value, valueIndex) in column.renderValues"
+                      :key="`${column.name}-${value.ColumnValue}`"
+                      class="cursor-pointer"
+                      @click="selectValue(column.name, value)"
+                    >
+                      <rect
+                        x="0"
+                        :y="svgYForValue(valueIndex)"
+                        :width="svgConfig.columnWidth"
+                        :height="svgConfig.nodeHeight"
+                        rx="10"
+                        :fill="selectedColumnName === column.name && selectedValueKey === value.ColumnValue ? '#ccfbf1' : '#ffffff'"
+                        :stroke="selectedColumnName === column.name && selectedValueKey === value.ColumnValue ? '#14b8a6' : '#cbd5e1'"
+                        stroke-width="1.5"
                       />
+                      <rect x="10" :y="svgYForValue(valueIndex) + 38" :width="svgTotalBarWidth(value)" height="9" rx="4" fill="#bbf7d0" />
+                      <rect x="10" :y="svgYForValue(valueIndex) + 38" :width="svgBarWidth(value)" height="9" rx="4" fill="#14b8a6" />
+                      <text x="14" :y="svgYForValue(valueIndex) + 18" fill="#0f172a" font-size="12" font-weight="600">
+                        {{ trimSvgText(value.ColumnValue || '(empty)', 28) }}
+                      </text>
+                      <text x="14" :y="svgYForValue(valueIndex) + 31" fill="#64748b" font-size="10">
+                        {{ trimSvgText(percentageLabel(value), 32) }}
+                      </text>
+                      <text x="14" :y="svgYForValue(valueIndex) + 58" fill="#64748b" font-size="10">
+                        {{ trimSvgText(`Total ${value.TotalPct.toFixed(2)}% • Rows ${value.SelectedValues}`, 34) }}
+                      </text>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="max-h-[38vh] overflow-auto border-t border-slate-200 bg-white">
+            <div class="grid gap-3 p-3 xl:grid-cols-2">
+              <div v-if="columnStats" class="overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+                <div class="flex items-center justify-between border-b border-slate-200 px-3 py-2">
+                  <h2 class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Column Statistics</h2>
+                  <UButton color="neutral" variant="ghost" size="xs" @click="columnStats = null">Close</UButton>
+                </div>
+                <pre class="overflow-x-auto bg-slate-950 p-3 text-xs text-teal-200">{{ JSON.stringify(columnStats, null, 2) }}</pre>
+              </div>
+
+              <div v-if="dependencyDiagram" class="overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+                <div class="flex items-center justify-between border-b border-slate-200 px-3 py-2">
+                  <h2 class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Dependency Data</h2>
+                  <UButton color="neutral" variant="ghost" size="xs" @click="dependencyDiagram = null">Close</UButton>
+                </div>
+                <pre class="overflow-x-auto bg-slate-950 p-3 text-xs text-teal-200">{{ JSON.stringify(dependencyDiagram, null, 2) }}</pre>
+              </div>
+
+              <div v-if="measureStats" class="overflow-hidden rounded-xl border border-slate-200 bg-slate-50 xl:col-span-2">
+                <div class="flex items-center justify-between border-b border-slate-200 px-3 py-2">
+                  <h2 class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Measure Statistics</h2>
+                  <UButton color="neutral" variant="ghost" size="xs" @click="measureStats = null">Close</UButton>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-slate-200 text-sm">
+                    <thead class="bg-white text-left text-slate-500">
+                      <tr>
+                        <th class="px-3 py-2 font-medium">Measure</th>
+                        <th class="px-3 py-2 font-medium">Count</th>
+                        <th class="px-3 py-2 font-medium">Total</th>
+                        <th class="px-3 py-2 font-medium">Average</th>
+                        <th class="px-3 py-2 font-medium">Min</th>
+                        <th class="px-3 py-2 font-medium">Max</th>
+                        <th class="px-3 py-2 font-medium">Range</th>
+                        <th class="px-3 py-2 font-medium">Std Dev</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                      <tr v-for="(stats, name) in measureStats" :key="name" class="bg-white/70">
+                        <td class="px-3 py-2 font-medium text-slate-900">{{ name }}</td>
+                        <td class="px-3 py-2 text-slate-700">{{ stats.Count }}</td>
+                        <td class="px-3 py-2 text-slate-700">{{ stats.Total }}</td>
+                        <td class="px-3 py-2 text-slate-700">{{ stats.Average }}</td>
+                        <td class="px-3 py-2 text-slate-700">{{ stats.Min }}</td>
+                        <td class="px-3 py-2 text-slate-700">{{ stats.Max }}</td>
+                        <td class="px-3 py-2 text-slate-700">{{ stats.Range }}</td>
+                        <td class="px-3 py-2 text-slate-700">{{ stats.StandardDeviation }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div v-if="rowReport" class="overflow-hidden rounded-xl border border-slate-200 bg-slate-50 xl:col-span-2">
+                <div class="flex items-center justify-between border-b border-slate-200 px-3 py-2">
+                  <h2 class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">{{ rowReport.title }}</h2>
+                  <UButton color="neutral" variant="ghost" size="xs" @click="rowReport = null">Close</UButton>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-slate-200 text-sm">
+                    <thead class="bg-white text-left text-slate-500">
+                      <tr>
+                        <th v-for="column in rowReport.columns" :key="column" class="px-3 py-2 font-medium">{{ column }}</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                      <tr v-for="(row, rowIndex) in rowReport.data" :key="rowIndex" class="bg-white/70">
+                        <td v-for="(value, valueIndex) in row" :key="valueIndex" class="px-3 py-2 text-slate-700">{{ value }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div v-if="quickReport" class="overflow-hidden rounded-xl border border-slate-200 bg-slate-50 xl:col-span-2">
+                <div class="flex items-center justify-between border-b border-slate-200 px-3 py-2">
+                  <h2 class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Quick Report</h2>
+                  <UButton color="neutral" variant="ghost" size="xs" @click="quickReport = null">Close</UButton>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-slate-200 text-sm">
+                    <thead class="bg-white text-left text-slate-500">
+                      <tr>
+                        <th v-for="column in quickReport.columns" :key="column" class="px-3 py-2 font-medium">{{ column }}</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                      <tr v-for="(row, rowIndex) in quickReport.data" :key="rowIndex" class="bg-white/70">
+                        <td v-for="(value, valueIndex) in row" :key="valueIndex" class="px-3 py-2 text-slate-700">{{ value }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div v-if="duplicateEntries" class="overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+                <div class="flex items-center justify-between border-b border-slate-200 px-3 py-2">
+                  <h2 class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Duplicate Entries</h2>
+                  <UButton color="neutral" variant="ghost" size="xs" @click="duplicateEntries = null">Close</UButton>
+                </div>
+                <ul class="grid gap-2 p-3 md:grid-cols-2">
+                  <li
+                    v-for="entry in duplicateEntries"
+                    :key="entry"
+                    class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700"
+                  >
+                    {{ entry }}
+                  </li>
+                </ul>
+              </div>
+
+              <div v-if="quickChartData" class="overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+                <div class="flex items-center justify-between border-b border-slate-200 px-3 py-2">
+                  <h2 class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Quick Chart Data</h2>
+                  <UButton color="neutral" variant="ghost" size="xs" @click="quickChartData = null">Close</UButton>
+                </div>
+                <div class="space-y-5 p-3">
+                  <div
+                    v-for="dataset in quickChartData.datasets"
+                    :key="dataset.label"
+                    class="space-y-2"
+                  >
+                    <h3 class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">{{ dataset.label }}</h3>
+                    <div class="space-y-2">
+                      <div
+                        v-for="(label, index) in quickChartData.labels"
+                        :key="`${dataset.label}-${label}`"
+                        class="grid grid-cols-[minmax(8rem,14rem)_1fr_auto] items-center gap-2"
+                      >
+                        <span class="truncate text-sm text-slate-700">{{ label }}</span>
+                        <div class="h-3 overflow-hidden rounded-full bg-slate-200">
+                          <div
+                            class="h-full rounded-full bg-teal-500"
+                            :style="{ width: `${Math.min(100, Math.max(2, Number(dataset.data[index] || 0)))}%` }"
+                          />
+                        </div>
+                        <span class="text-xs font-medium text-slate-500">{{ dataset.data[index] }}</span>
+                      </div>
                     </div>
-                    <span class="text-xs font-medium text-slate-500">{{ dataset.data[index] }}</span>
                   </div>
                 </div>
               </div>
-            </div>
-          </UCard>
-
-          <div class="overflow-x-auto rounded-[2rem] border border-white/70 bg-white/60 p-4 shadow-xl shadow-slate-200/50 backdrop-blur">
-            <div class="grid min-w-max gap-4" :style="matrixColumnStyle">
-              <UCard
-                v-for="column in visibleColumns"
-                :key="column.name"
-                class="h-full border-slate-200/80 bg-white/80 shadow-md"
-              >
-                <template #header>
-                  <div class="space-y-1">
-                    <div class="flex items-center justify-between gap-3">
-                      <h2 class="text-base font-semibold text-slate-950">{{ column.name }}</h2>
-                      <UBadge color="neutral" variant="subtle">{{ column.DataType }}</UBadge>
-                    </div>
-                    <p class="text-xs text-slate-500">
-                      {{ column.ColType }} • {{ column.DistinctValues }} distinct
-                    </p>
-                  </div>
-                </template>
-
-                <div class="space-y-3">
-                  <button
-                    v-for="value in topValues(column)"
-                    :key="`${column.name}-${value.ColumnValue}`"
-                    type="button"
-                    class="block w-full rounded-2xl border p-3 text-left transition"
-                    :class="selectedColumnName === column.name && selectedValueKey === value.ColumnValue
-                      ? 'border-teal-500 bg-teal-50 shadow'
-                      : 'border-slate-200 bg-slate-50 hover:border-teal-300 hover:bg-white'"
-                    @click="selectValue(column.name, value)"
-                  >
-                    <div class="mb-2 flex items-start justify-between gap-3">
-                      <p class="min-w-0 flex-1 break-words font-medium text-slate-900">{{ value.ColumnValue || '(empty)' }}</p>
-                      <UBadge color="primary" variant="soft">{{ value.SelectedValues }}</UBadge>
-                    </div>
-                    <div class="h-2 overflow-hidden rounded-full bg-slate-200">
-                      <div class="h-full rounded-full bg-teal-500" :style="{ width: barWidth(value) }" />
-                    </div>
-                    <div class="mt-2 flex items-center justify-between gap-3 text-xs text-slate-500">
-                      <span>{{ percentageLabel(value) }}</span>
-                      <span>Total {{ value.TotalPct.toFixed(2) }}%</span>
-                    </div>
-                  </button>
-                </div>
-              </UCard>
             </div>
           </div>
         </section>
-      </section>
-
-      <section v-if="false" class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <UCard
-          v-for="column in visibleColumns"
-          :key="column.name"
-          class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
-        >
-          <template #header>
-            <div class="space-y-1">
-              <div class="flex items-center justify-between gap-3">
-                <h2 class="text-lg font-semibold text-slate-950">{{ column.name }}</h2>
-                <UBadge color="neutral" variant="subtle">{{ column.DataType }}</UBadge>
-              </div>
-              <p class="text-sm text-slate-500">
-                {{ column.ColType }} • {{ column.DistinctValues }} distinct • {{ column.NullEmpty }} empty
-              </p>
-            </div>
-          </template>
-
-          <div class="space-y-4">
-            <div class="grid grid-cols-2 gap-3 text-sm">
-              <div class="rounded-2xl bg-slate-50 p-3">
-                <p class="text-slate-500">Selectivity</p>
-                <p class="font-semibold text-slate-900">{{ column.Selectivity }}</p>
-              </div>
-              <div class="rounded-2xl bg-slate-50 p-3">
-                <p class="text-slate-500">Bucketized</p>
-                <p class="font-semibold text-slate-900">{{ column.Bucketized ? 'Yes' : 'No' }}</p>
-              </div>
-            </div>
-
-            <div>
-              <h3 class="mb-2 text-sm font-medium text-slate-700">Top values</h3>
-              <div class="space-y-2">
-                <div
-                  v-for="value in topValues(column)"
-                  :key="`${column.name}-${value.ColumnValue}`"
-                  class="rounded-2xl border border-slate-200 bg-slate-50 p-3"
-                >
-                  <div class="flex items-start justify-between gap-3">
-                    <p class="min-w-0 flex-1 break-words font-medium text-slate-900">{{ value.ColumnValue || '(empty)' }}</p>
-                    <UBadge color="primary" variant="soft">{{ value.SelectedValues }}</UBadge>
-                  </div>
-                  <p class="mt-1 text-xs text-slate-500">
-                    Total {{ value.TotalValues }} • Selected {{ value.SelectRelPct.toFixed(2) }}% • Overall {{ value.TotalPct.toFixed(2) }}%
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </UCard>
       </section>
     </div>
   </main>
