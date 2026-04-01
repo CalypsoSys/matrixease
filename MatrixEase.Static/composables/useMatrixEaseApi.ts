@@ -116,6 +116,28 @@ export type MatrixEaseDependencyResponse = {
   DependencyDiagram?: Record<string, any>
 }
 
+export type MatrixEaseMeasuresResponse = {
+  Success: boolean
+  MeasureStats?: Record<string, Record<string, string | number | null>>
+}
+
+export type MatrixEaseQuickDataResponse = {
+  Success: boolean
+  ChartData?: {
+    labels: string[]
+    datasets: Array<{
+      label: string
+      data: number[]
+      backgroundColor?: string | string[]
+      borderColor?: string | string[]
+    }>
+  }
+  ReportData?: {
+    columns: string[]
+    data: Array<Array<string | number | boolean | null>>
+  }
+}
+
 export type UploadSheetRequest = {
   matrixEaseId: string
   file: File
@@ -320,6 +342,41 @@ export function useMatrixEaseApi()
       }
     })
 
+  const getColumnMeasures = (matrixEaseId: string, mxesId: string, columnIndex: number, selectedNode: string, measureIndexes: number[], filtered: boolean) =>
+    $fetch<MatrixEaseMeasuresResponse>(apiUrl('/api/matrixease/get_col_measures'), {
+      credentials: 'include',
+      query: {
+        matrixease_id: matrixEaseId,
+        mxes_id: mxesId,
+        col_index: columnIndex,
+        selected_node: selectedNode,
+        col_measure_indexes: measureIndexes.join(','),
+        filtered
+      }
+    })
+
+  const getQuickChartData = (matrixEaseId: string, mxesId: string, request: {
+    chartType: string
+    dimensionIndexes: number[]
+    totalMeasureIndexes: number[]
+    averageMeasureIndexes: number[]
+    countMeasureIndexes: number[]
+    filtered: boolean
+  }) =>
+    $fetch<MatrixEaseQuickDataResponse>(apiUrl('/api/matrixease/get_chart_data'), {
+      credentials: 'include',
+      query: {
+        matrixease_id: matrixEaseId,
+        mxes_id: mxesId,
+        chart_type: request.chartType,
+        col_dimension_indexes: request.dimensionIndexes.join(','),
+        col_measure_tot_indexes: request.totalMeasureIndexes.join(','),
+        col_measure_avg_indexes: request.averageMeasureIndexes.join(','),
+        col_measure_cnt_indexes: request.countMeasureIndexes.join(','),
+        filtered: request.filtered
+      }
+    })
+
   const uploadSheet = async (request: UploadSheetRequest, onProgress?: (value: number) => void) =>
   {
     const formData = new FormData()
@@ -405,6 +462,8 @@ export function useMatrixEaseApi()
     getNodeRows,
     getDuplicateEntries,
     getDependencyDiagram,
+    getColumnMeasures,
+    getQuickChartData,
     uploadSheet,
     submitGoogleSheet
   }

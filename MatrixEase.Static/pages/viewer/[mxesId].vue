@@ -20,6 +20,9 @@ const columnStats = ref<Record<string, any> | null>(null)
 const rowReport = ref<{ title: string, columns: string[], data: Array<Array<any>> } | null>(null)
 const duplicateEntries = ref<string[] | null>(null)
 const dependencyDiagram = ref<Record<string, any> | null>(null)
+const measureStats = ref<Record<string, Record<string, string | number | null>> | null>(null)
+const quickChartData = ref<{ labels: string[], datasets: Array<{ label: string, data: number[] }> } | null>(null)
+const quickReport = ref<{ columns: string[], data: Array<Array<any>> } | null>(null)
 
 const settings = reactive({
   showLowEqual: true,
@@ -36,6 +39,20 @@ const bucketForm = reactive({
   bucketized: false,
   bucketSize: 0,
   bucketMod: 0
+})
+
+const measuresPanel = reactive({
+  filtered: true,
+  selectedIndexes: [] as number[]
+})
+
+const chartPanel = reactive({
+  filtered: true,
+  chartType: 'bar',
+  dimensionIndex: null as number | null,
+  totalIndexes: [] as number[],
+  averageIndexes: [] as number[],
+  countIndexes: [] as number[]
 })
 
 const columnEntries = computed(() =>
@@ -84,6 +101,20 @@ const selectedNode = computed(() =>
   }
 
   return selectedColumn.value.Values.find(value => value.ColumnValue === selectedValueKey.value) ?? null
+})
+
+const measureColumns = computed(() =>
+{
+  return visibleColumns.value
+    .filter(column => column.ColType === 'Measure')
+    .map(column => ({ name: column.name, index: column.Index }))
+})
+
+const dimensionColumns = computed(() =>
+{
+  return visibleColumns.value
+    .filter(column => column.ColType !== 'Measure' || column.DistinctValues <= 100)
+    .map(column => ({ name: column.name, index: column.Index }))
 })
 
 const selectedNodeToken = computed(() =>
@@ -290,6 +321,17 @@ const saveSettings = async () =>
   }
 }
 
+const toggleIndexSelection = (list: number[], index: number) =>
+{
+  const matchIndex = list.indexOf(index)
+  if (matchIndex >= 0) {
+    list.splice(matchIndex, 1)
+    return
+  }
+
+  list.push(index)
+}
+
 const runColumnAction = async (action: () => Promise<void>) =>
 {
   runningColumnAction.value = true
@@ -455,6 +497,71 @@ const loadDependencyDiagram = async () =>
     }
 
     dependencyDiagram.value = response.DependencyDiagram
+  })
+}
+
+const loadMeasures = async () =>
+{
+  if (!selectedColumn.value || !selectedNodeToken.value || !session.matrixEaseId.value) {
+    return
+  }
+
+  await runColumnAction(async () =>
+  {
+    const mxesId = String(route.params.mxesId ?? '')
+    const response = await api.getColumnMeasures(
+      session.matrixEaseId.value,
+      mxesId,
+      selectedColumn.value.Index,
+      selectedNodeToken.value,
+      measuresPanel.selectedIndexes,
+      measuresPanel.filtered
+    )
+
+    if (!response.Success || !response.MeasureStats) {
+      throw new Error('Failed to load measure statistics.')
+    }
+
+    measureStats.value = response.MeasureStats
+  })
+}
+
+const loadQuickChartOrReport = async () =>
+{
+  if (!session.matrixEaseId.value) {
+    return
+  }
+
+  await runColumnAction(async () =>
+  {
+    if (chartPanel.dimensionIndex === null) {
+      throw new Error('Choose one dimension before loading a chart or report.')
+    }
+
+    const totalMeasureIndexes = [...chartPanel.totalIndexes]
+    const averageMeasureIndexes = [...chartPanel.averageIndexes]
+    const countIndexes = [...chartPanel.countIndexes]
+
+    if ((totalMeasureIndexes.length + averageMeasureIndexes.length + countIndexes.length) === 0) {
+      throw new Error('Choose at least one measure or count column.')
+    }
+
+    const mxesId = String(route.params.mxesId ?? '')
+    const response = await api.getQuickChartData(session.matrixEaseId.value, mxesId, {
+      chartType: chartPanel.chartType,
+      dimensionIndexes: [chartPanel.dimensionIndex],
+      totalMeasureIndexes,
+      averageMeasureIndexes,
+      countMeasureIndexes: countIndexes,
+      filtered: chartPanel.filtered
+    })
+
+    if (!response.Success) {
+      throw new Error('Failed to load quick chart/report data.')
+    }
+
+    quickChartData.value = response.ChartData ?? null
+    quickReport.value = response.ReportData ?? null
   })
 }
 
@@ -637,6 +744,93 @@ onMounted(async () =>
                   </UButton>
                 </div>
               </div>
+
+              <div v-if="selectedNode && measureColumns.length > 0" class="space-y-3 rounded-2xl bg-slate-50 p-4">
+                <div>
+                  <p class="text-sm text-slate-500">Measures for selected value</p>
+                  <p class="font-medium text-slate-900">Choose measure columns and compute aggregates.</p>
+                </div>
+                <UCheckbox v-model="measuresPanel.filtered" label="Use filtered results" />
+                <div class="grid gap-2 md:grid-cols-2">
+                  <UCheckbox
+                    v-for="column in measureColumns"
+                    :key="column.index"
+                    :model-value="measuresPanel.selectedIndexes.includes(column.index)"
+                    :label="column.name"
+                    @update:model-value="() => toggleIndexSelection(measuresPanel.selectedIndexes, column.index)"
+                  />
+                </div>
+                <UButton color="primary" :loading="runningColumnAction" @click="loadMeasures">
+                  Load Measures
+                </UButton>
+              </div>
+
+              <div class="space-y-3 rounded-2xl bg-slate-50 p-4">
+                <div>
+                  <p class="text-sm text-slate-500">Quick chart / report</p>
+                  <p class="font-medium text-slate-900">Use matrix columns directly without leaving the viewer.</p>
+                </div>
+                <div class="grid gap-3 md:grid-cols-2">
+                  <UFormField label="Dimension">
+                    <USelect
+                      v-model="chartPanel.dimensionIndex"
+                      :items="dimensionColumns.map(column => ({ label: column.name, value: column.index }))"
+                      option-attribute="label"
+                      value-attribute="value"
+                    />
+                  </UFormField>
+                  <UFormField label="Mode">
+                    <USelect
+                      v-model="chartPanel.chartType"
+                      :items="[
+                        { label: 'Report', value: 'report' },
+                        { label: 'Bar', value: 'bar' },
+                        { label: 'Line', value: 'line' },
+                        { label: 'Radar', value: 'radar' },
+                        { label: 'Polar Area', value: 'polarArea' }
+                      ]"
+                      option-attribute="label"
+                      value-attribute="value"
+                    />
+                  </UFormField>
+                </div>
+                <UCheckbox v-model="chartPanel.filtered" label="Use filtered results" />
+                <div class="grid gap-3 md:grid-cols-3">
+                  <div class="space-y-2">
+                    <p class="text-sm font-medium text-slate-700">Total</p>
+                    <UCheckbox
+                      v-for="column in measureColumns"
+                      :key="`tot-${column.index}`"
+                      :model-value="chartPanel.totalIndexes.includes(column.index)"
+                      :label="column.name"
+                      @update:model-value="() => toggleIndexSelection(chartPanel.totalIndexes, column.index)"
+                    />
+                  </div>
+                  <div class="space-y-2">
+                    <p class="text-sm font-medium text-slate-700">Average</p>
+                    <UCheckbox
+                      v-for="column in measureColumns"
+                      :key="`avg-${column.index}`"
+                      :model-value="chartPanel.averageIndexes.includes(column.index)"
+                      :label="column.name"
+                      @update:model-value="() => toggleIndexSelection(chartPanel.averageIndexes, column.index)"
+                    />
+                  </div>
+                  <div class="space-y-2">
+                    <p class="text-sm font-medium text-slate-700">Count</p>
+                    <UCheckbox
+                      v-for="column in dimensionColumns"
+                      :key="`cnt-${column.index}`"
+                      :model-value="chartPanel.countIndexes.includes(column.index)"
+                      :label="column.name"
+                      @update:model-value="() => toggleIndexSelection(chartPanel.countIndexes, column.index)"
+                    />
+                  </div>
+                </div>
+                <UButton color="primary" :loading="runningColumnAction" @click="loadQuickChartOrReport">
+                  Load Chart / Report
+                </UButton>
+              </div>
             </div>
           </UCard>
 
@@ -779,6 +973,109 @@ onMounted(async () =>
               </div>
             </template>
             <pre class="overflow-x-auto rounded-xl bg-slate-950 p-4 text-xs text-teal-200">{{ JSON.stringify(dependencyDiagram, null, 2) }}</pre>
+          </UCard>
+
+          <UCard
+            v-if="measureStats"
+            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
+          >
+            <template #header>
+              <div class="flex items-center justify-between gap-3">
+                <h2 class="text-lg font-semibold text-slate-950">Measure Statistics</h2>
+                <UButton color="neutral" variant="ghost" @click="measureStats = null">Close</UButton>
+              </div>
+            </template>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-slate-200 text-sm">
+                <thead class="bg-slate-50 text-left text-slate-500">
+                  <tr>
+                    <th class="px-4 py-3 font-medium">Measure</th>
+                    <th class="px-4 py-3 font-medium">Count</th>
+                    <th class="px-4 py-3 font-medium">Total</th>
+                    <th class="px-4 py-3 font-medium">Average</th>
+                    <th class="px-4 py-3 font-medium">Min</th>
+                    <th class="px-4 py-3 font-medium">Max</th>
+                    <th class="px-4 py-3 font-medium">Range</th>
+                    <th class="px-4 py-3 font-medium">Std Dev</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr v-for="(stats, name) in measureStats" :key="name" class="bg-white/70">
+                    <td class="px-4 py-3 font-medium text-slate-900">{{ name }}</td>
+                    <td class="px-4 py-3 text-slate-700">{{ stats.Count }}</td>
+                    <td class="px-4 py-3 text-slate-700">{{ stats.Total }}</td>
+                    <td class="px-4 py-3 text-slate-700">{{ stats.Average }}</td>
+                    <td class="px-4 py-3 text-slate-700">{{ stats.Min }}</td>
+                    <td class="px-4 py-3 text-slate-700">{{ stats.Max }}</td>
+                    <td class="px-4 py-3 text-slate-700">{{ stats.Range }}</td>
+                    <td class="px-4 py-3 text-slate-700">{{ stats.StandardDeviation }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </UCard>
+
+          <UCard
+            v-if="quickReport"
+            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
+          >
+            <template #header>
+              <div class="flex items-center justify-between gap-3">
+                <h2 class="text-lg font-semibold text-slate-950">Quick Report</h2>
+                <UButton color="neutral" variant="ghost" @click="quickReport = null">Close</UButton>
+              </div>
+            </template>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-slate-200 text-sm">
+                <thead class="bg-slate-50 text-left text-slate-500">
+                  <tr>
+                    <th v-for="column in quickReport.columns" :key="column" class="px-4 py-3 font-medium">{{ column }}</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr v-for="(row, rowIndex) in quickReport.data" :key="rowIndex" class="bg-white/70">
+                    <td v-for="(value, valueIndex) in row" :key="valueIndex" class="px-4 py-3 text-slate-700">{{ value }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </UCard>
+
+          <UCard
+            v-if="quickChartData"
+            class="border-white/80 bg-white/75 shadow-lg shadow-slate-200/60 backdrop-blur"
+          >
+            <template #header>
+              <div class="flex items-center justify-between gap-3">
+                <h2 class="text-lg font-semibold text-slate-950">Quick Chart Data</h2>
+                <UButton color="neutral" variant="ghost" @click="quickChartData = null">Close</UButton>
+              </div>
+            </template>
+            <div class="space-y-6">
+              <div
+                v-for="dataset in quickChartData.datasets"
+                :key="dataset.label"
+                class="space-y-3"
+              >
+                <h3 class="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">{{ dataset.label }}</h3>
+                <div class="space-y-2">
+                  <div
+                    v-for="(label, index) in quickChartData.labels"
+                    :key="`${dataset.label}-${label}`"
+                    class="grid grid-cols-[minmax(10rem,16rem)_1fr_auto] items-center gap-3"
+                  >
+                    <span class="truncate text-sm text-slate-700">{{ label }}</span>
+                    <div class="h-3 overflow-hidden rounded-full bg-slate-200">
+                      <div
+                        class="h-full rounded-full bg-teal-500"
+                        :style="{ width: `${Math.min(100, Math.max(2, Number(dataset.data[index] || 0)))}%` }"
+                      />
+                    </div>
+                    <span class="text-xs font-medium text-slate-500">{{ dataset.data[index] }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </UCard>
 
           <div class="overflow-x-auto rounded-[2rem] border border-white/70 bg-white/60 p-4 shadow-xl shadow-slate-200/50 backdrop-blur">
