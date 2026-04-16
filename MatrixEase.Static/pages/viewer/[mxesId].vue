@@ -57,7 +57,7 @@ const chartPanel = reactive({
 })
 
 const svgConfig = {
-  columnWidth: 280,
+  columnWidth: 210,
   columnGap: 20,
   headerHeight: 42,
   nodeHeight: 68,
@@ -954,14 +954,15 @@ onMounted(async () =>
         <section class="grid grid-rows-[auto] bg-slate-100">
           <div class="max-h-[70vh] overflow-auto bg-slate-200 p-3">
             <div class="w-max min-w-full">
-              <div class="sticky top-0 z-10 border-b border-slate-200 bg-slate-200 pb-0 pt-0">
-                <div class="flex items-center justify-between gap-3 rounded-t-xl border border-b-0 border-slate-300 bg-white px-3 py-2">
+              <div class="sticky top-0 z-20 isolate border-b border-slate-200 bg-slate-200 pb-0 pt-0">
+                <div class="absolute inset-0 bg-slate-200" aria-hidden="true" />
+                <div class="relative z-10 flex items-center justify-between gap-3 rounded-t-xl border border-b-0 border-slate-300 bg-white px-3 py-2 shadow-[0_1px_0_0_rgba(203,213,225,1)]">
                   <div class="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-slate-200 bg-slate-200 text-[11px]">
                     <div class="bg-slate-50 px-2 py-1 text-slate-600">{{ visibleColumns.length }} cols</div>
                     <div class="bg-slate-50 px-2 py-1 text-slate-600">{{ maxRenderedRows }} rows/col</div>
                   </div>
                 </div>
-                <div class="inline-block rounded-t-xl border-x border-t border-slate-300 bg-white">
+                <div class="relative z-10 inline-block rounded-t-xl border-x border-t border-slate-300 bg-white shadow-[0_1px_0_0_rgba(203,213,225,1)]">
                   <svg
                     class="block"
                     :width="svgWidth"
