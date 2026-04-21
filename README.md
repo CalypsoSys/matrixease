@@ -136,6 +136,25 @@ export MatrixEase__App__GoogleClientId=your-google-client-id
 
 ## Development
 
-Use the VS Code launch configuration or run projects directly with `dotnet run`.
+Use the VS Code launch configuration or the root `Makefile` for the common development tasks:
+
+```bash
+make restore
+make build
+make test
+make run-web
+```
+
+Useful variants:
+
+- `make build-app`
+- `make build-web`
+- `make build-manga`
+- `make build-tester`
+- `make build-web-blaster`
+- `make docker-up`
+- `make CONFIGURATION=Release build`
+
+The `Makefile` replaces the old root solution file and keeps the repo entry points project-scoped.
 
 ---
