@@ -9,12 +9,12 @@ MatrixEase is moving to a single Nuxt UI frontend built with modern Vue tooling 
 - `MatrixEase.Static/` is the shared frontend source.
 - `MatrixEase.Web/` becomes API-only for `api.matrixease.com`.
 - `MatrixEase.App/` remains the Electron-hosted local API and desktop shell, but it should load the shared built frontend instead of keeping its own `wwwroot` application copy.
-- `static.matrixease.wwwroot/` and `web_blaster/` are legacy assets/build tooling to remove after the new frontend replaces the old pages.
+- `static.matrixease.wwwroot/` remains legacy frontend source to remove after the new frontend replaces the old pages.
 
 ## Replacements
 
 - `overrides.js` becomes runtime config and explicit platform adapters.
-- legacy copy/minify build steps become Node-based frontend builds.
+- legacy copy/minify build steps have been removed in favor of frontend-native builds.
 - duplicated HTML/Vue-in-script pages become typed Vue single-file components.
 
 ## Immediate next migration steps

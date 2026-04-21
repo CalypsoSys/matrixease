@@ -38,32 +38,26 @@ Build Ubuntu Desktop
 02. Open a terminal
 03. cd ~/dotnet/MatrixEase/
 04. git pull
-05. cd web_blaster
-06. dotnet build --configuration Release
-07. cd ../MatrixEase.App
-08. sudo rm -r obj/
-09. sudo rm -r bin/
-10. Make sure a valid appsettings.json file is there!!!!
-11. electronize build /target linux
-12. cp ~/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap ~/.
-13. snapcraft login
-14. snapcraft upload --release=beta ~/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
-15. copy ~/matrixease_1.0.0_amd64.snap to c:\transfer
-16. from windows copy "<artifact-staging-path>\matrixease_1.0.0_amd64.snap" "<repo-root>\www.matrixease.com\download\matrixease_1.0.0_amd64.snap"
+05. cd MatrixEase.App
+06. sudo rm -r obj/
+07. sudo rm -r bin/
+08. Make sure a valid appsettings.json file is there!!!!
+09. electronize build /target linux
+10. cp ~/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap ~/.
+11. snapcraft login
+12. snapcraft upload --release=beta ~/dotnet/MatrixEase/MatrixEase.App/bin/Desktop/matrixease_1.0.0_amd64.snap
+13. copy ~/matrixease_1.0.0_amd64.snap to c:\transfer
+14. from windows copy "<artifact-staging-path>\matrixease_1.0.0_amd64.snap" "<repo-root>\www.matrixease.com\download\matrixease_1.0.0_amd64.snap"
 
 
 Build Docker Image
 ==================
 01. cd ~/dotnet/MatrixEase/
 02. git pull
-03. cd web_blaster
-04. dotnet build --configuration Release
-05. cd ..
-06. ~/dotnet/MatrixEase/bin/web_blaster Ubuntu Release ~/dotnet/MatrixEase/static.matrixease.wwwroot ~/dotnet/MatrixEase/MatrixEase.Web/wwwroot googs
-07. sudo docker build -t matrixease_web .
-08. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
-09. sudo docker save matrixease_web > ~/matrixease_web.tar
-10. copy ~/matrixease_web.tar to <artifact-staging-path>
+03. sudo docker build -t matrixease_web .
+04. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
+05. sudo docker save matrixease_web > ~/matrixease_web.tar
+06. copy ~/matrixease_web.tar to <artifact-staging-path>
 
 
 Deploy Static Sites

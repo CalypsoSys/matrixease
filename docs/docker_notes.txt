@@ -80,14 +80,10 @@ Build Docker Image
  2. git clone git@github.com:CalypsoSys/matrixease.git pwd
  3. cd ~/dotnet/MatrixEase/
  4. git pull or git checkout "branch I want"
- 5. cd web_blaster
- 6. dotnet build --configuration Release
- 7. cd ..
- 8. ~/dotnet/MatrixEase/bin/web_blaster Ubuntu Release ~/dotnet/MatrixEase/static.MatrixEase.Manga ~/dotnet/MatrixEase/matrixease.web/wwwroot googs
- 9. sudo docker build -t matrixease_web .
-10. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
-11. sudo docker save matrixease_web > <artifact-staging-path>/matrixease_web.tar
-12. copy matrixease_web.tar to <artifact-staging-path> and <repo-root>\matrixease.com\download
+ 5. sudo docker build -t matrixease_web .
+ 6. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
+ 7. sudo docker save matrixease_web > <artifact-staging-path>/matrixease_web.tar
+ 8. copy matrixease_web.tar to <artifact-staging-path> and <repo-root>\matrixease.com\download
 
 
 Init Docker Image
@@ -125,6 +121,5 @@ free -m
 
 sudo sh -c "echo 'truncate -s 0 /var/lib/docker/containers/*/*-json.log' > /etc/cron.daily/clear_docker_logs"
  docker exec -it  nginx-proxy-le /bin/bash
-
 
 

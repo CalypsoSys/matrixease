@@ -151,13 +151,6 @@ sudo snap install --beta matrixease
 sudo kill -9 $(ps -ef | grep matrixease | awk '{print $2}')
 
 
-Build blaster
-cd ~/dotnet/MatrixEase/
-git pull
-cd web_blaster
-dotnet build --configuration Release
-
-
 Docker Install Ubuntu
 
 

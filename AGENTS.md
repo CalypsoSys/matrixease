@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-Core application code lives in `MatrixEase.App/` (Electron-hosted desktop app), `MatrixEase.Web/` (ASP.NET Core web app), and `MatrixEase.Manga/` (shared matrix-processing library). `web_blaster/` is a supporting project, Excel parsing comes from the `ExcelDataReader` NuGet package, and the CLI test harness lives in `MatrixEase.Tester/` with unit tests in `MatrixEase.Tester.Tests/`. Static marketing and documentation sites are under `www.matrixease.com/`, `docs.matrixease.com/`, and `static.matrixease.wwwroot/`. Deployment scripts and container configs for the dynamic stack are in `docker/`, `config/`, and `docs/`.
+Core application code lives in `MatrixEase.App/` (Electron-hosted desktop app), `MatrixEase.Web/` (ASP.NET Core web app), and `MatrixEase.Manga/` (shared matrix-processing library). Excel parsing comes from the `ExcelDataReader` NuGet package, and the CLI test harness lives in `MatrixEase.Tester/` with unit tests in `MatrixEase.Tester.Tests/`. Static marketing and documentation sites are under `www.matrixease.com/`, `docs.matrixease.com/`, and `static.matrixease.wwwroot/`. Deployment scripts and container configs for the dynamic stack are in `docker/`, `config/`, and `docs/`.
 
 ## Build, Test, and Development Commands
 Use scoped `dotnet` commands from the repo root.
@@ -27,4 +27,12 @@ Recent history uses short, imperative, lower-case commit subjects such as `fix e
 Use `MatrixEase.App/appsettings_sample.json` as the template for local settings; do not commit secrets or user-specific values. Treat Google auth, SendGrid, and deployment credentials as external configuration.
 
 ## Agent-Specific Instructions
-In Codex CLI, any command or prompt line prefixed with `>>>` should be treated as an instruction being added to the session, not as a shell command to execute. Preserve the literal text after `>>>` and apply it as guidance for subsequent work.
+In Codex CLI, any command or prompt line prefixed with `>>>` should be treated as an instruction to add to `AGENTS.md` as persistent repository guidance, not as a shell command to execute. Preserve the literal text after `>>>` and apply it as guidance for subsequent work.
+
+- Ask qualifying questions before proceeding with code changes.
+- Add unit tests for any new or modified code.
+- Use comments sparingly. Comment complex code and all non-trivial methods, and never remove existing comments.
+- Do not refactor code that is unrelated to the requested change.
+- After completing changes, ask whether commit, PR, and ticket deliverables are needed before producing them. When requested, include commit message guidance plus PR description and Jira ticket description templates.
+- Do not commit PII, secrets, passwords, or machine-specific settings.
+- Ensure code follows security best practices for storing PII, passwords, secrets, and other sensitive data.

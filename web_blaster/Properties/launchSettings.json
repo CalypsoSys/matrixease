@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "web_blaster": {
-      "commandName": "Project",
-      "commandLineArgs": "$(OS) Release C:\\CalypsoSystems\\MatrixEase\\static.MatrixEase.Manga C:\\CalypsoSystems\\MatrixEase\\matrixease.app\\wwwroot\\ noGoogleTracking"
-    }
-  }
-}
