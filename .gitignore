@@ -225,12 +225,12 @@ FakesAssemblies/
 dist/
 coverage/
 
-MatrixEase.Static/.nuxt/
-MatrixEase.Static/.output/
-MatrixEase.Static/.nitro/
-MatrixEase.Static/.vite/
-MatrixEase.Static/dist/
-MatrixEase.Static/dist
+frontend/.nuxt/
+frontend/.output/
+frontend/.nitro/
+frontend/.vite/
+frontend/dist/
+frontend/dist
 .ntvs_analysis.dat
 
 # Visual Studio 6 build log

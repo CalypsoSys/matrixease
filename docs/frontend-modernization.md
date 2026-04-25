@@ -2,14 +2,13 @@
 
 ## Direction
 
-MatrixEase is moving to a single Nuxt UI frontend built with modern Vue tooling and Tailwind-based styling.
+MatrixEase is moving to a single Vite-native frontend built with Vue 3, PrimeVue, Pinia, Vue Router, and Tailwind CSS.
 
 ## Target shape
 
-- `MatrixEase.Static/` is the shared frontend source.
+- `frontend/` is the shared frontend source.
 - `MatrixEase.Web/` becomes API-only for `api.matrixease.com`.
 - `MatrixEase.App/` remains the Electron-hosted local API and desktop shell, but it should load the shared built frontend instead of keeping its own `wwwroot` application copy.
-- `static.matrixease.wwwroot/` remains legacy frontend source to remove after the new frontend replaces the old pages.
 
 ## Replacements
 
@@ -19,8 +18,8 @@ MatrixEase is moving to a single Nuxt UI frontend built with modern Vue tooling 
 
 ## Immediate next migration steps
 
-1. Install frontend dependencies and verify the Nuxt scaffold builds.
+1. Install frontend dependencies and verify the Vite scaffold builds.
 2. Add shared API composables for session, auth, uploads, and matrix data.
-3. Port the current UI flow into Nuxt pages/components.
+3. Port the current UI flow into routed Vue pages/components.
 4. Remove static-file serving responsibilities from `MatrixEase.Web`.
 5. Point Electron at the generated frontend output and local API runtime.

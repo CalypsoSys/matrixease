@@ -29,7 +29,7 @@ MatrixEase is designed to help teams visualize and analyze large-scale matrix da
 - **Documentation**: [docs.matrixease.com](https://docs.matrixease.com/)  
 - **Support Portal**: [support.matrixease.com](https://support.matrixease.com/)  
 - **Blog**: [blog.matrixease.com](https://blog.matrixease.com/)  
-- **User Portal**: [my.matrixease.com](https://my.matrixease.com/index.html/)  
+- **User Portal**: [my.matrixease.com](https://my.matrixease.com/)  
 - **Product Vision**: “See data the way you think about it — An Innovative Visualization and Analysis Tool for large matrix data.” ([docs.matrixease.com](https://docs.matrixease.com/))  
 
 ---

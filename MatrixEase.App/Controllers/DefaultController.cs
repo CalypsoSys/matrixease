@@ -174,11 +174,12 @@ namespace Desktop.MatrixEase.Manga.Controllers
                 List<Guid> loadedMangas = new List<Guid>();
                 foreach (var manga in cats.MyMangas)
                 {
+                    string viewerPath = new Uri(string.Format("/viewer/{0}", HttpUtility.UrlEncode(manga.ManagGuid.ToString())), UriKind.Relative).ToString();
                     mangas.Add(new
                     {
                         Name = manga.MangaName,
-                        Url = new Uri(string.Format("/matrixease.html?matrixease_id={0}&mxes_id={1}", HttpUtility.UrlEncode(matrixease_id), HttpUtility.UrlEncode(manga.ManagGuid.ToString())), UriKind.Relative).ToString(),
-                        ViewerPath = new Uri(string.Format("/viewer/{0}", HttpUtility.UrlEncode(manga.ManagGuid.ToString())), UriKind.Relative).ToString(),
+                        Url = viewerPath,
+                        ViewerPath = viewerPath,
                         Original = manga.OriginalName,
                         Type = manga.SheetType,
                         Created = manga.Created,

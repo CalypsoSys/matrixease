@@ -46,7 +46,7 @@ namespace MatrixEase.Web
                 return Ok(new
                 {
                     Service = "MatrixEase API",
-                    Frontend = "Run MatrixEase.Static separately for the shared web UI.",
+                    Frontend = "Run frontend separately for the shared web UI.",
                     Platform = "web"
                 });
             }
@@ -365,9 +365,10 @@ namespace MatrixEase.Web
                     foreach(var manga in cats.MyMangas)
                     {
                         var mxesId = Encode(userId, manga.ManagGuid);
+                        string viewerPath = new Uri(string.Format("/viewer/{0}", HttpUtility.UrlEncode(mxesId)), UriKind.Relative).ToString();
                         mangas.Add(new {Name= manga.MangaName, 
-                            Url= new Uri(string.Format("/matrixease.html?matrixease_id={0}&mxes_id={1}", HttpUtility.UrlEncode(matrixease_id), HttpUtility.UrlEncode(mxesId)), UriKind.Relative).ToString(),
-                            ViewerPath = new Uri(string.Format("/viewer/{0}", HttpUtility.UrlEncode(mxesId)), UriKind.Relative).ToString(),
+                            Url = viewerPath,
+                            ViewerPath = viewerPath,
                             Original = manga.OriginalName, Type = manga.SheetType, Created =manga.Created, MaxRows = manga.MaxRows,
                             TotalRows = manga.TotalRows, Status = manga.Status});
                         loadedMangas.Add(manga.ManagGuid);
