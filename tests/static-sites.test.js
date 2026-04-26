@@ -34,6 +34,50 @@ test("shouldEnableSticky turns on once the threshold is crossed", function () {
   assert.equal(wwwSite.shouldEnableSticky(300, 600, 300), true);
 });
 
+test("shouldAnimateEntry blocks post-about animations until About Us is visible", function () {
+  const followingFlag = 4;
+  const target = {};
+  const originalScrollY = global.scrollY;
+  const aboutSection = {
+    getBoundingClientRect() {
+      return {
+        top: 900,
+        height: 300,
+      };
+    },
+    compareDocumentPosition(node) {
+      return node === target ? followingFlag : 0;
+    },
+  };
+
+  global.Node = {
+    DOCUMENT_POSITION_FOLLOWING: followingFlag,
+  };
+  global.scrollY = 0;
+
+  assert.equal(
+    wwwSite.shouldAnimateEntry(
+      { isIntersecting: true, target: target },
+      aboutSection,
+      800
+    ),
+    false
+  );
+
+  global.scrollY = 200;
+
+  assert.equal(
+    wwwSite.shouldAnimateEntry(
+      { isIntersecting: true, target: target },
+      aboutSection,
+      1200
+    ),
+    true
+  );
+
+  global.scrollY = originalScrollY;
+});
+
 test("getMaxHeight returns the tallest measured block", function () {
   assert.equal(docsSite.getMaxHeight([120, 320, 280]), 320);
 });

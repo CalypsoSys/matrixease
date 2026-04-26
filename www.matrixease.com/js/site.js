@@ -34,6 +34,42 @@
     return scrollY >= Math.max(0, triggerTop - offset);
   }
 
+  function isSectionVisible(sectionTop, sectionHeight, viewportHeight) {
+    if (sectionHeight <= 0 || viewportHeight <= 0) {
+      return false;
+    }
+
+    return sectionTop < viewportHeight && sectionTop + sectionHeight > 0;
+  }
+
+  function shouldAnimateEntry(entry, aboutSection, viewportHeight) {
+    if (!entry.isIntersecting) {
+      return false;
+    }
+
+    if (!aboutSection) {
+      return true;
+    }
+
+    var aboutRect = aboutSection.getBoundingClientRect();
+    var aboutVisible = isSectionVisible(
+      aboutRect.top,
+      aboutRect.height,
+      viewportHeight
+    );
+
+    if (aboutVisible) {
+      return global.scrollY > 0;
+    }
+
+    var position = aboutSection.compareDocumentPosition(entry.target);
+    var isAfterAbout =
+      Boolean(global.Node) &&
+      (position & global.Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+
+    return !isAfterAbout;
+  }
+
   function toggleMenu(button, target, expanded) {
     if (!button || !target) {
       return;
@@ -122,6 +158,8 @@
       return;
     }
 
+    var aboutSection = global.document.querySelector(".aboutUs");
+
     if (!global.IntersectionObserver) {
       animatedItems.forEach(function (item) {
         item.style.visibility = "visible";
@@ -137,7 +175,9 @@
     var observer = new global.IntersectionObserver(
       function (entries, currentObserver) {
         entries.forEach(function (entry) {
-          if (!entry.isIntersecting) {
+          if (
+            !shouldAnimateEntry(entry, aboutSection, global.innerHeight || 0)
+          ) {
             return;
           }
 
@@ -297,7 +337,9 @@
   if (typeof module !== "undefined" && module.exports) {
     module.exports = {
       buildFeedbackPayload: buildFeedbackPayload,
+      isSectionVisible: isSectionVisible,
       parseTimingValue: parseTimingValue,
+      shouldAnimateEntry: shouldAnimateEntry,
       shouldEnableSticky: shouldEnableSticky,
     };
   }
