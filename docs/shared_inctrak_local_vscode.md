@@ -28,6 +28,12 @@ The shared API now expects feedback notifications through:
 AppSettings__SlackFeedbackWebhookUrl
 ```
 
+Access logging is also env-driven now through:
+
+```text
+AppSettings__AccessLogPath
+```
+
 Email-code sign-in is deprecated in this split backend and is no longer configured through SMTP or SendGrid settings.
 
 ## How launch works

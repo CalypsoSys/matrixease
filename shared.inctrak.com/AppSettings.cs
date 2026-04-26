@@ -10,6 +10,7 @@ namespace MatrixEase.Web
         public string GoogleClientId { get; set; }
         public string GoogleClientSecret { get; set; }
         public string SlackFeedbackWebhookUrl { get; set; }
+        public string AccessLogPath { get; set; } = "logs/access.log";
         public int MaxConcurrentJobs { get; set; } = 10;
         public List<string> AllowedOrigins { get; set; } = new List<string>();
         public bool RequireGatewaySecret { get; set; }

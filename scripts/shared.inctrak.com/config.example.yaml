@@ -12,6 +12,7 @@ AppSettings:
   GoogleClientId: ${GOOGLE_CLIENT_ID}
   GoogleClientSecret: ${GOOGLE_CLIENT_SECRET}
   SlackFeedbackWebhookUrl: ${SHARED_INCTRAK_SLACK_FEEDBACK_WEBHOOK_URL}
+  AccessLogPath: ${SHARED_INCTRAK_ACCESS_LOG_PATH}
   MaxConcurrentJobs: 10
   AllowedOrigins:
     - http://localhost:3000

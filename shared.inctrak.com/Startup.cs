@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MatrixEase.Manga.Utility;
 using MatrixEase.Web.Tasks;
+using MatrixEase.Web.Middleware;
 using MatrixEase.Manga.Manga.Serialization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -89,6 +90,12 @@ namespace MatrixEase.Web
         {
             AppSettings appSettings = appSettingsOptions.Value;
 
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedProto
+            });
+            app.UseMiddleware<AccessLogMiddleware>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -111,11 +118,6 @@ namespace MatrixEase.Web
                     .AllowAnyHeader()
                     .AllowCredentials());
             }
-
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedProto
-            });
 
             if (env.IsDevelopment() == false)
             {
