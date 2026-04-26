@@ -89,48 +89,38 @@ Recommended storage:
 
 ### Local Secrets
 
-`MatrixEase.Web` supports user-secrets, and `MatrixEase.App` now does as well.
+`shared.inctrak.com` is now the env-first API backend, and `MatrixEase.App` still supports user-secrets for desktop-only settings.
 
 Set local development values like this:
-
-```bash
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:FileSaveLocation" "/tmp/matrixease-web"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:ProtectionKey" "replace-with-a-long-random-secret"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:GoogleClientId" "your-google-client-id"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:GoogleClientSecret" "your-google-client-secret"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:EmailApiKey" "your-sendgrid-api-key"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:EmailFrom" "feedback@example.com"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SNMPServer" "smtp.example.com"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SNMPPort" "25"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SNMPAddress" "smtp-user@example.com"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SNMPPassword" "your-smtp-password"
-```
 
 ```bash
 dotnet user-secrets --project MatrixEase.App set "MatrixEase:App:GoogleClientId" "your-google-client-id"
 ```
 
-Equivalent environment variables:
+Use a local YAML file for the shared API split:
 
 ```bash
-export MatrixEase__Web__FileSaveLocation=/tmp/matrixease-web
-export MatrixEase__Web__ProtectionKey=replace-with-a-long-random-secret
-export MatrixEase__Web__GoogleClientId=your-google-client-id
-export MatrixEase__Web__GoogleClientSecret=your-google-client-secret
-export MatrixEase__Web__EmailApiKey=your-sendgrid-api-key
-export MatrixEase__Web__EmailFrom=feedback@example.com
-export MatrixEase__Web__SNMPServer=smtp.example.com
-export MatrixEase__Web__SNMPPort=25
-export MatrixEase__Web__SNMPAddress=smtp-user@example.com
-export MatrixEase__Web__SNMPPassword=your-smtp-password
+cp scripts/shared.inctrak.com/config.example.yaml scripts/shared.inctrak.com/config.local.yaml
+```
+
+Populate that file using environment-variable placeholders such as:
+
+```bash
+export MATRIXEASE_FILE_ROOT=/tmp/matrixease-web
+export MATRIXEASE_PROTECTION_KEY=replace-with-a-long-random-secret
+export GOOGLE_CLIENT_ID=your-google-client-id
+export GOOGLE_CLIENT_SECRET=your-google-client-secret
+export SHARED_INCTRAK_SLACK_FEEDBACK_WEBHOOK_URL=https://hooks.slack.com/services/your/webhook
+export SHARED_INCTRAK_ACCESS_LOG_PATH=logs/access.log
+export SHARED_INCTRAK_GATEWAY_SECRET=replace-with-an-internal-api-key
 export MatrixEase__App__GoogleClientId=your-google-client-id
 ```
 
-`MatrixEase:Web:ProtectionKey` secures MatrixEase cookies and other protected values. Treat it like an application secret and set a long random value through user-secrets or deployment-time environment variables.
+`AppSettings__ProtectionKey` secures MatrixEase cookies and other protected values. Treat it like an application secret and set a long random value through local env files or deployment-time environment variables.
 
 ### Desktop Google Auth Note
 
-`MatrixEase.App` now uses the installed-app Google OAuth flow with a desktop-safe client configuration, so it only needs `GoogleClientId`. `MatrixEase.Web` still runs server-side OAuth and keeps using both `GoogleClientId` and `GoogleClientSecret`.
+`MatrixEase.App` uses the installed-app Google OAuth flow with a desktop-safe client configuration, so it only needs `GoogleClientId`. `shared.inctrak.com` still runs server-side OAuth and uses both `GoogleClientId` and `GoogleClientSecret`.
 
 ---
 

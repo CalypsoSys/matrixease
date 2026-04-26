@@ -144,7 +144,7 @@ snapcraft upload --release=beta <repo-root>/MatrixEase.App/bin/Desktop/matrixeas
 sudo snap install matrixease
 
 snapcraft login
-snap login joseph@calypsosystemsllc.com
+snap login your-snap-account@example.com
 sudo snap find --private matrixease
 sudo snap install --beta matrixease
 
