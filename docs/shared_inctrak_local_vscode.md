@@ -34,6 +34,12 @@ Access logging is also env-driven now through:
 AppSettings__AccessLogPath
 ```
 
+Error logging follows the same pattern:
+
+```text
+AppSettings__ErrorLogPath
+```
+
 Rate limiting follows the MMA nested config shape:
 
 ```text

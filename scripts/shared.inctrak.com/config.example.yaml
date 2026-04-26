@@ -6,19 +6,10 @@ ASPNETCORE_URLS: https://localhost:5001;http://localhost:5000
 VITE_API_PROXY_TARGET: http://localhost:5000
 
 AppSettings:
-  FrontendBaseUrl: http://localhost:3000
+  AccessLogPath: /app/logs/access.log
+  ErrorLogPath: /app/logs/errors.log
   FileSaveLocation: ${MATRIXEASE_FILE_ROOT}
-  ProtectionKey: ${MATRIXEASE_PROTECTION_KEY}
-  GoogleClientId: ${GOOGLE_CLIENT_ID}
-  GoogleClientSecret: ${GOOGLE_CLIENT_SECRET}
-  SlackFeedbackWebhookUrl: ${SHARED_INCTRAK_SLACK_FEEDBACK_WEBHOOK_URL}
-  AccessLogPath: ${SHARED_INCTRAK_ACCESS_LOG_PATH}
-  RateLimit:
-    Enabled: false
-    PermitLimit: 120
-    WindowSeconds: 60
-    QueueLimit: 0
-  MaxConcurrentJobs: 10
+  FrontendBaseUrl: http://localhost:3000
   AllowedOrigins:
     - http://localhost:3000
     - http://127.0.0.1:3000
@@ -27,3 +18,13 @@ AppSettings:
   RequireGatewaySecret: false
   GatewaySecretHeaderName: X-Internal-Api-Key
   GatewaySecret: ${SHARED_INCTRAK_GATEWAY_SECRET}
+  RateLimit:
+    Enabled: false
+    PermitLimit: 120
+    WindowSeconds: 60
+    QueueLimit: 0
+  ProtectionKey: ${MATRIXEASE_PROTECTION_KEY}
+  GoogleClientId: ${GOOGLE_CLIENT_ID}
+  GoogleClientSecret: ${GOOGLE_CLIENT_SECRET}
+  MaxConcurrentJobs: 10
+  SlackFeedbackWebhookUrl: ${SHARED_INCTRAK_SLACK_FEEDBACK_WEBHOOK_URL}

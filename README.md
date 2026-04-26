@@ -79,7 +79,7 @@ Users can navigate across:
 
 ## Configuration & Setup
 
-Use `appsettings_sample.json` as a template only. Keep real secrets out of tracked config files.
+Do not rely on tracked `appsettings.json` files for `shared.inctrak.com`. Use the YAML-to-env flow and keep real secrets out of tracked config files.
 
 Recommended storage:
 

@@ -197,16 +197,15 @@ namespace MatrixEase.Web
 
         }
 
-        private static AppSettings LoadAppSettings(IConfiguration configuration)
+        internal static AppSettings LoadAppSettings(IConfiguration configuration)
         {
             AppSettings settings = new AppSettings();
             BindAppSettings(configuration, settings);
             return settings;
         }
 
-        private static void BindAppSettings(IConfiguration configuration, AppSettings settings)
+        internal static void BindAppSettings(IConfiguration configuration, AppSettings settings)
         {
-            configuration.GetSection("MatrixEase:Web").Bind(settings);
             configuration.GetSection("AppSettings").Bind(settings);
         }
 

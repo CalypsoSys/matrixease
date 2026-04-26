@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using MatrixEase.Web.Common;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -12,12 +13,14 @@ namespace MatrixEase.Web.Tasks
     public class QueuedHostedService : BackgroundService
     {
         private readonly ILogger _logger;
+        private readonly AppSettings _settings;
         private SemaphoreSlim _signals;
 
         public QueuedHostedService(IBackgroundTaskQueue taskQueue, ILoggerFactory loggerFactory, IOptions<AppSettings> options)
         {
             TaskQueue = taskQueue;
             _logger = loggerFactory.CreateLogger<QueuedHostedService>();
+            _settings = options.Value;
             _signals = new SemaphoreSlim(options.Value.MaxConcurrentJobs);
         }
 
@@ -43,6 +46,7 @@ namespace MatrixEase.Web.Tasks
                 {
                     _logger.LogError(ex,
                        "Error occurred executing {WorkItem}.", nameof(workItem));
+                    ErrorLogWriter.LogError(_settings, ex, "Error occurred executing {0}.", nameof(workItem));
                 }
             }
 

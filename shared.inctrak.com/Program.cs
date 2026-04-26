@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MatrixEase.Manga.Utility;
+using MatrixEase.Web.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -21,6 +22,7 @@ namespace MatrixEase.Web
             }
             catch (Exception excp)
             {
+                ErrorLogWriter.TryLogStartupException(excp, Environment.GetEnvironmentVariable("AppSettings__ErrorLogPath"));
                 SimpleLogger.LogError(excp, "Error loading anything");
             }
         }
