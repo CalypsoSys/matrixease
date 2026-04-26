@@ -39,6 +39,52 @@ test("shouldAnimateEntry only animates when the observed item intersects", funct
   assert.equal(wwwSite.shouldAnimateEntry({ isIntersecting: true }), true);
 });
 
+test("applyRevealState shows the element and applies reveal timing", function () {
+  const classes = new Set();
+  const element = {
+    dataset: {
+      revealDelay: ".2s",
+      revealDuration: "900ms",
+    },
+    style: {},
+    classList: {
+      add(value) {
+        classes.add(value);
+      },
+    },
+  };
+
+  wwwSite.applyRevealState(element);
+
+  assert.equal(element.style.visibility, "visible");
+  assert.equal(element.style.transitionDelay, "200ms");
+  assert.equal(element.style.transitionDuration, "900ms");
+  assert.equal(classes.has("is-visible"), true);
+});
+
+test("applyLoadRevealState shows the element and applies load timing", function () {
+  const classes = new Set();
+  const element = {
+    dataset: {
+      loadDelay: ".3s",
+      loadDuration: "1.2s",
+    },
+    style: {},
+    classList: {
+      add(value) {
+        classes.add(value);
+      },
+    },
+  };
+
+  wwwSite.applyLoadRevealState(element);
+
+  assert.equal(element.style.visibility, "visible");
+  assert.equal(element.style.transitionDelay, "300ms");
+  assert.equal(element.style.transitionDuration, "1200ms");
+  assert.equal(classes.has("is-visible"), true);
+});
+
 test("getMaxHeight returns the tallest measured block", function () {
   assert.equal(docsSite.getMaxHeight([120, 320, 280]), 320);
 });

@@ -38,6 +38,32 @@
     return Boolean(entry && entry.isIntersecting);
   }
 
+  function applyRevealState(element) {
+    if (!element) {
+      return;
+    }
+
+    element.style.visibility = "visible";
+    element.style.transitionDelay =
+      parseTimingValue(element.dataset.revealDelay, 0) + "ms";
+    element.style.transitionDuration =
+      parseTimingValue(element.dataset.revealDuration, 0.75) + "ms";
+    element.classList.add("is-visible");
+  }
+
+  function applyLoadRevealState(element) {
+    if (!element) {
+      return;
+    }
+
+    element.style.visibility = "visible";
+    element.style.transitionDelay =
+      parseTimingValue(element.dataset.loadDelay, 0) + "ms";
+    element.style.transitionDuration =
+      parseTimingValue(element.dataset.loadDuration, 0.75) + "ms";
+    element.classList.add("is-visible");
+  }
+
   function toggleMenu(button, target, expanded) {
     if (!button || !target) {
       return;
@@ -121,19 +147,33 @@
   }
 
   function initAnimations() {
-    var animatedItems = global.document.querySelectorAll(".wow");
+    var loadAnimatedItems = global.document.querySelectorAll(".load-reveal");
+    var animatedItems = global.document.querySelectorAll(".scroll-reveal");
+    if (!loadAnimatedItems.length && !animatedItems.length) {
+      return;
+    }
+
+    if (loadAnimatedItems.length) {
+      var startLoadReveal = function () {
+        loadAnimatedItems.forEach(function (item) {
+          applyLoadRevealState(item);
+        });
+      };
+
+      if (typeof global.requestAnimationFrame === "function") {
+        global.requestAnimationFrame(startLoadReveal);
+      } else {
+        global.setTimeout(startLoadReveal, 0);
+      }
+    }
+
     if (!animatedItems.length) {
       return;
     }
 
     if (!global.IntersectionObserver) {
       animatedItems.forEach(function (item) {
-        item.style.visibility = "visible";
-        item.style.animationDelay =
-          parseTimingValue(item.dataset.wowDelay, 0) + "ms";
-        item.style.animationDuration =
-          parseTimingValue(item.dataset.wowDuration, 1) + "ms";
-        item.classList.add("animated");
+        applyRevealState(item);
       });
       return;
     }
@@ -146,12 +186,7 @@
           }
 
           var element = entry.target;
-          element.style.visibility = "visible";
-          element.style.animationDelay =
-            parseTimingValue(element.dataset.wowDelay, 0) + "ms";
-          element.style.animationDuration =
-            parseTimingValue(element.dataset.wowDuration, 1) + "ms";
-          element.classList.add("animated");
+          applyRevealState(element);
           currentObserver.unobserve(element);
         });
       },
@@ -301,6 +336,8 @@
 
   if (typeof module !== "undefined" && module.exports) {
     module.exports = {
+      applyLoadRevealState: applyLoadRevealState,
+      applyRevealState: applyRevealState,
       buildFeedbackPayload: buildFeedbackPayload,
       parseTimingValue: parseTimingValue,
       shouldAnimateEntry: shouldAnimateEntry,
