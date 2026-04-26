@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
+using System.Threading.RateLimiting;
 
 namespace MatrixEase.Web
 {
@@ -51,6 +52,37 @@ namespace MatrixEase.Web
             MangaRoot.SetRootFolder(settings.FileSaveLocation);
 
             services.AddCors();
+            services.AddRateLimiter(options =>
+            {
+                options.RejectionStatusCode = 429;
+                options.OnRejected = async (context, token) =>
+                {
+                    context.HttpContext.Response.Headers["Retry-After"] = Math.Max(1, settings.RateLimit.WindowSeconds).ToString();
+                    await context.HttpContext.Response.WriteAsync("Too many requests.", token);
+                };
+                options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+                {
+                    if (settings.RateLimit.Enabled == false)
+                    {
+                        return RateLimitPartition.GetNoLimiter("disabled");
+                    }
+
+                    string partitionKey = httpContext.Request.Headers["CF-Connecting-IP"].ToString();
+                    if (string.IsNullOrWhiteSpace(partitionKey))
+                    {
+                        partitionKey = httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+                    }
+
+                    return RateLimitPartition.GetFixedWindowLimiter(partitionKey, _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = Math.Max(1, settings.RateLimit.PermitLimit),
+                        Window = TimeSpan.FromSeconds(Math.Max(1, settings.RateLimit.WindowSeconds)),
+                        QueueLimit = Math.Max(0, settings.RateLimit.QueueLimit),
+                        QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                        AutoReplenishment = true
+                    });
+                });
+            });
 
             services
                 .AddAuthentication(o =>
@@ -154,6 +186,7 @@ namespace MatrixEase.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseRateLimiter();
 
             app.UseEndpoints(endpoints =>
             {

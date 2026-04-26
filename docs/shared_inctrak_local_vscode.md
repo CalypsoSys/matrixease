@@ -34,6 +34,15 @@ Access logging is also env-driven now through:
 AppSettings__AccessLogPath
 ```
 
+Rate limiting follows the MMA nested config shape:
+
+```text
+AppSettings__RateLimit__Enabled
+AppSettings__RateLimit__PermitLimit
+AppSettings__RateLimit__WindowSeconds
+AppSettings__RateLimit__QueueLimit
+```
+
 Email-code sign-in is deprecated in this split backend and is no longer configured through SMTP or SendGrid settings.
 
 ## How launch works
