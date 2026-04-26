@@ -2,16 +2,60 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build MatrixEase.Web",
+      "label": "backend: render local env",
+      "type": "shell",
+      "command": "if [ -x ./scripts/shared.inctrak.com/render-shared-inctrak-env ]; then ./scripts/shared.inctrak.com/render-shared-inctrak-env --format env ./scripts/shared.inctrak.com/config.local.yaml; else go run ./cmd/render-shared-inctrak-env --format env ./scripts/shared.inctrak.com/config.local.yaml; fi > ./.vscode/shared.inctrak-api.env",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "/bin/bash",
+          "args": [
+            "-lc"
+          ]
+        }
+      },
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "backend: build",
       "type": "process",
       "command": "dotnet",
       "args": [
         "build",
-        "${workspaceFolder}/MatrixEase.Web/MatrixEase.Web.csproj",
-        "--configuration",
-        "Debug"
+        "${workspaceFolder}/shared.inctrak.com/shared.inctrak.com.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
       ],
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "backend: prepare local launch",
+      "dependsOn": [
+        "backend: render local env",
+        "backend: build"
+      ],
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "backend: wait for ready",
+      "type": "shell",
+      "command": "for attempt in $(seq 1 60); do if (echo > /dev/tcp/127.0.0.1/5000) >/dev/null 2>&1; then exit 0; fi; sleep 1; done; echo \"Backend did not become ready on http://127.0.0.1:5000 within 60 seconds.\" >&2; exit 1",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "/bin/bash",
+          "args": [
+            "-lc"
+          ]
+        }
+      },
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": []
     },
     {
       "label": "build MatrixEase.App",
@@ -26,15 +70,12 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "build MatrixEase.Static",
+      "label": "frontend: dev",
       "type": "shell",
-      "command": "npm --prefix \"${workspaceFolder}/MatrixEase.Static\" run generate:web",
-      "problemMatcher": []
-    },
-    {
-      "label": "dev MatrixEase.Static (Web)",
-      "type": "shell",
-      "command": "npm --prefix \"${workspaceFolder}/MatrixEase.Static\" run dev:web",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
       "isBackground": true,
       "problemMatcher": {
         "owner": "custom",
@@ -43,15 +84,35 @@
         },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": ".*Nuxt.*",
+          "beginsPattern": ".*VITE.*",
           "endsPattern": ".*Local:.*"
         }
       }
     },
     {
-      "label": "dev MatrixEase.Static (Electron)",
+      "label": "frontend: prepare browser launch",
+      "dependsOn": [
+        "frontend: dev",
+        "backend: wait for ready"
+      ],
+      "dependsOrder": "parallel"
+    },
+    {
+      "label": "backend: run",
       "type": "shell",
-      "command": "npm --prefix \"${workspaceFolder}/MatrixEase.Static\" run dev:electron",
+      "command": "set -a; . ./.vscode/shared.inctrak-api.env; set +a; dotnet run --project shared.inctrak.com/shared.inctrak.com.csproj",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "/bin/bash",
+          "args": [
+            "-lc"
+          ]
+        }
+      },
+      "dependsOn": [
+        "backend: render local env"
+      ],
       "isBackground": true,
       "problemMatcher": {
         "owner": "custom",
@@ -60,10 +121,18 @@
         },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": ".*Nuxt.*",
-          "endsPattern": ".*Local:.*"
+          "beginsPattern": ".*",
+          "endsPattern": ".*Now listening on:.*"
         }
       }
+    },
+    {
+      "label": "local: run frontend + backend",
+      "dependsOn": [
+        "frontend: dev",
+        "backend: run"
+      ],
+      "dependsOrder": "parallel"
     }
   ]
 }

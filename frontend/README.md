@@ -26,9 +26,13 @@ The app reads these public environment variables:
 
 - `VITE_MATRIXEASE_PLATFORM`
 - `VITE_MATRIXEASE_API_BASE`
+- `VITE_API_PROXY_TARGET`
 - `VITE_MATRIXEASE_DOCS_BASE`
 - `VITE_MATRIXEASE_MARKETING_BASE`
 - `VITE_MATRIXEASE_EMBEDDED_API`
+
+For local development, Vite proxies `/api`, `/google`, `/account`, and `/signin-google`
+to `VITE_API_PROXY_TARGET`, which defaults to `http://localhost:5000`.
 
 ## Migration intent
 

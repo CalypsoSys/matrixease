@@ -231,6 +231,9 @@ frontend/.nitro/
 frontend/.vite/
 frontend/dist/
 frontend/dist
+.vscode/shared.inctrak-api.env
+scripts/shared.inctrak.com/config.local.yaml
+shared.inctrak.com/appsettings.json
 .ntvs_analysis.dat
 
 # Visual Studio 6 build log

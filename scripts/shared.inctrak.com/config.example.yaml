@@ -1,0 +1,29 @@
+# Copy this file to config.local.yaml for local launch or adapt it for deployment rendering.
+# Any value written as ${VARIABLE_NAME} is resolved from the process environment when rendered.
+
+ASPNETCORE_ENVIRONMENT: Development
+ASPNETCORE_URLS: https://localhost:5001;http://localhost:5000
+VITE_API_PROXY_TARGET: http://localhost:5000
+
+AppSettings:
+  FrontendBaseUrl: http://localhost:3000
+  FileSaveLocation: ${MATRIXEASE_FILE_ROOT}
+  ProtectionKey: ${MATRIXEASE_PROTECTION_KEY}
+  GoogleClientId: ${GOOGLE_CLIENT_ID}
+  GoogleClientSecret: ${GOOGLE_CLIENT_SECRET}
+  UseSNMP: false
+  SNMPServer: ""
+  SNMPPort: 25
+  SNMPAddress: ""
+  SNMPPassword: ""
+  EmailApiKey: ${SENDGRID_API_KEY}
+  EmailFrom: feedback@matrixease.com
+  MaxConcurrentJobs: 10
+  AllowedOrigins:
+    - http://localhost:3000
+    - http://127.0.0.1:3000
+    - https://localhost:5001
+    - http://localhost:5000
+  RequireGatewaySecret: false
+  GatewaySecretHeaderName: X-Internal-Api-Key
+  GatewaySecret: ${SHARED_INCTRAK_GATEWAY_SECRET}

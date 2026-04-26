@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "frontend-shared-inctrak",
+  "compatibility_date": "2026-04-26",
+  "pages_build_output_dir": "dist",
+  "vars": {
+    "API_BASE_URL": "https://api.shared.inctrak.com",
+    "GATEWAY_SECRET_HEADER_NAME": "X-Internal-Api-Key"
+  }
+}

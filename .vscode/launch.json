@@ -1,45 +1,51 @@
 {
   "version": "0.2.0",
-  "compounds": [
-    {
-      "name": "MatrixEase.Web + Frontend",
-      "configurations": [
-        "MatrixEase.Web",
-        "MatrixEase.Static (Web)"
-      ]
-    }
-  ],
   "configurations": [
     {
-      "name": "MatrixEase.Web",
+      "name": "Backend: shared.inctrak.com (no browser)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build MatrixEase.Web",
-      "program": "${workspaceFolder}/MatrixEase.Web/bin/Debug/net10.0/MatrixEase.Web.dll",
-      "cwd": "${workspaceFolder}/MatrixEase.Web",
+      "preLaunchTask": "backend: prepare local launch",
+      "program": "${workspaceFolder}/shared.inctrak.com/bin/Debug/net10.0/shared.inctrak.com.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/shared.inctrak.com",
       "stopAtEntry": false,
+      "envFile": "${workspaceFolder}/.vscode/shared.inctrak-api.env",
       "env": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "https://localhost:5001;http://localhost:5000"
+      },
+      "presentation": {
+        "group": "local",
+        "order": 1,
+        "hidden": true
       }
     },
     {
-      "name": "MatrixEase.Static (Web)",
-      "type": "node-terminal",
+      "name": "Frontend: Vite",
+      "type": "pwa-chrome",
       "request": "launch",
-      "command": "npm --prefix \"${workspaceFolder}/MatrixEase.Static\" run dev:web -- --open"
-    },
+      "preLaunchTask": "frontend: prepare browser launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/frontend",
+      "presentation": {
+        "group": "local",
+        "order": 1,
+        "hidden": true
+      }
+    }
+  ],
+  "compounds": [
     {
-      "name": "MatrixEase.Static (Electron)",
-      "type": "node-terminal",
-      "request": "launch",
-      "command": "npm --prefix \"${workspaceFolder}/MatrixEase.Static\" run dev:electron"
-    },
-    {
-      "name": "MatrixEase.App (Electron)",
-      "type": "node-terminal",
-      "request": "launch",
-      "command": "dotnet run --project \"${workspaceFolder}/MatrixEase.App/MatrixEase.App.csproj\""
+      "name": "Local: frontend + backend",
+      "configurations": [
+        "Backend: shared.inctrak.com (no browser)",
+        "Frontend: Vite"
+      ],
+      "stopAll": true,
+      "presentation": {
+        "group": "local",
+        "order": 1
+      }
     }
   ]
 }
