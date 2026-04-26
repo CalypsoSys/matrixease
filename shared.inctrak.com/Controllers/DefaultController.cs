@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -19,8 +17,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 
 namespace MatrixEase.Web
 {
@@ -216,77 +212,21 @@ namespace MatrixEase.Web
             return Captcha(matrixease_id);
         }
 
-        //curl https://localhost:44340/send_email_code/?email_to_address=bob
+        // Deprecated: email-code sign-in is being removed from the split backend.
         [HttpGet("send_email_code")]
         public object SendEmailCode(string matrixease_id, string email_to_address, string result)
         {
-            bool status = false;
             try
             {
                 CheckMatrixEaseId(matrixease_id, true);
-                string coded;
-                if (MiscHelpers.IsValidEmail(email_to_address) && Request.Cookies.TryGetValue("authenticated-accepted-2", out coded))
-                {
-                    string captcha = MiscHelpers.Decrypt(coded, false);
-                    string []parts1 = captcha.Split(',', StringSplitOptions.RemoveEmptyEntries);
-                    string[] parts2 = result.Split(',', StringSplitOptions.RemoveEmptyEntries);
-                    if (parts1.Length == 3 && parts1.Length == parts2.Length && parts1[0] == parts2[0] && parts1[1] == parts2[1] && parts1[2] == parts2[2])
-                    {
-                        Random rnd = new Random();
-                        int rndCode = rnd.Next(0, 1000000);
-                        string code = rndCode.ToString("000000");
-
-                        string filePath = MiscHelpers.GetPendingAccountFile(email_to_address);
-                        using (new FileLocker(filePath))
-                        {
-                            using (FileStream pendingStream = new FileStream(filePath, FileMode.OpenOrCreate))
-                            {
-                                using (BinaryWriter pending = new BinaryWriter(pendingStream))
-                                {
-
-                                    pending.Write(MiscHelpers.Encrypt(email_to_address.ToLower()));
-                                    pending.Write(code);
-                                    pending.Write(MiscHelpers.Encrypt(MiscHelpers.HashEmail(email_to_address, false)));
-                                }
-                            }
-                        }
-
-                        var plainTextContent = "Here's your email validation code. To complete the process, either enter or copy and paste the six digits of the code into the MatrixEase access page and click \"Validate Code\" to continue. That's it!";
-                        if (_options.Value.UseSNMP)
-                        {
-                            var client = new SmtpClient(_options.Value.SNMPServer, _options.Value.SNMPPort);
-                            client.UseDefaultCredentials = false;
-                            client.Credentials = new NetworkCredential(_options.Value.SNMPAddress, _options.Value.SNMPPassword);
-                            client.EnableSsl = false;
-                            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-
-                            MailMessage message = new MailMessage(_options.Value.SNMPAddress, email_to_address);
-                            message.Subject = "MatrixEase Validation Code";
-                            message.Body = plainTextContent;
-                            message.IsBodyHtml = false;
-                            message.Bcc.Add(_options.Value.SNMPAddress);
-                            client.Send(message);
-                        }
-                        else
-                        {
-                            var client = new SendGridClient(_options.Value.EmailApiKey);
-                            var from = new EmailAddress(_options.Value.EmailFrom);
-                            var to = new EmailAddress(email_to_address);
-                            var msg = MailHelper.CreateSingleEmail(from, to, "MatrixEase Validation Code", string.Format("{0}\r\n\r\n{1}\r\n\r\nBest Regards,\r\nThe MatrixEase Team", plainTextContent, code), null);
-
-                            var response = client.SendEmailAsync(msg);
-                            response.Wait();
-                            status = true;
-                        }
-                    }
-                }
+                _logger.LogWarning("Email code sign-in is deprecated and disabled for {EmailAddress}", email_to_address);
             }
             catch (Exception excp)
             {
                 SimpleLogger.LogError(excp, "Error sending email code {0}", email_to_address);
             }
 
-            return new { Success = status };
+            return new { Success = false };
         }
 
         [HttpGet("/api/session/send_email_code")]

@@ -4,14 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Threading.Tasks;
 
 namespace MatrixEase.Web.Controllers
 {
@@ -19,9 +13,9 @@ namespace MatrixEase.Web.Controllers
     public class FeedbackController : ControllerBase
     {
         private readonly IOptions<AppSettings> _options;
-        private readonly ILogger<DefaultController> _logger;
+        private readonly ILogger<FeedbackController> _logger;
 
-        public FeedbackController(IOptions<AppSettings> options, ILogger<DefaultController> logger)
+        public FeedbackController(IOptions<AppSettings> options, ILogger<FeedbackController> logger)
         {
             _options = options;
             _logger = logger;
@@ -74,40 +68,22 @@ namespace MatrixEase.Web.Controllers
                         feedBack.Subject = "none";
                     feedBack.ClientData = GetClientInfo();
 
-                    var subject = string.Format("Feedback: {0}", feedBack.Subject);
-                    var messageBody = string.Format("Name: {0}<br />Email: {1}<br />Client:{2}<br />Message: {3}", feedBack.Name, feedBack.EmailAddress, feedBack.ClientData, feedBack.Message);
-
-                    if (_options.Value.UseSNMP)
-                    {
-                        var client = new SmtpClient(_options.Value.SNMPServer, _options.Value.SNMPPort);
-                        client.UseDefaultCredentials = false;
-                        client.Credentials = new NetworkCredential(_options.Value.SNMPAddress, _options.Value.SNMPPassword);
-                        client.EnableSsl = false;
-                        client.DeliveryMethod = SmtpDeliveryMethod.Network;
-
-                        MailMessage message = new MailMessage(_options.Value.SNMPAddress, "feedback@matrixease.com");
-                        message.Subject = subject;
-                        message.Body = messageBody;
-                        message.IsBodyHtml = true;
-                        message.Bcc.Add(_options.Value.SNMPAddress);
-                        client.Send(message);
-                    }
-                    else
-                    {
-                        var client = new SendGridClient(_options.Value.EmailApiKey);
-                        var from = new EmailAddress(_options.Value.EmailFrom);
-                        var to = new EmailAddress("feedback@matrixease.com");
-                        var msg = MailHelper.CreateSingleEmail(from, to, subject, messageBody, null);
-
-                        var response = client.SendEmailAsync(msg);
-                        response.Wait();
-                    }
+                    SlackWebhookNotifier.Send(
+                        _options.Value.SlackFeedbackWebhookUrl,
+                        string.Format(
+                            "New feedback submitted\nSubject: {0}\nName: {1}\nEmail: {2}\nClient: {3}\nMessage: {4}",
+                            feedBack.Subject,
+                            feedBack.Name,
+                            feedBack.EmailAddress,
+                            feedBack.ClientData,
+                            feedBack.Message));
 
                     return Ok(new { success = true, message = string.Format("Thanks for the message {0}, we hope to get back to you soon", who) });
                 }
             }
             catch (Exception excp)
             {
+                _logger.LogError(excp, "Error sending feedback");
                 SimpleLogger.LogError(excp, "Error sending feedback");
                 return Ok(new { success = false, message = "Failed sending feedback, please try again" });
             }

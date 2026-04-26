@@ -11,13 +11,7 @@ AppSettings:
   ProtectionKey: ${MATRIXEASE_PROTECTION_KEY}
   GoogleClientId: ${GOOGLE_CLIENT_ID}
   GoogleClientSecret: ${GOOGLE_CLIENT_SECRET}
-  UseSNMP: false
-  SNMPServer: ""
-  SNMPPort: 25
-  SNMPAddress: ""
-  SNMPPassword: ""
-  EmailApiKey: ${SENDGRID_API_KEY}
-  EmailFrom: feedback@matrixease.com
+  SlackFeedbackWebhookUrl: ${SHARED_INCTRAK_SLACK_FEEDBACK_WEBHOOK_URL}
   MaxConcurrentJobs: 10
   AllowedOrigins:
     - http://localhost:3000

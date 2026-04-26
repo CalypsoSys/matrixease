@@ -40,6 +40,7 @@ Required environment variables:
 
 - `API_BASE_URL`
 - `INTERNAL_API_KEY`
+- `SHARED_INCTRAK_SLACK_FEEDBACK_WEBHOOK_URL` on the API host if feedback notifications should post to Slack
 
 Optional:
 

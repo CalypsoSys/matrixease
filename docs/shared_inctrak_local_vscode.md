@@ -22,6 +22,14 @@ scripts/shared.inctrak.com/config.example.yaml
 
 This local file is gitignored.
 
+The shared API now expects feedback notifications through:
+
+```text
+AppSettings__SlackFeedbackWebhookUrl
+```
+
+Email-code sign-in is deprecated in this split backend and is no longer configured through SMTP or SendGrid settings.
+
 ## How launch works
 
 The backend launch entries in `.vscode/launch.json` use the `backend: prepare local launch` task.
