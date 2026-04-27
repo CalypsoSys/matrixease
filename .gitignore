@@ -234,6 +234,7 @@ frontend/dist
 .vscode/shared.inctrak-api.env
 scripts/shared.inctrak.com/config.local.yaml
 shared.inctrak.com/appsettings.json
+.gitleaks-report.json
 .ntvs_analysis.dat
 
 # Visual Studio 6 build log

@@ -147,4 +147,38 @@ Useful variants:
 
 The `Makefile` replaces the old root solution file and keeps the repo entry points project-scoped.
 
+## Secret Scanning
+
+This repo now includes a standard `gitleaks` setup:
+
+- repo config in `.gitleaks.toml`
+- pre-commit hook config in `.pre-commit-config.yaml`
+- local runner via `make gitleaks`
+- GitHub Actions workflow in `.github/workflows/gitleaks.yml`
+
+Run it locally with:
+
+```bash
+make gitleaks
+```
+
+To enable the local pre-commit hook:
+
+```bash
+pip install pre-commit
+make install-hooks
+```
+
+After that, `gitleaks` will run automatically on each commit through `pre-commit`, and the GitHub Actions workflow will enforce the same scan in CI.
+
+If you already use `make secrets`, it remains available as an alias for backward compatibility.
+
+If you want a local JSON report for triage, run:
+
+```bash
+gitleaks detect --source . --config .gitleaks.toml --no-banner --redact --report-format json --report-path .gitleaks-report.json
+```
+
+The initial config keeps the default `gitleaks` rules and only allows a few explicit placeholder values used in docs and sample setup text. If the first real scan finds historical false positives, we should review those together before adding any broader allowlist or baseline.
+
 ---

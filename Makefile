@@ -1,4 +1,4 @@
-.PHONY: help restore build build-all build-app build-web build-manga build-tester test run-app run-web docker-up
+.PHONY: help restore build build-all build-app build-web build-manga build-tester test run-app run-web docker-up gitleaks secrets install-hooks
 
 CONFIGURATION ?= Debug
 DOTNET ?= dotnet
@@ -23,6 +23,9 @@ help:
 	@printf "  make run-app                 Run MatrixEase.App\n"
 	@printf "  make run-web                 Run MatrixEase.Web\n"
 	@printf "  make docker-up               Start the docker deployment stack\n"
+	@printf "  make gitleaks                Run gitleaks against the current repo contents\n"
+	@printf "  make secrets                 Alias for make gitleaks\n"
+	@printf "  make install-hooks           Install pre-commit hooks for local secret scanning\n"
 	@printf "\n"
 	@printf "Override build configuration with CONFIGURATION=Release\n"
 
@@ -60,3 +63,11 @@ run-web:
 
 docker-up:
 	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up -d
+
+gitleaks:
+	gitleaks detect --source . --config .gitleaks.toml --no-banner --redact
+
+secrets: gitleaks
+
+install-hooks:
+	pre-commit install

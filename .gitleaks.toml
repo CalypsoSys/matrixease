@@ -1,0 +1,15 @@
+title = "MatrixEase gitleaks config"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Common placeholder values used in docs and sample configuration"
+regexes = [
+  '''replace-with-[A-Za-z0-9-]+''',
+  '''your-google-client-id''',
+  '''your-google-client-secret''',
+  '''https://hooks\.slack\.com/services/your/webhook''',
+  '''your-snap-account@example\.com'''
+]
+
