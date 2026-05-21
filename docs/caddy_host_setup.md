@@ -63,6 +63,9 @@ http://api.matrixease.com {
 }
 ```
 
+The MatrixEase API enforces `X-Internal-Api-Key` on protected routes when `RequireGatewaySecret` is enabled. In the
+Cloudflare Pages gateway pattern, the Pages Function should send that header and Caddy should pass it through.
+
 ## Start and verify Caddy
 
 Run on the Ubuntu host:
@@ -96,6 +99,8 @@ Check local routing:
 
 ```bash
 curl -i -H "Host: api.matrixease.com" http://127.0.0.1:80/
+curl -i -H "Host: api.matrixease.com" http://127.0.0.1:80/api/feedback/save_message/
+curl -i -H "Host: api.matrixease.com" -H "X-Internal-Api-Key: $MATRIXEASE_GATEWAY_SECRET" http://127.0.0.1:80/api/feedback/save_message/
 ```
 
 ## Cloudflare Tunnel relationship

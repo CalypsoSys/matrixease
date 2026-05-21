@@ -1,16 +1,12 @@
 ﻿using MatrixEase.Web.Common;
-using MatrixEase.Manga.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MatrixEase.Web.Controllers
@@ -19,23 +15,25 @@ namespace MatrixEase.Web.Controllers
     public class FeedbackController : ControllerBase
     {
         private readonly IOptions<AppSettings> _options;
-        private readonly ILogger<DefaultController> _logger;
+        private readonly ILogger<FeedbackController> _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public FeedbackController(IOptions<AppSettings> options, ILogger<DefaultController> logger)
+        public FeedbackController(IOptions<AppSettings> options, ILogger<FeedbackController> logger, IHttpClientFactory httpClientFactory)
         {
             _options = options;
             _logger = logger;
+            _httpClientFactory = httpClientFactory;
         }
 
         [Route("api/feedback/save_message/")]
-        public ActionResult Post(Feedback feedBack)
+        [HttpPost]
+        public async Task<ActionResult> Post(Feedback feedBack)
         {
             try
             {
-                StringValues header;
                 Uri referrer = null;
-                if (Request.Headers.TryGetValue("Referer", out header))
-                    referrer = new Uri(header);
+                if (Request.Headers.TryGetValue("Referer", out StringValues header))
+                    Uri.TryCreate(header.ToString(), UriKind.Absolute, out referrer);
 
                 if (referrer == null ||
                     (referrer.DnsSafeHost.EndsWith("matrixease.com") == false
@@ -52,69 +50,72 @@ namespace MatrixEase.Web.Controllers
                 {
                     return Ok(new { success = false, message = "Please enter email or name and subject or message" });
                 }
-                else
+
+                NormalizeFeedback(feedBack);
+                feedBack.ClientData = GetClientInfo();
+
+                string webhookUrl = _options.Value.GetSlackFeedbackWebhookUrl();
+                if (string.IsNullOrWhiteSpace(webhookUrl))
                 {
-                    string who = "";
-                    if (string.IsNullOrWhiteSpace(feedBack.EmailAddress))
-                    {
-                        feedBack.EmailAddress = "none";
-                    }
-                    else
-                    {
-                        who = string.Format(", {0}", feedBack.EmailAddress);
-                    }
-                    if (string.IsNullOrWhiteSpace(feedBack.Name))
-                    {
-                        feedBack.Name = "none";
-                    }
-                    else
-                    {
-                        who = string.Format(", {0}", feedBack.Name);
-                    }
-
-                    if (string.IsNullOrWhiteSpace(feedBack.Message))
-                        feedBack.Message = "none";
-                    else if (string.IsNullOrWhiteSpace(feedBack.Subject))
-                        feedBack.Subject = "none";
-                    feedBack.ClientData = GetClientInfo();
-
-                    var subject = string.Format("Feedback: {0}", feedBack.Subject);
-                    var messageBody = string.Format("Name: {0}<br />Email: {1}<br />Client:{2}<br />Message: {3}", feedBack.Name, feedBack.EmailAddress, feedBack.ClientData, feedBack.Message);
-
-                    if (_options.Value.UseSNMP)
-                    {
-                        var client = new SmtpClient(_options.Value.SNMPServer, _options.Value.SNMPPort);
-                        client.UseDefaultCredentials = false;
-                        client.Credentials = new NetworkCredential(_options.Value.SNMPAddress, _options.Value.SNMPPassword);
-                        client.EnableSsl = false;
-                        client.DeliveryMethod = SmtpDeliveryMethod.Network;
-
-                        MailMessage message = new MailMessage(_options.Value.SNMPAddress, "feedback@matrixease.com");
-                        message.Subject = subject;
-                        message.Body = messageBody;
-                        message.IsBodyHtml = true;
-                        message.Bcc.Add(_options.Value.SNMPAddress);
-                        client.Send(message);
-                    }
-                    else
-                    {
-                        var client = new SendGridClient(_options.Value.EmailApiKey);
-                        var from = new EmailAddress(_options.Value.EmailFrom);
-                        var to = new EmailAddress("feedback@matrixease.com");
-                        var msg = MailHelper.CreateSingleEmail(from, to, subject, messageBody, null);
-
-                        var response = client.SendEmailAsync(msg);
-                        response.Wait();
-                    }
-
-                    return Ok(new { success = true, message = string.Format("Thanks for the message {0}, we hope to get back to you soon", who) });
+                    _logger.LogWarning("Slack feedback webhook URL is not configured.");
+                    return Ok(new { success = false, message = "Feedback is not configured yet" });
                 }
+
+                using HttpClient client = _httpClientFactory.CreateClient();
+                string messageBody = JsonSerializer.Serialize(new
+                {
+                    text = BuildFeedbackSlackMessage(feedBack),
+                    mrkdwn = true
+                });
+                using var content = new StringContent(messageBody, Encoding.UTF8, "application/json");
+                using HttpResponseMessage response = await client.PostAsync(webhookUrl, content);
+                response.EnsureSuccessStatusCode();
+
+                string who = string.IsNullOrWhiteSpace(feedBack.Name) || feedBack.Name == "none"
+                    ? feedBack.EmailAddress
+                    : feedBack.Name;
+
+                return Ok(new { success = true, message = string.Format("Thanks for the message, {0}. We hope to get back to you soon.", who) });
             }
             catch (Exception excp)
             {
-                SimpleLogger.LogError(excp, "Error sending feedback");
+                MatrixEaseErrors.LogError(_options.Value, excp, "Error sending feedback");
                 return Ok(new { success = false, message = "Failed sending feedback, please try again" });
             }
+        }
+
+        internal static string BuildFeedbackSlackMessage(Feedback feedBack)
+        {
+            return string.Format(
+                "*MatrixEase feedback*\n*Name:* {0}\n*Email:* {1}\n*Subject:* {2}\n*Client:* {3}\n*Message:*\n{4}",
+                EscapeSlackValue(feedBack.Name),
+                EscapeSlackValue(feedBack.EmailAddress),
+                EscapeSlackValue(feedBack.Subject),
+                EscapeSlackValue(feedBack.ClientData),
+                EscapeSlackValue(feedBack.Message));
+        }
+
+        private static void NormalizeFeedback(Feedback feedBack)
+        {
+            if (string.IsNullOrWhiteSpace(feedBack.EmailAddress))
+                feedBack.EmailAddress = "none";
+
+            if (string.IsNullOrWhiteSpace(feedBack.Name))
+                feedBack.Name = "none";
+
+            if (string.IsNullOrWhiteSpace(feedBack.Message))
+                feedBack.Message = "none";
+
+            if (string.IsNullOrWhiteSpace(feedBack.Subject))
+                feedBack.Subject = "none";
+        }
+
+        private static string EscapeSlackValue(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return "none";
+
+            return value.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Trim();
         }
 
         private string GetClientInfo()

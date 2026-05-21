@@ -73,6 +73,9 @@ The renderer preserves nested config names:
 - `MatrixEase.Web.AllowedOrigins[0]` becomes `MatrixEase__Web__AllowedOrigins__0`
 - `MatrixEase.Web.RateLimit.Enabled` becomes `MatrixEase__Web__RateLimit__Enabled`
 
+The backend now reads the same config for CORS, Supabase bearer-token validation, gateway-secret enforcement, file logs,
+rate limiting, and Slack feedback. Local development leaves `RequireGatewaySecret` off by default.
+
 ## Launch entries
 
 Use:
@@ -99,3 +102,11 @@ The future frontend launch will be added when `frontend/` exists. It should foll
 - The backend build skips `web_blaster` because the web path is moving to a static `frontend/` app.
 - The Electron app is out of scope for this phase and still has its existing launch entry.
 - Keep `.vscode/matrixease-api.env` out of Git; it may contain secrets.
+
+## Backend verification
+
+Run the backend-focused tests with:
+
+```bash
+dotnet test MatrixEase.Web.Tests/MatrixEase.Web.Tests.csproj /property:SkipWebBlaster=true
+```

@@ -164,6 +164,16 @@ Check through Caddy:
 curl -i -H "Host: api.matrixease.com" http://127.0.0.1:80/
 ```
 
+Check gateway-secret enforcement on a protected route:
+
+```bash
+curl -i -H "Host: api.matrixease.com" http://127.0.0.1:80/api/feedback/save_message/
+curl -i -H "Host: api.matrixease.com" -H "X-Internal-Api-Key: $MATRIXEASE_GATEWAY_SECRET" http://127.0.0.1:80/api/feedback/save_message/
+```
+
+The first request should return `401` in production. The second should reach the application; a `405` is expected for
+that `GET` request because the feedback endpoint accepts `POST`.
+
 Check logs:
 
 ```bash
@@ -172,7 +182,8 @@ tail -n 50 /srv/logs/matrixease/api/access.log
 tail -n 50 /srv/logs/matrixease/api/errors.log
 ```
 
-Once gateway-secret enforcement is implemented, requests without `X-Internal-Api-Key` should fail in production.
+Feedback posts to Slack only. If `MATRIXEASE_SLACK_FEEDBACK_WEBHOOK_URL` is missing, the endpoint returns a
+configuration failure instead of falling back to email.
 
 ## Rollback
 

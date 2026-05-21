@@ -146,6 +146,14 @@ Phase 1 creates the production shape and ports the core web workflow.
 - Do not migrate existing user catalogs in phase 1.
 - Leave Google Sheets import out of phase 1.
 
+Current branch progress:
+
+- Config-driven CORS, forwarded headers, fixed-window rate limiting, access/error file logs, gateway-secret middleware,
+  Supabase bearer-token validation, and Slack-only feedback are in place.
+- Backend coverage lives in `MatrixEase.Web.Tests`.
+- Legacy Google/email-code controllers still compile while the frontend and Supabase workflow are being ported; final
+  removal belongs with the API endpoint replacement work.
+
 ### Frontend
 
 - Create `frontend/` with the same general stack as IncTrak/MMA:
