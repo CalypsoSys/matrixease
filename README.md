@@ -138,4 +138,9 @@ export MatrixEase__App__GoogleClientId=your-google-client-id
 
 Use the VS Code launch configuration or run projects directly with `dotnet run`.
 
+The planned web/API/frontend modernization is tracked in
+[docs/matrixease_web_api_frontend_plan.md](docs/matrixease_web_api_frontend_plan.md). That plan defines the phase 1
+target for `frontend/`, `MatrixEase.Web` as the API-only backend, Supabase auth, Slack feedback, Docker/Caddy hosting,
+and the phase 2 work for Google Sheets and Electron alignment.
+
 ---
