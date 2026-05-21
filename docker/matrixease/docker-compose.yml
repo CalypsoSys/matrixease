@@ -1,0 +1,33 @@
+services:
+  matrixease-api:
+    image: ${MATRIXEASE_API_IMAGE:-matrixease-api:latest}
+    container_name: matrixease-api
+    restart: unless-stopped
+    ports:
+      - "${MATRIXEASE_API_HOST_BIND:-127.0.0.1}:${MATRIXEASE_API_HOST_PORT:-8083}:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}
+      ASPNETCORE_HTTP_PORTS: 8080
+      MatrixEase__Web__AccessLogPath: ${MatrixEase__Web__AccessLogPath:-/app/logs/access.log}
+      MatrixEase__Web__ErrorLogPath: ${MatrixEase__Web__ErrorLogPath:-/app/logs/errors.log}
+      MatrixEase__Web__FileSaveLocation: ${MatrixEase__Web__FileSaveLocation:-/app/data}
+      MatrixEase__Web__FrontendBaseUrl: ${MatrixEase__Web__FrontendBaseUrl}
+      MatrixEase__Web__AllowedOrigins__0: ${MatrixEase__Web__AllowedOrigins__0}
+      MatrixEase__Web__AllowedOrigins__1: ${MatrixEase__Web__AllowedOrigins__1}
+      MatrixEase__Web__AllowedOrigins__2: ${MatrixEase__Web__AllowedOrigins__2}
+      MatrixEase__Web__RequireGatewaySecret: ${MatrixEase__Web__RequireGatewaySecret}
+      MatrixEase__Web__GatewaySecretHeaderName: ${MatrixEase__Web__GatewaySecretHeaderName}
+      MatrixEase__Web__GatewaySecret: ${MatrixEase__Web__GatewaySecret}
+      MatrixEase__Web__RateLimit__Enabled: ${MatrixEase__Web__RateLimit__Enabled}
+      MatrixEase__Web__RateLimit__PermitLimit: ${MatrixEase__Web__RateLimit__PermitLimit}
+      MatrixEase__Web__RateLimit__WindowSeconds: ${MatrixEase__Web__RateLimit__WindowSeconds}
+      MatrixEase__Web__RateLimit__QueueLimit: ${MatrixEase__Web__RateLimit__QueueLimit}
+      MatrixEase__Web__ProtectionKey: ${MatrixEase__Web__ProtectionKey}
+      MatrixEase__Web__SupabaseUrl: ${MatrixEase__Web__SupabaseUrl}
+      MatrixEase__Web__SupabaseAnonKey: ${MatrixEase__Web__SupabaseAnonKey}
+      MatrixEase__Web__SupabaseJwtSecret: ${MatrixEase__Web__SupabaseJwtSecret}
+      MatrixEase__Web__SlackFeedbackWebhookUrl: ${MatrixEase__Web__SlackFeedbackWebhookUrl}
+      MatrixEase__Web__MaxConcurrentJobs: ${MatrixEase__Web__MaxConcurrentJobs:-10}
+    volumes:
+      - ${MATRIXEASE_DATA_HOST_PATH:-/srv/stacks/matrixease/data}:/app/data
+      - ${MATRIXEASE_LOGS_HOST_PATH:-/srv/logs/matrixease/api}:/app/logs

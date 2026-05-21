@@ -189,6 +189,12 @@ ClientBin/
 *.pfx
 *.publishsettings
 node_modules/
+frontend/dist/
+.codex
+.vscode/matrixease-api.env
+scripts/matrixease/config.local.yaml
+scripts/matrixease/config.yaml
+scripts/matrixease/render-config-env
 orleans.codegen.cs
 
 # RIA/Silverlight projects

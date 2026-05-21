@@ -1,17 +1,74 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "build MatrixEase.Web",
-      "type": "process",
-      "command": "dotnet",
-      "args": [
-        "build",
-        "${workspaceFolder}/MatrixEase.Web/MatrixEase.Web.csproj",
-        "--configuration",
-        "Debug"
-      ],
-      "problemMatcher": "$msCompile"
-    }
-  ]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "backend: render local env",
+            "type": "shell",
+            "command": "if [ ! -x ./scripts/matrixease/render-config-env ]; then echo \"Render binary is not executable: ./scripts/matrixease/render-config-env\" >&2; echo \"Build it from ~/work/calypsosys-workbench/repos/babalu-yaml-env with: go build -o \\\"$PWD/scripts/matrixease/render-config-env\\\" ./cmd/babalu_yaml_env\" >&2; exit 1; fi; ./scripts/matrixease/render-config-env --format env ./scripts/matrixease/config.local.yaml > ./.vscode/matrixease-api.env",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "/bin/bash",
+                    "args": [
+                        "-lc"
+                    ]
+                }
+            },
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "backend: build",
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "${workspaceFolder}/MatrixEase.Web/MatrixEase.Web.csproj",
+                "/property:GenerateFullPaths=true",
+                "/property:SkipWebBlaster=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "backend: prepare local launch",
+            "dependsOn": [
+                "backend: render local env",
+                "backend: build"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        },
+        {
+            "label": "backend: run",
+            "type": "shell",
+            "command": "set -a; . ./.vscode/matrixease-api.env; set +a; dotnet run --no-build --project MatrixEase.Web/MatrixEase.Web.csproj",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "shell": {
+                    "executable": "/bin/bash",
+                    "args": [
+                        "-lc"
+                    ]
+                }
+            },
+            "dependsOn": [
+                "backend: prepare local launch"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "custom",
+                "pattern": {
+                    "regexp": "."
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*",
+                    "endsPattern": ".*Now listening on:.*"
+                }
+            }
+        }
+    ]
 }

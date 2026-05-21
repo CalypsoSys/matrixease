@@ -123,7 +123,9 @@ Phase 1 creates the production shape and ports the core web workflow.
 - Convert `MatrixEase.Web` to API-only for hosted web use.
 - Remove web-host dependency on `static.matrixease.wwwroot` and `web_blaster`.
 - Keep `MatrixEase.Manga` as the processing/file-storage library.
-- Bind API configuration from flattened `AppSettings__...` environment variables rendered from YAML.
+- Bind API configuration from flattened environment variables rendered from YAML. The current backend uses
+  `MatrixEase__Web__...` names, so phase 1 should extend that section unless a later refactor deliberately changes
+  the config root.
 - Add config-driven CORS for:
   - `https://app.matrixease.com`
   - local Vite origin, likely `http://127.0.0.1:5173` or the chosen MatrixEase frontend port

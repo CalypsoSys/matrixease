@@ -1,0 +1,36 @@
+# Copy this file to scripts/matrixease/config.local.yaml for local VS Code runs
+# or to /srv/stacks/matrixease/api/config.yaml on the production host.
+# Values written as ${VARIABLE_NAME} are resolved from the process environment by babalu_yaml_env.
+
+MATRIXEASE_API_IMAGE: matrixease-api:latest
+
+ASPNETCORE_ENVIRONMENT: Development
+MATRIXEASE_API_HOST_BIND: 127.0.0.1
+MATRIXEASE_API_HOST_PORT: 8083
+MATRIXEASE_DATA_HOST_PATH: /srv/stacks/matrixease/data
+MATRIXEASE_LOGS_HOST_PATH: /srv/logs/matrixease/api
+
+MatrixEase:
+  Web:
+    AccessLogPath: /app/logs/access.log
+    ErrorLogPath: /app/logs/errors.log
+    FileSaveLocation: /app/data
+    FrontendBaseUrl: http://127.0.0.1:5173
+    AllowedOrigins:
+      - http://127.0.0.1:5173
+      - http://localhost:5173
+      - https://app.matrixease.com
+    RequireGatewaySecret: false
+    GatewaySecretHeaderName: X-Internal-Api-Key
+    GatewaySecret: ${MATRIXEASE_GATEWAY_SECRET}
+    RateLimit:
+      Enabled: false
+      PermitLimit: 120
+      WindowSeconds: 60
+      QueueLimit: 0
+    ProtectionKey: ${MATRIXEASE_PROTECTION_KEY}
+    SupabaseUrl: ${MATRIXEASE_SUPABASE_URL}
+    SupabaseAnonKey: ${MATRIXEASE_SUPABASE_PUBLISHABLE_KEY}
+    SupabaseJwtSecret: ${MATRIXEASE_SUPABASE_JWT_SECRET}
+    SlackFeedbackWebhookUrl: ${MATRIXEASE_SLACK_FEEDBACK_WEBHOOK_URL}
+    MaxConcurrentJobs: 10
