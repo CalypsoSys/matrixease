@@ -1,0 +1,200 @@
+:root {
+  color-scheme: light;
+  --app-bg: #f6f7f2;
+  --app-surface: #ffffff;
+  --app-panel: #fdfdfb;
+  --app-border: #d9ded2;
+  --app-ink: #20241f;
+  --app-muted: #66705f;
+  --app-accent: #0f766e;
+  --app-accent-strong: #115e59;
+  --app-indigo: #4f46e5;
+  --app-warn: #b45309;
+  --app-danger: #b91c1c;
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+  color: var(--app-ink);
+  background: var(--app-bg);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.app-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--app-border);
+  background: rgba(255, 255, 255, 0.92);
+  padding: 0.85rem clamp(1rem, 3vw, 2rem);
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.brand-lockup img {
+  height: 2.25rem;
+  width: auto;
+}
+
+.brand-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.brand-subtitle {
+  margin: 0.15rem 0 0;
+  color: var(--app-muted);
+  font-size: 0.9rem;
+}
+
+.page-frame {
+  margin: 0 auto;
+  max-width: 1180px;
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+.panel {
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  background: var(--app-surface);
+  box-shadow: 0 16px 45px rgba(32, 36, 31, 0.07);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--app-border);
+  padding: 1rem 1.15rem;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.panel-body {
+  padding: 1rem 1.15rem;
+}
+
+.login-wrap {
+  display: grid;
+  min-height: calc(100vh - 4rem);
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+}
+
+.login-panel {
+  width: min(100%, 430px);
+}
+
+.form-stack {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--app-muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.muted {
+  color: var(--app-muted);
+}
+
+.project-name {
+  font-weight: 800;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--app-border);
+  padding: 0.2rem 0.65rem;
+  background: #f8faf6;
+  color: var(--app-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.status-pill[data-status="complete"] {
+  border-color: rgba(15, 118, 110, 0.28);
+  background: rgba(15, 118, 110, 0.08);
+  color: var(--app-accent-strong);
+}
+
+.status-pill[data-status="pending"] {
+  border-color: rgba(180, 83, 9, 0.26);
+  background: rgba(180, 83, 9, 0.08);
+  color: var(--app-warn);
+}
+
+.empty-state {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: center;
+  padding: 2.5rem 1rem;
+  text-align: center;
+}
+
+.empty-state i {
+  color: var(--app-accent);
+  font-size: 2rem;
+}
+
+.message-error {
+  border-left: 4px solid var(--app-danger);
+  background: #fff7f7;
+  color: var(--app-danger);
+  padding: 0.8rem 0.95rem;
+}
+
+@media (max-width: 640px) {
+  .app-topbar,
+  .panel-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .brand-lockup img {
+    height: 1.9rem;
+  }
+}

@@ -18,8 +18,8 @@ browser
 
 ## Frontend
 
-The future `frontend/` app should call MatrixEase endpoints through same-origin `/api/*` URLs. That keeps browser code
-independent of whether it is running locally through Vite or hosted on Cloudflare Pages.
+The `frontend/` app calls MatrixEase endpoints through same-origin `/api/*` URLs. That keeps browser code independent
+of whether it is running locally through Vite or hosted on Cloudflare Pages.
 
 Recommended Cloudflare Pages settings once `frontend/` exists:
 

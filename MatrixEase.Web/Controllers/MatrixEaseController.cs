@@ -9,6 +9,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
+using MatrixEase.Web.Common;
 using MatrixEase.Web.Controllers;
 using MatrixEase.Web.Tasks;
 using MatrixEase.Manga.Manga;
@@ -27,10 +28,74 @@ namespace MatrixEase.Web
     public class MatrixEaseController : ProcessController
     {
         private readonly ILogger<MatrixEaseController> _logger;
+        private readonly RequestContextAccessor _requestContextAccessor;
 
-        public MatrixEaseController(ILogger<MatrixEaseController> logger, IBackgroundTaskQueue queue) : base(queue)
+        public MatrixEaseController(ILogger<MatrixEaseController> logger, IBackgroundTaskQueue queue, RequestContextAccessor requestContextAccessor) : base(queue)
         {
             _logger = logger;
+            _requestContextAccessor = requestContextAccessor;
+        }
+
+        [HttpGet("projects")]
+        public IActionResult Projects()
+        {
+            SupabaseIdentity identity = _requestContextAccessor.GetSupabaseIdentity(HttpContext);
+            if (identity.IsAuthenticated() == false)
+            {
+                return Unauthorized(new MatrixEaseProjectsResponse
+                {
+                    Success = false,
+                    Message = "You must sign in before loading MatrixEase projects."
+                });
+            }
+
+            return Ok(BuildProjectsResponse(identity));
+        }
+
+        private MatrixEaseProjectsResponse BuildProjectsResponse(SupabaseIdentity identity)
+        {
+            string userId = identity.ExternalIdentity;
+            MangaCatalog catalog = MangaState.LoadUserMangaCatalog(userId, new MangaLoadOptions(true));
+            var projects = new List<MatrixEaseProjectDto>();
+            var loadedProjectIds = new HashSet<Guid>();
+
+            foreach (MangaInfo manga in catalog.MyMangas.OrderByDescending(manga => manga.Created))
+            {
+                projects.Add(BuildProjectDto(userId, manga, false));
+                loadedProjectIds.Add(manga.ManagGuid);
+            }
+
+            foreach (MangaInfo manga in MangaFactory.GetPending(userId).OrderByDescending(manga => manga.Created))
+            {
+                if (loadedProjectIds.Contains(manga.ManagGuid))
+                {
+                    continue;
+                }
+
+                projects.Add(BuildProjectDto(userId, manga, true));
+            }
+
+            return new MatrixEaseProjectsResponse
+            {
+                Success = true,
+                Projects = projects
+            };
+        }
+
+        private MatrixEaseProjectDto BuildProjectDto(string userId, MangaInfo manga, bool isPending)
+        {
+            return new MatrixEaseProjectDto
+            {
+                ProjectId = Encode(userId, manga.ManagGuid),
+                Name = manga.MangaName,
+                OriginalName = manga.OriginalName,
+                SheetType = manga.SheetType,
+                Created = manga.Created,
+                MaxRows = manga.MaxRows,
+                TotalRows = isPending ? null : manga.TotalRows,
+                Status = manga.Status,
+                IsPending = isPending
+            };
         }
 
         [HttpGet]

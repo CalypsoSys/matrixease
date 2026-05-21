@@ -21,6 +21,18 @@
             }
         },
         {
+            "name": "Frontend: Vite",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "corepack pnpm dev",
+            "cwd": "${workspaceFolder}/frontend",
+            "presentation": {
+                "group": "local",
+                "order": 2,
+                "hidden": true
+            }
+        },
+        {
             "name": "MatrixEase.App (Electron)",
             "type": "node-terminal",
             "request": "launch",
@@ -37,6 +49,18 @@
             "presentation": {
                 "group": "local",
                 "order": 1
+            }
+        },
+        {
+            "name": "Local: frontend + backend",
+            "configurations": [
+                "Backend: MatrixEase.Web (no browser)",
+                "Frontend: Vite"
+            ],
+            "stopAll": true,
+            "presentation": {
+                "group": "local",
+                "order": 2
             }
         }
     ]

@@ -21,6 +21,8 @@ test('matrixease deployment assets are present', () => {
     'scripts/caddy/caddy.logrotate',
     'docker/matrixease/docker-compose.yml',
     'MatrixEase.Web/Dockerfile',
+    'frontend/package.json',
+    'frontend/functions/api/[[path]].ts',
     'docs/matrixease_local_vscode.md',
     'docs/cloudflare-pages-gateway.md',
     'docs/caddy_host_setup.md',
@@ -82,6 +84,20 @@ test('VS Code backend launch renders MatrixEase API env file', () => {
   assert.match(tasks, /scripts\/matrixease\/render-config-env/)
   assert.match(gitignore, /\.vscode\/matrixease-api\.env/)
   assert.match(gitignore, /scripts\/matrixease\/config\.local\.yaml/)
+})
+
+test('frontend scaffold uses Vite and Cloudflare Pages API gateway', () => {
+  const packageJson = read('frontend/package.json')
+  const viteConfig = read('frontend/vite.config.ts')
+  const gateway = read('frontend/functions/api/[[path]].ts')
+
+  assert.match(packageJson, /"vite"/)
+  assert.match(packageJson, /"vue"/)
+  assert.match(packageJson, /"pinia"/)
+  assert.match(viteConfig, /port: 5173/)
+  assert.match(viteConfig, /VITE_API_PROXY_TARGET/)
+  assert.match(gateway, /API_BASE_URL/)
+  assert.match(gateway, /INTERNAL_API_KEY/)
 })
 
 test('docs describe api.matrixease.com and app.matrixease.com topology', () => {

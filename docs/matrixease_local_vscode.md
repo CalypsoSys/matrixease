@@ -81,21 +81,36 @@ rate limiting, and Slack feedback. Local development leaves `RequireGatewaySecre
 Use:
 
 ```text
-Local: backend
+Local: frontend + backend
 ```
 
-This starts `MatrixEase.Web` on:
+This starts `MatrixEase.Web` and the Vite frontend together. The frontend runs at:
+
+```text
+http://127.0.0.1:5173
+```
+
+The backend still runs on:
 
 ```text
 http://localhost:5000
 https://localhost:5001
 ```
 
-The future frontend launch will be added when `frontend/` exists. It should follow the IncTrak/MMA pattern:
+For backend-only diagnostics, use:
 
-- hidden backend launch: `Backend: MatrixEase.Web (no browser)`
-- hidden frontend launch: `Frontend: Vite`
-- visible compound launch: `Local: frontend + backend`
+```text
+Local: backend
+```
+
+The hidden launch entries are:
+
+```text
+Backend: MatrixEase.Web (no browser)
+Frontend: Vite
+```
+
+Run `corepack pnpm install` from `frontend/` before the first frontend launch.
 
 ## Notes
 
