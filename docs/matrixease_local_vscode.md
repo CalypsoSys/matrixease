@@ -84,7 +84,8 @@ Use:
 Local: frontend + backend
 ```
 
-This starts `MatrixEase.Web` and the Vite frontend together. The frontend runs at:
+This starts the hidden backend debug launch, starts Vite, waits for the backend to answer on port `5000`, then opens a
+browser debug session. The frontend runs at:
 
 ```text
 http://127.0.0.1:5173
@@ -110,7 +111,17 @@ Backend: MatrixEase.Web (no browser)
 Frontend: Vite
 ```
 
-Run `corepack pnpm install` from `frontend/` before the first frontend launch.
+Useful tasks:
+
+```text
+backend: render local env
+backend: prepare local launch
+frontend: dev
+frontend: build
+frontend: prepare browser launch
+```
+
+Run `corepack pnpm install` from `frontend/` before the first frontend launch if `node_modules/` is missing.
 
 ## Notes
 
