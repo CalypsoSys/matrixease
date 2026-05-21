@@ -190,6 +190,7 @@ ClientBin/
 *.publishsettings
 node_modules/
 frontend/dist/
+output/
 .codex
 .vscode/matrixease-api.env
 scripts/matrixease/config.local.yaml
