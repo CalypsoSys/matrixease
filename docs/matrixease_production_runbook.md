@@ -209,7 +209,7 @@ Rotate logs through host logrotate:
 
 ```bash
 sudo logrotate -d /etc/logrotate.d/matrixease-api
-sudo logrotate -d /etc/logrotate.d/matrixease-caddy
+sudo logrotate -d /etc/logrotate.d/caddy
 ```
 
 Back up file storage:

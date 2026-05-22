@@ -104,10 +104,10 @@ Install logrotate policies:
 ```bash
 export MATRIXEASE_REPO_ROOT=/absolute/path/to/your/matrixease/checkout
 sudo cp "$MATRIXEASE_REPO_ROOT/scripts/matrixease/matrixease.logrotate" /etc/logrotate.d/matrixease-api
-sudo cp "$MATRIXEASE_REPO_ROOT/scripts/caddy/caddy.logrotate" /etc/logrotate.d/matrixease-caddy
-sudo chmod 644 /etc/logrotate.d/matrixease-api /etc/logrotate.d/matrixease-caddy
+sudo cp "$MATRIXEASE_REPO_ROOT/scripts/caddy/caddy.logrotate" /etc/logrotate.d/caddy
+sudo chmod 644 /etc/logrotate.d/matrixease-api /etc/logrotate.d/caddy
 sudo logrotate -d /etc/logrotate.d/matrixease-api
-sudo logrotate -d /etc/logrotate.d/matrixease-caddy
+sudo logrotate -d /etc/logrotate.d/caddy
 ```
 
 ## Caddy
