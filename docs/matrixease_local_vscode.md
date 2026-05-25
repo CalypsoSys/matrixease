@@ -46,14 +46,24 @@ MatrixEase:
 The VS Code task expects an executable renderer at:
 
 ```text
+/srv/utilities/bin/render-config-env
+```
+
+During migration it can still use the legacy repo-local fallback:
+
+```text
 scripts/matrixease/render-config-env
 ```
 
-Build it from the shared repo:
+Example local install from the shared repo:
 
 ```bash
 cd ~/work/calypsosys-workbench/repos/babalu-yaml-env
-go build -o ~/work/calypsosys-workbench/repos/matrixease/scripts/matrixease/render-config-env ./cmd/babalu_yaml_env
+go build -o /tmp/render-config-env ./cmd/babalu_yaml_env
+sudo mkdir -p /srv/utilities/bin
+sudo chown "$USER:$USER" /srv/utilities/bin
+cp /tmp/render-config-env /srv/utilities/bin/render-config-env
+chmod 755 /srv/utilities/bin/render-config-env
 ```
 
 ## How VS Code launch works

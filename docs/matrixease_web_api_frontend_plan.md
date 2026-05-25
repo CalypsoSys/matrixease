@@ -93,7 +93,6 @@ scripts/
     compose-matrixease.sh
     config.example.yaml
     matrixease.logrotate
-    render-config-env        # built from repos/babalu-yaml-env, not committed as source
   caddy/
     caddy.logrotate
 
@@ -189,7 +188,7 @@ Current branch progress:
 - Add `scripts/matrixease/config.example.yaml`.
 - Ignore `scripts/matrixease/config.local.yaml`.
 - Add `scripts/matrixease/compose-matrixease.sh`.
-- Use the shared `babalu_yaml_env` binary at `scripts/matrixease/render-config-env`.
+- Use the shared `babalu_yaml_env` binary at `/srv/utilities/bin/render-config-env`.
 - Add `docker/matrixease/docker-compose.yml`.
 - Add `MatrixEase.Web/Dockerfile` or replace the root Dockerfile with a MatrixEase.Web-only API image Dockerfile.
 - Mount host storage:

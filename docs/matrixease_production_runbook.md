@@ -34,12 +34,12 @@ Expected structure:
   matrixease-api-latest.tar
   scripts/
     compose-matrixease.sh
-    render-config-env
     matrixease.logrotate
 
 /srv/stacks/matrixease/data
 /srv/backups/matrixease
 /srv/logs/matrixease/api
+/srv/utilities/bin/render-config-env
 /srv/logs/caddy
 ```
 
@@ -75,11 +75,28 @@ gzip -f /mnt/c/transfer/matrixease-api-latest.tar
 
 ## Build the YAML renderer
 
+Build the shared renderer in dev/WSL so the server receives a Linux binary. Do not build this on the production host.
+
 ```bash
 cd ~/work/calypsosys-workbench/repos/babalu-yaml-env
 mkdir -p /mnt/c/transfer
 if [ -f /mnt/c/transfer/render-config-env ]; then mv /mnt/c/transfer/render-config-env /mnt/c/transfer/render-config-env.lastgood; fi
 go build -o /mnt/c/transfer/render-config-env ./cmd/babalu_yaml_env
+```
+
+Prepare the shared utility directory manually on the Ubuntu host before the first copy:
+
+```bash
+sudo mkdir -p /srv/utilities/bin
+sudo chown "$USER:$USER" /srv/utilities/bin
+chmod 755 /srv/utilities /srv/utilities/bin
+```
+
+Then copy from Windows PowerShell:
+
+```powershell
+$server = "replace_with_user@replace_with_server"
+scp C:\transfer\render-config-env ${server}:/srv/utilities/bin/render-config-env
 ```
 
 ## Create production config
@@ -135,7 +152,9 @@ Copy the built files to `/srv/stacks/matrixease/api`, then run:
 cd /srv/stacks/matrixease/api
 docker load < matrixease-api-latest.tar
 gzip -dc matrixease-api-latest.tar.gz | docker load
-chmod +x scripts/compose-matrixease.sh scripts/render-config-env
+chmod +x scripts/compose-matrixease.sh
+chmod 755 /srv/utilities/bin/render-config-env
+test -x /srv/utilities/bin/render-config-env && echo "render utility present"
 scripts/compose-matrixease.sh config
 scripts/compose-matrixease.sh up -d
 scripts/compose-matrixease.sh ps

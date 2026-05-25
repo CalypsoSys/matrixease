@@ -4,7 +4,7 @@
         {
             "label": "backend: render local env",
             "type": "shell",
-            "command": "if [ ! -x ./scripts/matrixease/render-config-env ]; then echo \"Render binary is not executable: ./scripts/matrixease/render-config-env\" >&2; echo \"Build it from ~/work/calypsosys-workbench/repos/babalu-yaml-env with: go build -o \\\"$PWD/scripts/matrixease/render-config-env\\\" ./cmd/babalu_yaml_env\" >&2; exit 1; fi; ./scripts/matrixease/render-config-env --format env ./scripts/matrixease/config.local.yaml > ./.vscode/matrixease-api.env",
+            "command": "renderer=/srv/utilities/bin/render-config-env; if [ ! -x \"$renderer\" ] && [ -x ./scripts/matrixease/render-config-env ]; then renderer=./scripts/matrixease/render-config-env; fi; if [ ! -x \"$renderer\" ]; then echo \"Render binary is not executable: $renderer\" >&2; echo \"Build render-config-env in dev/WSL, then copy it to /srv/utilities/bin/render-config-env.\" >&2; exit 1; fi; \"$renderer\" --format env ./scripts/matrixease/config.local.yaml > ./.vscode/matrixease-api.env",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "shell": {

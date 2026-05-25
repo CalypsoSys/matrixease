@@ -47,7 +47,9 @@ test('example config records the agreed MatrixEase hosts, paths, and secrets', (
 test('compose wrapper renders YAML through babalu_yaml_env binary', () => {
   const script = read('scripts/matrixease/compose-matrixease.sh')
 
-  assert.match(script, /render-config-env/)
+  assert.match(script, /DEFAULT_RENDER_BIN="\/srv\/utilities\/bin\/render-config-env"/)
+  assert.match(script, /RENDER_BIN="\$\{RENDER_BIN:-\$DEFAULT_RENDER_BIN\}"/)
+  assert.match(script, /\$SCRIPT_DIR\/render-config-env/)
   assert.match(script, /--format env/)
   assert.match(script, /docker compose/)
   assert.match(script, /COMPOSE_UNSET_ARGS/)
@@ -81,6 +83,7 @@ test('VS Code backend launch renders MatrixEase API env file', () => {
   assert.match(launch, /\.vscode\/matrixease-api\.env/)
   assert.match(tasks, /backend: render local env/)
   assert.match(tasks, /scripts\/matrixease\/config\.local\.yaml/)
+  assert.match(tasks, /\/srv\/utilities\/bin\/render-config-env/)
   assert.match(tasks, /scripts\/matrixease\/render-config-env/)
   assert.match(gitignore, /\.vscode\/matrixease-api\.env/)
   assert.match(gitignore, /scripts\/matrixease\/config\.local\.yaml/)

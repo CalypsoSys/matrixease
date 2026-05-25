@@ -77,7 +77,8 @@ Keep these in the host shell environment, a password manager, or the server-loca
 
 ## Shared renderer
 
-Build the shared YAML renderer from WSL/Linux so the host receives a Linux binary:
+Build the shared YAML renderer in dev/WSL so the host receives a Linux binary. Do not build this on the production
+host:
 
 ```bash
 cd ~/work/calypsosys-workbench/repos/babalu-yaml-env
@@ -85,16 +86,24 @@ mkdir -p /mnt/c/transfer
 go build -o /mnt/c/transfer/render-config-env ./cmd/babalu_yaml_env
 ```
 
+Prepare the host utility directory manually:
+
+```bash
+sudo mkdir -p /srv/utilities/bin
+sudo chown "$USER:$USER" /srv/utilities/bin
+chmod 755 /srv/utilities /srv/utilities/bin
+```
+
 Copy that binary to:
 
 ```text
-/srv/stacks/matrixease/api/scripts/render-config-env
+/srv/utilities/bin/render-config-env
 ```
 
 Then make it executable:
 
 ```bash
-chmod +x /srv/stacks/matrixease/api/scripts/render-config-env
+chmod 755 /srv/utilities/bin/render-config-env
 ```
 
 ## Logrotate
