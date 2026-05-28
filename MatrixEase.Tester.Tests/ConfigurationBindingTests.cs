@@ -15,7 +15,9 @@ public class ConfigurationBindingTests
             {
                 ["MatrixEase:Web:FileSaveLocation"] = "/tmp/matrixease-web",
                 ["MatrixEase:Web:ProtectionKey"] = "test-protection-key",
-                ["MatrixEase:Web:GoogleClientId"] = "web-client-id",
+                ["MatrixEase:Web:SupabaseUrl"] = "https://project-ref.supabase.co",
+                ["MatrixEase:Web:SupabaseAnonKey"] = "sb_publishable_test",
+                ["MatrixEase:Web:SupabaseAudience"] = "authenticated",
                 ["MatrixEase:Web:MaxConcurrentJobs"] = "12",
             })
             .Build();
@@ -28,7 +30,9 @@ public class ConfigurationBindingTests
 
         Assert.Equal("/tmp/matrixease-web", options.FileSaveLocation);
         Assert.Equal("test-protection-key", options.ProtectionKey);
-        Assert.Equal("web-client-id", options.GoogleClientId);
+        Assert.Equal("https://project-ref.supabase.co", options.GetSupabaseUrl());
+        Assert.Equal("sb_publishable_test", options.GetSupabaseAnonKey());
+        Assert.Equal("authenticated", options.GetSupabaseAudience());
         Assert.Equal(12, options.MaxConcurrentJobs);
     }
 
