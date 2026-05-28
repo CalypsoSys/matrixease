@@ -32,5 +32,6 @@ MatrixEase:
     SupabaseUrl: ${MATRIXEASE_SUPABASE_URL}
     SupabaseAnonKey: ${MATRIXEASE_SUPABASE_PUBLISHABLE_KEY}
     SupabaseJwtSecret: ${MATRIXEASE_SUPABASE_JWT_SECRET}
+    SupabaseAudience: authenticated
     SlackFeedbackWebhookUrl: ${MATRIXEASE_SLACK_FEEDBACK_WEBHOOK_URL}
     MaxConcurrentJobs: 10

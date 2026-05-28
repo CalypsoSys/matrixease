@@ -28,6 +28,7 @@ public class AppSettingsTests
                 ["MatrixEase:Web:SupabaseUrl"] = "https://project-ref.supabase.co",
                 ["MatrixEase:Web:SupabaseAnonKey"] = "sb_publishable_test",
                 ["MatrixEase:Web:SupabaseJwtSecret"] = "legacy-jwt-secret",
+                ["MatrixEase:Web:SupabaseAudience"] = "authenticated",
                 ["MatrixEase:Web:SlackFeedbackWebhookUrl"] = "https://hooks.slack.com/services/test",
             })
             .Build();
@@ -51,6 +52,7 @@ public class AppSettingsTests
         Assert.Equal("https://project-ref.supabase.co", settings.GetSupabaseUrl());
         Assert.Equal("sb_publishable_test", settings.GetSupabaseAnonKey());
         Assert.Equal("legacy-jwt-secret", settings.GetSupabaseJwtSecret());
+        Assert.Equal("authenticated", settings.GetSupabaseAudience());
         Assert.Equal("https://hooks.slack.com/services/test", settings.GetSlackFeedbackWebhookUrl());
     }
 }

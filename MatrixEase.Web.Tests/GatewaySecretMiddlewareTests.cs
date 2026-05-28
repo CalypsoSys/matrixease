@@ -12,11 +12,8 @@ public class GatewaySecretMiddlewareTests
 {
     [Theory]
     [InlineData("/api/feedback/save_message/")]
-    [InlineData("/google/check_login")]
-    [InlineData("/account/login")]
-    [InlineData("/upload_file/")]
-    [InlineData("/get_access")]
-    public void ShouldRequireGatewaySecretForApiAndLegacyDynamicRoutes(string path)
+    [InlineData("/api/matrixease/upload")]
+    public void ShouldRequireGatewaySecretForApiRoutes(string path)
     {
         Assert.True(GatewaySecretMiddleware.ShouldRequireGatewaySecret(path));
     }
@@ -25,6 +22,10 @@ public class GatewaySecretMiddlewareTests
     [InlineData("/")]
     [InlineData("/index.html")]
     [InlineData("/images/logo.png")]
+    [InlineData("/google/check_login")]
+    [InlineData("/account/login")]
+    [InlineData("/upload_file/")]
+    [InlineData("/get_access")]
     public void ShouldNotRequireGatewaySecretForStaticRoutes(string path)
     {
         Assert.False(GatewaySecretMiddleware.ShouldRequireGatewaySecret(path));

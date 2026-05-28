@@ -86,6 +86,67 @@ public class MatrixEaseProjectsControllerTests
         }
     }
 
+    [Fact]
+    public void ProjectDataRejectsProjectOwnedByDifferentSupabaseUser()
+    {
+        string root = Path.Combine(Path.GetTempPath(), "matrixease-web-tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(root);
+
+        try
+        {
+            SecretProtector.Configure("test-protection-key-0123456789");
+            MangaRoot.SetRootFolder(root);
+
+            string ownerUserId = "supabase-owner-123";
+            var mangaInfo = new MangaInfo(
+                "sales.csv",
+                "Sales Matrix",
+                1,
+                1,
+                500,
+                true,
+                true,
+                true,
+                true,
+                "",
+                "csv",
+                new Dictionary<string, string>());
+
+            MangaState.SetUserMangaCatalog("unused-access-token", ownerUserId, "owner@example.com", MangaAuthType.Email);
+            MangaState.SaveManga(ownerUserId, mangaInfo, new DataManga());
+
+            var ownerAccessor = new RequestContextAccessor();
+            var ownerController = CreateController(ownerAccessor);
+            ownerAccessor.SetSupabaseIdentity(ownerController.HttpContext, new SupabaseIdentity
+            {
+                ExternalIdentity = ownerUserId,
+                EmailAddress = "owner@example.com"
+            });
+            var ownerProjects = Assert.IsType<OkObjectResult>(ownerController.Projects());
+            var ownerResponse = Assert.IsType<MatrixEaseProjectsResponse>(ownerProjects.Value);
+            string projectId = Assert.Single(ownerResponse.Projects).ProjectId;
+
+            var otherAccessor = new RequestContextAccessor();
+            var otherController = CreateController(otherAccessor);
+            otherAccessor.SetSupabaseIdentity(otherController.HttpContext, new SupabaseIdentity
+            {
+                ExternalIdentity = "supabase-other-456",
+                EmailAddress = "other@example.com"
+            });
+
+            object result = otherController.Get(projectId);
+
+            Assert.IsType<UnauthorizedObjectResult>(result);
+        }
+        finally
+        {
+            if (Directory.Exists(root))
+            {
+                Directory.Delete(root, true);
+            }
+        }
+    }
+
     private static MatrixEaseController CreateController(RequestContextAccessor requestContextAccessor)
     {
         var controller = new MatrixEaseController(

@@ -150,8 +150,8 @@ Current branch progress:
 - Config-driven CORS, forwarded headers, fixed-window rate limiting, access/error file logs, gateway-secret middleware,
   Supabase bearer-token validation, and Slack-only feedback are in place.
 - Backend coverage lives in `MatrixEase.Web.Tests`.
-- Legacy Google/email-code controllers still compile while the frontend and Supabase workflow are being ported; final
-  removal belongs with the API endpoint replacement work.
+- Legacy Google/email-code controllers have been removed from `MatrixEase.Web`; Google Sheets import belongs in the later
+  Supabase-provider workflow.
 
 ### Frontend
 
@@ -260,7 +260,7 @@ Phase 2 starts only after phase 1 is deployed or at least locally stable.
 - Request the Sheets read scope needed for import.
 - Design how the frontend/backend receives or refreshes the Google access token.
 - Rebuild the Google Sheet import workflow in the new frontend.
-- Retire the old ASP.NET Google OAuth flow.
+- Keep Google Sheets import on the Supabase-provider path; do not restore the old ASP.NET Google OAuth cookie flow.
 
 ### Electron Alignment
 

@@ -53,7 +53,21 @@ public class HmacSupabaseTokenValidatorTests
         Assert.False(identity.IsAuthenticated());
     }
 
-    private static string CreateToken(string secret, DateTimeOffset expiresAt)
+    [Fact]
+    public async Task ValidateTokenAsyncRejectsWrongAudience()
+    {
+        string token = CreateToken("test-secret", DateTimeOffset.UtcNow.AddMinutes(5), "service_role");
+        var validator = new HmacSupabaseTokenValidator(Options.Create(new AppSettings
+        {
+            SupabaseJwtSecret = "test-secret",
+        }));
+
+        SupabaseIdentity identity = await validator.ValidateTokenAsync(token);
+
+        Assert.False(identity.IsAuthenticated());
+    }
+
+    private static string CreateToken(string secret, DateTimeOffset expiresAt, string audience = "authenticated")
     {
         string header = Base64UrlEncode(JsonSerializer.SerializeToUtf8Bytes(new
         {
@@ -64,6 +78,7 @@ public class HmacSupabaseTokenValidatorTests
         {
             sub = "user-123",
             email = "joe@example.com",
+            aud = audience,
             exp = expiresAt.ToUnixTimeSeconds(),
         }));
         string unsignedToken = $"{header}.{payload}";

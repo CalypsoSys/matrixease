@@ -49,29 +49,13 @@ namespace MatrixEase.Web.Common
             }
 
             JsonElement payload = ParseJson(encodedPayload);
-            if (payload.ValueKind == JsonValueKind.Undefined)
+            if (payload.ValueKind == JsonValueKind.Undefined ||
+                SupabaseJwtPayloadValidator.Validate(payload, _settings) == false)
             {
                 return Task.FromResult(new SupabaseIdentity());
             }
 
-            if (payload.TryGetProperty("exp", out JsonElement expElement) &&
-                expElement.ValueKind == JsonValueKind.Number &&
-                expElement.TryGetInt64(out long expSeconds) &&
-                DateTimeOffset.UtcNow >= DateTimeOffset.FromUnixTimeSeconds(expSeconds))
-            {
-                return Task.FromResult(new SupabaseIdentity());
-            }
-
-            if (payload.TryGetProperty("sub", out JsonElement subElement) == false)
-            {
-                return Task.FromResult(new SupabaseIdentity());
-            }
-
-            return Task.FromResult(new SupabaseIdentity
-            {
-                ExternalIdentity = subElement.GetString(),
-                EmailAddress = payload.TryGetProperty("email", out JsonElement emailElement) ? emailElement.GetString() : null
-            });
+            return Task.FromResult(SupabaseJwtPayloadValidator.BuildIdentity(payload));
         }
 
         private static JsonElement ParseJson(string encodedJson)

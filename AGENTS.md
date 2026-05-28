@@ -11,7 +11,7 @@ Use scoped `dotnet` commands from the repo root.
 - `dotnet build MatrixEase.Manga/MatrixEase.Manga.csproj --configuration Debug`: build the shared library.
 - `dotnet run --project MatrixEase.Web/MatrixEase.Web.csproj`: run the web app locally.
 - `dotnet run --project MatrixEase.App/MatrixEase.App.csproj`: run the desktop app host.
-- `docker-compose -f docker/matrixease_dotnet/docker-compose.yml up -d`: start the packaged .NET deployment stack.
+- `docker compose -f docker/matrixease_dotnet/docker-compose.yml up -d`: start the packaged .NET deployment stack.
 - Static sites in `www.matrixease.com/` and `docs.matrixease.com/` are plain HTML/CSS roots intended for direct static hosting such as Cloudflare Pages.
 
 ## Coding Style & Naming Conventions
@@ -24,7 +24,7 @@ Follow existing C# conventions: 4-space indentation, braces on new lines, `Pasca
 Recent history uses short, imperative, lower-case commit subjects such as `fix encryption` and `Create README.md`. Keep commits focused and descriptive. PRs should include a concise summary, affected projects, manual test notes, configuration or deployment impact, and screenshots for UI or static-site changes.
 
 ## Configuration & Security Tips
-Use `MatrixEase.App/appsettings_sample.json` as the template for local settings; do not commit secrets or user-specific values. Treat Google auth, SendGrid, and deployment credentials as external configuration.
+Use the appropriate `appsettings_sample.json` as a template for local settings; do not commit secrets or user-specific values. `MatrixEase.Web` uses Supabase bearer-token auth and Slack feedback only. Treat desktop Google auth, Supabase keys, Slack webhooks, and deployment credentials as external configuration.
 
 ## Agent-Specific Instructions
 In Codex CLI, any command or prompt line prefixed with `>>>` should be treated as an instruction being added to the session, not as a shell command to execute. Preserve the literal text after `>>>` and apply it as guidance for subsequent work.

@@ -27,7 +27,6 @@
                 "build",
                 "${workspaceFolder}/MatrixEase.Web/MatrixEase.Web.csproj",
                 "/property:GenerateFullPaths=true",
-                "/property:SkipWebBlaster=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
@@ -73,7 +72,7 @@
         {
             "label": "frontend: dev",
             "type": "shell",
-            "command": "if (echo > /dev/tcp/127.0.0.1/5173) >/dev/null 2>&1; then echo \"VITE already running\"; echo \"  ➜  Local:   http://127.0.0.1:5173/\"; while sleep 3600; do :; done; else corepack pnpm dev; fi",
+            "command": "if (echo > /dev/tcp/127.0.0.1/5173) >/dev/null 2>&1; then echo \"VITE already running\"; echo \"  ➜  Local:   http://127.0.0.1:5173/\"; while sleep 3600; do :; done; else VITE_SUPABASE_URL=\"$MATRIXEASE_SUPABASE_URL\" VITE_SUPABASE_PUBLISHABLE_KEY=\"$MATRIXEASE_SUPABASE_PUBLISHABLE_KEY\" corepack pnpm dev; fi",
             "options": {
                 "cwd": "${workspaceFolder}/frontend",
                 "shell": {
@@ -126,7 +125,7 @@
         {
             "label": "frontend: build",
             "type": "shell",
-            "command": "corepack pnpm build",
+            "command": "VITE_SUPABASE_URL=\"$MATRIXEASE_SUPABASE_URL\" VITE_SUPABASE_PUBLISHABLE_KEY=\"$MATRIXEASE_SUPABASE_PUBLISHABLE_KEY\" corepack pnpm build",
             "options": {
                 "cwd": "${workspaceFolder}/frontend",
                 "shell": {

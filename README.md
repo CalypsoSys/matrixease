@@ -96,14 +96,10 @@ Set local development values like this:
 ```bash
 dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:FileSaveLocation" "/tmp/matrixease-web"
 dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:ProtectionKey" "replace-with-a-long-random-secret"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:GoogleClientId" "your-google-client-id"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:GoogleClientSecret" "your-google-client-secret"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:EmailApiKey" "your-sendgrid-api-key"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:EmailFrom" "feedback@example.com"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SNMPServer" "smtp.example.com"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SNMPPort" "25"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SNMPAddress" "smtp-user@example.com"
-dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SNMPPassword" "your-smtp-password"
+dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SupabaseUrl" "https://project-ref.supabase.co"
+dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SupabaseAnonKey" "your-supabase-publishable-key"
+dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SupabaseJwtSecret" "your-supabase-jwt-secret"
+dotnet user-secrets --project MatrixEase.Web set "MatrixEase:Web:SlackFeedbackWebhookUrl" "https://hooks.slack.com/services/example"
 ```
 
 ```bash
@@ -115,22 +111,18 @@ Equivalent environment variables:
 ```bash
 export MatrixEase__Web__FileSaveLocation=/tmp/matrixease-web
 export MatrixEase__Web__ProtectionKey=replace-with-a-long-random-secret
-export MatrixEase__Web__GoogleClientId=your-google-client-id
-export MatrixEase__Web__GoogleClientSecret=your-google-client-secret
-export MatrixEase__Web__EmailApiKey=your-sendgrid-api-key
-export MatrixEase__Web__EmailFrom=feedback@example.com
-export MatrixEase__Web__SNMPServer=smtp.example.com
-export MatrixEase__Web__SNMPPort=25
-export MatrixEase__Web__SNMPAddress=smtp-user@example.com
-export MatrixEase__Web__SNMPPassword=your-smtp-password
+export MatrixEase__Web__SupabaseUrl=https://project-ref.supabase.co
+export MatrixEase__Web__SupabaseAnonKey=your-supabase-publishable-key
+export MatrixEase__Web__SupabaseJwtSecret=your-supabase-jwt-secret
+export MatrixEase__Web__SlackFeedbackWebhookUrl=https://hooks.slack.com/services/example
 export MatrixEase__App__GoogleClientId=your-google-client-id
 ```
 
-`MatrixEase:Web:ProtectionKey` secures MatrixEase cookies and other protected values. Treat it like an application secret and set a long random value through user-secrets or deployment-time environment variables.
+`MatrixEase:Web:ProtectionKey` secures MatrixEase project identifiers and other protected values. Treat it like an application secret and set a long random value through user-secrets or deployment-time environment variables.
 
 ### Desktop Google Auth Note
 
-`MatrixEase.App` now uses the installed-app Google OAuth flow with a desktop-safe client configuration, so it only needs `GoogleClientId`. `MatrixEase.Web` still runs server-side OAuth and keeps using both `GoogleClientId` and `GoogleClientSecret`.
+`MatrixEase.App` uses the installed-app Google OAuth flow with a desktop-safe client configuration, so it only needs `GoogleClientId`. `MatrixEase.Web` uses Supabase bearer tokens for web identity; Google Sheets access should be added later through Supabase, not through a separate ASP.NET OAuth cookie flow.
 
 ---
 

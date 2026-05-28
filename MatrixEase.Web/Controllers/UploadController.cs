@@ -1,55 +1,59 @@
-﻿using MatrixEase.Web.Tasks;
+using System;
+using System.Collections.Generic;
 using MatrixEase.Manga.Manga;
 using MatrixEase.Manga.Processing;
 using MatrixEase.Manga.Utility;
+using MatrixEase.Web.Common;
+using MatrixEase.Web.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic.FileIO;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace MatrixEase.Web.Controllers
 {
-    [Route("/upload_file")]
+    [Route("api/matrixease/upload")]
     public class UploadController : ProcessController
     {
-        private readonly ILogger<UploadController> _logger;
+        private const long MaxUploadBytes = 100L * 1024L * 1024L;
 
-        public UploadController(ILogger<UploadController> logger, IBackgroundTaskQueue queue) : base(queue)
+        private readonly ILogger<UploadController> _logger;
+        private readonly RequestContextAccessor _requestContextAccessor;
+
+        public UploadController(ILogger<UploadController> logger, IBackgroundTaskQueue queue, RequestContextAccessor requestContextAccessor) : base(queue)
         {
             _logger = logger;
+            _requestContextAccessor = requestContextAccessor;
         }
 
         [HttpPost]
-        [DisableRequestSizeLimit]
-        [RequestFormLimits(MultipartBodyLengthLimit = 4294967295)]
-        public object PostFormData([FromForm] string matrixease_id, [FromForm] IFormFile file,  [FromForm] string manga_name, [FromForm] int header_row, [FromForm] int header_rows, [FromForm] int max_rows, [FromForm] bool ignore_blank_rows, [FromForm] bool ignore_text_case, [FromForm] bool trim_leading_whitespace, [FromForm] bool trim_trailing_whitespace, [FromForm] string ignore_cols, [FromForm] string sheet_type, [FromForm] string csv_separator, [FromForm] string csv_quote, [FromForm] string csv_escape, [FromForm] string csv_null, [FromForm] string csv_eol)
+        [RequestSizeLimit(MaxUploadBytes)]
+        [RequestFormLimits(MultipartBodyLengthLimit = MaxUploadBytes)]
+        public object PostFormData([FromForm] IFormFile file, [FromForm] string manga_name, [FromForm] int header_row, [FromForm] int header_rows, [FromForm] int max_rows, [FromForm] bool ignore_blank_rows, [FromForm] bool ignore_text_case, [FromForm] bool trim_leading_whitespace, [FromForm] bool trim_trailing_whitespace, [FromForm] string ignore_cols, [FromForm] string sheet_type, [FromForm] string csv_separator, [FromForm] string csv_quote, [FromForm] string csv_escape, [FromForm] string csv_null, [FromForm] string csv_eol)
         {
+            SupabaseIdentity identity = _requestContextAccessor.GetSupabaseIdentity(HttpContext);
+            if (identity.IsAuthenticated() == false)
+            {
+                return Unauthorized(new { Success = false, Error = "You must sign in before uploading MatrixEase data." });
+            }
+
+            if (file == null || file.Length <= 0)
+            {
+                return BadRequest(new { Success = false, Error = "A file is required." });
+            }
+
             try
             {
-                CheckMatrixEaseId(matrixease_id, true);
-                var myIds = GetMyIdentities(true);
-                MangaAuthType auth = ValidateAccess(null, myIds, true);
-                if (auth != MangaAuthType.Invalid)
+                string userId = identity.ExternalIdentity;
+                MangaState.CheckProjectCount(userId);
+
+                using (var input = file.OpenReadStream())
                 {
-                    string userId = MyIdentity(myIds, auth);
+                    MangaInfo mangaInfo = new MangaInfo(file.FileName, manga_name, header_row, header_rows, max_rows, ignore_blank_rows, ignore_text_case, trim_leading_whitespace, trim_trailing_whitespace, ignore_cols, sheet_type, new Dictionary<string, string> { { MangaConstants.CsvSeparator, csv_separator }, { MangaConstants.CsvQuote, csv_quote }, { MangaConstants.CsvEscape, csv_escape }, { MangaConstants.CsvNull, csv_null }, { MangaConstants.CsvEol, csv_eol } });
+                    Guid? mangaGuid = SheetProcessing.ProcessSheet(userId, input, mangaInfo, RunBackroundManagGet);
 
-                    MangaState.CheckProjectCount(userId);
-
-                    using (var input = file.OpenReadStream())
+                    if (mangaGuid != null)
                     {
-                        MangaInfo mangaInfo = new MangaInfo(file.FileName, manga_name, header_row, header_rows, max_rows, ignore_blank_rows, ignore_text_case, trim_leading_whitespace, trim_trailing_whitespace, ignore_cols, sheet_type, new Dictionary<string, string> { { MangaConstants.CsvSeparator, csv_separator }, { MangaConstants.CsvQuote, csv_quote }, { MangaConstants.CsvEscape, csv_escape }, { MangaConstants.CsvNull, csv_null }, { MangaConstants.CsvEol, csv_eol } });
-                        Guid? mangaGuid = SheetProcessing.ProcessSheet(userId, input, mangaInfo, RunBackroundManagGet);
-
-                        if (mangaGuid != null)
-                            return new { Success = true, MatrixId = GetMangaVis(matrixease_id, userId, mangaGuid), StatusData = MangaFactory.StartingStatus("CSV Upload") };
+                        return new { Success = true, MatrixId = Encode(userId, mangaGuid.Value), StatusData = MangaFactory.StartingStatus("CSV Upload") };
                     }
                 }
             }

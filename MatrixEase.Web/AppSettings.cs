@@ -22,15 +22,6 @@ namespace MatrixEase.Web
 
         public string FileSaveLocation { get; set; }
         public string ProtectionKey { get; set; }
-        public string GoogleClientId { get; set; }
-        public string GoogleClientSecret { get; set; }
-        public bool UseSNMP { get; set; }
-        public string SNMPServer { get; set; }
-        public int SNMPPort { get; set; }
-        public string SNMPAddress { get; set; }
-        public string SNMPPassword { get; set; }
-        public string EmailApiKey { get; set; }
-        public string EmailFrom { get; set; }
         public int MaxConcurrentJobs { get; set; } = 10;
         public string FrontendBaseUrl { get; set; }
         public string[] AllowedOrigins { get; set; }
@@ -43,6 +34,7 @@ namespace MatrixEase.Web
         public string SupabaseUrl { get; set; }
         public string SupabaseAnonKey { get; set; }
         public string SupabaseJwtSecret { get; set; }
+        public string SupabaseAudience { get; set; } = "authenticated";
         public string SlackFeedbackWebhookUrl { get; set; }
 
         public string GetAccessLogPath()
@@ -76,6 +68,11 @@ namespace MatrixEase.Web
         public string GetSupabaseJwtSecret()
         {
             return SupabaseJwtSecret;
+        }
+
+        public string GetSupabaseAudience()
+        {
+            return string.IsNullOrWhiteSpace(SupabaseAudience) ? "authenticated" : SupabaseAudience;
         }
 
         public string GetSlackFeedbackWebhookUrl()

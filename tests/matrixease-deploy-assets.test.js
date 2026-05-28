@@ -21,8 +21,13 @@ test('matrixease deployment assets are present', () => {
     'scripts/caddy/caddy.logrotate',
     'docker/matrixease/docker-compose.yml',
     'MatrixEase.Web/Dockerfile',
+    '.gitleaks.toml',
+    '.pre-commit-config.yaml',
+    '.github/workflows/gitleaks.yml',
     'frontend/package.json',
     'frontend/functions/api/[[path]].ts',
+    'frontend/public/robots.txt',
+    'frontend/public/sitemap.xml',
     'docs/matrixease_local_vscode.md',
     'docs/cloudflare-pages-gateway.md',
     'docs/caddy_host_setup.md',
@@ -65,13 +70,24 @@ test('docker compose exposes the API on the agreed private port and mounts file 
   assert.match(compose, /MATRIXEASE_LOGS_HOST_PATH:-\/srv\/logs\/matrixease\/api/)
 })
 
-test('Dockerfile skips legacy web_blaster for API image builds', () => {
+test('Dockerfile publishes API image without legacy web_blaster prebuild', () => {
   const dockerfile = read('MatrixEase.Web/Dockerfile')
   const csproj = read('MatrixEase.Web/MatrixEase.Web.csproj')
 
-  assert.match(dockerfile, /\/p:SkipWebBlaster=true/)
   assert.match(dockerfile, /ENTRYPOINT \["dotnet", "MatrixEase\.Web\.dll"\]/)
-  assert.match(csproj, /Condition="'\$\(SkipWebBlaster\)' != 'true'"/)
+  assert.doesNotMatch(csproj, /web_blaster/)
+  assert.doesNotMatch(csproj, /SkipWebBlaster/)
+})
+
+test('gitleaks guardrails are configured for local and CI scans', () => {
+  const config = read('.gitleaks.toml')
+  const precommit = read('.pre-commit-config.yaml')
+  const workflow = read('.github/workflows/gitleaks.yml')
+
+  assert.match(config, /useDefault = true/)
+  assert.match(precommit, /github\.com\/gitleaks\/gitleaks/)
+  assert.match(workflow, /gitleaks\/gitleaks-action@v2/)
+  assert.match(workflow, /GITLEAKS_CONFIG: \.gitleaks\.toml/)
 })
 
 test('VS Code backend launch renders MatrixEase API env file', () => {
@@ -91,12 +107,20 @@ test('VS Code backend launch renders MatrixEase API env file', () => {
 
 test('frontend scaffold uses Vite and Cloudflare Pages API gateway', () => {
   const packageJson = read('frontend/package.json')
+  const indexHtml = read('frontend/index.html')
   const viteConfig = read('frontend/vite.config.ts')
   const gateway = read('frontend/functions/api/[[path]].ts')
+  const robots = read('frontend/public/robots.txt')
+  const sitemap = read('frontend/public/sitemap.xml')
 
   assert.match(packageJson, /"vite"/)
   assert.match(packageJson, /"vue"/)
   assert.match(packageJson, /"pinia"/)
+  assert.match(indexHtml, /<link rel="canonical" href="https:\/\/app\.matrixease\.com\/"/)
+  assert.match(indexHtml, /<meta property="og:title" content="MatrixEase"/)
+  assert.match(indexHtml, /<meta name="twitter:card" content="summary"/)
+  assert.match(robots, /Sitemap: https:\/\/app\.matrixease\.com\/sitemap\.xml/)
+  assert.match(sitemap, /<loc>https:\/\/app\.matrixease\.com\/<\/loc>/)
   assert.match(viteConfig, /port: 5173/)
   assert.match(viteConfig, /VITE_API_PROXY_TARGET/)
   assert.match(gateway, /API_BASE_URL/)

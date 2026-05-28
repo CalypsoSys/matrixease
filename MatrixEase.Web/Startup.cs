@@ -1,23 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using MatrixEase.Web.Common;
 using MatrixEase.Web.Middleware;
 using MatrixEase.Manga.Utility;
 using MatrixEase.Web.Tasks;
 using MatrixEase.Manga.Manga.Serialization;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System.Threading.RateLimiting;
 
@@ -112,31 +105,6 @@ namespace MatrixEase.Web
                 });
             });
 
-            services
-                .AddAuthentication(o =>
-                {
-                    o.DefaultScheme = IdentityConstants.ApplicationScheme;
-                    o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-                })
-                .AddCookie(IdentityConstants.ApplicationScheme)
-                .AddCookie(IdentityConstants.ExternalScheme)
-                .AddGoogle(o =>
-                {
-                    o.ClientId = settings.GoogleClientId;
-                    o.ClientSecret = settings.GoogleClientSecret;
-                    o.Scope.Add("https://www.googleapis.com/auth/spreadsheets.readonly");
-                    o.SaveTokens = true;
-
-                    o.Events.OnCreatingTicket = ctx =>
-                    {
-                        List<AuthenticationToken> tokens = ctx.Properties.GetTokens().ToList();
-
-                        ctx.Properties.StoreTokens(tokens);
-
-                        return Task.CompletedTask;
-                    };
-                });
-
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
@@ -168,8 +136,6 @@ namespace MatrixEase.Web
             app.UseMiddleware<GatewaySecretMiddleware>();
             app.UseCors(FrontendCorsPolicy);
 
-            app.UseAuthentication();
-            app.UseAuthorization();
             app.UseRateLimiter();
 
             app.UseEndpoints(endpoints =>
@@ -178,16 +144,6 @@ namespace MatrixEase.Web
                 endpoints.MapControllers();
 
             });
-
-#if DEBUG
-            app.UseStaticFiles();
-#else
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(
-                    AppDomain.CurrentDomain.BaseDirectory, "wwwroot")),
-            });
-#endif
         }
     }
 }

@@ -62,7 +62,7 @@ namespace MatrixEase.Web.Common
 
             JsonElement payload = ParseJson(parts[1]);
             if (payload.ValueKind == JsonValueKind.Undefined ||
-                ValidatePayload(payload) == false)
+                SupabaseJwtPayloadValidator.Validate(payload, _settings) == false)
             {
                 return new SupabaseIdentity();
             }
@@ -80,11 +80,7 @@ namespace MatrixEase.Web.Common
                 return new SupabaseIdentity();
             }
 
-            return new SupabaseIdentity
-            {
-                ExternalIdentity = payload.GetProperty("sub").GetString(),
-                EmailAddress = payload.TryGetProperty("email", out JsonElement emailElement) ? emailElement.GetString() : null
-            };
+            return SupabaseJwtPayloadValidator.BuildIdentity(payload);
         }
 
         private async Task<JsonElement> FindJwkAsync(JsonElement header, string algorithm)
@@ -163,35 +159,6 @@ namespace MatrixEase.Web.Common
         private string BuildJwksUrl()
         {
             return $"{_settings.GetSupabaseUrl().TrimEnd('/')}/auth/v1/.well-known/jwks.json";
-        }
-
-        private bool ValidatePayload(JsonElement payload)
-        {
-            if (payload.TryGetProperty("sub", out JsonElement subElement) == false ||
-                string.IsNullOrWhiteSpace(subElement.GetString()))
-            {
-                return false;
-            }
-
-            if (payload.TryGetProperty("exp", out JsonElement expElement) &&
-                expElement.ValueKind == JsonValueKind.Number &&
-                expElement.TryGetInt64(out long expSeconds) &&
-                DateTimeOffset.UtcNow >= DateTimeOffset.FromUnixTimeSeconds(expSeconds))
-            {
-                return false;
-            }
-
-            if (payload.TryGetProperty("iss", out JsonElement issuerElement) &&
-                string.IsNullOrWhiteSpace(_settings.GetSupabaseUrl()) == false)
-            {
-                string expectedIssuer = $"{_settings.GetSupabaseUrl().TrimEnd('/')}/auth/v1";
-                if (string.Equals(issuerElement.GetString(), expectedIssuer, StringComparison.Ordinal) == false)
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         private bool VerifySignature(JsonElement jwk, string algorithm, byte[] data, byte[] signature)

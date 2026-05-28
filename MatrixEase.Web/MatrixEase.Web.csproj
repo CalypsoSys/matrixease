@@ -11,12 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.73.0.4061" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.5" />
-    <PackageReference Include="SendGrid" Version="9.29.3" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MatrixEase.Manga\MatrixEase.Manga.csproj" />
   </ItemGroup>
 
@@ -25,16 +19,5 @@
       <_Parameter1>MatrixEase.Web.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="wwwroot\javascript\overrides.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(SkipWebBlaster)' != 'true'">
-    <Exec Command="dotnet &quot;$(ProjectDir)..\bin\web_blaster.dll&quot; $(OS) $(ConfigurationName) &quot;$(ProjectDir)..\static.matrixease.wwwroot&quot; &quot;$(ProjectDir)wwwroot&quot; googs" />
-  </Target>
-
 
 </Project>

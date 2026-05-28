@@ -81,13 +81,13 @@ Init Docker Image
 03. mv matrixease_web.tar matrixease_web.tar.lastgood
 04. copy matrixease_web.tar to <deploy-user-home>/docker (on deployment machine)
 05. cd matrixease_dotnet
-06. sudo docker-compose down
+06. sudo docker compose down
 07. cd ..
 08. sudo docker load < matrixease_web.tar
 09. sudo docker rmi -f $(sudo docker images -f "dangling=true" -q)
 10. cd matrixease_dotnet
-11. sudo docker-compose up -d
-12. sudo docker-compose stop
+11. sudo docker compose up -d
+12. sudo docker compose stop
 13. cd ..
 14. ./docker_matrixease.sh start
 

@@ -13,7 +13,6 @@ RUN dotnet publish MatrixEase.Web/MatrixEase.Web.csproj \
     -a ${TARGETARCH:-amd64} \
     --no-restore \
     --self-contained false \
-    /p:SkipWebBlaster=true \
     -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime

@@ -47,15 +47,7 @@ namespace MatrixEase.Web.Middleware
 
         internal static bool ShouldRequireGatewaySecret(PathString path)
         {
-            return path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase) ||
-                   path.StartsWithSegments("/google", StringComparison.OrdinalIgnoreCase) ||
-                   path.StartsWithSegments("/account", StringComparison.OrdinalIgnoreCase) ||
-                   path.StartsWithSegments("/upload_file", StringComparison.OrdinalIgnoreCase) ||
-                   path.StartsWithSegments("/get_access", StringComparison.OrdinalIgnoreCase) ||
-                   path.StartsWithSegments("/captcha", StringComparison.OrdinalIgnoreCase) ||
-                   path.StartsWithSegments("/send_email_code", StringComparison.OrdinalIgnoreCase) ||
-                   path.StartsWithSegments("/validate_email_code", StringComparison.OrdinalIgnoreCase) ||
-                   path.StartsWithSegments("/my_mangas", StringComparison.OrdinalIgnoreCase);
+            return path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

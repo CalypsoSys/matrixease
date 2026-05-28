@@ -31,6 +31,10 @@ export MATRIXEASE_SUPABASE_JWT_SECRET=
 export MATRIXEASE_SLACK_FEEDBACK_WEBHOOK_URL=https://hooks.slack.com/services/your/webhook
 ```
 
+MatrixEase uses the remote Supabase project directly in local development. The VS Code frontend tasks map
+`MATRIXEASE_SUPABASE_URL` and `MATRIXEASE_SUPABASE_PUBLISHABLE_KEY` into Vite's `VITE_SUPABASE_URL` and
+`VITE_SUPABASE_PUBLISHABLE_KEY` variables, and the backend renderer uses the same values for bearer-token validation.
+
 Use an empty `MATRIXEASE_SUPABASE_JWT_SECRET` unless a later backend change explicitly needs the legacy HS256 fallback.
 
 For local file storage, set `MatrixEase.Web.FileSaveLocation` in `config.local.yaml` to a writable path such as:
@@ -74,7 +78,7 @@ That task:
 
 1. renders `scripts/matrixease/config.local.yaml`
 2. writes flattened environment variables to `.vscode/matrixease-api.env`
-3. builds `MatrixEase.Web` with `SkipWebBlaster=true`
+3. builds `MatrixEase.Web`
 4. launches the backend with `.vscode/matrixease-api.env`
 
 The renderer preserves nested config names:
@@ -135,7 +139,7 @@ Run `corepack pnpm install` from `frontend/` before the first frontend launch if
 
 ## Notes
 
-- The backend build skips `web_blaster` because the web path is moving to a static `frontend/` app.
+- `MatrixEase.Web` no longer runs the legacy `web_blaster` prebuild; the Vite app in `frontend/` is the web UI path.
 - The Electron app is out of scope for this phase and still has its existing launch entry.
 - Keep `.vscode/matrixease-api.env` out of Git; it may contain secrets.
 
@@ -144,5 +148,5 @@ Run `corepack pnpm install` from `frontend/` before the first frontend launch if
 Run the backend-focused tests with:
 
 ```bash
-dotnet test MatrixEase.Web.Tests/MatrixEase.Web.Tests.csproj /property:SkipWebBlaster=true
+dotnet test MatrixEase.Web.Tests/MatrixEase.Web.Tests.csproj
 ```

@@ -6,6 +6,9 @@
 *.user
 *.userosscache
 *.sln.docstates
+.env
+.env.*
+!.env.example
 AppSettings.config
 ConnectionStrings.config
 appsettings.json
