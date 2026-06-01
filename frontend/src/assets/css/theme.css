@@ -102,6 +102,69 @@ input {
   padding: 1rem 1.15rem;
 }
 
+.upload-panel {
+  margin-bottom: 1rem;
+}
+
+.upload-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.upload-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.upload-grid label {
+  min-width: 0;
+}
+
+.native-file,
+.native-select {
+  width: 100%;
+  min-height: 2.6rem;
+  border: 1px solid var(--app-border);
+  border-radius: 6px;
+  background: var(--app-surface);
+  color: var(--app-ink);
+  padding: 0.55rem 0.65rem;
+}
+
+.native-file {
+  padding: 0.45rem 0.65rem;
+}
+
+.toggle-grid {
+  display: grid;
+  gap: 0.75rem 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.toggle-option {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 0.55rem;
+  color: var(--app-ink);
+  font-weight: 650;
+}
+
+.upload-status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--app-muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.upload-status-row progress {
+  width: min(18rem, 45vw);
+  height: 0.8rem;
+}
+
 .login-wrap {
   display: grid;
   min-height: calc(100vh - 4rem);
@@ -187,6 +250,20 @@ input {
   padding: 0.8rem 0.95rem;
 }
 
+.message-success {
+  border-left: 4px solid var(--app-accent);
+  background: #f0fdfa;
+  color: var(--app-accent-strong);
+  padding: 0.8rem 0.95rem;
+}
+
+@media (max-width: 920px) {
+  .upload-grid,
+  .toggle-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 640px) {
   .app-topbar,
   .panel-header {
@@ -196,5 +273,19 @@ input {
 
   .brand-lockup img {
     height: 1.9rem;
+  }
+
+  .upload-grid,
+  .toggle-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .upload-status-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .upload-status-row progress {
+    width: 100%;
   }
 }

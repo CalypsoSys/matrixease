@@ -6,8 +6,10 @@ const SESSION_KEY = 'matrixease.session'
 export type ApiFailure = {
   Success?: boolean
   Message?: string
+  Error?: string
   success?: boolean
   message?: string
+  error?: string
 }
 
 type SessionShape = {
@@ -50,8 +52,14 @@ export function getApiMessage(error: unknown, fallback: string): string {
     if (responseData?.Message) {
       return responseData.Message
     }
+    if (responseData?.Error) {
+      return responseData.Error
+    }
     if (responseData?.message) {
       return responseData.message
+    }
+    if (responseData?.error) {
+      return responseData.error
     }
   }
 
