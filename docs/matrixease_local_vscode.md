@@ -27,6 +27,11 @@ export MATRIXEASE_GATEWAY_SECRET=replace-with-a-local-internal-key
 export MATRIXEASE_PROTECTION_KEY=replace-with-a-long-random-secret
 export MATRIXEASE_SUPABASE_URL=https://your-project-ref.supabase.co
 export MATRIXEASE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_replace_me
+```
+
+Optional local inputs:
+
+```bash
 export MATRIXEASE_SUPABASE_JWT_SECRET=
 export MATRIXEASE_SLACK_FEEDBACK_WEBHOOK_URL=https://hooks.slack.com/services/your/webhook
 ```
@@ -35,7 +40,9 @@ MatrixEase uses the remote Supabase project directly in local development. The V
 `MATRIXEASE_SUPABASE_URL` and `MATRIXEASE_SUPABASE_PUBLISHABLE_KEY` into Vite's `VITE_SUPABASE_URL` and
 `VITE_SUPABASE_PUBLISHABLE_KEY` variables, and the backend renderer uses the same values for bearer-token validation.
 
-Use an empty `MATRIXEASE_SUPABASE_JWT_SECRET` unless a later backend change explicitly needs the legacy HS256 fallback.
+The VS Code backend render task defaults `MATRIXEASE_SUPABASE_JWT_SECRET` and
+`MATRIXEASE_SLACK_FEEDBACK_WEBHOOK_URL` to empty when they are unset. Use an empty
+`MATRIXEASE_SUPABASE_JWT_SECRET` unless a later backend change explicitly needs the legacy HS256 fallback.
 
 For local file storage, set `MatrixEase.Web.FileSaveLocation` in `config.local.yaml` to a writable path such as:
 
@@ -89,6 +96,20 @@ The renderer preserves nested config names:
 
 The backend now reads the same config for CORS, Supabase bearer-token validation, gateway-secret enforcement, file logs,
 rate limiting, and Slack feedback. Local development leaves `RequireGatewaySecret` off by default.
+
+## Debugger Notes
+
+The workspace disables C# Hot Reload for local MatrixEase debugging because the C# Dev Kit Edit-and-Continue service can
+fail before the app starts if its VS Code server install is missing a debugger dependency. If the same
+`ManagedEditAndContinue...System.Threading.Tasks.Extensions` message still appears, set these in VS Code User Settings
+and reload the VS Code window:
+
+```json
+{
+  "csharp.experimental.debug.hotReload": false,
+  "csharp.debug.hotReloadOnSave": false
+}
+```
 
 ## Launch entries
 

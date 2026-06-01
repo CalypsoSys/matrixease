@@ -1,0 +1,4 @@
+{
+    "csharp.experimental.debug.hotReload": false,
+    "csharp.debug.hotReloadOnSave": false
+}
