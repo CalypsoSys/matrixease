@@ -124,6 +124,213 @@ input {
   margin-bottom: 1rem;
 }
 
+.matrix-workspace {
+  display: grid;
+  gap: 1rem;
+}
+
+.matrix-toolbar {
+  display: grid;
+  align-items: center;
+  gap: 1rem;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.matrix-toolbar .panel-title {
+  font-size: 1.2rem;
+}
+
+.matrix-summary-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.matrix-stat {
+  display: grid;
+  gap: 0.35rem;
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  background: var(--app-surface);
+  padding: 0.9rem 1rem;
+  min-width: 0;
+}
+
+.matrix-stat span,
+.matrix-metric-grid span {
+  color: var(--app-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.matrix-stat strong {
+  overflow-wrap: anywhere;
+  font-size: 1.1rem;
+}
+
+.matrix-layout {
+  display: grid;
+  align-items: start;
+  gap: 1rem;
+  grid-template-columns: minmax(18rem, 25rem) minmax(0, 1fr);
+}
+
+.matrix-column-panel {
+  overflow: hidden;
+}
+
+.matrix-column-list {
+  display: grid;
+  gap: 0.35rem;
+  max-height: calc(100vh - 18rem);
+  overflow: auto;
+  padding: 0.75rem;
+}
+
+.matrix-column-button {
+  display: grid;
+  gap: 0.25rem;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--app-ink);
+  cursor: pointer;
+  padding: 0.7rem 0.75rem;
+  text-align: left;
+}
+
+.matrix-column-button:hover,
+.matrix-column-button.active {
+  border-color: rgba(15, 118, 110, 0.28);
+  background: rgba(15, 118, 110, 0.08);
+}
+
+.matrix-column-button span {
+  overflow: hidden;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.matrix-column-button small,
+.matrix-values-table small {
+  color: var(--app-muted);
+  font-weight: 650;
+}
+
+.matrix-detail-panel {
+  min-width: 0;
+}
+
+.matrix-detail-body {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+}
+
+.matrix-metric-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.matrix-metric-grid div {
+  display: grid;
+  gap: 0.3rem;
+  min-width: 0;
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  background: #fbfcf8;
+  padding: 0.75rem;
+}
+
+.matrix-metric-grid strong {
+  overflow-wrap: anywhere;
+}
+
+.matrix-values-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.matrix-values-header h4 {
+  margin: 0;
+}
+
+.matrix-values-table-wrap {
+  overflow: auto;
+  max-height: calc(100vh - 30rem);
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  scrollbar-gutter: stable;
+}
+
+.matrix-values-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+}
+
+.matrix-values-table th,
+.matrix-values-table td {
+  border-bottom: 1px solid var(--app-border);
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.matrix-values-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--app-surface);
+  color: var(--app-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.matrix-values-table tbody th {
+  max-width: 24rem;
+  width: 18rem;
+}
+
+.matrix-value-cell {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.matrix-value-cell span {
+  overflow-wrap: anywhere;
+}
+
+.pct-cell {
+  display: block;
+  width: 8rem;
+  height: 0.45rem;
+  margin-bottom: 0.25rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #edf1e8;
+}
+
+.pct-cell span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--app-accent);
+}
+
+.matrix-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+}
+
 .upload-form {
   display: grid;
   gap: 1rem;
@@ -487,6 +694,15 @@ input {
 }
 
 @media (max-width: 920px) {
+  .matrix-summary-grid,
+  .matrix-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .matrix-layout {
+    grid-template-columns: 1fr;
+  }
+
   .upload-grid,
   .toggle-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -512,6 +728,21 @@ input {
 
   .account-email {
     max-width: 100%;
+  }
+
+  .matrix-toolbar {
+    align-items: flex-start;
+    grid-template-columns: 1fr;
+  }
+
+  .matrix-summary-grid,
+  .matrix-metric-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .matrix-column-list,
+  .matrix-values-table-wrap {
+    max-height: none;
   }
 
   .process-drawer {

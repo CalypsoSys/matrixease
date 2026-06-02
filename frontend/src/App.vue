@@ -65,6 +65,148 @@
       </header>
 
       <div class="page-frame">
+        <section v-if="activeMatrixProject" class="matrix-workspace">
+          <div class="matrix-toolbar">
+            <Button icon="pi pi-arrow-left" label="Projects" severity="secondary" outlined @click="closeMatrix" />
+            <div>
+              <h2 class="panel-title">{{ matrixName || activeMatrixProject.Name }}</h2>
+              <p class="brand-subtitle">{{ activeMatrixProject.OriginalName }}</p>
+            </div>
+            <Button icon="pi pi-refresh" label="Reload" severity="secondary" :loading="matrixLoading" @click="openProjectMatrix(activeMatrixProject)" />
+          </div>
+
+          <div v-if="matrixError" class="message-error">{{ matrixError }}</div>
+          <section v-if="matrixLoading" class="panel matrix-loading">
+            <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+            <strong>Loading MatrixEase data</strong>
+          </section>
+
+          <template v-else-if="matrixData">
+            <section class="matrix-summary-grid">
+              <div class="matrix-stat">
+                <span>Total rows</span>
+                <strong>{{ formatRows(matrixData.TotalRows) }}</strong>
+              </div>
+              <div class="matrix-stat">
+                <span>Selected rows</span>
+                <strong>{{ formatRows(matrixData.SelectedRows) }}</strong>
+              </div>
+              <div class="matrix-stat">
+                <span>Columns</span>
+                <strong>{{ matrixColumns.length.toLocaleString() }}</strong>
+              </div>
+              <div class="matrix-stat">
+                <span>Selection</span>
+                <strong>{{ matrixData.SelectionExpression || 'All rows' }}</strong>
+              </div>
+            </section>
+
+            <div class="matrix-layout">
+              <aside class="panel matrix-column-panel">
+                <div class="panel-header">
+                  <div>
+                    <h3 class="panel-title">Columns</h3>
+                    <p class="brand-subtitle">{{ matrixColumns.length.toLocaleString() }} available</p>
+                  </div>
+                </div>
+                <div class="matrix-column-list">
+                  <button
+                    v-for="column in matrixColumns"
+                    :key="column.Name"
+                    class="matrix-column-button"
+                    :class="{ active: selectedMatrixColumn?.Name === column.Name }"
+                    type="button"
+                    @click="selectedMatrixColumnName = column.Name"
+                  >
+                    <span>{{ column.Name }}</span>
+                    <small>{{ column.ColType }} · {{ column.DataType }} · {{ column.DistinctValues.toLocaleString() }}</small>
+                  </button>
+                </div>
+              </aside>
+
+              <section class="panel matrix-detail-panel">
+                <template v-if="selectedMatrixColumn">
+                  <div class="panel-header">
+                    <div>
+                      <h3 class="panel-title">{{ selectedMatrixColumn.Name }}</h3>
+                      <p class="brand-subtitle">
+                        {{ selectedMatrixColumn.ColType }} · {{ selectedMatrixColumn.DataType }} · {{ matrixBucketLabel(selectedMatrixColumn) }}
+                      </p>
+                    </div>
+                    <span class="status-pill">{{ selectedMatrixColumn.Values.length.toLocaleString() }} values</span>
+                  </div>
+
+                  <div class="matrix-detail-body">
+                    <div class="matrix-metric-grid">
+                      <div>
+                        <span>Distinct</span>
+                        <strong>{{ selectedMatrixColumn.DistinctValues.toLocaleString() }}</strong>
+                      </div>
+                      <div>
+                        <span>Empty</span>
+                        <strong>{{ selectedMatrixColumn.NullEmpty.toLocaleString() }}</strong>
+                      </div>
+                      <div>
+                        <span>Selectivity</span>
+                        <strong>{{ formatDecimal(selectedMatrixColumn.Selectivity, 6) }}</strong>
+                      </div>
+                      <div>
+                        <span>Top value</span>
+                        <strong>{{ topColumnValue?.ColumnValue || 'N/A' }}</strong>
+                      </div>
+                    </div>
+
+                    <div class="matrix-values-header">
+                      <div>
+                        <h4>Value distribution</h4>
+                        <p class="brand-subtitle">Showing first {{ selectedColumnValues.length.toLocaleString() }} values</p>
+                      </div>
+                    </div>
+
+                    <div class="matrix-values-table-wrap">
+                      <table class="matrix-values-table">
+                        <thead>
+                          <tr>
+                            <th>Value</th>
+                            <th>Rows</th>
+                            <th>Selected</th>
+                            <th>Total %</th>
+                            <th>Selected %</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="value in selectedColumnValues" :key="`${selectedMatrixColumn.Name}-${value.ColumnValue}`">
+                            <th scope="row">
+                              <div class="matrix-value-cell">
+                                <span>{{ value.ColumnValue || '(blank)' }}</span>
+                                <small v-if="value.Duplicates > 1">{{ value.Duplicates }} cases</small>
+                              </div>
+                            </th>
+                            <td>{{ value.TotalValues.toLocaleString() }}</td>
+                            <td>{{ value.SelectedValues.toLocaleString() }}</td>
+                            <td>
+                              <div class="pct-cell">
+                                <span :style="{ width: `${Math.min(value.TotalPct, 100)}%` }"></span>
+                              </div>
+                              {{ formatPercent(value.TotalPct) }}
+                            </td>
+                            <td>{{ formatPercent(value.SelectRelPct) }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </template>
+                <div v-else class="empty-state">
+                  <i class="pi pi-table" aria-hidden="true"></i>
+                  <strong>No columns returned</strong>
+                </div>
+              </section>
+            </div>
+          </template>
+        </section>
+
+        <template v-else>
         <section class="panel upload-panel">
           <div class="panel-header">
             <div>
@@ -211,6 +353,13 @@
               <Column header="">
                 <template #body="{ data }">
                   <Button
+                    v-if="canOpenProject(data)"
+                    icon="pi pi-external-link"
+                    label="Open"
+                    type="button"
+                    @click="openProjectMatrix(data)"
+                  />
+                  <Button
                     v-if="canShowProjectStatusDetails(data)"
                     icon="pi pi-list"
                     label="Details"
@@ -224,6 +373,7 @@
             </DataTable>
           </div>
         </section>
+        </template>
       </div>
 
       <Drawer v-model:visible="statusDialogVisible" position="right" class="process-drawer" :modal="false" @hide="closeStatusDialog">
@@ -334,9 +484,12 @@ import Password from 'primevue/password'
 import logoUrl from '@/assets/matrixeaselogo_grey.png'
 import { getApiMessage } from '@/services/api'
 import {
+  fetchMatrixEaseProject,
   fetchProjectStatus,
   fetchProjects,
   uploadProject,
+  type MatrixEaseColumn,
+  type MatrixEaseData,
   type MatrixEaseProject,
   type MatrixEaseStatusEntry,
   type MatrixEaseStatusMap
@@ -356,6 +509,12 @@ const projects = ref<MatrixEaseProject[]>([])
 const projectsSnapshot = ref('')
 const loadingProjects = ref(false)
 const projectError = ref('')
+const activeMatrixProject = ref<MatrixEaseProject | null>(null)
+const matrixData = ref<MatrixEaseData | null>(null)
+const matrixName = ref('')
+const matrixLoading = ref(false)
+const matrixError = ref('')
+const selectedMatrixColumnName = ref('')
 const fileInput = ref<HTMLInputElement | null>(null)
 const selectedFile = ref<File | null>(null)
 const uploadName = ref('')
@@ -405,6 +564,10 @@ type StatusDrawerContext = {
   isPending?: boolean
 }
 
+type MatrixEaseColumnView = MatrixEaseColumn & {
+  Name: string
+}
+
 const statusDialogRows = computed(() => toStatusRows(statusDialogData.value))
 const statusTimelineRows = computed(() => toStatusRowsWithPlaceholders(statusDialogData.value))
 const currentStatusRow = computed(() => {
@@ -430,6 +593,23 @@ const statusDrawerType = computed(() => statusDrawerContext.value?.sheetType || 
 const statusDrawerLimit = computed(() => formatLimit(statusDrawerContext.value?.maxRows ?? 0))
 const statusDrawerRows = computed(() => formatRows(statusDrawerContext.value?.totalRows ?? null))
 const statusDrawerElapsed = computed(() => currentStatusRow.value?.Elapsed || '00:00:00')
+const matrixColumns = computed<MatrixEaseColumnView[]>(() =>
+  Object.entries(matrixData.value?.Columns ?? {})
+    .map(([name, column]) => ({
+      Name: name,
+      ...column
+    }))
+    .sort((left, right) => left.Index - right.Index)
+)
+const selectedMatrixColumn = computed(() => {
+  if (matrixColumns.value.length === 0) {
+    return null
+  }
+
+  return matrixColumns.value.find((column) => column.Name === selectedMatrixColumnName.value) ?? matrixColumns.value[0]
+})
+const selectedColumnValues = computed(() => selectedMatrixColumn.value?.Values?.slice(0, 100) ?? [])
+const topColumnValue = computed(() => selectedMatrixColumn.value?.Values?.[0] ?? null)
 
 function toggleAuthMode(): void {
   authError.value = ''
@@ -515,6 +695,72 @@ function setProjects(nextProjects: MatrixEaseProject[]): void {
 
   projects.value = nextProjects
   projectsSnapshot.value = nextSnapshot
+}
+
+async function openProjectMatrix(project: MatrixEaseProject): Promise<void> {
+  activeMatrixProject.value = project
+  matrixData.value = null
+  matrixName.value = project.Name
+  matrixError.value = ''
+  matrixLoading.value = true
+  selectedMatrixColumnName.value = ''
+
+  try {
+    const response = await fetchMatrixEaseProject(project.ProjectId)
+    if (response.Success === false || !response.MangaData) {
+      matrixError.value = response.Message || 'Could not load MatrixEase data.'
+      return
+    }
+
+    matrixName.value = response.MangaName || project.Name
+    matrixData.value = response.MangaData
+    selectedMatrixColumnName.value = matrixColumns.value[0]?.Name ?? ''
+  } catch (error) {
+    matrixError.value = getApiMessage(error, 'Could not load MatrixEase data.')
+  } finally {
+    matrixLoading.value = false
+  }
+}
+
+function closeMatrix(): void {
+  activeMatrixProject.value = null
+  matrixData.value = null
+  matrixName.value = ''
+  matrixError.value = ''
+  matrixLoading.value = false
+  selectedMatrixColumnName.value = ''
+}
+
+function canOpenProject(project: MatrixEaseProject): boolean {
+  return project.IsPending === false && statusKey(project) === 'complete'
+}
+
+function formatPercent(value: number | null | undefined): string {
+  if (value === null || value === undefined || Number.isNaN(value)) {
+    return '0.00%'
+  }
+
+  return `${value.toFixed(2)}%`
+}
+
+function formatDecimal(value: number | null | undefined, digits = 4): string {
+  if (value === null || value === undefined || Number.isNaN(value)) {
+    return '0'
+  }
+
+  return value.toFixed(digits)
+}
+
+function matrixBucketLabel(column: MatrixEaseColumnView): string {
+  if (!column.Bucketized) {
+    return 'Native'
+  }
+
+  if (column.OnlyBuckets) {
+    return 'Buckets only'
+  }
+
+  return 'Bucketized'
 }
 
 function handleFileChange(event: Event): void {
@@ -914,6 +1160,7 @@ function statusValueKey(status: string | undefined): string {
 function signOut(): void {
   clearUploadStatusPolling()
   closeStatusDialog()
+  closeMatrix()
   auth.clearSession()
   projects.value = []
   projectsSnapshot.value = ''

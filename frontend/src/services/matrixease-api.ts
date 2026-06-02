@@ -12,6 +12,56 @@ export type MatrixEaseProject = {
   IsPending: boolean
 }
 
+export type MatrixEaseValue = {
+  ColumnValue: string
+  Duplicates: number
+  TotalPct: number
+  SelectAllPct: number
+  SelectRelPct: number
+  TotalValues: number
+  SelectedValues: number
+}
+
+export type MatrixEaseColumn = {
+  Index: number
+  ColType: string
+  DataType: string
+  NullEmpty: number
+  Selectivity: number
+  DistinctValues: number
+  Bucketized: boolean
+  OnlyBuckets: boolean
+  CurBucketSize: number
+  MinBucketSize: number
+  CurBucketMod: number
+  MinBucketMod: number
+  AllowedBuckets: number[]
+  Attributes: unknown
+  Values: MatrixEaseValue[]
+}
+
+export type MatrixEaseData = {
+  TotalRows: number
+  SelectedRows: number
+  Columns: Record<string, MatrixEaseColumn>
+  ShowLowEqual?: boolean
+  ShowLowBound?: number
+  ShowHighEqual?: boolean
+  ShowHighBound?: number
+  ShowPercentage?: string
+  SelectOperation?: string
+  SelectionExpression?: string
+  ColAscending?: boolean
+  HideColumns?: boolean[]
+}
+
+export type MatrixEaseDataResponse = {
+  Success?: boolean
+  Message?: string
+  MangaName?: string
+  MangaData?: MatrixEaseData
+}
+
 export type MatrixEaseProjectsResponse = {
   Success: boolean
   Message?: string
@@ -63,6 +113,10 @@ export type MatrixEaseStatusResponse = {
 
 export function fetchProjects(): Promise<MatrixEaseProjectsResponse> {
   return apiGet<MatrixEaseProjectsResponse>('/api/matrixease/projects')
+}
+
+export function fetchMatrixEaseProject(projectId: string): Promise<MatrixEaseDataResponse> {
+  return apiGet<MatrixEaseDataResponse>(`/api/matrixease?mxes_id=${encodeURIComponent(projectId)}`)
 }
 
 export function uploadProject(
