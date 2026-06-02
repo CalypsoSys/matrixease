@@ -226,11 +226,68 @@
         </section>
       </div>
 
-      <Dialog v-model:visible="statusDialogVisible" modal :header="statusDialogTitle" class="status-dialog" @hide="closeStatusDialog">
-        <div class="status-dialog-body">
+      <Drawer v-model:visible="statusDialogVisible" position="right" class="process-drawer" :modal="false" @hide="closeStatusDialog">
+        <template #header>
+          <div class="process-drawer-heading">
+            <span>Processing details</span>
+            <strong>{{ statusDialogTitle }}</strong>
+          </div>
+        </template>
+
+        <div class="process-drawer-body">
           <div v-if="statusDialogMessage" class="message-success">{{ statusDialogMessage }}</div>
           <div v-if="statusDialogError" class="message-error">{{ statusDialogError }}</div>
           <div v-if="statusDialogLoading && statusDialogRows.length === 0" class="muted">Loading status...</div>
+
+          <section class="process-summary">
+            <div>
+              <span class="summary-label">Project</span>
+              <strong>{{ statusDialogTitle }}</strong>
+            </div>
+            <span class="status-pill" :data-status="statusValueKey(statusDrawerStatus)">
+              {{ statusDrawerStatus }}
+            </span>
+          </section>
+
+          <dl class="process-meta">
+            <div v-if="statusDrawerSource">
+              <dt>Source</dt>
+              <dd>{{ statusDrawerSource }}</dd>
+            </div>
+            <div v-if="statusDrawerType">
+              <dt>Type</dt>
+              <dd>{{ statusDrawerType }}</dd>
+            </div>
+            <div>
+              <dt>Limit</dt>
+              <dd>{{ statusDrawerLimit }}</dd>
+            </div>
+            <div>
+              <dt>Rows</dt>
+              <dd>{{ statusDrawerRows }}</dd>
+            </div>
+            <div>
+              <dt>Elapsed</dt>
+              <dd>{{ statusDrawerElapsed }}</dd>
+            </div>
+          </dl>
+
+          <section v-if="currentStatusRow" class="current-step">
+            <span class="summary-label">Current step</span>
+            <strong>{{ currentStatusRow.Key }}</strong>
+            <p>{{ currentStatusRow.Desc || currentStatusRow.Status || 'Waiting for status update.' }}</p>
+          </section>
+
+          <ol class="process-timeline">
+            <li v-for="row in statusTimelineRows" :key="row.Key" :data-state="timelineState(row)">
+              <span class="timeline-marker" aria-hidden="true"></span>
+              <div>
+                <strong>{{ row.Key }}</strong>
+                <span>{{ row.Desc || timelineFallback(row) }}</span>
+              </div>
+              <time>{{ row.Elapsed || '' }}</time>
+            </li>
+          </ol>
 
           <div v-if="statusDialogRows.length > 0" class="status-table-wrap">
             <table class="status-table">
@@ -259,7 +316,7 @@
             </table>
           </div>
         </div>
-      </Dialog>
+      </Drawer>
     </section>
   </main>
 </template>
@@ -270,7 +327,7 @@ import Button from 'primevue/button'
 import Checkbox from 'primevue/checkbox'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
-import Dialog from 'primevue/dialog'
+import Drawer from 'primevue/drawer'
 import InputNumber from 'primevue/inputnumber'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
@@ -323,6 +380,7 @@ const statusDialogVisible = ref(false)
 const statusDialogTitle = ref('Processing details')
 const statusDialogKey = ref('')
 const statusDialogData = ref<MatrixEaseStatusMap | null>(null)
+const statusDrawerContext = ref<StatusDrawerContext | null>(null)
 const statusDialogMessage = ref('')
 const statusDialogError = ref('')
 const statusDialogLoading = ref(false)
@@ -337,7 +395,41 @@ type LoadProjectsOptions = {
   showLoading?: boolean
 }
 
+type StatusDrawerContext = {
+  title: string
+  source?: string
+  sheetType?: string
+  maxRows?: number
+  totalRows?: number | null
+  status?: string
+  isPending?: boolean
+}
+
 const statusDialogRows = computed(() => toStatusRows(statusDialogData.value))
+const statusTimelineRows = computed(() => toStatusRowsWithPlaceholders(statusDialogData.value))
+const currentStatusRow = computed(() => {
+  const rows = statusDialogRows.value
+  const active = rows.find((row) => ['Running', 'Started', 'Starting'].includes(row.Status ?? ''))
+  const failed = rows.find((row) => row.Status === 'Failed')
+  const latest = [...rows].reverse().find((row) => row.Desc || row.Status)
+
+  return active || failed || latest || null
+})
+const statusDrawerStatus = computed(() => {
+  const contextStatus = statusDrawerContext.value?.status
+  const status = currentStatusRow.value?.Status || contextStatus || 'Pending'
+
+  if (statusDrawerContext.value?.isPending && ['Queued', 'Started', 'Starting'].includes(status) === false) {
+    return status || 'Pending'
+  }
+
+  return status
+})
+const statusDrawerSource = computed(() => statusDrawerContext.value?.source || '')
+const statusDrawerType = computed(() => statusDrawerContext.value?.sheetType || '')
+const statusDrawerLimit = computed(() => formatLimit(statusDrawerContext.value?.maxRows ?? 0))
+const statusDrawerRows = computed(() => formatRows(statusDrawerContext.value?.totalRows ?? null))
+const statusDrawerElapsed = computed(() => currentStatusRow.value?.Elapsed || '00:00:00')
 
 function toggleAuthMode(): void {
   authError.value = ''
@@ -579,29 +671,63 @@ function toStatusRows(statusData: MatrixEaseStatusMap | null | undefined): Statu
     return []
   }
 
-  const sortOrder = ['PreProcess', 'Queued', 'Processing', 'Analyzing', 'Saving', 'Complete', 'Failed']
-
   return Object.entries(statusData)
     .map(([key, value]) => ({
       Key: key,
       ...value
     }))
-    .sort((left, right) => {
-      const leftIndex = sortOrder.indexOf(left.Key)
-      const rightIndex = sortOrder.indexOf(right.Key)
+    .sort(sortStatusRows)
+}
 
-      if (leftIndex === -1 && rightIndex === -1) {
-        return left.Key.localeCompare(right.Key)
-      }
-      if (leftIndex === -1) {
-        return 1
-      }
-      if (rightIndex === -1) {
-        return -1
-      }
+function toStatusRowsWithPlaceholders(statusData: MatrixEaseStatusMap | null | undefined): StatusRow[] {
+  const rowsByKey = new Map(toStatusRows(statusData).map((row) => [row.Key, row]))
+  const keys = ['PreProcess', 'Queued', 'Processing', 'Analyzing', 'Saving', 'Complete', 'Failed']
 
-      return leftIndex - rightIndex
-    })
+  return keys
+    .filter((key) => key !== 'Failed' || rowsByKey.has(key))
+    .map((key) => rowsByKey.get(key) ?? { Key: key })
+}
+
+function sortStatusRows(left: StatusRow, right: StatusRow): number {
+  const sortOrder = ['PreProcess', 'Queued', 'Processing', 'Analyzing', 'Saving', 'Complete', 'Failed']
+  const leftIndex = sortOrder.indexOf(left.Key)
+  const rightIndex = sortOrder.indexOf(right.Key)
+
+  if (leftIndex === -1 && rightIndex === -1) {
+    return left.Key.localeCompare(right.Key)
+  }
+  if (leftIndex === -1) {
+    return 1
+  }
+  if (rightIndex === -1) {
+    return -1
+  }
+
+  return leftIndex - rightIndex
+}
+
+function timelineState(row: StatusRow): string {
+  const status = row.Status || ''
+
+  if (status === 'Complete') {
+    return 'complete'
+  }
+  if (status === 'Failed') {
+    return 'failed'
+  }
+  if (['Running', 'Started', 'Starting'].includes(status)) {
+    return 'active'
+  }
+
+  return 'waiting'
+}
+
+function timelineFallback(row: StatusRow): string {
+  if (row.Status) {
+    return row.Status
+  }
+
+  return 'Waiting'
 }
 
 function formatStatusStarted(value?: string): string {
@@ -626,17 +752,45 @@ function openCurrentUploadStatusDetails(): void {
     return
   }
 
-  openStatusDetails(currentUploadStatusKey.value, uploadName.value || 'Upload', currentUploadStatusData.value)
+  openStatusDetails(
+    currentUploadStatusKey.value,
+    uploadName.value || 'Upload',
+    currentUploadStatusData.value,
+    {
+      title: uploadName.value || 'Upload',
+      source: selectedFile.value?.name,
+      sheetType: sheetType.value,
+      maxRows: maxRows.value,
+      totalRows: null,
+      status: uploadStatusText.value ? 'Running' : 'Pending',
+      isPending: true
+    }
+  )
 }
 
 function openProjectStatusDetails(project: MatrixEaseProject): void {
-  openStatusDetails(project.ProjectId, project.Name || project.OriginalName || 'Processing details')
+  const title = project.Name || project.OriginalName || 'Processing details'
+  openStatusDetails(project.ProjectId, title, null, {
+    title,
+    source: project.OriginalName,
+    sheetType: project.SheetType,
+    maxRows: project.MaxRows,
+    totalRows: project.TotalRows,
+    status: project.Status || (project.IsPending ? 'Pending' : 'Unknown'),
+    isPending: project.IsPending
+  })
 }
 
-function openStatusDetails(statusKey: string, title: string, initialStatusData?: MatrixEaseStatusMap | null): void {
+function openStatusDetails(
+  statusKey: string,
+  title: string,
+  initialStatusData?: MatrixEaseStatusMap | null,
+  context?: StatusDrawerContext
+): void {
   clearStatusDetailsPolling()
   statusDialogKey.value = statusKey
-  statusDialogTitle.value = `${title} processing details`
+  statusDialogTitle.value = title
+  statusDrawerContext.value = context || { title }
   statusDialogData.value = initialStatusData || null
   statusDialogMessage.value = ''
   statusDialogError.value = ''
@@ -657,6 +811,17 @@ async function refreshStatusDetails(): Promise<void> {
   try {
     const response = await fetchProjectStatus(statusDialogKey.value)
     if (!response.Success) {
+      if (response.Complete) {
+        statusDrawerContext.value = {
+          ...(statusDrawerContext.value ?? { title: statusDialogTitle.value }),
+          status: 'Failed'
+        }
+        statusDialogError.value = response.Message || 'Processing failed.'
+        clearStatusDetailsPolling()
+        await loadProjects({ showLoading: false })
+        return
+      }
+
       statusDialogError.value = response.Message || 'Could not load processing status.'
       clearStatusDetailsPolling()
       return
@@ -685,6 +850,7 @@ function closeStatusDialog(): void {
   statusDialogVisible.value = false
   statusDialogKey.value = ''
   statusDialogData.value = null
+  statusDrawerContext.value = null
   statusDialogMessage.value = ''
   statusDialogError.value = ''
   clearStatusDetailsPolling()
