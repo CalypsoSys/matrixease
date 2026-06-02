@@ -45,6 +45,24 @@ input {
   padding: 0.85rem clamp(1rem, 3vw, 2rem);
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.account-email {
+  max-width: min(24rem, 35vw);
+  overflow: hidden;
+  color: var(--app-muted);
+  font-size: 0.9rem;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .brand-lockup {
   display: flex;
   align-items: center;
@@ -325,6 +343,16 @@ input {
 
   .brand-lockup img {
     height: 1.9rem;
+  }
+
+  .topbar-actions {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .account-email {
+    max-width: 100%;
   }
 
   .upload-grid,

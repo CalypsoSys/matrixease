@@ -54,11 +54,12 @@
           <img :src="logoUrl" alt="MatrixEase" />
           <div>
             <h1 class="brand-title">MatrixEase</h1>
-            <p class="brand-subtitle">{{ auth.email || 'Signed in' }}</p>
+            <p class="brand-subtitle">Project workspace</p>
           </div>
         </div>
-        <div class="flex gap-2">
-          <Button icon="pi pi-refresh" label="Refresh" severity="secondary" :loading="loadingProjects" @click="loadProjects" />
+        <div class="topbar-actions">
+          <span v-if="auth.email" class="account-email">{{ auth.email }}</span>
+          <Button icon="pi pi-refresh" label="Refresh" severity="secondary" :loading="loadingProjects" @click="loadProjects()" />
           <Button icon="pi pi-sign-out" label="Sign out" severity="contrast" @click="signOut" />
         </div>
       </header>
@@ -295,6 +296,7 @@ const authBusy = ref(false)
 const authError = ref('')
 const authNotice = ref('')
 const projects = ref<MatrixEaseProject[]>([])
+const projectsSnapshot = ref('')
 const loadingProjects = ref(false)
 const projectError = ref('')
 const fileInput = ref<HTMLInputElement | null>(null)
@@ -331,6 +333,10 @@ type StatusRow = MatrixEaseStatusEntry & {
   Key: string
 }
 
+type LoadProjectsOptions = {
+  showLoading?: boolean
+}
+
 const statusDialogRows = computed(() => toStatusRows(statusDialogData.value))
 
 function toggleAuthMode(): void {
@@ -355,7 +361,7 @@ async function submitAuth(): Promise<void> {
       return
     }
 
-    await loadProjects()
+    await loadProjects({ showLoading: false })
   } catch (error) {
     authError.value = getApiMessage(error, 'Authentication failed.')
   } finally {
@@ -363,12 +369,16 @@ async function submitAuth(): Promise<void> {
   }
 }
 
-async function loadProjects(): Promise<void> {
+async function loadProjects(options: LoadProjectsOptions = {}): Promise<void> {
   if (!auth.isAuthenticated) {
     return
   }
 
-  loadingProjects.value = true
+  const showLoading = options.showLoading ?? true
+  if (showLoading) {
+    loadingProjects.value = true
+  }
+
   projectError.value = ''
 
   try {
@@ -376,16 +386,43 @@ async function loadProjects(): Promise<void> {
     if (!response.Success) {
       projectError.value = response.Message || 'Could not load projects.'
       projects.value = []
+      projectsSnapshot.value = ''
       return
     }
 
-    projects.value = response.Projects
+    setProjects(response.Projects)
   } catch (error) {
     projectError.value = getApiMessage(error, 'Could not load projects.')
     projects.value = []
+    projectsSnapshot.value = ''
   } finally {
-    loadingProjects.value = false
+    if (showLoading) {
+      loadingProjects.value = false
+    }
   }
+}
+
+function setProjects(nextProjects: MatrixEaseProject[]): void {
+  const nextSnapshot = JSON.stringify(
+    nextProjects.map((project) => ({
+      ProjectId: project.ProjectId,
+      Name: project.Name,
+      OriginalName: project.OriginalName,
+      SheetType: project.SheetType,
+      Created: project.Created,
+      MaxRows: project.MaxRows,
+      TotalRows: project.TotalRows,
+      Status: project.Status,
+      IsPending: project.IsPending
+    }))
+  )
+
+  if (nextSnapshot === projectsSnapshot.value) {
+    return
+  }
+
+  projects.value = nextProjects
+  projectsSnapshot.value = nextSnapshot
 }
 
 function handleFileChange(event: Event): void {
@@ -475,7 +512,7 @@ async function submitUpload(): Promise<void> {
     currentUploadStatusKey.value = response.MatrixId || ''
     currentUploadStatusData.value = response.StatusData || null
     uploadStatusText.value = summarizeStatus(response.StatusData) || 'Processing'
-    await loadProjects()
+    await loadProjects({ showLoading: false })
 
     if (response.MatrixId) {
       startUploadStatusPolling(response.MatrixId)
@@ -512,7 +549,7 @@ async function pollUploadStatus(statusKey: string): Promise<void> {
       currentUploadStatusData.value = null
       clearUploadStatusPolling()
       resetUploadForm(false)
-      await loadProjects()
+      await loadProjects({ showLoading: false })
       return
     }
 
@@ -522,7 +559,7 @@ async function pollUploadStatus(statusKey: string): Promise<void> {
       statusDialogData.value = response.StatusData || null
       statusDialogMessage.value = ''
     }
-    await loadProjects()
+    await loadProjects({ showLoading: false })
   } catch (error) {
     uploadError.value = getApiMessage(error, 'Could not load upload status.')
     clearUploadStatusPolling()
@@ -632,7 +669,7 @@ async function refreshStatusDetails(): Promise<void> {
     if (response.Complete) {
       statusDialogMessage.value = response.Message || 'Processing complete.'
       clearStatusDetailsPolling()
-      await loadProjects()
+      await loadProjects({ showLoading: false })
     } else {
       statusDialogMessage.value = ''
     }
@@ -713,6 +750,7 @@ function signOut(): void {
   closeStatusDialog()
   auth.clearSession()
   projects.value = []
+  projectsSnapshot.value = ''
 }
 
 onMounted(loadProjects)
