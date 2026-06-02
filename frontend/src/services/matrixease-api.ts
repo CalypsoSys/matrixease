@@ -37,10 +37,19 @@ export type MatrixEaseUploadOptions = {
   csvEol: string
 }
 
+export type MatrixEaseStatusEntry = {
+  Started?: string
+  Elapsed?: string
+  Desc?: string
+  Status?: string
+}
+
+export type MatrixEaseStatusMap = Record<string, MatrixEaseStatusEntry>
+
 export type MatrixEaseUploadResponse = {
   Success: boolean
   MatrixId?: string
-  StatusData?: unknown
+  StatusData?: MatrixEaseStatusMap
   Error?: string
   Message?: string
 }
@@ -48,7 +57,7 @@ export type MatrixEaseUploadResponse = {
 export type MatrixEaseStatusResponse = {
   Success: boolean
   Complete?: boolean
-  StatusData?: unknown
+  StatusData?: MatrixEaseStatusMap
   Message?: string
 }
 

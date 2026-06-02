@@ -30,15 +30,25 @@ namespace MatrixEase.Manga.Manga
         {
             _path = path;
             string filePath = MangaState.ManagaFilePath(path, FileType, Spec);
+            string tempFilePath = string.Format("{0}.{1:N}.tmp", filePath, Guid.NewGuid());
             using (new FileLocker(filePath))
             {
-                using (FileStream dataStream = new FileStream(filePath, FileMode.OpenOrCreate))
+                try
                 {
-                    using (_dataWriter = new BinaryWriter(dataStream))
+                    using (FileStream dataStream = new FileStream(tempFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
                     {
-                        _dataWriter.Write(Version);
-                        Save(this);
+                        using (_dataWriter = new BinaryWriter(dataStream))
+                        {
+                            _dataWriter.Write(Version);
+                            Save(this);
+                        }
                     }
+
+                    File.Move(tempFilePath, filePath, true);
+                }
+                finally
+                {
+                    StorageHelpers.SafeFileDelete(tempFilePath);
                 }
             }
         }

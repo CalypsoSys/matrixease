@@ -93,8 +93,16 @@ namespace MatrixEase.Manga.Manga
         {
             MangaCatalog mangas = new MangaCatalog();
             var userPath = UserPath(userIdentifier);
-            if ( mangas.Load(userPath, loadOptions) )
-                return mangas;
+            try
+            {
+                if (mangas.Load(userPath, loadOptions))
+                    return mangas;
+            }
+            catch (Exception excp) when (excp is IOException || excp is ArgumentException || excp is InvalidOperationException)
+            {
+                SimpleLogger.LogError(excp, "Loading user MatrixEase catalog {0}", userIdentifier);
+            }
+
             return new MangaCatalog(); 
         }
 

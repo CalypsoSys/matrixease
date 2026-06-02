@@ -30,9 +30,9 @@ namespace MatrixEase.Manga.Manga
 
         protected override void Save(IMangaSerializationWriter writer)
         {
-            writer.WriteString(_accessToken);
-            writer.WriteString(_userId);
-            writer.WriteString(_userEmail);
+            writer.WriteString(_accessToken ?? string.Empty);
+            writer.WriteString(_userId ?? string.Empty);
+            writer.WriteString(_userEmail ?? string.Empty);
             writer.WriteEnum<MangaAuthType>(_authType);
             Int32 items = _mangas.Count();
             writer.WriteInt32(items);

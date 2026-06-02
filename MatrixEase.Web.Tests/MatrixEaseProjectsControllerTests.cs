@@ -7,6 +7,7 @@ using MatrixEase.Web.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using Xunit;
 
 namespace MatrixEase.Web.Tests;
@@ -87,6 +88,104 @@ public class MatrixEaseProjectsControllerTests
     }
 
     [Fact]
+    public void ProjectsReturnsSupabaseCatalogCreatedWithoutLegacyAccess()
+    {
+        string root = Path.Combine(Path.GetTempPath(), "matrixease-web-tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(root);
+
+        try
+        {
+            SecretProtector.Configure("test-protection-key-0123456789");
+            MangaRoot.SetRootFolder(root);
+
+            string userId = "supabase-user-no-legacy-access";
+            var mangaInfo = new MangaInfo(
+                "sales.csv",
+                "Sales Matrix",
+                1,
+                1,
+                500,
+                true,
+                true,
+                true,
+                true,
+                "",
+                "csv",
+                new Dictionary<string, string>());
+            mangaInfo.SetCounts(42, 4, 168);
+
+            MangaState.SaveManga(userId, mangaInfo, new DataManga());
+
+            var requestContextAccessor = new RequestContextAccessor();
+            var controller = CreateController(requestContextAccessor);
+            requestContextAccessor.SetSupabaseIdentity(controller.HttpContext, new SupabaseIdentity
+            {
+                ExternalIdentity = userId,
+                EmailAddress = "joe@example.com"
+            });
+
+            IActionResult result = controller.Projects();
+
+            var ok = Assert.IsType<OkObjectResult>(result);
+            var response = Assert.IsType<MatrixEaseProjectsResponse>(ok.Value);
+            MatrixEaseProjectDto project = Assert.Single(response.Projects);
+
+            Assert.True(response.Success);
+            Assert.Equal("Sales Matrix", project.Name);
+            Assert.Equal(42, project.TotalRows);
+            Assert.False(project.IsPending);
+        }
+        finally
+        {
+            if (Directory.Exists(root))
+            {
+                Directory.Delete(root, true);
+            }
+        }
+    }
+
+    [Fact]
+    public void ProjectsTreatsCorruptCatalogAsEmpty()
+    {
+        string root = Path.Combine(Path.GetTempPath(), "matrixease-web-tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(root);
+
+        try
+        {
+            SecretProtector.Configure("test-protection-key-0123456789");
+            MangaRoot.SetRootFolder(root);
+
+            string userId = "supabase-user-corrupt-catalog";
+            string userFolder = Path.Combine(root, "matrixease", userId);
+            Directory.CreateDirectory(userFolder);
+            File.WriteAllBytes(Path.Combine(userFolder, "catalog.manga"), BitConverter.GetBytes(1));
+
+            var requestContextAccessor = new RequestContextAccessor();
+            var controller = CreateController(requestContextAccessor);
+            requestContextAccessor.SetSupabaseIdentity(controller.HttpContext, new SupabaseIdentity
+            {
+                ExternalIdentity = userId,
+                EmailAddress = "joe@example.com"
+            });
+
+            IActionResult result = controller.Projects();
+
+            var ok = Assert.IsType<OkObjectResult>(result);
+            var response = Assert.IsType<MatrixEaseProjectsResponse>(ok.Value);
+
+            Assert.True(response.Success);
+            Assert.Empty(response.Projects);
+        }
+        finally
+        {
+            if (Directory.Exists(root))
+            {
+                Directory.Delete(root, true);
+            }
+        }
+    }
+
+    [Fact]
     public void ProjectDataRejectsProjectOwnedByDifferentSupabaseUser()
     {
         string root = Path.Combine(Path.GetTempPath(), "matrixease-web-tests", Guid.NewGuid().ToString("N"));
@@ -152,7 +251,8 @@ public class MatrixEaseProjectsControllerTests
         var controller = new MatrixEaseController(
             NullLogger<MatrixEaseController>.Instance,
             new BackgroundTaskQueue(),
-            requestContextAccessor);
+            requestContextAccessor,
+            Options.Create(new AppSettings()));
 
         controller.ControllerContext = new ControllerContext
         {

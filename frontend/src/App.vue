@@ -149,6 +149,15 @@
             <div v-if="uploadBusy || uploadProgress > 0 || uploadStatusText" class="upload-status-row">
               <progress max="100" :value="uploadProgress"></progress>
               <span>{{ uploadStatusText || `${uploadProgress}%` }}</span>
+              <Button
+                v-if="currentUploadStatusKey"
+                icon="pi pi-list"
+                label="Details"
+                type="button"
+                severity="secondary"
+                text
+                @click="openCurrentUploadStatusDetails"
+              />
             </div>
 
             <div class="form-actions">
@@ -198,20 +207,69 @@
               <Column field="Created" header="Created">
                 <template #body="{ data }">{{ formatDateTime(data.Created) }}</template>
               </Column>
+              <Column header="">
+                <template #body="{ data }">
+                  <Button
+                    v-if="canShowProjectStatusDetails(data)"
+                    icon="pi pi-list"
+                    label="Details"
+                    type="button"
+                    severity="secondary"
+                    text
+                    @click="openProjectStatusDetails(data)"
+                  />
+                </template>
+              </Column>
             </DataTable>
           </div>
         </section>
       </div>
+
+      <Dialog v-model:visible="statusDialogVisible" modal :header="statusDialogTitle" class="status-dialog" @hide="closeStatusDialog">
+        <div class="status-dialog-body">
+          <div v-if="statusDialogMessage" class="message-success">{{ statusDialogMessage }}</div>
+          <div v-if="statusDialogError" class="message-error">{{ statusDialogError }}</div>
+          <div v-if="statusDialogLoading && statusDialogRows.length === 0" class="muted">Loading status...</div>
+
+          <div v-if="statusDialogRows.length > 0" class="status-table-wrap">
+            <table class="status-table">
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th>Started</th>
+                  <th>Elapsed</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="row in statusDialogRows" :key="row.Key">
+                  <th scope="row">{{ row.Key }}</th>
+                  <td>{{ formatStatusStarted(row.Started) }}</td>
+                  <td>{{ row.Elapsed || '00:00:00' }}</td>
+                  <td>{{ row.Desc || '' }}</td>
+                  <td>
+                    <span class="status-pill" :data-status="statusValueKey(row.Status)">
+                      {{ row.Status || 'Unknown' }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </Dialog>
     </section>
   </main>
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import Button from 'primevue/button'
 import Checkbox from 'primevue/checkbox'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
+import Dialog from 'primevue/dialog'
 import InputNumber from 'primevue/inputnumber'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
@@ -221,7 +279,9 @@ import {
   fetchProjectStatus,
   fetchProjects,
   uploadProject,
-  type MatrixEaseProject
+  type MatrixEaseProject,
+  type MatrixEaseStatusEntry,
+  type MatrixEaseStatusMap
 } from '@/services/matrixease-api'
 import { useAuthStore } from '@/stores/auth'
 import { formatDateTime, formatLimit, formatRows } from '@/utils/formatters'
@@ -255,7 +315,23 @@ const uploadProgress = ref(0)
 const uploadError = ref('')
 const uploadNotice = ref('')
 const uploadStatusText = ref('')
+const currentUploadStatusKey = ref('')
+const currentUploadStatusData = ref<MatrixEaseStatusMap | null>(null)
+const statusDialogVisible = ref(false)
+const statusDialogTitle = ref('Processing details')
+const statusDialogKey = ref('')
+const statusDialogData = ref<MatrixEaseStatusMap | null>(null)
+const statusDialogMessage = ref('')
+const statusDialogError = ref('')
+const statusDialogLoading = ref(false)
 let uploadStatusTimer: number | undefined
+let statusDetailsTimer: number | undefined
+
+type StatusRow = MatrixEaseStatusEntry & {
+  Key: string
+}
+
+const statusDialogRows = computed(() => toStatusRows(statusDialogData.value))
 
 function toggleAuthMode(): void {
   authError.value = ''
@@ -396,6 +472,8 @@ async function submitUpload(): Promise<void> {
 
     uploadProgress.value = 100
     uploadNotice.value = 'Upload queued.'
+    currentUploadStatusKey.value = response.MatrixId || ''
+    currentUploadStatusData.value = response.StatusData || null
     uploadStatusText.value = summarizeStatus(response.StatusData) || 'Processing'
     await loadProjects()
 
@@ -430,13 +508,20 @@ async function pollUploadStatus(statusKey: string): Promise<void> {
       uploadNotice.value = response.Message || 'Project ready.'
       uploadStatusText.value = ''
       uploadProgress.value = 0
+      currentUploadStatusKey.value = ''
+      currentUploadStatusData.value = null
       clearUploadStatusPolling()
       resetUploadForm(false)
       await loadProjects()
       return
     }
 
+    currentUploadStatusData.value = response.StatusData || null
     uploadStatusText.value = summarizeStatus(response.StatusData) || 'Processing'
+    if (statusDialogKey.value === statusKey) {
+      statusDialogData.value = response.StatusData || null
+      statusDialogMessage.value = ''
+    }
     await loadProjects()
   } catch (error) {
     uploadError.value = getApiMessage(error, 'Could not load upload status.')
@@ -444,16 +529,128 @@ async function pollUploadStatus(statusKey: string): Promise<void> {
   }
 }
 
-function summarizeStatus(statusData: unknown): string {
+function summarizeStatus(statusData: MatrixEaseStatusMap | null | undefined): string {
+  const rows = toStatusRows(statusData)
+  const running = rows.find((step) => ['Running', 'Started', 'Starting'].includes(step.Status ?? '') && step.Desc)
+  const latest = [...rows].reverse().find((step) => step.Desc)
+
+  return running?.Desc || latest?.Desc || ''
+}
+
+function toStatusRows(statusData: MatrixEaseStatusMap | null | undefined): StatusRow[] {
   if (!statusData || typeof statusData !== 'object') {
+    return []
+  }
+
+  const sortOrder = ['PreProcess', 'Queued', 'Processing', 'Analyzing', 'Saving', 'Complete', 'Failed']
+
+  return Object.entries(statusData)
+    .map(([key, value]) => ({
+      Key: key,
+      ...value
+    }))
+    .sort((left, right) => {
+      const leftIndex = sortOrder.indexOf(left.Key)
+      const rightIndex = sortOrder.indexOf(right.Key)
+
+      if (leftIndex === -1 && rightIndex === -1) {
+        return left.Key.localeCompare(right.Key)
+      }
+      if (leftIndex === -1) {
+        return 1
+      }
+      if (rightIndex === -1) {
+        return -1
+      }
+
+      return leftIndex - rightIndex
+    })
+}
+
+function formatStatusStarted(value?: string): string {
+  if (!value) {
     return ''
   }
 
-  const steps = Object.values(statusData as Record<string, { Desc?: string; Status?: string }>)
-  const running = steps.find((step) => ['Running', 'Started', 'Starting'].includes(step.Status ?? '') && step.Desc)
-  const latest = steps.reverse().find((step) => step.Desc)
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return value
+  }
 
-  return running?.Desc || latest?.Desc || ''
+  return date.toLocaleString()
+}
+
+function canShowProjectStatusDetails(project: MatrixEaseProject): boolean {
+  return project.IsPending || ['pending', 'running', 'started', 'starting'].includes(statusKey(project))
+}
+
+function openCurrentUploadStatusDetails(): void {
+  if (!currentUploadStatusKey.value) {
+    return
+  }
+
+  openStatusDetails(currentUploadStatusKey.value, uploadName.value || 'Upload', currentUploadStatusData.value)
+}
+
+function openProjectStatusDetails(project: MatrixEaseProject): void {
+  openStatusDetails(project.ProjectId, project.Name || project.OriginalName || 'Processing details')
+}
+
+function openStatusDetails(statusKey: string, title: string, initialStatusData?: MatrixEaseStatusMap | null): void {
+  clearStatusDetailsPolling()
+  statusDialogKey.value = statusKey
+  statusDialogTitle.value = `${title} processing details`
+  statusDialogData.value = initialStatusData || null
+  statusDialogMessage.value = ''
+  statusDialogError.value = ''
+  statusDialogVisible.value = true
+
+  void refreshStatusDetails()
+  statusDetailsTimer = window.setInterval(() => {
+    void refreshStatusDetails()
+  }, 2500)
+}
+
+async function refreshStatusDetails(): Promise<void> {
+  if (!statusDialogKey.value) {
+    return
+  }
+
+  statusDialogLoading.value = true
+  try {
+    const response = await fetchProjectStatus(statusDialogKey.value)
+    if (!response.Success) {
+      statusDialogError.value = response.Message || 'Could not load processing status.'
+      clearStatusDetailsPolling()
+      return
+    }
+
+    if (response.StatusData) {
+      statusDialogData.value = response.StatusData
+    }
+
+    if (response.Complete) {
+      statusDialogMessage.value = response.Message || 'Processing complete.'
+      clearStatusDetailsPolling()
+      await loadProjects()
+    } else {
+      statusDialogMessage.value = ''
+    }
+  } catch (error) {
+    statusDialogError.value = getApiMessage(error, 'Could not load processing status.')
+    clearStatusDetailsPolling()
+  } finally {
+    statusDialogLoading.value = false
+  }
+}
+
+function closeStatusDialog(): void {
+  statusDialogVisible.value = false
+  statusDialogKey.value = ''
+  statusDialogData.value = null
+  statusDialogMessage.value = ''
+  statusDialogError.value = ''
+  clearStatusDetailsPolling()
 }
 
 function resetUploadForm(clearMessages = true): void {
@@ -471,6 +668,8 @@ function resetUploadForm(clearMessages = true): void {
   trimTrailingWhitespace.value = true
   uploadProgress.value = 0
   uploadStatusText.value = ''
+  currentUploadStatusKey.value = ''
+  currentUploadStatusData.value = null
   clearUploadStatusPolling()
 
   if (clearMessages) {
@@ -490,6 +689,13 @@ function clearUploadStatusPolling(): void {
   }
 }
 
+function clearStatusDetailsPolling(): void {
+  if (statusDetailsTimer !== undefined) {
+    window.clearInterval(statusDetailsTimer)
+    statusDetailsTimer = undefined
+  }
+}
+
 function statusKey(project: MatrixEaseProject): string {
   if (project.IsPending) {
     return 'pending'
@@ -498,12 +704,20 @@ function statusKey(project: MatrixEaseProject): string {
   return (project.Status || '').trim().toLowerCase()
 }
 
+function statusValueKey(status: string | undefined): string {
+  return (status || '').trim().toLowerCase()
+}
+
 function signOut(): void {
   clearUploadStatusPolling()
+  closeStatusDialog()
   auth.clearSession()
   projects.value = []
 }
 
 onMounted(loadProjects)
-onBeforeUnmount(clearUploadStatusPolling)
+onBeforeUnmount(() => {
+  clearUploadStatusPolling()
+  clearStatusDetailsPolling()
+})
 </script>

@@ -8,6 +8,7 @@ using MatrixEase.Web.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace MatrixEase.Web.Controllers
 {
@@ -18,11 +19,13 @@ namespace MatrixEase.Web.Controllers
 
         private readonly ILogger<UploadController> _logger;
         private readonly RequestContextAccessor _requestContextAccessor;
+        private readonly AppSettings _settings;
 
-        public UploadController(ILogger<UploadController> logger, IBackgroundTaskQueue queue, RequestContextAccessor requestContextAccessor) : base(queue)
+        public UploadController(ILogger<UploadController> logger, IBackgroundTaskQueue queue, RequestContextAccessor requestContextAccessor, IOptions<AppSettings> options) : base(queue)
         {
             _logger = logger;
             _requestContextAccessor = requestContextAccessor;
+            _settings = options.Value ?? new AppSettings();
         }
 
         [HttpPost]
@@ -63,7 +66,9 @@ namespace MatrixEase.Web.Controllers
             }
             catch (Exception excp)
             {
+                string message = MatrixEaseErrors.LogError(_settings, excp, "Error uploading sheet {0}", sheet_type);
                 SimpleLogger.LogError(excp, "Error uploading sheet {0}", sheet_type);
+                return new { Success = false, Error = message };
             }
 
             return new { Success = false };

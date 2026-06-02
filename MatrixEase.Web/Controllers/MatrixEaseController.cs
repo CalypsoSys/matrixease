@@ -12,6 +12,7 @@ using MatrixEase.Web.Controllers;
 using MatrixEase.Web.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 
 namespace MatrixEase.Web
@@ -22,11 +23,13 @@ namespace MatrixEase.Web
     {
         private readonly ILogger<MatrixEaseController> _logger;
         private readonly RequestContextAccessor _requestContextAccessor;
+        private readonly AppSettings _settings;
 
-        public MatrixEaseController(ILogger<MatrixEaseController> logger, IBackgroundTaskQueue queue, RequestContextAccessor requestContextAccessor) : base(queue)
+        public MatrixEaseController(ILogger<MatrixEaseController> logger, IBackgroundTaskQueue queue, RequestContextAccessor requestContextAccessor, IOptions<AppSettings> options) : base(queue)
         {
             _logger = logger;
             _requestContextAccessor = requestContextAccessor;
+            _settings = options.Value ?? new AppSettings();
         }
 
         [HttpGet("projects")]
@@ -42,7 +45,19 @@ namespace MatrixEase.Web
                 });
             }
 
-            return Ok(BuildProjectsResponse(identity));
+            try
+            {
+                return Ok(BuildProjectsResponse(identity));
+            }
+            catch (Exception excp)
+            {
+                string message = MatrixEaseErrors.LogError(_settings, excp, "MatrixEase projects");
+                return StatusCode(500, new MatrixEaseProjectsResponse
+                {
+                    Success = false,
+                    Message = message
+                });
+            }
         }
 
         private MatrixEaseProjectsResponse BuildProjectsResponse(SupabaseIdentity identity)
