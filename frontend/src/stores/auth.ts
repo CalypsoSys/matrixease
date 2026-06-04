@@ -1,10 +1,15 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import {
+  fetchSupabaseUser,
   refreshSupabaseSession,
+  sendSupabaseMagicLink,
+  sendSupabasePasswordRecovery,
   signInWithPassword,
   signUpWithPassword,
-  type SupabaseSession
+  updateSupabasePassword,
+  type SupabaseSession,
+  type SupabaseUserResponse
 } from '@/services/supabase-auth'
 
 type SessionRecord = {
@@ -25,9 +30,15 @@ export const useAuthStore = defineStore('auth', () => {
   const refreshToken = ref<string | null>(null)
   const expiresAt = ref<number | null>(null)
   const email = ref<string | null>(null)
+  const isPasswordRecovery = ref(false)
   const isReady = ref(false)
 
   function loadSession(): void {
+    if (consumeRedirectSession()) {
+      isReady.value = true
+      return
+    }
+
     const raw = window.localStorage.getItem(SESSION_KEY)
     if (!raw) {
       isReady.value = true
@@ -77,13 +88,78 @@ export const useAuthStore = defineStore('auth', () => {
     return true
   }
 
+  function parseNumber(value: string | null): number | undefined {
+    if (!value) {
+      return undefined
+    }
+
+    const parsed = Number(value)
+    return Number.isFinite(parsed) ? parsed : undefined
+  }
+
+  function removeAuthHash(): void {
+    window.history.replaceState(null, document.title, `${window.location.pathname}${window.location.search}`)
+  }
+
+  function consumeRedirectSession(): boolean {
+    if (!window.location.hash.includes('access_token=')) {
+      return false
+    }
+
+    const params = new URLSearchParams(window.location.hash.slice(1))
+    const redirectAccessToken = params.get('access_token')
+    const redirectRefreshToken = params.get('refresh_token')
+
+    if (!redirectAccessToken || !redirectRefreshToken) {
+      return false
+    }
+
+    const hasSession = setSession({
+      access_token: redirectAccessToken,
+      refresh_token: redirectRefreshToken,
+      expires_in: parseNumber(params.get('expires_in')),
+      expires_at: parseNumber(params.get('expires_at')),
+      type: params.get('type') ?? undefined,
+      user: {
+        email: params.get('email') ?? undefined
+      }
+    })
+
+    if (hasSession) {
+      isPasswordRecovery.value = params.get('type') === 'recovery'
+      removeAuthHash()
+    }
+
+    return hasSession
+  }
+
+  function applyUser(user: SupabaseUserResponse): void {
+    email.value = user.email ?? email.value
+    persistSession()
+  }
+
+  async function hydrateUser(): Promise<void> {
+    if (!accessToken.value || email.value) {
+      return
+    }
+
+    try {
+      applyUser(await fetchSupabaseUser(accessToken.value))
+    } catch {
+      // A missing email should not block sign-in or project loading.
+    }
+  }
+
   async function initialize(): Promise<void> {
     if (!isReady.value) {
       loadSession()
+    } else {
+      consumeRedirectSession()
     }
 
     const nowSeconds = Math.floor(Date.now() / 1000)
     if (accessToken.value && expiresAt.value && expiresAt.value > nowSeconds + 30) {
+      await hydrateUser()
       return
     }
 
@@ -93,6 +169,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     try {
       setSession(await refreshSupabaseSession(refreshToken.value))
+      await hydrateUser()
     } catch {
       clearSession()
     }
@@ -106,11 +183,29 @@ export const useAuthStore = defineStore('auth', () => {
     return setSession(await signUpWithPassword(emailAddress, password))
   }
 
+  async function sendMagicLink(emailAddress: string): Promise<void> {
+    await sendSupabaseMagicLink(emailAddress)
+  }
+
+  async function sendPasswordRecovery(emailAddress: string): Promise<void> {
+    await sendSupabasePasswordRecovery(emailAddress)
+  }
+
+  async function updatePassword(password: string): Promise<void> {
+    if (!accessToken.value) {
+      throw new Error('Password recovery session is not active.')
+    }
+
+    applyUser(await updateSupabasePassword(accessToken.value, password))
+    isPasswordRecovery.value = false
+  }
+
   function clearSession(): void {
     accessToken.value = null
     refreshToken.value = null
     expiresAt.value = null
     email.value = null
+    isPasswordRecovery.value = false
     window.localStorage.removeItem(SESSION_KEY)
   }
 
@@ -122,10 +217,14 @@ export const useAuthStore = defineStore('auth', () => {
     expiresAt,
     email,
     isReady,
+    isPasswordRecovery,
     isAuthenticated: computed(() => Boolean(accessToken.value)),
     initialize,
     signIn,
     signUp,
+    sendMagicLink,
+    sendPasswordRecovery,
+    updatePassword,
     clearSession
   }
 })

@@ -146,6 +146,39 @@ input {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.matrix-view-tabs {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  overflow: hidden;
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  background: var(--app-surface);
+}
+
+.matrix-view-tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.4rem;
+  border: 0;
+  border-right: 1px solid var(--app-border);
+  background: transparent;
+  color: var(--app-muted);
+  cursor: pointer;
+  padding: 0.55rem 0.85rem;
+  font-weight: 800;
+}
+
+.matrix-view-tabs button:last-child {
+  border-right: 0;
+}
+
+.matrix-view-tabs button.active {
+  background: rgba(15, 118, 110, 0.1);
+  color: var(--app-accent-strong);
+}
+
 .matrix-stat {
   display: grid;
   gap: 0.35rem;
@@ -218,6 +251,120 @@ input {
 .matrix-values-table small {
   color: var(--app-muted);
   font-weight: 650;
+}
+
+.matrix-board-panel {
+  overflow: hidden;
+}
+
+.matrix-board-wrap {
+  overflow: auto;
+  border-bottom: 1px solid var(--app-border);
+}
+
+.matrix-board {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  min-width: max-content;
+  padding: 1rem;
+}
+
+.matrix-board-column {
+  display: grid;
+  gap: 0.45rem;
+  width: 16rem;
+  min-width: 16rem;
+}
+
+.matrix-board-column-header,
+.matrix-board-cell {
+  display: grid;
+  gap: 0.22rem;
+  width: 100%;
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  background: var(--app-surface);
+  color: var(--app-ink);
+  cursor: pointer;
+  padding: 0.65rem 0.7rem;
+  text-align: left;
+}
+
+.matrix-board-column-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fbfcf8;
+}
+
+.matrix-board-column.active .matrix-board-column-header,
+.matrix-board-cell:hover,
+.matrix-board-cell.selected {
+  border-color: rgba(15, 118, 110, 0.36);
+  box-shadow: inset 0 0 0 1px rgba(15, 118, 110, 0.16);
+}
+
+.matrix-board-column-header strong,
+.matrix-board-cell strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.matrix-board-column-header span,
+.matrix-board-column-header small,
+.matrix-board-cell span {
+  color: var(--app-muted);
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.matrix-cell-bars {
+  display: grid;
+  gap: 0.18rem;
+  margin-top: 0.25rem;
+}
+
+.matrix-cell-bar {
+  display: block;
+  height: 0.32rem;
+  max-width: 100%;
+  border-radius: 999px;
+}
+
+.matrix-cell-bar.total {
+  background: rgba(15, 118, 110, 0.38);
+}
+
+.matrix-cell-bar.selected {
+  background: rgba(79, 70, 229, 0.34);
+}
+
+.matrix-cell-inspector {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-bottom: 1px solid var(--app-border);
+  background: #fbfcf8;
+  padding: 1rem;
+}
+
+.matrix-cell-inspector div {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.matrix-cell-inspector span {
+  color: var(--app-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.matrix-cell-inspector strong {
+  overflow-wrap: anywhere;
 }
 
 .matrix-detail-panel {
@@ -598,6 +745,38 @@ input {
   width: min(100%, 430px);
 }
 
+.auth-tabs {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  background: #fbfcf8;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.auth-tabs button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.55rem;
+  border: 0;
+  border-right: 1px solid var(--app-border);
+  background: transparent;
+  color: var(--app-muted);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.auth-tabs button:last-child {
+  border-right: 0;
+}
+
+.auth-tabs button.active {
+  background: rgba(15, 118, 110, 0.1);
+  color: var(--app-accent-strong);
+}
+
 .form-stack {
   display: grid;
   gap: 0.9rem;
@@ -617,6 +796,19 @@ input {
   justify-content: space-between;
   gap: 0.75rem;
   flex-wrap: wrap;
+}
+
+.auth-inline-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -0.35rem;
+}
+
+.auth-alternate {
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--app-border);
+  padding-top: 0.8rem;
 }
 
 .muted {
@@ -695,7 +887,8 @@ input {
 
 @media (max-width: 920px) {
   .matrix-summary-grid,
-  .matrix-metric-grid {
+  .matrix-metric-grid,
+  .matrix-cell-inspector {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -736,8 +929,18 @@ input {
   }
 
   .matrix-summary-grid,
-  .matrix-metric-grid {
+  .matrix-metric-grid,
+  .matrix-cell-inspector {
     grid-template-columns: 1fr;
+  }
+
+  .matrix-view-tabs {
+    width: 100%;
+  }
+
+  .matrix-view-tabs button {
+    justify-content: center;
+    flex: 1;
   }
 
   .matrix-column-list,

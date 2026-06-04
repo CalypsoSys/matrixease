@@ -1,7 +1,54 @@
 <template>
   <main v-if="auth.isReady" class="app-shell">
-    <section v-if="!auth.isAuthenticated" class="login-wrap">
-      <div class="panel login-panel">
+    <section v-if="!auth.isAuthenticated || auth.isPasswordRecovery" class="login-wrap">
+      <div v-if="auth.isPasswordRecovery" class="panel login-panel">
+        <div class="panel-header">
+          <div class="brand-lockup">
+            <img :src="logoUrl" alt="MatrixEase" />
+            <div>
+              <h1 class="brand-title">MatrixEase</h1>
+              <p class="brand-subtitle">Set a new password</p>
+            </div>
+          </div>
+        </div>
+        <form class="panel-body form-stack" @submit.prevent="submitPasswordRecovery">
+          <div v-if="passwordRecoveryError" class="message-error">{{ passwordRecoveryError }}</div>
+          <div v-if="passwordRecoveryNotice" class="message-success">{{ passwordRecoveryNotice }}</div>
+
+          <label>
+            <span class="field-label">New password</span>
+            <Password
+              v-model="recoveryPassword"
+              class="w-full"
+              input-class="w-full"
+              autocomplete="new-password"
+              :feedback="false"
+              toggle-mask
+              required
+            />
+          </label>
+
+          <label>
+            <span class="field-label">Confirm password</span>
+            <Password
+              v-model="recoveryConfirmPassword"
+              class="w-full"
+              input-class="w-full"
+              autocomplete="new-password"
+              :feedback="false"
+              toggle-mask
+              required
+            />
+          </label>
+
+          <div class="form-actions">
+            <Button label="Save password" icon="pi pi-check" type="submit" :loading="passwordRecoveryBusy" />
+            <Button class="p-button-text" label="Cancel" type="button" @click="signOut" />
+          </div>
+        </form>
+      </div>
+
+      <div v-else class="panel login-panel">
         <div class="panel-header">
           <div class="brand-lockup">
             <img :src="logoUrl" alt="MatrixEase" />
@@ -12,10 +59,19 @@
           </div>
         </div>
         <form class="panel-body form-stack" @submit.prevent="submitAuth">
-          <div v-if="authError" class="message-error">{{ authError }}</div>
-          <div v-if="authNotice" class="p-3 text-sm text-teal-800 bg-teal-50 border border-teal-100 rounded">
-            {{ authNotice }}
+          <div class="auth-tabs" role="tablist" aria-label="Account access">
+            <button :class="{ active: authMode === 'signin' }" type="button" role="tab" :aria-selected="authMode === 'signin'" @click="setAuthMode('signin')">
+              <i class="pi pi-sign-in" aria-hidden="true"></i>
+              Sign in
+            </button>
+            <button :class="{ active: authMode === 'signup' }" type="button" role="tab" :aria-selected="authMode === 'signup'" @click="setAuthMode('signup')">
+              <i class="pi pi-user-plus" aria-hidden="true"></i>
+              Create account
+            </button>
           </div>
+
+          <div v-if="authError" class="message-error">{{ authError }}</div>
+          <div v-if="authNotice" class="message-success">{{ authNotice }}</div>
 
           <label>
             <span class="field-label">Email</span>
@@ -28,20 +84,43 @@
               v-model="password"
               class="w-full"
               input-class="w-full"
-              autocomplete="current-password"
+              :autocomplete="authMode === 'signin' ? 'current-password' : 'new-password'"
               :feedback="false"
               toggle-mask
               required
             />
           </label>
 
+          <label v-if="authMode === 'signup'">
+            <span class="field-label">Confirm password</span>
+            <Password
+              v-model="confirmPassword"
+              class="w-full"
+              input-class="w-full"
+              autocomplete="new-password"
+              :feedback="false"
+              toggle-mask
+              required
+            />
+          </label>
+
+          <div v-if="authMode === 'signin'" class="auth-inline-actions">
+            <Button class="p-button-text" icon="pi pi-key" label="Forgot password?" type="button" :loading="passwordResetBusy" @click="sendPasswordReset" />
+          </div>
+
           <div class="form-actions">
-            <Button :label="authMode === 'signin' ? 'Sign in' : 'Create account'" icon="pi pi-user" type="submit" :loading="authBusy" />
+            <Button :label="authSubmitLabel" :icon="authSubmitIcon" type="submit" :loading="authBusy" />
+          </div>
+
+          <div class="auth-alternate">
             <Button
               class="p-button-text"
-              :label="authMode === 'signin' ? 'Create account' : 'Use existing account'"
+              icon="pi pi-envelope"
+              label="Email me a magic link instead"
               type="button"
-              @click="toggleAuthMode"
+              :disabled="authBusy || passwordResetBusy"
+              :loading="magicLinkBusy"
+              @click="sendMagicLink"
             />
           </div>
         </form>
@@ -101,7 +180,18 @@
               </div>
             </section>
 
-            <div class="matrix-layout">
+            <div class="matrix-view-tabs" role="tablist" aria-label="MatrixEase views">
+              <button :class="{ active: matrixViewMode === 'columns' }" type="button" role="tab" @click="matrixViewMode = 'columns'">
+                <i class="pi pi-list" aria-hidden="true"></i>
+                Columns
+              </button>
+              <button :class="{ active: matrixViewMode === 'matrix' }" type="button" role="tab" @click="matrixViewMode = 'matrix'">
+                <i class="pi pi-th-large" aria-hidden="true"></i>
+                Matrix
+              </button>
+            </div>
+
+            <div v-if="matrixViewMode === 'columns'" class="matrix-layout">
               <aside class="panel matrix-column-panel">
                 <div class="panel-header">
                   <div>
@@ -116,7 +206,7 @@
                     class="matrix-column-button"
                     :class="{ active: selectedMatrixColumn?.Name === column.Name }"
                     type="button"
-                    @click="selectedMatrixColumnName = column.Name"
+                    @click="selectMatrixColumn(column)"
                   >
                     <span>{{ column.Name }}</span>
                     <small>{{ column.ColType }} · {{ column.DataType }} · {{ column.DistinctValues.toLocaleString() }}</small>
@@ -203,6 +293,71 @@
                 </div>
               </section>
             </div>
+
+            <section v-else class="panel matrix-board-panel">
+              <div class="panel-header">
+                <div>
+                  <h3 class="panel-title">Matrix view</h3>
+                  <p class="brand-subtitle">Top {{ matrixBoardValueLimit }} values per column</p>
+                </div>
+              </div>
+
+              <div v-if="selectedMatrixCell" class="matrix-cell-inspector">
+                <div>
+                  <span>Column</span>
+                  <strong>{{ selectedMatrixCell.column.Name }}</strong>
+                </div>
+                <div>
+                  <span>Value</span>
+                  <strong>{{ selectedMatrixCell.value.ColumnValue || '(blank)' }}</strong>
+                </div>
+                <div>
+                  <span>Rows</span>
+                  <strong>{{ selectedMatrixCell.value.TotalValues.toLocaleString() }}</strong>
+                </div>
+                <div>
+                  <span>Total %</span>
+                  <strong>{{ formatPercent(selectedMatrixCell.value.TotalPct) }}</strong>
+                </div>
+                <div>
+                  <span>Selected %</span>
+                  <strong>{{ formatPercent(selectedMatrixCell.value.SelectRelPct) }}</strong>
+                </div>
+              </div>
+
+              <div class="matrix-board-wrap">
+                <div class="matrix-board">
+                  <article
+                    v-for="column in matrixColumns"
+                    :key="column.Name"
+                    class="matrix-board-column"
+                    :class="{ active: selectedMatrixColumn?.Name === column.Name }"
+                  >
+                    <button class="matrix-board-column-header" type="button" @click="selectMatrixColumn(column)">
+                      <strong>{{ column.Name }}</strong>
+                      <span>{{ column.ColType }} · {{ column.DataType }}</span>
+                      <small>{{ column.DistinctValues.toLocaleString() }} distinct</small>
+                    </button>
+
+                    <button
+                      v-for="value in matrixBoardValues(column)"
+                      :key="`${column.Name}-${value.ColumnValue}`"
+                      class="matrix-board-cell"
+                      :class="{ selected: isSelectedMatrixCell(column, value) }"
+                      type="button"
+                      @click="selectMatrixCell(column, value)"
+                    >
+                      <strong>{{ value.ColumnValue || '(blank)' }}</strong>
+                      <span>{{ value.TotalValues.toLocaleString() }} rows · {{ formatPercent(value.TotalPct) }}</span>
+                      <div class="matrix-cell-bars" aria-hidden="true">
+                        <span class="matrix-cell-bar total" :style="{ width: `${Math.min(value.TotalPct, 100)}%` }"></span>
+                        <span class="matrix-cell-bar selected" :style="{ width: `${Math.min(value.SelectRelPct, 100)}%` }"></span>
+                      </div>
+                    </button>
+                  </article>
+                </div>
+              </div>
+            </section>
           </template>
         </section>
 
@@ -492,7 +647,8 @@ import {
   type MatrixEaseData,
   type MatrixEaseProject,
   type MatrixEaseStatusEntry,
-  type MatrixEaseStatusMap
+  type MatrixEaseStatusMap,
+  type MatrixEaseValue
 } from '@/services/matrixease-api'
 import { useAuthStore } from '@/stores/auth'
 import { formatDateTime, formatLimit, formatRows } from '@/utils/formatters'
@@ -502,9 +658,17 @@ const auth = useAuthStore()
 const authMode = ref<'signin' | 'signup'>('signin')
 const emailAddress = ref('')
 const password = ref('')
+const confirmPassword = ref('')
 const authBusy = ref(false)
 const authError = ref('')
 const authNotice = ref('')
+const passwordResetBusy = ref(false)
+const magicLinkBusy = ref(false)
+const recoveryPassword = ref('')
+const recoveryConfirmPassword = ref('')
+const passwordRecoveryBusy = ref(false)
+const passwordRecoveryError = ref('')
+const passwordRecoveryNotice = ref('')
 const projects = ref<MatrixEaseProject[]>([])
 const projectsSnapshot = ref('')
 const loadingProjects = ref(false)
@@ -515,6 +679,8 @@ const matrixName = ref('')
 const matrixLoading = ref(false)
 const matrixError = ref('')
 const selectedMatrixColumnName = ref('')
+const matrixViewMode = ref<'columns' | 'matrix'>('columns')
+const selectedMatrixCell = ref<MatrixCellSelection | null>(null)
 const fileInput = ref<HTMLInputElement | null>(null)
 const selectedFile = ref<File | null>(null)
 const uploadName = ref('')
@@ -568,6 +734,11 @@ type MatrixEaseColumnView = MatrixEaseColumn & {
   Name: string
 }
 
+type MatrixCellSelection = {
+  column: MatrixEaseColumnView
+  value: MatrixEaseValue
+}
+
 const statusDialogRows = computed(() => toStatusRows(statusDialogData.value))
 const statusTimelineRows = computed(() => toStatusRowsWithPlaceholders(statusDialogData.value))
 const currentStatusRow = computed(() => {
@@ -610,18 +781,44 @@ const selectedMatrixColumn = computed(() => {
 })
 const selectedColumnValues = computed(() => selectedMatrixColumn.value?.Values?.slice(0, 100) ?? [])
 const topColumnValue = computed(() => selectedMatrixColumn.value?.Values?.[0] ?? null)
+const authSubmitLabel = computed(() => (authMode.value === 'signin' ? 'Sign in' : 'Create account'))
+const authSubmitIcon = computed(() => (authMode.value === 'signin' ? 'pi pi-sign-in' : 'pi pi-user-plus'))
+const matrixBoardValueLimit = 12
 
-function toggleAuthMode(): void {
+function clearAuthMessages(): void {
   authError.value = ''
   authNotice.value = ''
-  authMode.value = authMode.value === 'signin' ? 'signup' : 'signin'
+}
+
+function setAuthMode(mode: 'signin' | 'signup'): void {
+  if (authMode.value === mode) {
+    return
+  }
+
+  clearAuthMessages()
+  authMode.value = mode
+  password.value = ''
+  confirmPassword.value = ''
+}
+
+function validateEmailAddress(): boolean {
+  if (emailAddress.value) {
+    return true
+  }
+
+  authError.value = 'Enter an email address first.'
+  return false
 }
 
 async function submitAuth(): Promise<void> {
-  authBusy.value = true
-  authError.value = ''
-  authNotice.value = ''
+  clearAuthMessages()
 
+  if (authMode.value === 'signup' && password.value !== confirmPassword.value) {
+    authError.value = 'Passwords do not match.'
+    return
+  }
+
+  authBusy.value = true
   try {
     const hasSession =
       authMode.value === 'signin'
@@ -638,6 +835,65 @@ async function submitAuth(): Promise<void> {
     authError.value = getApiMessage(error, 'Authentication failed.')
   } finally {
     authBusy.value = false
+  }
+}
+
+async function sendPasswordReset(): Promise<void> {
+  clearAuthMessages()
+
+  if (!validateEmailAddress()) {
+    return
+  }
+
+  passwordResetBusy.value = true
+  try {
+    await auth.sendPasswordRecovery(emailAddress.value)
+    authNotice.value = 'Password reset email sent.'
+  } catch (error) {
+    authError.value = getApiMessage(error, 'Could not send password reset email.')
+  } finally {
+    passwordResetBusy.value = false
+  }
+}
+
+async function sendMagicLink(): Promise<void> {
+  clearAuthMessages()
+
+  if (!validateEmailAddress()) {
+    return
+  }
+
+  magicLinkBusy.value = true
+  try {
+    await auth.sendMagicLink(emailAddress.value)
+    authNotice.value = 'Magic link sent. Check your email to sign in.'
+  } catch (error) {
+    authError.value = getApiMessage(error, 'Could not send magic link.')
+  } finally {
+    magicLinkBusy.value = false
+  }
+}
+
+async function submitPasswordRecovery(): Promise<void> {
+  passwordRecoveryError.value = ''
+  passwordRecoveryNotice.value = ''
+
+  if (recoveryPassword.value !== recoveryConfirmPassword.value) {
+    passwordRecoveryError.value = 'Passwords do not match.'
+    return
+  }
+
+  passwordRecoveryBusy.value = true
+  try {
+    await auth.updatePassword(recoveryPassword.value)
+    recoveryPassword.value = ''
+    recoveryConfirmPassword.value = ''
+    passwordRecoveryNotice.value = 'Password updated.'
+    await loadProjects({ showLoading: false })
+  } catch (error) {
+    passwordRecoveryError.value = getApiMessage(error, 'Could not update password.')
+  } finally {
+    passwordRecoveryBusy.value = false
   }
 }
 
@@ -704,6 +960,7 @@ async function openProjectMatrix(project: MatrixEaseProject): Promise<void> {
   matrixError.value = ''
   matrixLoading.value = true
   selectedMatrixColumnName.value = ''
+  selectedMatrixCell.value = null
 
   try {
     const response = await fetchMatrixEaseProject(project.ProjectId)
@@ -729,6 +986,8 @@ function closeMatrix(): void {
   matrixError.value = ''
   matrixLoading.value = false
   selectedMatrixColumnName.value = ''
+  matrixViewMode.value = 'columns'
+  selectedMatrixCell.value = null
 }
 
 function canOpenProject(project: MatrixEaseProject): boolean {
@@ -761,6 +1020,26 @@ function matrixBucketLabel(column: MatrixEaseColumnView): string {
   }
 
   return 'Bucketized'
+}
+
+function selectMatrixColumn(column: MatrixEaseColumnView): void {
+  selectedMatrixColumnName.value = column.Name
+  if (selectedMatrixCell.value?.column.Name !== column.Name) {
+    selectedMatrixCell.value = null
+  }
+}
+
+function matrixBoardValues(column: MatrixEaseColumnView): MatrixEaseValue[] {
+  return column.Values?.slice(0, matrixBoardValueLimit) ?? []
+}
+
+function selectMatrixCell(column: MatrixEaseColumnView, value: MatrixEaseValue): void {
+  selectedMatrixColumnName.value = column.Name
+  selectedMatrixCell.value = { column, value }
+}
+
+function isSelectedMatrixCell(column: MatrixEaseColumnView, value: MatrixEaseValue): boolean {
+  return selectedMatrixCell.value?.column.Name === column.Name && selectedMatrixCell.value?.value.ColumnValue === value.ColumnValue
 }
 
 function handleFileChange(event: Event): void {
@@ -1166,7 +1445,10 @@ function signOut(): void {
   projectsSnapshot.value = ''
 }
 
-onMounted(loadProjects)
+onMounted(async () => {
+  await auth.initialize()
+  await loadProjects()
+})
 onBeforeUnmount(() => {
   clearUploadStatusPolling()
   clearStatusDetailsPolling()
