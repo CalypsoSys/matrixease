@@ -44,23 +44,22 @@ The repo includes a matching host logrotate policy at:
 scripts/caddy/caddy.logrotate
 ```
 
-## Recommended Caddyfile
+## Shared Host Caddyfile
 
-For the Cloudflare Tunnel pattern, Caddy only needs to listen on the host:
+The authoritative Caddyfile is host-owned, not repo-owned. Keep the deployable
+`/etc/caddy/Caddyfile` on the server and use the shared workbench reference as the
+starting point:
 
-```caddy
-{
-    auto_https off
+```text
+CalypsoSys operations workbench:
+  docs/caddy.md
+  templates/caddy/calypsosys-host.Caddyfile.example
+```
 
-    log {
-        output file /srv/logs/caddy/caddy.log
-        format console
-    }
-}
+MatrixEase needs this route in the shared host Caddyfile:
 
-http://api.matrixease.com {
-    reverse_proxy 127.0.0.1:8083
-}
+```text
+api.matrixease.com -> 127.0.0.1:8083
 ```
 
 The MatrixEase API enforces `X-Internal-Api-Key` on protected routes when `RequireGatewaySecret` is enabled. In the

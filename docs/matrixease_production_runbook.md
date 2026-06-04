@@ -78,7 +78,7 @@ gzip -f /mnt/c/transfer/matrixease-api-latest.tar
 Build the shared renderer in dev/WSL so the server receives a Linux binary. Do not build this on the production host.
 
 ```bash
-cd ~/work/calypsosys-workbench/repos/babalu-yaml-env
+cd /path/to/babalu-yaml-env
 mkdir -p /mnt/c/transfer
 if [ -f /mnt/c/transfer/render-config-env ]; then mv /mnt/c/transfer/render-config-env /mnt/c/transfer/render-config-env.lastgood; fi
 go build -o /mnt/c/transfer/render-config-env ./cmd/babalu_yaml_env

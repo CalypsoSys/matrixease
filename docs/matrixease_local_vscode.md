@@ -69,7 +69,7 @@ scripts/matrixease/render-config-env
 Example local install from the shared repo:
 
 ```bash
-cd ~/work/calypsosys-workbench/repos/babalu-yaml-env
+cd /path/to/babalu-yaml-env
 go build -o /tmp/render-config-env ./cmd/babalu_yaml_env
 sudo mkdir -p /srv/utilities/bin
 sudo chown "$USER:$USER" /srv/utilities/bin

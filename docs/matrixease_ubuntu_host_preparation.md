@@ -81,7 +81,7 @@ Build the shared YAML renderer in dev/WSL so the host receives a Linux binary. D
 host:
 
 ```bash
-cd ~/work/calypsosys-workbench/repos/babalu-yaml-env
+cd /path/to/babalu-yaml-env
 mkdir -p /mnt/c/transfer
 go build -o /mnt/c/transfer/render-config-env ./cmd/babalu_yaml_env
 ```

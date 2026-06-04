@@ -134,7 +134,8 @@ test('docs describe api.matrixease.com and app.matrixease.com topology', () => {
 
   assert.match(gateway, /app\.matrixease\.com/)
   assert.match(gateway, /api\.matrixease\.com/)
-  assert.match(caddy, /reverse_proxy 127\.0\.0\.1:8083/)
+  assert.match(caddy, /calypsosys-host\.Caddyfile\.example/)
+  assert.match(caddy, /api\.matrixease\.com -> 127\.0\.0\.1:8083/)
   assert.match(runbook, /\/srv\/stacks\/matrixease\/data/)
   assert.match(runbook, /MATRIXEASE_SLACK_FEEDBACK_WEBHOOK_URL/)
 })
